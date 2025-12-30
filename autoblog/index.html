@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AutoBlog 站点引擎 | 何宸禹的博客</title>
+  <meta name="description" content="面向创作者的自动化写作与发布工作流。" />
+  <meta name="author" content="何宸禹" />
+  
+  <link rel="canonical" href="https://chenyuheee.github.io/autoblog/" />
+  <meta property="og:url" content="https://chenyuheee.github.io/autoblog/" />
+  
+  <meta property="og:title" content="AutoBlog 站点引擎 | 何宸禹的博客" />
+  <meta property="og:description" content="面向创作者的自动化写作与发布工作流。" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary" />
+  <link rel="stylesheet" href="/style.css" />
+  
+  <link rel="alternate" type="application/rss+xml" title="何宸禹的博客 RSS" href="/feed.xml" />
+  
+</head>
+<body>
+  <div class="site-shell">
+    <div class="reading-progress" id="reading-progress" role="presentation" aria-hidden="true"></div>
+    
+    <div
+      class="site-audio"
+      data-audio-player
+      data-autoplay="false"
+      data-start-muted="false"
+      data-volume-expanded="false"
+    >
+      <div class="site-audio__cover" style="background-image: url('/media/cover.jpg');">
+        
+        <button class="site-audio__cover-toggle" type="button" data-audio-toggle aria-label="播放或暂停背景音乐" data-audio-no-drag>
+          <span class="site-audio__cover-blur" aria-hidden="true"></span>
+          <svg class="site-audio__icon site-audio__icon--play" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M8 5.5v13l10-6.5z" />
+          </svg>
+          <svg class="site-audio__icon site-audio__icon--pause" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M8 5.5h3v13H8zm5 0h3v13h-3z" />
+          </svg>
+        </button>
+      </div>
+      <div class="site-audio__meta">
+        <div class="site-audio__title-row">
+          <span class="site-audio__title">日落</span>
+          <span class="site-audio__time" data-audio-time>00:00</span>
+        </div>
+        
+        <span class="site-audio__artist">孙燕姿</span>
+        
+        <div
+          class="site-audio__progress"
+          data-audio-progress-track
+          role="progressbar"
+          aria-valuemin="0"
+          aria-valuemax="100"
+          aria-valuenow="0"
+          data-audio-no-drag
+        >
+          <div class="site-audio__progress-bar" data-audio-progress></div>
+        </div>
+      </div>
+      <div class="site-audio__controls">
+        <div class="site-audio__volume-shell" data-audio-no-drag>
+          <button class="site-audio__control site-audio__control--mute" type="button" data-audio-mute aria-label="切换静音" data-audio-no-drag>
+            <svg class="site-audio__icon site-audio__icon--volume" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M5 10h2.586L12 5.586V18.5L7.586 14H5z" />
+              <path d="M15.5 8.5a4 4 0 0 1 0 6" />
+              <path d="M17.5 6.5a6 6 0 0 1 0 10" />
+            </svg>
+            <svg class="site-audio__icon site-audio__icon--muted" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M5 10h2.586L12 5.586V18.5L7.586 14H5z" />
+              <path d="M15 9l6 6" />
+              <path d="M21 9l-6 6" />
+            </svg>
+          </button>
+          <div class="site-audio__volume" data-audio-volume aria-hidden="true">
+            <input
+              class="site-audio__volume-slider"
+              type="range"
+              min="0"
+              max="100"
+              value="100"
+              step="1"
+              data-audio-volume-slider
+              tabindex="-1"
+              aria-label="调节音量"
+              data-audio-no-drag
+            />
+          </div>
+        </div>
+      </div>
+      <audio
+        data-audio-element
+        loop
+        preload="auto"
+        src="/media/日落.mp3"
+      ></audio>
+    </div>
+    
+    <header class="site-header" role="banner">
+      <div class="container site-header__inner">
+        <div class="brand">
+          <a class="brand__title" href="/">何宸禹的博客</a>
+          
+          <p class="brand__description">由 AutoBlog 驱动的学习与创作记录。</p>
+          
+        </div>
+        
+        <nav class="site-nav" aria-label="主导航">
+          
+          <a class="site-nav__link" href="/">首页</a>
+          
+          <a class="site-nav__link" href="/archive/">归档</a>
+          
+          <a class="site-nav__link" href="/tags/">标签</a>
+          
+          <a class="site-nav__link" href="/about/">About</a>
+          
+        </nav>
+        
+        <div class="site-header__actions">
+          <button class="theme-toggle" type="button" data-theme-toggle data-theme-state="light" aria-pressed="false" aria-label="切换到夜间模式">
+            <span class="theme-toggle__icon theme-toggle__icon--sun" aria-hidden="true">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 5a1 1 0 0 1-1-1V3a1 1 0 1 1 2 0v1a1 1 0 0 1-1 1zm0 16a1 1 0 0 1-1-1v-1a1 1 0 0 1 2 0v1a1 1 0 0 1-1 1zm9-9a1 1 0 0 1-1 1h-1a1 1 0 1 1 0-2h1a1 1 0 0 1 1 1zm-16 0a1 1 0 0 1-1 1H3a1 1 0 1 1 0-2h1a1 1 0 0 1 1 1zm12.95-6.364a1 1 0 0 1 0 1.414l-.707.707a1 1 0 0 1-1.414-1.414l.707-.707a1 1 0 0 1 1.414 0zm-11.314 11.314a1 1 0 0 1 0 1.414l-.707.707a1 1 0 0 1-1.414-1.414l.707-.707a1 1 0 0 1 1.414 0zm11.314 1.414a1 1 0 0 1-1.414 0l-.707-.707a1 1 0 0 1 1.414-1.414l.707.707a1 1 0 0 1 0 1.414zm-11.314-11.314a1 1 0 0 1-1.414 0l-.707-.707A1 1 0 1 1 5.914 4.95l.707.707a1 1 0 0 1 0 1.414zM12 8a4 4 0 1 1 0 8 4 4 0 0 1 0-8z" />
+              </svg>
+            </span>
+            <span class="theme-toggle__icon theme-toggle__icon--moon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M20.742 14.045a1 1 0 0 0-1.077-.217 7 7 0 0 1-9.493-7.92 1 1 0 0 0-1.149-1.2A9 9 0 1 0 21 15a1 1 0 0 0-.258-.955z" />
+              </svg>
+            </span>
+            <span class="sr-only">切换主题</span>
+          </button>
+          <a class="site-header__search" href="/search/">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M10.5 4a6.5 6.5 0 0 1 5.196 10.49l3.907 3.907-1.414 1.414-3.907-3.907A6.5 6.5 0 1 1 10.5 4zm0 2a4.5 4.5 0 1 0 0 9 4.5 4.5 0 0 0 0-9z" />
+            </svg>
+            <span>站内搜索</span>
+          </a>
+        </div>
+      </div>
+    </header>
+    <main class="main-content">
+      <div class="container">
+        
+<article class="page">
+  <header class="page__header">
+    <h1 class="page__title">AutoBlog 站点引擎</h1>
+    
+    <p class="page__summary">面向创作者的自动化写作与发布工作流。</p>
+    
+  </header>
+  <div class="page__content">
+    <div class="promo-page">
+  <section class="promo-hero" id="promo-top" aria-labelledby="promo-title">
+    <div class="promo-hero__inner" data-promo-reveal>
+      <span class="promo-badge">AutoBlog · 创作者的自动驾驶系统</span>
+      <h1 class="promo-hero__title" id="promo-title">写博客不必熬夜排版，AutoBlog 帮你自动上线</h1>
+      <p class="promo-hero__lead">
+        AutoBlog 将 Markdown 灵感稿、AI 摘要、组件化 UI 与自动部署串成一条流水线。你的任务是写下想法，其余工作交给我们：风格统一、移动端适配、智能摘要与音频体验一个不少。
+      </p>
+      <div class="promo-hero__actions">
+        <a class="promo-button promo-button--primary" href="#promo-features">查看功能亮点</a>
+        <a class="promo-button promo-button--ghost" href="#promo-workflow">了解创作流程</a>
+      </div>
+      <ul class="promo-hero__highlights" aria-label="AutoBlog 核心优势" data-promo-reveal data-reveal-delay="120">
+        <li>
+          <span class="promo-hero__icon" aria-hidden="true">✨</span>
+          <span>DeepSeek AI 摘要，120 字内提炼重点</span>
+        </li>
+        <li>
+          <span class="promo-hero__icon" aria-hidden="true">⚙️</span>
+          <span>一键构建脚本，自动生成站点与站点地图</span>
+        </li>
+        <li>
+          <span class="promo-hero__icon" aria-hidden="true">🎧</span>
+          <span>沉浸式音频播放器，交互细节随状态变化</span>
+        </li>
+      </ul>
+    </div>
+    <div class="promo-hero__demo" aria-hidden="true" data-promo-reveal data-reveal-delay="220">
+      <header class="promo-hero__demo-header">
+        <span class="promo-hero__dot"></span>
+        <span class="promo-hero__dot"></span>
+        <span class="promo-hero__dot"></span>
+        <strong>AutoBlog build</strong>
+      </header>
+      <div class="promo-hero__demo-body">
+        <p><span class="promo-hero__tag">构建</span> 解析 Markdown · 生成摘要</p>
+        <p><span class="promo-hero__tag">美化</span> 注入统一主题 · 响应式布局</p>
+        <p><span class="promo-hero__tag">部署</span> 输出静态站点 · 准备发布</p>
+      </div>
+    </div>
+    <ul class="promo-hero__floating" aria-hidden="true" data-promo-reveal data-reveal-delay="320">
+      <li>Markdown</li>
+      <li>AI Summary</li>
+      <li>静态部署</li>
+    </ul>
+  </section>
+
+  <section class="promo-section" id="promo-features" aria-labelledby="promo-features-title">
+    <header class="promo-section__header" data-promo-reveal>
+      <span class="promo-section__eyebrow">功能亮点</span>
+      <h2 class="promo-section__title" id="promo-features-title">一条龙自动化，让内容创作只剩创意</h2>
+      <p class="promo-section__lead">AutoBlog 将繁琐的重复工作折叠在后台，保持统一视觉，同时给你足够的可玩空间。</p>
+    </header>
+    <div class="promo-grid">
+      <article class="promo-card" data-promo-reveal>
+        <h3>AI 摘要即时输出</h3>
+        <p>DeepSeek 接入，自动压缩长文为 120 字核心要点，让读者秒懂重点。</p>
+        <ul class="promo-card__list">
+          <li>智能识别页面类型并调用最佳提示词</li>
+          <li>可自定义摘要长度与风格</li>
+          <li>写回 Markdown 元数据，长期保持整洁</li>
+        </ul>
+      </article>
+      <article class="promo-card" data-promo-reveal data-reveal-delay="80">
+        <h3>写作/构建全流程脚本</h3>
+        <p>用一个命令串联内容解析、标签收集、站点地图、RSS 输出，构建完成即可上线。</p>
+        <ul class="promo-card__list">
+          <li>自动识别置顶文章、标签与归档</li>
+          <li>生成搜索索引与站点地图，SEO 不掉队</li>
+          <li>内置部署脚本，推送 GitHub Pages 零阻力</li>
+        </ul>
+      </article>
+      <article class="promo-card" data-promo-reveal data-reveal-delay="160">
+        <h3>组件化体验 &amp; 响应式样式</h3>
+        <p>从音频播放器到代码高亮，每个组件都保持统一视觉，同时对移动端精细适配。</p>
+        <ul class="promo-card__list">
+          <li>数据属性驱动的细腻交互，动效恰到好处</li>
+          <li>暗色/亮色双主题自动切换</li>
+          <li>主题色、圆角和阴影一处配置，全站生效</li>
+        </ul>
+      </article>
+      <article class="promo-card" data-promo-reveal data-reveal-delay="240">
+        <h3>开放配置，玩出个性</h3>
+        <p>所有行为都写在 <code>config.yaml</code>，支持自定义导航、音乐、AI 参数与联系人。</p>
+        <ul class="promo-card__list">
+          <li>背景音乐可选封面、自动播放、静音策略</li>
+          <li>自定义导航排序与展示策略</li>
+          <li>一处配置 API Key，立刻启用 AI 能力</li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <section class="promo-section promo-section--flow" id="promo-workflow" aria-labelledby="promo-workflow-title">
+    <header class="promo-section__header" data-promo-reveal>
+      <span class="promo-section__eyebrow">创作流程</span>
+      <h2 class="promo-section__title" id="promo-workflow-title">四个节点，完成一篇风格统一的博客</h2>
+      <p class="promo-section__lead">AutoBlog 像一条自动巡航的生产线，你只需把想法投入入口。</p>
+    </header>
+    <div class="promo-flow">
+      <article class="promo-flow__item" data-promo-reveal>
+        <span class="promo-flow__step">01</span>
+        <h3>写下灵感</h3>
+        <p>使用你最熟悉的 Markdown 编辑器，补充元数据后即可保存。</p>
+      </article>
+      <article class="promo-flow__item" data-promo-reveal data-reveal-delay="80">
+        <span class="promo-flow__step">02</span>
+        <h3>运行 <code>build.py</code></h3>
+        <p>一条命令完成内容解析、摘要生成、标签索引与资源复制。</p>
+      </article>
+      <article class="promo-flow__item" data-promo-reveal data-reveal-delay="160">
+        <span class="promo-flow__step">03</span>
+        <h3>体验智能加持</h3>
+        <p>AI 摘要写回文档，音频播放器、代码块、目录自动亮相。</p>
+      </article>
+      <article class="promo-flow__item" data-promo-reveal data-reveal-delay="240">
+        <span class="promo-flow__step">04</span>
+        <h3>一键部署</h3>
+        <p>选择直接发布或运行 <code>deploy.sh</code>，你的内容即刻抵达读者。</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="promo-section promo-section--metrics" aria-label="AutoBlog 指标亮点">
+    <div class="promo-metrics">
+      <div class="promo-metric" data-promo-reveal>
+        <span class="promo-metric__value">&lt;3 分钟</span>
+        <span class="promo-metric__label">完成一次博客构建</span>
+      </div>
+      <div class="promo-metric" data-promo-reveal data-reveal-delay="80">
+        <span class="promo-metric__value">120 字</span>
+        <span class="promo-metric__label">AI 摘要自动限制，读者快速理解</span>
+      </div>
+      <div class="promo-metric" data-promo-reveal data-reveal-delay="160">
+        <span class="promo-metric__value">100%</span>
+        <span class="promo-metric__label">端到端自动化覆盖率</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="promo-section promo-section--cta" id="promo-cta" aria-labelledby="promo-cta-title">
+    <div class="promo-cta__content" data-promo-reveal>
+      <h2 class="promo-section__title" id="promo-cta-title">准备好让 AutoBlog 接管重复劳动了吗？</h2>
+      <p class="promo-section__lead">Fork 项目或直接运行构建脚本，三步内完成自己的在线写作空间。欢迎邮件联系交流更多创意玩法。</p>
+      <div class="promo-cta__actions">
+        <a class="promo-button promo-button--primary" href="https://github.com/ChenyuHeee/AutoBlog" target="_blank" rel="noopener">查看 GitHub 项目</a>
+        <a class="promo-button promo-button--ghost" href="mailto:hechenyu@zju.edu.cn">预约演示 / 合作</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="promo-section promo-section--faq" aria-labelledby="promo-faq-title">
+    <header class="promo-section__header" data-promo-reveal>
+      <span class="promo-section__eyebrow">常见问题</span>
+      <h2 class="promo-section__title" id="promo-faq-title">快速了解上线前的最后疑问</h2>
+    </header>
+    <div class="promo-faq">
+      <article class="promo-faq__item" data-promo-reveal>
+        <h3>需要服务器或数据库吗？</h3>
+        <p>不需要。AutoBlog 输出纯静态文件，可直接托管到 GitHub Pages、Vercel、Netlify 等平台。</p>
+      </article>
+      <article class="promo-faq__item" data-promo-reveal data-reveal-delay="80">
+        <h3>可以关闭或替换 AI 摘要吗？</h3>
+        <p>可以。在 <code>config.yaml</code> 中切换参数即可关闭智能摘要或替换模型、温度与输出长度。</p>
+      </article>
+      <article class="promo-faq__item" data-promo-reveal data-reveal-delay="160">
+        <h3>主题可以自定义吗？</h3>
+        <p>可以。AutoBlog 使用统一的 CSS 变量，修改颜色、圆角、阴影即可立即获得新主题。</p>
+      </article>
+    </div>
+  </section>
+</div>
+  </div>
+</article>
+
+      </div>
+    </main>
+    <footer class="site-footer" role="contentinfo">
+      <div class="container site-footer__inner">
+        <div>
+          <p class="site-footer__title">何宸禹的博客</p>
+          
+          <p class="site-footer__description">由 AutoBlog 驱动的学习与创作记录。</p>
+          
+        </div>
+        <div class="site-footer__meta">
+          <span>© 2025 何宸禹</span>
+          <a class="site-footer__link" href="/autoblog/">了解 AutoBlog 引擎</a>
+          <div class="site-footer__counts" id="site-visit-stats" aria-live="polite">
+            <span id="busuanzi_container_site_uv" class="site-footer__count-item">
+              访问人数 <span id="busuanzi_value_site_uv">--</span>
+            </span>
+            <span id="busuanzi_container_site_pv" class="site-footer__count-item">
+              浏览次数 <span id="busuanzi_value_site_pv">--</span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+  <button class="back-to-top" type="button" data-back-to-top aria-label="返回顶部">
+    <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+      <path d="M12 5.586l5.707 5.707-1.414 1.414L13 9.414V19h-2V9.414l-3.293 3.293-1.414-1.414z" />
+    </svg>
+  </button>
+  <div class="lightbox" id="image-lightbox" aria-hidden="true" role="dialog" aria-modal="true" tabindex="-1">
+    <button type="button" class="lightbox__close" data-lightbox-close aria-label="关闭">
+      <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+        <path d="M6.343 5.343l12.02 12.02-1.414 1.414-12.02-12.02z" />
+        <path d="M17.657 5.343l1.414 1.414-12.02 12.02-1.414-1.414z" />
+      </svg>
+    </button>
+    <img class="lightbox__image" src="" alt="" />
+    <p class="lightbox__caption"></p>
+  </div>
+  <script src="/app.js" defer></script>
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" data-busuanzi></script>
+</body>
+</html>

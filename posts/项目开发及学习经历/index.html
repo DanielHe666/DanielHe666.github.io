@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>项目开发及学习经历 | 何宸禹的博客</title>
+  <meta name="description" content="本文介绍了三个技术项目：在线C语言编译器提供零配置的编译环境，支持代码持久化与分享，适合编程练习；代码高尔夫平台实现异步评测与AI助教功能，助力编程竞赛；AI医学辅助系统通过多智能体协作生成诊断建议，整合医学证据。这些项目展示了前端工程、容器化部署与智能决策等技术的应用，帮助读者了解如何构建实用工具与平台，提升开发与学习效率。" />
+  <meta name="author" content="何宸禹" />
+  
+  <link rel="canonical" href="https://chenyuheee.github.io/posts/项目开发及学习经历/" />
+  <meta property="og:url" content="https://chenyuheee.github.io/posts/项目开发及学习经历/" />
+  
+  <meta property="og:title" content="项目开发及学习经历 | 何宸禹的博客" />
+  <meta property="og:description" content="本文介绍了三个技术项目：在线C语言编译器提供零配置的编译环境，支持代码持久化与分享，适合编程练习；代码高尔夫平台实现异步评测与AI助教功能，助力编程竞赛；AI医学辅助系统通过多智能体协作生成诊断建议，整合医学证据。这些项目展示了前端工程、容器化部署与智能决策等技术的应用，帮助读者了解如何构建实用工具与平台，提升开发与学习效率。" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary" />
+  <link rel="stylesheet" href="/style.css" />
+  
+  <link rel="alternate" type="application/rss+xml" title="何宸禹的博客 RSS" href="/feed.xml" />
+  
+</head>
+<body>
+  <div class="site-shell">
+    <div class="reading-progress" id="reading-progress" role="presentation" aria-hidden="true"></div>
+    
+    <div
+      class="site-audio"
+      data-audio-player
+      data-autoplay="false"
+      data-start-muted="false"
+      data-volume-expanded="false"
+    >
+      <div class="site-audio__cover" style="background-image: url('/media/cover.jpg');">
+        
+        <button class="site-audio__cover-toggle" type="button" data-audio-toggle aria-label="播放或暂停背景音乐" data-audio-no-drag>
+          <span class="site-audio__cover-blur" aria-hidden="true"></span>
+          <svg class="site-audio__icon site-audio__icon--play" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M8 5.5v13l10-6.5z" />
+          </svg>
+          <svg class="site-audio__icon site-audio__icon--pause" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M8 5.5h3v13H8zm5 0h3v13h-3z" />
+          </svg>
+        </button>
+      </div>
+      <div class="site-audio__meta">
+        <div class="site-audio__title-row">
+          <span class="site-audio__title">日落</span>
+          <span class="site-audio__time" data-audio-time>00:00</span>
+        </div>
+        
+        <span class="site-audio__artist">孙燕姿</span>
+        
+        <div
+          class="site-audio__progress"
+          data-audio-progress-track
+          role="progressbar"
+          aria-valuemin="0"
+          aria-valuemax="100"
+          aria-valuenow="0"
+          data-audio-no-drag
+        >
+          <div class="site-audio__progress-bar" data-audio-progress></div>
+        </div>
+      </div>
+      <div class="site-audio__controls">
+        <div class="site-audio__volume-shell" data-audio-no-drag>
+          <button class="site-audio__control site-audio__control--mute" type="button" data-audio-mute aria-label="切换静音" data-audio-no-drag>
+            <svg class="site-audio__icon site-audio__icon--volume" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M5 10h2.586L12 5.586V18.5L7.586 14H5z" />
+              <path d="M15.5 8.5a4 4 0 0 1 0 6" />
+              <path d="M17.5 6.5a6 6 0 0 1 0 10" />
+            </svg>
+            <svg class="site-audio__icon site-audio__icon--muted" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M5 10h2.586L12 5.586V18.5L7.586 14H5z" />
+              <path d="M15 9l6 6" />
+              <path d="M21 9l-6 6" />
+            </svg>
+          </button>
+          <div class="site-audio__volume" data-audio-volume aria-hidden="true">
+            <input
+              class="site-audio__volume-slider"
+              type="range"
+              min="0"
+              max="100"
+              value="100"
+              step="1"
+              data-audio-volume-slider
+              tabindex="-1"
+              aria-label="调节音量"
+              data-audio-no-drag
+            />
+          </div>
+        </div>
+      </div>
+      <audio
+        data-audio-element
+        loop
+        preload="auto"
+        src="/media/日落.mp3"
+      ></audio>
+    </div>
+    
+    <header class="site-header" role="banner">
+      <div class="container site-header__inner">
+        <div class="brand">
+          <a class="brand__title" href="/">何宸禹的博客</a>
+          
+          <p class="brand__description">由 AutoBlog 驱动的学习与创作记录。</p>
+          
+        </div>
+        
+        <nav class="site-nav" aria-label="主导航">
+          
+          <a class="site-nav__link" href="/">首页</a>
+          
+          <a class="site-nav__link" href="/archive/">归档</a>
+          
+          <a class="site-nav__link" href="/tags/">标签</a>
+          
+          <a class="site-nav__link" href="/about/">About</a>
+          
+        </nav>
+        
+        <div class="site-header__actions">
+          <button class="theme-toggle" type="button" data-theme-toggle data-theme-state="light" aria-pressed="false" aria-label="切换到夜间模式">
+            <span class="theme-toggle__icon theme-toggle__icon--sun" aria-hidden="true">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 5a1 1 0 0 1-1-1V3a1 1 0 1 1 2 0v1a1 1 0 0 1-1 1zm0 16a1 1 0 0 1-1-1v-1a1 1 0 0 1 2 0v1a1 1 0 0 1-1 1zm9-9a1 1 0 0 1-1 1h-1a1 1 0 1 1 0-2h1a1 1 0 0 1 1 1zm-16 0a1 1 0 0 1-1 1H3a1 1 0 1 1 0-2h1a1 1 0 0 1 1 1zm12.95-6.364a1 1 0 0 1 0 1.414l-.707.707a1 1 0 0 1-1.414-1.414l.707-.707a1 1 0 0 1 1.414 0zm-11.314 11.314a1 1 0 0 1 0 1.414l-.707.707a1 1 0 0 1-1.414-1.414l.707-.707a1 1 0 0 1 1.414 0zm11.314 1.414a1 1 0 0 1-1.414 0l-.707-.707a1 1 0 0 1 1.414-1.414l.707.707a1 1 0 0 1 0 1.414zm-11.314-11.314a1 1 0 0 1-1.414 0l-.707-.707A1 1 0 1 1 5.914 4.95l.707.707a1 1 0 0 1 0 1.414zM12 8a4 4 0 1 1 0 8 4 4 0 0 1 0-8z" />
+              </svg>
+            </span>
+            <span class="theme-toggle__icon theme-toggle__icon--moon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M20.742 14.045a1 1 0 0 0-1.077-.217 7 7 0 0 1-9.493-7.92 1 1 0 0 0-1.149-1.2A9 9 0 1 0 21 15a1 1 0 0 0-.258-.955z" />
+              </svg>
+            </span>
+            <span class="sr-only">切换主题</span>
+          </button>
+          <a class="site-header__search" href="/search/">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M10.5 4a6.5 6.5 0 0 1 5.196 10.49l3.907 3.907-1.414 1.414-3.907-3.907A6.5 6.5 0 1 1 10.5 4zm0 2a4.5 4.5 0 1 0 0 9 4.5 4.5 0 0 0 0-9z" />
+            </svg>
+            <span>站内搜索</span>
+          </a>
+        </div>
+      </div>
+    </header>
+    <main class="main-content">
+      <div class="container">
+        
+<article class="post">
+  <header class="post__header">
+    <p class="post__eyebrow">
+      <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+        <path d="M7 3a1 1 0 0 1 2 0v1h6V3a1 1 0 0 1 2 0v1h1.5A2.5 2.5 0 0 1 21 6.5v12A2.5 2.5 0 0 1 18.5 21h-13A2.5 2.5 0 0 1 3 18.5v-12A2.5 2.5 0 0 1 5.5 4H7zm11.5 4h-13A.5.5 0 0 0 5 7.5V10h14V7.5a.5.5 0 0 0-.5-.5zm.5 10.5v-7H5v7a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5z" />
+      </svg>
+      <span>发表于 2025年12月04日</span>
+    </p>
+    <h1 class="post__title">项目开发及学习经历</h1>
+    <div class="post__meta">
+      <div class="post__meta-item">
+        <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+          <path d="M12 3.5a8.5 8.5 0 1 0 8.5 8.5A8.5 8.5 0 0 0 12 3.5zm0 2a6.5 6.5 0 1 1-6.5 6.5A6.5 6.5 0 0 1 12 5.5zm-.75 3a1 1 0 0 1 2 0v3.382l2.268 1.307a1 1 0 1 1-1 1.732l-2.768-1.594A1 1 0 0 1 11.25 12z" />
+        </svg>
+        <span>约 4 分钟阅读</span>
+      </div>
+      
+      <div class="post__meta-item post__meta-item--tags">
+        <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+          <path d="M4 4h7.172a3 3 0 0 1 2.121.879l6.828 6.828a3 3 0 0 1 0 4.242l-3.172 3.172a3 3 0 0 1-4.242 0L5.121 12.95A3 3 0 0 1 4.242 10.83L4 10.586V6a2 2 0 0 1 2-2zm3 2a1.5 1.5 0 1 0 1.5 1.5A1.5 1.5 0 0 0 7 6z" />
+        </svg>
+        <ul class="tag-list tag-list--inline">
+          
+          <li><a href="/tags/项目/">项目</a></li>
+          
+        </ul>
+      </div>
+      
+    </div>
+  </header>
+  <div class="post__layout">
+    <div class="post__main">
+      <div class="post-content">
+        <h1 id="_1">项目开发及学习经历</h1>
+<h2 id="c">在线c语言编译器</h2>
+<p>项目地址： <a href="https://chenyuheee.github.io/c">https://chenyuheee.github.io/c</a></p>
+<p>项目描述：
+零配置、开箱即用的在线 C 语言编译/运行环境，完全托管于 GitHub Pages。前端单页整合 Monaco Editor、代码运行、测试用例管理、度量分析、命令面板等功能，结合 Service Worker 提供基础离线体验。运行全部委托给 Wandbox API，失败时在界面内返回真实错误信息。支持在浏览器本地持久化代码、主题与测试用例，并可生成包含输入/用例的分享链接。</p>
+<p>技术栈：</p>
+<ul>
+<li>前端：纯原生 HTML/CSS/JavaScript + Monaco Editor（通过 CDN loader 按需加载）</li>
+<li>状态持久化：localStorage 保存代码、主题、测试用例</li>
+<li>运行服务：Wandbox 编译 API（HTTPS POST，超时 8~10s）</li>
+<li>分享机制：Base64 编码 JSON 写入 URL hash（包含代码 / stdin / 测试用例）</li>
+<li>PWA：手写 Service Worker 缓存核心静态文件</li>
+<li>版本管理与部署：Git、GitHub Pages（主干直发，无构建流程）</li>
+</ul>
+<p>实现方式：</p>
+<ol>
+<li>通过 Monaco 官方 AMD loader 在浏览器端加载编辑器，动态切换暗/明主题、撤销/重做、命令面板</li>
+<li>纯前端实现 C 语法智能缩进与格式化（栈 + 状态机），并在“自动缩进”按钮中调用</li>
+<li>利用 localStorage 同步代码、主题、测试面板用例，保持跨刷新持久化；关闭标签页前自动保存</li>
+<li>运行按钮向 Wandbox 发送编译请求，展示 stdout/stderr/exit code，并在失败时反馈真实错误</li>
+<li>分享窗口将代码、stdin、测试用例序列化为 JSON 后 Base64 编码写入 URL hash，实现零后端分享</li>
+<li>测试用例面板基于 Wandbox 编译结果批量校验输入输出，提供通过/失败汇总</li>
+<li>Service Worker 预缓存首页、Manifest、图标等静态文件，实现离线打开与资源回源策略</li>
+</ol>
+<p>学习技能：</p>
+<ul>
+<li>前端工程：Monaco Editor 二次封装、命令面板、响应式布局</li>
+<li>算法实现：针对 C 语法块的缩进/格式化状态机设计</li>
+<li>API 集成：远程编译接口的超时控制、错误提示、多语言提示文案</li>
+<li>用户体验：快捷键绑定（Ctrl+Enter 运行、Ctrl+S 另存为）、移动端侧栏切换、I18n 切换</li>
+<li>PWA 与缓存：手动编写 Service Worker、版本号控制和缓存失效策略</li>
+<li>数据处理：JSON 序列化分享、Base64 编码/解码、localStorage 容错</li>
+</ul>
+<p>收获和推广：</p>
+<ul>
+<li>通过 GitHub Pages 零成本上线，解决社团同学随时练习 C 语言的需求</li>
+<li>掌握了 Monaco Editor 深度定制经验，可快速移植到其他语言沙箱</li>
+<li>建立版本化脚本（<code>scripts/version.js</code>）统一展示版本号，形成稳定的迭代节奏</li>
+<li>引入测试用例面板、代码度量、命令面板等增强功能，提升教学场景体验</li>
+<li>当前线上版本 v1.3.20，浏览器访问量稳定，持续收集反馈迭代</li>
+</ul>
+<p>不足：</p>
+<ul>
+<li>运行完全依赖 Wandbox，出现超时或限流时只能提示错误，缺少备用编译服务</li>
+<li>Share 链接采用 Base64，超长代码在微信等平台仍可能被截断</li>
+<li>当前仅支持单文件 C 程序，尚未提供多文件/头文件管理</li>
+<li>没有多人协作或实时同步功能，暂时定位于个人练习</li>
+</ul>
+<h2 id="_2">代码高尔夫</h2>
+<p>项目地址： <a href="http://47.99.243.62">http://47.99.243.62</a>
+项目地址2: https://zjucodegolf.xyz
+(因为该域名的ICP备案还未完成，所以目前暂时无法访问)</p>
+<p>项目描述：
+面向编程社团的代码高尔夫竞赛平台，覆盖题库、提交评测、积分天梯、投稿、站内信、文章与论坛等模块。用户在浏览器内使用 Monaco 编辑器完成 C 语言题目，系统按 UTF-8 字节数计分，通过异步判题集群返回结果并刷新榜单。可选接入 DeepSeek 助教为 AC/非 AC 提交提供分析，整个平台支持邮箱验证与基础运营工具。</p>
+<p>实现方式：</p>
+<ol>
+<li>使用 <code>infra/docker-compose.yml</code> 编排 PostgreSQL 15、Redis 7、RabbitMQ 3.12、API、Runner、Web 与 Nginx，<code>deploy.sh</code> 一键推送到阿里云 ECS（47.99.243.62）。</li>
+<li>API 基于 Express + TypeScript，模块化路由覆盖认证、题库、题目投稿、提交、榜单、文章、论坛、站内信与管理员接口，通过 <code>pg</code> 操作数据库，<code>zod</code> 做参数校验，<code>jsonwebtoken</code>/<code>bcryptjs</code> 实现权限控制。</li>
+<li>提交链路将源码与测试需求写入 <code>submissions</code> 表并发布到 RabbitMQ 队列，Runner 组合 <code>gcc -O2 -s</code> 编译、按用例限时运行，统计时间/内存并回调内部 API 写回判题详情及 <code>submission_tests</code> 明细。</li>
+<li>API 内置 C 语言字节计数器（去换行后基于 Token 拼接）保障评测与前端展示一致，同时维护 <code>best_records</code>、<code>leaderboards</code> 生成积分榜。</li>
+<li>Runner、API、Web 均打包为独立镜像；Runner 容器预装 GCC/Clang，限制 CPU/内存防止挤占资源，内部只接受带签名 Token 的回调。</li>
+<li>Web 端使用 React 18 + Vite + Tailwind + React Router，提供暗色主题、Monaco 编辑器、一键投稿、榜单与后台管理面板，所有请求都通过统一封装的 <code>apiFetch</code> 访问 API。</li>
+<li>配置 SMTP（<code>nodemailer</code>）完成邮箱验证，DeepSeek API 封装在提交详情页的 AI 助教按钮中，可选为失败提交生成诊断或对 AC 代码做精简建议。</li>
+</ol>
+<p>技术栈：</p>
+<ul>
+<li>基础设施：Docker Compose（PostgreSQL、Redis、RabbitMQ、API、Runner、Web、Nginx），阿里云 ECS 部署。</li>
+<li>后端：Node.js 20 + Express + TypeScript，<code>pg</code>、<code>zod</code>、<code>jsonwebtoken</code>、<code>bcryptjs</code>、<code>multer</code>、<code>gray-matter</code>、<code>nodemailer</code>。</li>
+<li>Runner：Node.js + amqplib，容器内 GCC/Clang 执行沙箱，HTTP 回调写回判题结果。</li>
+<li>前端：React 18、Vite、TailwindCSS、React Router、@monaco-editor/react、Marked + DOMPurify。</li>
+<li>消息与缓存：RabbitMQ 负责异步调度；Redis 预留用于会话与排行榜缓存（配置完待接入）。</li>
+<li>DevOps：Git + GitHub，环境变量管理 <code>.env</code>/<code>.env.example</code>，<code>deploy.sh</code> 触发重启；Nginx 反代 Web/API。</li>
+</ul>
+<p>学习技能：</p>
+<ul>
+<li>体系化 TypeScript 后端开发：Express 中间件抽象、<code>zod</code> 校验链、JWT 鉴权与 RBAC。</li>
+<li>SQL 设计与调优：PostgreSQL schema、榜单积分计算、事务化写入投稿/论坛等复合业务流程。</li>
+<li>消息队列与异步判题：RabbitMQ 发布/消费、Runner 幂等处理、限流与失败重试策略。</li>
+<li>容器化运行：多服务 Docker 镜像构建、资源限制、Nginx 反向代理与静态文件托管。</li>
+<li>富交互前端：Monaco 编辑器、React 状态管理、暗色模式、题面 Markdown 渲染与后台管理界面。</li>
+<li>LLM 辅助能力：DeepSeek API 封装、错误上下文拼接、判题日志与代码联合提示工程。</li>
+</ul>
+<p>收获和推广：</p>
+<ul>
+<li>完成题库 → 提交流程 → Runner 回写 → 榜单刷新的闭环，在内测期间稳定支撑 30+ 位同学使用。</li>
+<li>建立题目投稿、文章、论坛、站内信、Admin 面板等配套模块，形成自运转社区闭环。</li>
+<li>通过 Docker Compose + 一键脚本让部署/回滚标准化，阿里云主机故障时可 10 分钟内恢复。</li>
+<li>深度打磨 C 语言字节计数与编辑器体验，为后续扩展多语言、榜单算法奠定基础。</li>
+<li>AI 助教为失败提交提供可重现实例，提高新人理解判题反馈的效率。</li>
+</ul>
+<p>不足：</p>
+<ul>
+<li>目前仅支持 C 语言，Runner 尚未做 seccomp/CGroups 级别的硬隔离，多语言与更强沙箱待实现。</li>
+<li>Redis 方案尚未真正接入线上路径，排行榜与会话仍落在数据库，存在性能瓶颈风险。</li>
+<li>单机部署缺乏自动监控与告警，RabbitMQ/Runner 异常需要人工介入。</li>
+<li>邮件与 AI 能力依赖外部服务配置，缺少兜底与健康检查。</li>
+<li>Admin 工具未覆盖批量数据修复、判题重跑等高级运维场景。</li>
+</ul>
+<h2 id="aimedagt">AI医学辅助诊断系统（MedAgt）</h2>
+<p>项目地址： <a href="http://121.43.107.58">http://121.43.107.58</a></p>
+<p>项目描述：
+MedAgt 是一个面向远程问诊场景的智能医学站点，目标是“采集症状，生成可追溯的初步建议”。前端提供病例标签页、多症状录入、追问锁定与历史回放，后端 orchestrates 多个 DeepSeek Agent：先生成检索策略，再调用 PubMed/NICE 抓取证据，最后汇总出 triage、诊疗建议、追问列表和临时诊断。界面实时展示分析进度、证据数量、置信度以及文献统计，支持直接下载 PubMed 摘要或全文。</p>
+<p>核心能力：</p>
+<ol>
+<li>多病例管理：左侧标签页可一键新建/切换病例，完成分析后自动折叠表单并持久化到 <code>localStorage</code>。</li>
+<li>追问闭环：若 LLM 觉得信息不足，会生成 3~6 条追问并锁定结果，用户补充后才能继续生成最终方案。</li>
+<li>进度可视化：前端通过 <code>/api/v1/progress</code> 轮询展示“解析症状 → 检索 → 排序 → 规划 → 翻译”五步进度条。</li>
+<li>证据展示：后端整合 PubMed/NICE，过滤动物试验、人口不符等噪声，同时汇总“发表年份柱状图 + 来源占比圆图”。</li>
+<li>证据下载：自建 <code>/api/v1/evidence/:pmid/abstract|fulltext</code>，支持直接拉取官方摘要和 PDF 链接。</li>
+</ol>
+<p>实现方式：</p>
+<ol>
+<li>前端使用 Next.js 16（App Router + TypeScript），主页面 <code>page.tsx</code> 负责表单、追问、结果展示与可视化；CSS Modules 控制整体玻璃拟态风格并针对移动端适配。</li>
+<li>表单状态通过 React hooks 管理，并将病例、分析结果、追问历史等写入浏览器缓存，刷新不丢数据。</li>
+<li>后端 FastAPI 提供 <code>/api/v1/analyze</code>，内部实例化 <code>SymptomAnalyzer</code> 并串联多个 DeepSeek Agent（搜索计划、证据排序、临床规划、追问、翻译）。</li>
+<li>知识检索模块 <code>knowledge.py</code> 直接调用 NCBI E-utilities（httpx 请求）和 NICE 非结构化页面，过滤兽医/动物研究，按年份和来源统计文献分布。</li>
+<li>Agent 决策流程会记录原始提示词与输出（agent_traces），便于事后审计和复现答案；若证据不足则回退到内置安全方案。</li>
+</ol>
+<p>技术栈：</p>
+<ul>
+<li>前端：Next.js 16、React、TypeScript、CSS Modules、Turbopack</li>
+<li>后端：FastAPI、httpx、Pydantic、DeepSeek API、asyncio</li>
+<li>数据来源：PubMed E-utilities、NICE Guidelines（HTML 抓取）</li>
+<li>部署：阿里云 ECS（Ubuntu 24.04）+ systemd + Nginx 反向代理</li>
+<li>辅助：deploy.sh 一键增量部署、localStorage 持久化、浏览器端数据可视化</li>
+</ul>
+<p>学习技能：</p>
+<ul>
+<li>多 Agent 提示工程：拆分检索、排序、规划、追问、翻译五个 Agent，调优提示词与 JSON Schema 校验</li>
+<li>临床语境的数据清洗：针对年龄段/性别/动物研究等添加过滤器，保证返回证据更贴近真实临床</li>
+<li>前端状态编排：处理病例折叠、追问锁、历史追问回放、并行进度条等互动细节</li>
+<li>可观测性设计：记录 agent trace、进度轮询与错误提示，便于上线后的调试和迭代</li>
+<li>云端部署与运维：systemd 管理前后端服务，Nginx 统一反代，deploy.sh 根据 git diff 判断最小部署单元</li>
+</ul>
+<p>收获和推广：</p>
+<ul>
+<li>完成“问诊 → 检索 → 决策 → 追问 → 复盘”闭环，真实部署到外网供演示</li>
+<li>对 PubMed/NICE 的抓取和过滤有了实践经验，可复用到其他医学知识项目</li>
+<li>为校内远程医疗课程提供 demo，展示 LLM + 传统检索的协同工作流</li>
+<li>构建了可追溯的 agent trace 与证据链，为后续引入人工审核打下基础</li>
+</ul>
+<p>不足：</p>
+<ul>
+<li>目前还未引入电子病历数据，全部基于用户手动输入</li>
+<li>triage 规则仍依赖 LLM 输出，缺少医学顾问的正式背书</li>
+<li>NCBI API 调用未做本地缓存，高并发场景仍需加速与限流策略</li>
+</ul>
+      </div>
+      
+      <nav class="post__neighbors" aria-label="文章导航">
+        
+        <a class="post__neighbor post__neighbor--newer" href="/posts/策划案撰写/">
+          <span class="post__neighbor-label">
+            <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M19 11H9.414l2.293-2.293-1.414-1.414L6.586 12l3.707 3.707 1.414-1.414L9.414 13H19z" />
+            </svg>
+            <span>较新文章</span>
+          </span>
+          <span class="post__neighbor-title">策划案撰写</span>
+        </a>
+        
+        
+        <a class="post__neighbor post__neighbor--older" href="/posts/AIOps-pyhton/">
+          <span class="post__neighbor-label">
+            <span>较旧文章</span>
+            <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M5 12a1 1 0 0 1 1-1h9.586l-2.293-2.293 1.414-1.414L19.414 12l-4.707 4.707-1.414-1.414L15.586 13H6a1 1 0 0 1-1-1z" />
+            </svg>
+          </span>
+          <span class="post__neighbor-title">AIOps的Python实战学习</span>
+        </a>
+        
+      </nav>
+      
+      
+    </div>
+    <aside class="post-toc" id="post-toc" hidden>
+      <div class="post-toc__header">
+        <span class="post-toc__title">
+          <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M5 6h14v2H5zm0 5h14v2H5zm0 5h9v2H5z" />
+          </svg>
+          <span>目录</span>
+        </span>
+        <button type="button" class="post-toc__toggle" data-toc-toggle aria-expanded="true">
+          折叠
+          <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M12 9l4 4H8z" />
+          </svg>
+        </button>
+      </div>
+      <nav class="post-toc__body" data-toc-body aria-label="本文目录"></nav>
+    </aside>
+  </div>
+  <footer class="post__footer">
+    <a class="button button--ghost" href="/">
+      <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+        <path d="M10.414 12l4.293-4.293-1.414-1.414L7.586 12l5.707 5.707 1.414-1.414L10.414 12H20v-2z" />
+      </svg>
+      <span>返回首页</span>
+    </a>
+    <a class="button button--ghost" href="/archive/">
+      <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+        <path d="M5 4a2 2 0 0 0-2 2v13h2v-3h14v3h2V6a2 2 0 0 0-2-2zm0 2h14v6H5zm3 10a1 1 0 1 0 0 2h8a1 1 0 0 0 0-2z" />
+      </svg>
+      <span>查看归档</span>
+    </a>
+  </footer>
+</article>
+
+      </div>
+    </main>
+    <footer class="site-footer" role="contentinfo">
+      <div class="container site-footer__inner">
+        <div>
+          <p class="site-footer__title">何宸禹的博客</p>
+          
+          <p class="site-footer__description">由 AutoBlog 驱动的学习与创作记录。</p>
+          
+        </div>
+        <div class="site-footer__meta">
+          <span>© 2025 何宸禹</span>
+          <a class="site-footer__link" href="/autoblog/">了解 AutoBlog 引擎</a>
+          <div class="site-footer__counts" id="site-visit-stats" aria-live="polite">
+            <span id="busuanzi_container_site_uv" class="site-footer__count-item">
+              访问人数 <span id="busuanzi_value_site_uv">--</span>
+            </span>
+            <span id="busuanzi_container_site_pv" class="site-footer__count-item">
+              浏览次数 <span id="busuanzi_value_site_pv">--</span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+  <button class="back-to-top" type="button" data-back-to-top aria-label="返回顶部">
+    <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+      <path d="M12 5.586l5.707 5.707-1.414 1.414L13 9.414V19h-2V9.414l-3.293 3.293-1.414-1.414z" />
+    </svg>
+  </button>
+  <div class="lightbox" id="image-lightbox" aria-hidden="true" role="dialog" aria-modal="true" tabindex="-1">
+    <button type="button" class="lightbox__close" data-lightbox-close aria-label="关闭">
+      <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+        <path d="M6.343 5.343l12.02 12.02-1.414 1.414-12.02-12.02z" />
+        <path d="M17.657 5.343l1.414 1.414-12.02 12.02-1.414-1.414z" />
+      </svg>
+    </button>
+    <img class="lightbox__image" src="" alt="" />
+    <p class="lightbox__caption"></p>
+  </div>
+  <script src="/app.js" defer></script>
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" data-busuanzi></script>
+</body>
+</html>

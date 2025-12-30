@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AIOps 多智能体项目与论文资源汇总 | 何宸禹的博客</title>
+  <meta name="description" content="本文汇总了AIOps领域多智能体相关的核心开源项目、重要学术论文及开发测试资源，旨在帮助读者优化根因定位与分析方案。" />
+  <meta name="author" content="何宸禹" />
+  
+  <link rel="canonical" href="https://chenyuheee.github.io/posts/AIOPS/AIOps多智能体项目与论文资源汇总/" />
+  <meta property="og:url" content="https://chenyuheee.github.io/posts/AIOPS/AIOps多智能体项目与论文资源汇总/" />
+  
+  <meta property="og:title" content="AIOps 多智能体项目与论文资源汇总 | 何宸禹的博客" />
+  <meta property="og:description" content="本文汇总了AIOps领域多智能体相关的核心开源项目、重要学术论文及开发测试资源，旨在帮助读者优化根因定位与分析方案。" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary" />
+  <link rel="stylesheet" href="/style.css" />
+  
+  <link rel="alternate" type="application/rss+xml" title="何宸禹的博客 RSS" href="/feed.xml" />
+  
+</head>
+<body>
+  <div class="site-shell">
+    <div class="reading-progress" id="reading-progress" role="presentation" aria-hidden="true"></div>
+    
+    <div
+      class="site-audio"
+      data-audio-player
+      data-autoplay="false"
+      data-start-muted="false"
+      data-volume-expanded="false"
+    >
+      <div class="site-audio__cover" style="background-image: url('/media/cover.jpg');">
+        
+        <button class="site-audio__cover-toggle" type="button" data-audio-toggle aria-label="播放或暂停背景音乐" data-audio-no-drag>
+          <span class="site-audio__cover-blur" aria-hidden="true"></span>
+          <svg class="site-audio__icon site-audio__icon--play" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M8 5.5v13l10-6.5z" />
+          </svg>
+          <svg class="site-audio__icon site-audio__icon--pause" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M8 5.5h3v13H8zm5 0h3v13h-3z" />
+          </svg>
+        </button>
+      </div>
+      <div class="site-audio__meta">
+        <div class="site-audio__title-row">
+          <span class="site-audio__title">日落</span>
+          <span class="site-audio__time" data-audio-time>00:00</span>
+        </div>
+        
+        <span class="site-audio__artist">孙燕姿</span>
+        
+        <div
+          class="site-audio__progress"
+          data-audio-progress-track
+          role="progressbar"
+          aria-valuemin="0"
+          aria-valuemax="100"
+          aria-valuenow="0"
+          data-audio-no-drag
+        >
+          <div class="site-audio__progress-bar" data-audio-progress></div>
+        </div>
+      </div>
+      <div class="site-audio__controls">
+        <div class="site-audio__volume-shell" data-audio-no-drag>
+          <button class="site-audio__control site-audio__control--mute" type="button" data-audio-mute aria-label="切换静音" data-audio-no-drag>
+            <svg class="site-audio__icon site-audio__icon--volume" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M5 10h2.586L12 5.586V18.5L7.586 14H5z" />
+              <path d="M15.5 8.5a4 4 0 0 1 0 6" />
+              <path d="M17.5 6.5a6 6 0 0 1 0 10" />
+            </svg>
+            <svg class="site-audio__icon site-audio__icon--muted" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M5 10h2.586L12 5.586V18.5L7.586 14H5z" />
+              <path d="M15 9l6 6" />
+              <path d="M21 9l-6 6" />
+            </svg>
+          </button>
+          <div class="site-audio__volume" data-audio-volume aria-hidden="true">
+            <input
+              class="site-audio__volume-slider"
+              type="range"
+              min="0"
+              max="100"
+              value="100"
+              step="1"
+              data-audio-volume-slider
+              tabindex="-1"
+              aria-label="调节音量"
+              data-audio-no-drag
+            />
+          </div>
+        </div>
+      </div>
+      <audio
+        data-audio-element
+        loop
+        preload="auto"
+        src="/media/日落.mp3"
+      ></audio>
+    </div>
+    
+    <header class="site-header" role="banner">
+      <div class="container site-header__inner">
+        <div class="brand">
+          <a class="brand__title" href="/">何宸禹的博客</a>
+          
+          <p class="brand__description">由 AutoBlog 驱动的学习与创作记录。</p>
+          
+        </div>
+        
+        <nav class="site-nav" aria-label="主导航">
+          
+          <a class="site-nav__link" href="/">首页</a>
+          
+          <a class="site-nav__link" href="/archive/">归档</a>
+          
+          <a class="site-nav__link" href="/tags/">标签</a>
+          
+          <a class="site-nav__link" href="/about/">About</a>
+          
+        </nav>
+        
+        <div class="site-header__actions">
+          <button class="theme-toggle" type="button" data-theme-toggle data-theme-state="light" aria-pressed="false" aria-label="切换到夜间模式">
+            <span class="theme-toggle__icon theme-toggle__icon--sun" aria-hidden="true">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 5a1 1 0 0 1-1-1V3a1 1 0 1 1 2 0v1a1 1 0 0 1-1 1zm0 16a1 1 0 0 1-1-1v-1a1 1 0 0 1 2 0v1a1 1 0 0 1-1 1zm9-9a1 1 0 0 1-1 1h-1a1 1 0 1 1 0-2h1a1 1 0 0 1 1 1zm-16 0a1 1 0 0 1-1 1H3a1 1 0 1 1 0-2h1a1 1 0 0 1 1 1zm12.95-6.364a1 1 0 0 1 0 1.414l-.707.707a1 1 0 0 1-1.414-1.414l.707-.707a1 1 0 0 1 1.414 0zm-11.314 11.314a1 1 0 0 1 0 1.414l-.707.707a1 1 0 0 1-1.414-1.414l.707-.707a1 1 0 0 1 1.414 0zm11.314 1.414a1 1 0 0 1-1.414 0l-.707-.707a1 1 0 0 1 1.414-1.414l.707.707a1 1 0 0 1 0 1.414zm-11.314-11.314a1 1 0 0 1-1.414 0l-.707-.707A1 1 0 1 1 5.914 4.95l.707.707a1 1 0 0 1 0 1.414zM12 8a4 4 0 1 1 0 8 4 4 0 0 1 0-8z" />
+              </svg>
+            </span>
+            <span class="theme-toggle__icon theme-toggle__icon--moon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M20.742 14.045a1 1 0 0 0-1.077-.217 7 7 0 0 1-9.493-7.92 1 1 0 0 0-1.149-1.2A9 9 0 1 0 21 15a1 1 0 0 0-.258-.955z" />
+              </svg>
+            </span>
+            <span class="sr-only">切换主题</span>
+          </button>
+          <a class="site-header__search" href="/search/">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M10.5 4a6.5 6.5 0 0 1 5.196 10.49l3.907 3.907-1.414 1.414-3.907-3.907A6.5 6.5 0 1 1 10.5 4zm0 2a4.5 4.5 0 1 0 0 9 4.5 4.5 0 0 0 0-9z" />
+            </svg>
+            <span>站内搜索</span>
+          </a>
+        </div>
+      </div>
+    </header>
+    <main class="main-content">
+      <div class="container">
+        
+<article class="post">
+  <header class="post__header">
+    <p class="post__eyebrow">
+      <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+        <path d="M7 3a1 1 0 0 1 2 0v1h6V3a1 1 0 0 1 2 0v1h1.5A2.5 2.5 0 0 1 21 6.5v12A2.5 2.5 0 0 1 18.5 21h-13A2.5 2.5 0 0 1 3 18.5v-12A2.5 2.5 0 0 1 5.5 4H7zm11.5 4h-13A.5.5 0 0 0 5 7.5V10h14V7.5a.5.5 0 0 0-.5-.5zm.5 10.5v-7H5v7a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5z" />
+      </svg>
+      <span>发表于 2025年12月04日</span>
+    </p>
+    <h1 class="post__title">AIOps 多智能体项目与论文资源汇总</h1>
+    <div class="post__meta">
+      <div class="post__meta-item">
+        <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+          <path d="M12 3.5a8.5 8.5 0 1 0 8.5 8.5A8.5 8.5 0 0 0 12 3.5zm0 2a6.5 6.5 0 1 1-6.5 6.5A6.5 6.5 0 0 1 12 5.5zm-.75 3a1 1 0 0 1 2 0v3.382l2.268 1.307a1 1 0 1 1-1 1.732l-2.768-1.594A1 1 0 0 1 11.25 12z" />
+        </svg>
+        <span>约 7 分钟阅读</span>
+      </div>
+      
+    </div>
+  </header>
+  <div class="post__layout">
+    <div class="post__main">
+      <div class="post-content">
+        <h1 id="aiops">AIOps 多智能体项目与论文资源汇总</h1>
+<blockquote>
+<p><strong>整理目的</strong>: 帮助优化根因定位和分析方案</p>
+<p><strong>关注重点</strong>: 多智能体（Multi-Agent）项目</p>
+<p><strong>更新时间</strong>: 2025年12月</p>
+</blockquote>
+<hr />
+<h2 id="_1">一、核心开源项目</h2>
+<h3 id="11-aiopslab-microsoft">1.1 AIOpsLab (Microsoft) ⭐⭐⭐⭐⭐</h3>
+<p><strong>项目简介</strong>: 微软研究院开发的AIOps代理评估整体框架，是目前最完整的AIOps评测平台</p>
+<p><strong>核心特性</strong>:
+- 支持微服务云环境部署
+- 故障注入与工作负载生成
+- 遥测数据导出
+- Agent-Cloud Interface (ACI) 代理云交互接口
+- 48个问题的基准测试套件</p>
+<p><strong>技术亮点</strong>:
+- 四级任务体系：检测 → 定位 → 根因分析 → 缓解
+- 支持症状性故障和功能性故障的注入
+- 可观测性三要素：日志、指标、追踪</p>
+<p><strong>资源链接</strong>:
+- GitHub: https://aka.ms/aiopslab-repo
+- 官网: https://microsoft.github.io/AIOpsLab/
+- 论文: https://arxiv.org/abs/2501.07606</p>
+<hr />
+<h3 id="12-mabc">1.2 mABC: 多智能体区块链启发式协作框架 ⭐⭐⭐⭐⭐</h3>
+<p><strong>项目简介</strong>: 首创使用区块链投票机制的多智能体根因分析框架，发表于EMNLP 2024</p>
+<p><strong>核心特性</strong>:
+- 7个专业化Agent协作
+- 区块链启发的投票协议
+- 有效缓解LLM幻觉问题
+- 解决循环依赖问题</p>
+<p><strong>技术亮点</strong>:
+- 每个Agent专注特定RCA子任务
+- 结构化工作流程设计
+- 去中心化决策机制减少单点故障</p>
+<p><strong>资源链接</strong>:
+- GitHub: https://github.com/zwpride/mABC
+- 论文: https://arxiv.org/abs/2404.12135
+- PDF: https://aclanthology.org/2024.findings-emnlp.232.pdf</p>
+<hr />
+<h3 id="13-openrca-microsoft">1.3 OpenRCA (Microsoft) ⭐⭐⭐⭐</h3>
+<p><strong>项目简介</strong>: 微软开源的LLM根因分析基准测试项目</p>
+<p><strong>核心特性</strong>:
+- LLM代理RCA能力评估
+- 时间序列和日志数据分析
+- 追踪图分析
+- Python实现</p>
+<p><strong>资源链接</strong>:
+- GitHub: https://github.com/microsoft/OpenRCA</p>
+<hr />
+<h3 id="14-aiops-polaris">1.4 AIOps Polaris ⭐⭐⭐⭐</h3>
+<p><strong>项目简介</strong>: 基于多智能体架构和RAG的自动化RCA系统</p>
+<p><strong>核心特性</strong>:
+- 多Agent协作（Knowledge Agent、Reasoning Agent、Executor Agent等）
+- 检索增强生成（RAG）
+- 故障数据建模
+- 解决方案自动生成</p>
+<p><strong>资源链接</strong>:
+- GitHub: https://github.com/pkusnail/AIOpsPolaris</p>
+<hr />
+<h3 id="15-microrca-agent">1.5 MicroRCA-Agent ⭐⭐⭐⭐</h3>
+<p><strong>项目简介</strong>: CCF国际AIOps挑战赛决赛项目，模块化多智能体微服务RCA解决方案</p>
+<p><strong>核心特性</strong>:
+- 多模态数据支持（日志、追踪、指标）
+- 结构化RCA输出
+- 闭环推理
+- 可扩展模块分离</p>
+<p><strong>资源链接</strong>:
+- GitHub: https://github.com/tangpan360/MicroRCA-Agent</p>
+<hr />
+<h3 id="16-rcagent">1.6 RCAgent (阿里巴巴/学术界) ⭐⭐⭐⭐</h3>
+<p><strong>项目简介</strong>: 工具增强的自主云根因分析Agent，发表于CIKM 2024</p>
+<p><strong>核心特性</strong>:
+- Controller Agent + Expert Agent架构
+- 自由形式数据收集
+- 动作轨迹与自一致性机制
+- 隐私安全设计（支持本地部署）</p>
+<p><strong>技术亮点</strong>:
+- 在阿里云真实生产环境部署
+- 超越ReAct等基线方法
+- 高级上下文管理</p>
+<p><strong>资源链接</strong>:
+- 论文: https://arxiv.org/pdf/2310.16340
+- 相关资源: https://www.catalyzex.com/paper/rcagent-cloud-root-cause-analysis-by</p>
+<hr />
+<h3 id="17-flash-microsoft">1.7 FLASH (Microsoft) ⭐⭐⭐⭐</h3>
+<p><strong>项目简介</strong>: 微软工作流自动化代理，专注重复事件诊断</p>
+<p><strong>全称</strong>: workFLow Automation agent with Status supervision and Hindsight integration</p>
+<p><strong>核心特性</strong>:
+- 状态监督（Status Supervision）
+- 事后学习集成（Hindsight Integration）
+- 工作流自动化
+- 比SOTA代理提升13.2%诊断准确率</p>
+<p><strong>技术亮点</strong>:
+- 将复杂诊断指令分解为可管理的条件片段
+- 从过去失败中自动学习
+- 限制错误传播</p>
+<p><strong>资源链接</strong>:
+- 论文: https://www.microsoft.com/en-us/research/wp-content/uploads/2024/10/FLASH_Paper.pdf
+- 项目页: https://www.microsoft.com/en-us/research/project/flash-a-reliable-workflow-automation-agent/</p>
+<hr />
+<h3 id="18-intelligent-fault-diagnosis-multi-agent-system">1.8 Intelligent Fault Diagnosis Multi-Agent System ⭐⭐⭐</h3>
+<p><strong>项目简介</strong>: 基于CrewAI的智能故障诊断多智能体系统</p>
+<p><strong>核心特性</strong>:
+- 电信网络故障诊断
+- RAG工作流程
+- 验证层和会话管理
+- 生产级错误处理</p>
+<p><strong>资源链接</strong>:
+- GitHub: https://github.com/Sodz99/multi-agent-fault-diagnosis</p>
+<hr />
+<h2 id="_2">二、重要学术论文</h2>
+<h3 id="21">2.1 多智能体系统论文</h3>
+<h4 id="flow-of-action-sop-enhanced-llm-based-multi-agent-system-for-root-cause-analysis">Flow-of-Action: SOP Enhanced LLM-Based Multi-Agent System for Root Cause Analysis</h4>
+<ul>
+<li><strong>会议</strong>: WWW'25 (2025) 工业赛道</li>
+<li><strong>作者</strong>: Changhua Pei 等</li>
+<li><strong>核心贡献</strong>: <ul>
+<li>使用SOP（标准操作流程）约束LLM多智能体系统</li>
+<li>辅助Agent过滤噪声、优化搜索空间</li>
+<li>达到64%准确率（对比之前35.5%）</li>
+</ul>
+</li>
+<li><strong>链接</strong>: https://arxiv.org/abs/2502.08224</li>
+</ul>
+<h4 id="ma-rca-multi-agent-root-cause-analysis">MA-RCA: Multi-Agent Root Cause Analysis</h4>
+<ul>
+<li><strong>期刊</strong>: Complex &amp; Intelligent Systems (Springer, Nov 2025)</li>
+<li><strong>核心贡献</strong>:<ul>
+<li>检索和验证Agent动态验证假设</li>
+<li>减少上下文切换失败</li>
+<li>在真实数据集上达到更高F1分数</li>
+</ul>
+</li>
+<li><strong>链接</strong>: https://link.springer.com/article/10.1007/s40747-025-02096-0</li>
+</ul>
+<h4 id="chain-of-event-interpretable-root-cause-analysis-for-microservices">Chain-of-Event: Interpretable Root Cause Analysis for Microservices</h4>
+<ul>
+<li><strong>会议</strong>: FSE Companion '24</li>
+<li><strong>核心贡献</strong>:<ul>
+<li>自动学习事件因果图</li>
+<li>集成SRE专业知识</li>
+<li>在电商数据集（5000+服务）上达到98.8% top-3准确率</li>
+</ul>
+</li>
+<li><strong>链接</strong>: https://netman.aiops.org/wp-content/uploads/2024/07/Chain-of-Event_Interpretable-Root-Cause-Analysis-for-MicroservicesFSE24-Camera-Ready.pdf</li>
+</ul>
+<hr />
+<h3 id="22-llm-agent">2.2 LLM Agent 论文</h3>
+<h4 id="exploring-llm-based-agents-for-root-cause-analysis">Exploring LLM-based Agents for Root Cause Analysis</h4>
+<ul>
+<li><strong>会议</strong>: FSE 2024</li>
+<li><strong>作者</strong>: Roy 等 (Microsoft)</li>
+<li><strong>核心贡献</strong>:<ul>
+<li>ReAct LLM Agent + 检索工具</li>
+<li>微软生产事件数据集评估</li>
+<li>显著提升事实准确性</li>
+</ul>
+</li>
+<li><strong>链接</strong>: https://arxiv.org/abs/2403.04123</li>
+</ul>
+<h4 id="tamo-fine-grained-root-cause-analysis-via-tool-assisted-llm-agent">TAMO: Fine-Grained Root Cause Analysis via Tool-Assisted LLM Agent</h4>
+<ul>
+<li><strong>时间</strong>: 2025</li>
+<li><strong>核心贡献</strong>:<ul>
+<li>工具增强LLM Agent</li>
+<li>克服多模态输入约束</li>
+<li>解决动态依赖问题</li>
+</ul>
+</li>
+<li><strong>链接</strong>: https://arxiv.org/abs/2504.20462</li>
+</ul>
+<h4 id="aiops-for-reliability-evaluating-llms-for-automated-rca-in-chaos-engineering">AIOps for Reliability: Evaluating LLMs for Automated RCA in Chaos Engineering</h4>
+<ul>
+<li><strong>时间</strong>: 2025</li>
+<li><strong>核心贡献</strong>:<ul>
+<li>评估GPT-4o、Gemini-1.5、Mistral-small</li>
+<li>混沌工程故障场景</li>
+<li>提供代码和数据集</li>
+</ul>
+</li>
+<li><strong>链接</strong>: https://github.com/szandala/llms-chaos-engineering</li>
+</ul>
+<hr />
+<h3 id="23">2.3 图神经网络相关论文</h3>
+<h4 id="qmix-gnn-gnn-based-heterogeneous-multi-agent-information-fusion">QMIX-GNN: GNN-Based Heterogeneous Multi-Agent Information Fusion</h4>
+<ul>
+<li><strong>核心贡献</strong>: 通过GNN融合异构多智能体信息，改进协作决策</li>
+<li><strong>链接</strong>: https://www.mdpi.com/2076-3417/15/7/3794</li>
+</ul>
+<h4 id="reliable-and-efficient-multi-agent-coordination-via-graph-neural-networks">Reliable and Efficient Multi-Agent Coordination via Graph Neural Networks</h4>
+<ul>
+<li><strong>核心贡献</strong>: GNN-VAE学习协调和故障模式</li>
+<li><strong>链接</strong>: https://arxiv.org/abs/2503.02954</li>
+</ul>
+<h4 id="a-heterogeneous-graph-based-multi-task-learning-for-fault-event-classification">A Heterogeneous Graph-Based Multi-Task Learning for Fault Event Classification</h4>
+<ul>
+<li><strong>核心贡献</strong>: 配电网故障事件分类的多任务GNN</li>
+<li><strong>链接</strong>: https://ieeexplore.ieee.org/document/10643407</li>
+</ul>
+<hr />
+<h2 id="_3">三、开发测试数据集与评测框架</h2>
+<blockquote>
+<p>🎯 <strong>本节重点</strong>: 提供可直接用于开发和测试AIOps程序的数据集和环境</p>
+</blockquote>
+<h3 id="31">3.1 推荐开发测试数据集（按类型分类）</h3>
+<h4 id="_4">📊 日志异常检测数据集</h4>
+<table>
+<thead>
+<tr>
+<th>数据集</th>
+<th>规模</th>
+<th>特点</th>
+<th>下载链接</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>HDFS</strong></td>
+<td>11M+ 日志行</td>
+<td>Hadoop分布式文件系统日志，标注异常</td>
+<td>https://github.com/logpai/loghub</td>
+</tr>
+<tr>
+<td><strong>BGL</strong></td>
+<td>4.7M 日志行</td>
+<td>Blue Gene/L超级计算机日志</td>
+<td>https://github.com/logpai/loghub</td>
+</tr>
+<tr>
+<td><strong>Thunderbird</strong></td>
+<td>211M 日志行</td>
+<td>超级计算机系统日志</td>
+<td>https://github.com/logpai/loghub</td>
+</tr>
+<tr>
+<td><strong>OpenStack</strong></td>
+<td>207K 日志行</td>
+<td>云平台日志，多种异常类型</td>
+<td>https://github.com/logpai/loghub</td>
+</tr>
+<tr>
+<td><strong>Hadoop</strong></td>
+<td>394K 日志行</td>
+<td>大数据平台日志</td>
+<td>https://github.com/logpai/loghub</td>
+</tr>
+</tbody>
+</table>
+<p><strong>综合资源</strong>: https://github.com/ait-aecid/anomaly-detection-log-datasets</p>
+<hr />
+<h4 id="_5">📈 多模态数据集（日志+指标+追踪）</h4>
+<table>
+<thead>
+<tr>
+<th>数据集</th>
+<th>数据类型</th>
+<th>规模</th>
+<th>下载链接</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>LO2 Microservice</strong></td>
+<td>日志+指标+追踪</td>
+<td>657K日志文件, 45M指标文件</td>
+<td>https://arxiv.org/pdf/2504.12067</td>
+</tr>
+<tr>
+<td><strong>MultiLog</strong></td>
+<td>多变量日志</td>
+<td>分布式数据库集群</td>
+<td>https://github.com/AIOps-LogDB/MultiLog-Dataset</td>
+</tr>
+<tr>
+<td><strong>RCAEval</strong></td>
+<td>日志+指标+追踪</td>
+<td>735个故障案例</td>
+<td>https://zenodo.org/records/14504481</td>
+</tr>
+<tr>
+<td><strong>Train-Ticket</strong></td>
+<td>全栈数据</td>
+<td>微服务系统</td>
+<td>https://github.com/FudanSELab/train-ticket</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h4 id="_6">🔧 可生成测试数据的微服务系统</h4>
+<table>
+<thead>
+<tr>
+<th>系统</th>
+<th>服务数量</th>
+<th>特点</th>
+<th>GitHub</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Online Boutique</strong></td>
+<td>11个微服务</td>
+<td>Google官方示例，易部署</td>
+<td>https://github.com/GoogleCloudPlatform/microservices-demo</td>
+</tr>
+<tr>
+<td><strong>Sock Shop</strong></td>
+<td>13个微服务</td>
+<td>Weaveworks示例，社区活跃</td>
+<td>https://github.com/microservices-demo/microservices-demo</td>
+</tr>
+<tr>
+<td><strong>Train-Ticket</strong></td>
+<td>41个微服务</td>
+<td>复旦大学，功能完整</td>
+<td>https://github.com/FudanSELab/train-ticket</td>
+</tr>
+<tr>
+<td><strong>DeathStarBench</strong></td>
+<td>28个微服务</td>
+<td>学术标准，论文常用</td>
+<td>https://github.com/delimitrou/DeathStarBench</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="32">3.2 故障注入与测试环境</h3>
+<h4 id="chaos-mesh">Chaos Mesh（推荐）⭐⭐⭐⭐⭐</h4>
+<p><strong>简介</strong>: Kubernetes原生的混沌工程平台，可注入多种故障</p>
+<p><strong>支持的故障类型</strong>:
+- Pod故障（杀死、重启）
+- 网络故障（延迟、丢包、分区）
+- IO故障（延迟、错误）
+- CPU/内存压力
+- HTTP故障
+- DNS故障</p>
+<p><strong>快速安装</strong>:
+<div class="language-bash codehilite"><pre><span></span><code><span class="c1"># 安装Chaos Mesh</span>
+curl<span class="w"> </span>-sSL<span class="w"> </span>https://mirrors.chaos-mesh.org/v2.8.0/install.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>bash
+</code></pre></div></p>
+<p><strong>资源链接</strong>:
+- 官网: https://chaos-mesh.org
+- GitHub: https://github.com/chaos-mesh/chaos-mesh
+- 文档: https://chaos-mesh.org/docs/</p>
+<hr />
+<h4 id="chaosstarbench">ChaosStarBench ⭐⭐⭐⭐</h4>
+<p><strong>简介</strong>: 基于DeathStarBench的故障实验基准套件</p>
+<p><strong>特点</strong>:
+- 预配置的故障场景
+- 集成Chaos Mesh
+- 支持多种微服务应用</p>
+<p><strong>资源链接</strong>:
+- GitHub: https://github.com/gwinch97/ChaosStarBench</p>
+<hr />
+<h4 id="aiopsarena">AIOpsArena ⭐⭐⭐⭐⭐</h4>
+<p><strong>简介</strong>: 场景导向的AIOps评估平台</p>
+<p><strong>核心功能</strong>:
+- 自动数据采集（日志、追踪、指标）
+- 可定制故障注入
+- 在线算法部署
+- 算法排行榜对比</p>
+<p><strong>快速开始</strong>:
+<div class="language-bash codehilite"><pre><span></span><code><span class="c1"># 克隆仓库</span>
+git<span class="w"> </span>clone<span class="w"> </span>https://github.com/AIOpsArena/aiopsarena
+<span class="c1"># 按文档部署到Kubernetes</span>
+</code></pre></div></p>
+<p><strong>资源链接</strong>:
+- GitHub: https://github.com/AIOpsArena/aiopsarena
+- 论文: https://nkcs.iops.ai/wp-content/uploads/2025/01/AIOpsArena.pdf</p>
+<hr />
+<h3 id="33-rca">3.3 RCA专用基准测试</h3>
+<h4 id="rcaeval">RCAEval ⭐⭐⭐⭐⭐</h4>
+<p><strong>简介</strong>: ASE 2024/WWW 2025发布的开源RCA基准测试</p>
+<p><strong>数据规模</strong>:
+- 3个数据集（RE1, RE2, RE3）
+- 735个真实故障案例
+- 3个微服务系统：Online Boutique、Sock Shop、Train Ticket
+- 11种故障类型</p>
+<p><strong>使用方式</strong>:
+<div class="language-bash codehilite"><pre><span></span><code><span class="c1"># 安装</span>
+pip<span class="w"> </span>install<span class="w"> </span>RCAEval
+<span class="c1"># 运行基准测试</span>
+python<span class="w"> </span>-m<span class="w"> </span>RCAEval<span class="w"> </span>--config<span class="w"> </span>your_config.yaml
+</code></pre></div></p>
+<p><strong>资源链接</strong>:
+- GitHub: https://github.com/phamquiluan/RCAEval
+- 论文: https://arxiv.org/html/2412.17015v5
+- 数据下载: https://zenodo.org/records/14504481</p>
+<hr />
+<h4 id="netmanaiops">NetManAIOps 数据集 ⭐⭐⭐⭐⭐</h4>
+<p><strong>简介</strong>: 清华大学NetMan实验室的AIOps数据集合集</p>
+<p><strong>包含数据集</strong>:
+- AIOps-Challenge-2020-Data（挑战赛数据）
+- LatentScope（有限可观测性RCA）
+- OpsEval-Datasets（多模态故障数据）
+- Donut-Data（KPI异常检测）
+- Bagel-Data（时间序列异常）</p>
+<p><strong>资源链接</strong>:
+- GitHub组织: https://github.com/NetManAIOps
+- 论文: arXiv:2208.03938</p>
+<hr />
+<h3 id="34-aiops">3.4 开源AIOps工具（可用于开发测试）</h3>
+<table>
+<thead>
+<tr>
+<th>工具</th>
+<th>用途</th>
+<th>语言</th>
+<th>GitHub</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Loglizer</strong></td>
+<td>日志分析与异常检测</td>
+<td>Python</td>
+<td>https://github.com/logpai/loglizer</td>
+</tr>
+<tr>
+<td><strong>Log-Anomaly-Detector</strong></td>
+<td>无监督日志异常检测</td>
+<td>Python</td>
+<td>https://github.com/AICoE/log-anomaly-detector</td>
+</tr>
+<tr>
+<td><strong>WhyLogs</strong></td>
+<td>日志/指标自动画像</td>
+<td>Python</td>
+<td>https://github.com/whylabs/whylogs</td>
+</tr>
+<tr>
+<td><strong>Drain3</strong></td>
+<td>日志解析</td>
+<td>Python</td>
+<td>https://github.com/logpai/Drain3</td>
+</tr>
+<tr>
+<td><strong>DeepLog</strong></td>
+<td>深度学习日志异常检测</td>
+<td>Python</td>
+<td>https://github.com/wuyifan18/DeepLog</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="35">3.5 快速开始指南</h3>
+<h4 id="_7">📝 开发测试流程建议</h4>
+<p><strong>第一步：选择数据集</strong>
+<div class="language-text codehilite"><pre><span></span><code>初学者 → HDFS/BGL日志数据集（简单，标注清晰）
+进阶者 → RCAEval多模态数据集（完整，故障类型丰富）
+高级者 → 自建环境 + Chaos Mesh故障注入
+</code></pre></div></p>
+<p><strong>第二步：搭建测试环境</strong>
+<div class="language-text codehilite"><pre><span></span><code>本地开发 → Docker + 单服务测试
+集成测试 → Minikube + 微服务应用
+生产级测试 → Kubernetes集群 + AIOpsArena
+</code></pre></div></p>
+<p><strong>第三步：选择评测指标</strong>
+<div class="language-text codehilite"><pre><span></span><code>检测任务 → 检测时间(TTD)、准确率、召回率
+定位任务 → Acc@K、MRR、定位时间(TTL)
+RCA任务 → 根因准确率、步骤数、Token消耗
+</code></pre></div></p>
+<hr />
+<h2 id="agent">四、Agent开发框架</h2>
+<h3 id="41-agent">4.1 通用Agent框架</h3>
+<table>
+<thead>
+<tr>
+<th>框架</th>
+<th>特点</th>
+<th>链接</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>LangChain</strong></td>
+<td>上下文感知推理、知识检索</td>
+<td>https://python.langchain.com</td>
+</tr>
+<tr>
+<td><strong>AutoGen (Microsoft)</strong></td>
+<td>协作多智能体设计</td>
+<td>https://github.com/microsoft/autogen</td>
+</tr>
+<tr>
+<td><strong>CrewAI</strong></td>
+<td>结构化多智能体工作流</td>
+<td>https://github.com/joaomdmoura/crewAI</td>
+</tr>
+<tr>
+<td><strong>CAMEL</strong></td>
+<td>首个多智能体LLM框架</td>
+<td>https://github.com/camel-ai/camel</td>
+</tr>
+</tbody>
+</table>
+<h3 id="42">4.2 可观测性工具</h3>
+<table>
+<thead>
+<tr>
+<th>工具</th>
+<th>用途</th>
+<th>链接</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Prometheus</strong></td>
+<td>指标监控</td>
+<td>https://prometheus.io</td>
+</tr>
+<tr>
+<td><strong>Jaeger</strong></td>
+<td>分布式追踪</td>
+<td>https://www.jaegertracing.io</td>
+</tr>
+<tr>
+<td><strong>Chaos-Mesh</strong></td>
+<td>故障注入</td>
+<td>https://chaos-mesh.org</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="_8">五、资源合集与学习资料</h2>
+<h3 id="51-awesome">5.1 Awesome 列表</h3>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>描述</th>
+<th>链接</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>awesome-LLM-AIOps</strong></td>
+<td>LLM驱动的AIOps资源合集</td>
+<td>https://github.com/Jun-jie-Huang/awesome-LLM-AIOps</td>
+</tr>
+<tr>
+<td><strong>awesome-failure-diagnosis</strong></td>
+<td>故障诊断资源合集</td>
+<td>https://github.com/phamquiluan/awesome-failure-diagnosis</td>
+</tr>
+</tbody>
+</table>
+<h3 id="52">5.2 微软相关资源</h3>
+<table>
+<thead>
+<tr>
+<th>资源</th>
+<th>描述</th>
+<th>链接</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AIOpsLab教程</td>
+<td>ICML 2025教程</td>
+<td>https://microsoft.github.io/AIOpsLab/</td>
+</tr>
+<tr>
+<td>RCA Agent方案</td>
+<td>Copilot Studio集成指南</td>
+<td>https://adoption.microsoft.com/en-us/scenario-library/information-technology/root-cause-analysis-agent/</td>
+</tr>
+<tr>
+<td>Triangle System</td>
+<td>Azure AIOps优化</td>
+<td>https://azure.microsoft.com/en-us/blog/optimizing-incident-management-with-aiops-using-the-triangle-system/</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="_9">六、技术趋势分析</h2>
+<h3 id="61">6.1 多智能体协作趋势</h3>
+<ol>
+<li>
+<p><strong>去中心化决策机制</strong></p>
+<ul>
+<li>区块链启发的投票协议</li>
+<li>减少单点LLM故障</li>
+<li>缓解Agent幻觉</li>
+</ul>
+</li>
+<li>
+<p><strong>SOP与验证Agent</strong></p>
+<ul>
+<li>标准化推理步骤</li>
+<li>验证Agent检查假设</li>
+<li>减少错误传播</li>
+</ul>
+</li>
+<li>
+<p><strong>多模态多领域数据</strong></p>
+<ul>
+<li>日志 + 指标 + 追踪</li>
+<li>真实场景故障定位</li>
+</ul>
+</li>
+</ol>
+<h3 id="62">6.2 关键技术方向</h3>
+<table>
+<thead>
+<tr>
+<th>方向</th>
+<th>描述</th>
+<th>相关项目</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Agent协作架构</strong></td>
+<td>多专业Agent分工合作</td>
+<td>mABC, Flow-of-Action</td>
+</tr>
+<tr>
+<td><strong>RAG增强</strong></td>
+<td>检索增强减少幻觉</td>
+<td>AIOps Polaris, RCAgent</td>
+</tr>
+<tr>
+<td><strong>工具调用</strong></td>
+<td>LLM调用外部诊断工具</td>
+<td>TAMO, AIOpsLab</td>
+</tr>
+<tr>
+<td><strong>事后学习</strong></td>
+<td>从历史事件学习</td>
+<td>FLASH</td>
+</tr>
+<tr>
+<td><strong>图神经网络</strong></td>
+<td>服务依赖关系建模</td>
+<td>Chain-of-Event</td>
+</tr>
+</tbody>
+</table>
+<h3 id="63">6.3 现有方法局限性</h3>
+<ol>
+<li><strong>信息过载</strong>: Agent处理大量遥测数据时性能下降</li>
+<li><strong>幻觉问题</strong>: LLM误判系统状态</li>
+<li><strong>无效操作</strong>: Agent重复调用无效API，浪费步骤</li>
+<li><strong>反馈机制</strong>: 运维任务反馈模糊，难以迭代改进</li>
+</ol>
+<hr />
+<h2 id="_10">七、推荐学习路线</h2>
+<h3 id="71-1-2">7.1 入门阶段（1-2周）</h3>
+<ol>
+<li><strong>阅读AIOpsLab论文</strong> - 理解AIOps评估框架</li>
+<li><strong>了解四级任务体系</strong> - 检测→定位→RCA→缓解</li>
+<li><strong>复现简单Agent</strong> - 使用LangChain实现基础ReAct框架</li>
+</ol>
+<h3 id="72-3-4">7.2 进阶阶段（3-4周）</h3>
+<ol>
+<li><strong>深入mABC论文</strong> - 理解多智能体协作机制</li>
+<li><strong>学习FLASH架构</strong> - 掌握工作流自动化设计</li>
+<li><strong>实验RCAEval基准</strong> - 在标准数据集上测试算法</li>
+</ol>
+<h3 id="73-1-2">7.3 实践阶段（1-2月）</h3>
+<ol>
+<li><strong>搭建AIOpsLab环境</strong> - 部署微服务测试应用</li>
+<li><strong>设计多智能体方案</strong> - 结合项目需求定制</li>
+<li><strong>对比实验</strong> - 在多个数据集上验证效果</li>
+</ol>
+<h3 id="74">7.4 优化方向建议</h3>
+<p>针对你的根因定位和分析优化需求，推荐关注：</p>
+<ol>
+<li>
+<p><strong>Agent协作架构优化</strong></p>
+<ul>
+<li>参考mABC的投票机制</li>
+<li>引入验证Agent减少误判</li>
+</ul>
+</li>
+<li>
+<p><strong>RAG增强策略</strong></p>
+<ul>
+<li>结构化知识库检索</li>
+<li>领域约束生成</li>
+</ul>
+</li>
+<li>
+<p><strong>多模态数据融合</strong></p>
+<ul>
+<li>日志-指标-追踪联合分析</li>
+<li>服务依赖图建模</li>
+</ul>
+</li>
+<li>
+<p><strong>小模型蒸馏</strong></p>
+<ul>
+<li>大模型知识迁移到小模型</li>
+<li>降低推理成本</li>
+</ul>
+</li>
+</ol>
+<hr />
+<h2 id="_11">联系信息与贡献</h2>
+<p>如果你发现了其他优秀的AIOps多智能体项目或论文，欢迎补充！</p>
+<hr />
+<p><em>本文档由学习助手整理，供学术研究参考使用</em></p>
+<p><em>最后更新：2025年12月</em></p>
+      </div>
+      
+      <nav class="post__neighbors" aria-label="文章导航">
+        
+        <a class="post__neighbor post__neighbor--newer" href="/posts/AIOPS/AIOPSLAB项目学习/">
+          <span class="post__neighbor-label">
+            <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M19 11H9.414l2.293-2.293-1.414-1.414L6.586 12l3.707 3.707 1.414-1.414L9.414 13H19z" />
+            </svg>
+            <span>较新文章</span>
+          </span>
+          <span class="post__neighbor-title">AIOPSLAB 项目学习</span>
+        </a>
+        
+        
+        <a class="post__neighbor post__neighbor--older" href="/posts/AIOPSLAB论文_专业中文翻译/">
+          <span class="post__neighbor-label">
+            <span>较旧文章</span>
+            <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M5 12a1 1 0 0 1 1-1h9.586l-2.293-2.293 1.414-1.414L19.414 12l-4.707 4.707-1.414-1.414L15.586 13H6a1 1 0 0 1-1-1z" />
+            </svg>
+          </span>
+          <span class="post__neighbor-title">AIOpsLab：用于评估AI代理实现自主云的整体框架</span>
+        </a>
+        
+      </nav>
+      
+      
+    </div>
+    <aside class="post-toc" id="post-toc" hidden>
+      <div class="post-toc__header">
+        <span class="post-toc__title">
+          <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M5 6h14v2H5zm0 5h14v2H5zm0 5h9v2H5z" />
+          </svg>
+          <span>目录</span>
+        </span>
+        <button type="button" class="post-toc__toggle" data-toc-toggle aria-expanded="true">
+          折叠
+          <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M12 9l4 4H8z" />
+          </svg>
+        </button>
+      </div>
+      <nav class="post-toc__body" data-toc-body aria-label="本文目录"></nav>
+    </aside>
+  </div>
+  <footer class="post__footer">
+    <a class="button button--ghost" href="/">
+      <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+        <path d="M10.414 12l4.293-4.293-1.414-1.414L7.586 12l5.707 5.707 1.414-1.414L10.414 12H20v-2z" />
+      </svg>
+      <span>返回首页</span>
+    </a>
+    <a class="button button--ghost" href="/archive/">
+      <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+        <path d="M5 4a2 2 0 0 0-2 2v13h2v-3h14v3h2V6a2 2 0 0 0-2-2zm0 2h14v6H5zm3 10a1 1 0 1 0 0 2h8a1 1 0 0 0 0-2z" />
+      </svg>
+      <span>查看归档</span>
+    </a>
+  </footer>
+</article>
+
+      </div>
+    </main>
+    <footer class="site-footer" role="contentinfo">
+      <div class="container site-footer__inner">
+        <div>
+          <p class="site-footer__title">何宸禹的博客</p>
+          
+          <p class="site-footer__description">由 AutoBlog 驱动的学习与创作记录。</p>
+          
+        </div>
+        <div class="site-footer__meta">
+          <span>© 2025 何宸禹</span>
+          <a class="site-footer__link" href="/autoblog/">了解 AutoBlog 引擎</a>
+          <div class="site-footer__counts" id="site-visit-stats" aria-live="polite">
+            <span id="busuanzi_container_site_uv" class="site-footer__count-item">
+              访问人数 <span id="busuanzi_value_site_uv">--</span>
+            </span>
+            <span id="busuanzi_container_site_pv" class="site-footer__count-item">
+              浏览次数 <span id="busuanzi_value_site_pv">--</span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+  <button class="back-to-top" type="button" data-back-to-top aria-label="返回顶部">
+    <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+      <path d="M12 5.586l5.707 5.707-1.414 1.414L13 9.414V19h-2V9.414l-3.293 3.293-1.414-1.414z" />
+    </svg>
+  </button>
+  <div class="lightbox" id="image-lightbox" aria-hidden="true" role="dialog" aria-modal="true" tabindex="-1">
+    <button type="button" class="lightbox__close" data-lightbox-close aria-label="关闭">
+      <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+        <path d="M6.343 5.343l12.02 12.02-1.414 1.414-12.02-12.02z" />
+        <path d="M17.657 5.343l1.414 1.414-12.02 12.02-1.414-1.414z" />
+      </svg>
+    </button>
+    <img class="lightbox__image" src="" alt="" />
+    <p class="lightbox__caption"></p>
+  </div>
+  <script src="/app.js" defer></script>
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" data-busuanzi></script>
+</body>
+</html>

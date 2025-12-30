@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>深入理解C语言中的赋值与递增运算符 | 何宸禹的博客</title>
+  <meta name="description" content="本文深入解析C语言中赋值与递增运算符的核心概念，帮助读者区分表达式值与副作用，掌握后置递增与前置递增在赋值操作中的不同执行顺序。通过指针应用实例和实际编程建议，读者能够准确预测代码行为，避免常见错误，提升代码可读性与可靠性。" />
+  <meta name="author" content="何宸禹" />
+  
+  <link rel="canonical" href="https://chenyuheee.github.io/posts/深入理解C语言中的赋值与递增运算符/" />
+  <meta property="og:url" content="https://chenyuheee.github.io/posts/深入理解C语言中的赋值与递增运算符/" />
+  
+  <meta property="og:title" content="深入理解C语言中的赋值与递增运算符 | 何宸禹的博客" />
+  <meta property="og:description" content="本文深入解析C语言中赋值与递增运算符的核心概念，帮助读者区分表达式值与副作用，掌握后置递增与前置递增在赋值操作中的不同执行顺序。通过指针应用实例和实际编程建议，读者能够准确预测代码行为，避免常见错误，提升代码可读性与可靠性。" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary" />
+  <link rel="stylesheet" href="/style.css" />
+  
+  <link rel="alternate" type="application/rss+xml" title="何宸禹的博客 RSS" href="/feed.xml" />
+  
+</head>
+<body>
+  <div class="site-shell">
+    <div class="reading-progress" id="reading-progress" role="presentation" aria-hidden="true"></div>
+    
+    <div
+      class="site-audio"
+      data-audio-player
+      data-autoplay="false"
+      data-start-muted="false"
+      data-volume-expanded="false"
+    >
+      <div class="site-audio__cover" style="background-image: url('/media/cover.jpg');">
+        
+        <button class="site-audio__cover-toggle" type="button" data-audio-toggle aria-label="播放或暂停背景音乐" data-audio-no-drag>
+          <span class="site-audio__cover-blur" aria-hidden="true"></span>
+          <svg class="site-audio__icon site-audio__icon--play" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M8 5.5v13l10-6.5z" />
+          </svg>
+          <svg class="site-audio__icon site-audio__icon--pause" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M8 5.5h3v13H8zm5 0h3v13h-3z" />
+          </svg>
+        </button>
+      </div>
+      <div class="site-audio__meta">
+        <div class="site-audio__title-row">
+          <span class="site-audio__title">日落</span>
+          <span class="site-audio__time" data-audio-time>00:00</span>
+        </div>
+        
+        <span class="site-audio__artist">孙燕姿</span>
+        
+        <div
+          class="site-audio__progress"
+          data-audio-progress-track
+          role="progressbar"
+          aria-valuemin="0"
+          aria-valuemax="100"
+          aria-valuenow="0"
+          data-audio-no-drag
+        >
+          <div class="site-audio__progress-bar" data-audio-progress></div>
+        </div>
+      </div>
+      <div class="site-audio__controls">
+        <div class="site-audio__volume-shell" data-audio-no-drag>
+          <button class="site-audio__control site-audio__control--mute" type="button" data-audio-mute aria-label="切换静音" data-audio-no-drag>
+            <svg class="site-audio__icon site-audio__icon--volume" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M5 10h2.586L12 5.586V18.5L7.586 14H5z" />
+              <path d="M15.5 8.5a4 4 0 0 1 0 6" />
+              <path d="M17.5 6.5a6 6 0 0 1 0 10" />
+            </svg>
+            <svg class="site-audio__icon site-audio__icon--muted" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M5 10h2.586L12 5.586V18.5L7.586 14H5z" />
+              <path d="M15 9l6 6" />
+              <path d="M21 9l-6 6" />
+            </svg>
+          </button>
+          <div class="site-audio__volume" data-audio-volume aria-hidden="true">
+            <input
+              class="site-audio__volume-slider"
+              type="range"
+              min="0"
+              max="100"
+              value="100"
+              step="1"
+              data-audio-volume-slider
+              tabindex="-1"
+              aria-label="调节音量"
+              data-audio-no-drag
+            />
+          </div>
+        </div>
+      </div>
+      <audio
+        data-audio-element
+        loop
+        preload="auto"
+        src="/media/日落.mp3"
+      ></audio>
+    </div>
+    
+    <header class="site-header" role="banner">
+      <div class="container site-header__inner">
+        <div class="brand">
+          <a class="brand__title" href="/">何宸禹的博客</a>
+          
+          <p class="brand__description">由 AutoBlog 驱动的学习与创作记录。</p>
+          
+        </div>
+        
+        <nav class="site-nav" aria-label="主导航">
+          
+          <a class="site-nav__link" href="/">首页</a>
+          
+          <a class="site-nav__link" href="/archive/">归档</a>
+          
+          <a class="site-nav__link" href="/tags/">标签</a>
+          
+          <a class="site-nav__link" href="/about/">About</a>
+          
+        </nav>
+        
+        <div class="site-header__actions">
+          <button class="theme-toggle" type="button" data-theme-toggle data-theme-state="light" aria-pressed="false" aria-label="切换到夜间模式">
+            <span class="theme-toggle__icon theme-toggle__icon--sun" aria-hidden="true">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 5a1 1 0 0 1-1-1V3a1 1 0 1 1 2 0v1a1 1 0 0 1-1 1zm0 16a1 1 0 0 1-1-1v-1a1 1 0 0 1 2 0v1a1 1 0 0 1-1 1zm9-9a1 1 0 0 1-1 1h-1a1 1 0 1 1 0-2h1a1 1 0 0 1 1 1zm-16 0a1 1 0 0 1-1 1H3a1 1 0 1 1 0-2h1a1 1 0 0 1 1 1zm12.95-6.364a1 1 0 0 1 0 1.414l-.707.707a1 1 0 0 1-1.414-1.414l.707-.707a1 1 0 0 1 1.414 0zm-11.314 11.314a1 1 0 0 1 0 1.414l-.707.707a1 1 0 0 1-1.414-1.414l.707-.707a1 1 0 0 1 1.414 0zm11.314 1.414a1 1 0 0 1-1.414 0l-.707-.707a1 1 0 0 1 1.414-1.414l.707.707a1 1 0 0 1 0 1.414zm-11.314-11.314a1 1 0 0 1-1.414 0l-.707-.707A1 1 0 1 1 5.914 4.95l.707.707a1 1 0 0 1 0 1.414zM12 8a4 4 0 1 1 0 8 4 4 0 0 1 0-8z" />
+              </svg>
+            </span>
+            <span class="theme-toggle__icon theme-toggle__icon--moon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M20.742 14.045a1 1 0 0 0-1.077-.217 7 7 0 0 1-9.493-7.92 1 1 0 0 0-1.149-1.2A9 9 0 1 0 21 15a1 1 0 0 0-.258-.955z" />
+              </svg>
+            </span>
+            <span class="sr-only">切换主题</span>
+          </button>
+          <a class="site-header__search" href="/search/">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M10.5 4a6.5 6.5 0 0 1 5.196 10.49l3.907 3.907-1.414 1.414-3.907-3.907A6.5 6.5 0 1 1 10.5 4zm0 2a4.5 4.5 0 1 0 0 9 4.5 4.5 0 0 0 0-9z" />
+            </svg>
+            <span>站内搜索</span>
+          </a>
+        </div>
+      </div>
+    </header>
+    <main class="main-content">
+      <div class="container">
+        
+<article class="post">
+  <header class="post__header">
+    <p class="post__eyebrow">
+      <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+        <path d="M7 3a1 1 0 0 1 2 0v1h6V3a1 1 0 0 1 2 0v1h1.5A2.5 2.5 0 0 1 21 6.5v12A2.5 2.5 0 0 1 18.5 21h-13A2.5 2.5 0 0 1 3 18.5v-12A2.5 2.5 0 0 1 5.5 4H7zm11.5 4h-13A.5.5 0 0 0 5 7.5V10h14V7.5a.5.5 0 0 0-.5-.5zm.5 10.5v-7H5v7a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5z" />
+      </svg>
+      <span>发表于 2025年12月04日</span>
+    </p>
+    <h1 class="post__title">深入理解C语言中的赋值与递增运算符</h1>
+    <div class="post__meta">
+      <div class="post__meta-item">
+        <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+          <path d="M12 3.5a8.5 8.5 0 1 0 8.5 8.5A8.5 8.5 0 0 0 12 3.5zm0 2a6.5 6.5 0 1 1-6.5 6.5A6.5 6.5 0 0 1 12 5.5zm-.75 3a1 1 0 0 1 2 0v3.382l2.268 1.307a1 1 0 1 1-1 1.732l-2.768-1.594A1 1 0 0 1 11.25 12z" />
+        </svg>
+        <span>约 2 分钟阅读</span>
+      </div>
+      
+      <div class="post__meta-item post__meta-item--tags">
+        <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+          <path d="M4 4h7.172a3 3 0 0 1 2.121.879l6.828 6.828a3 3 0 0 1 0 4.242l-3.172 3.172a3 3 0 0 1-4.242 0L5.121 12.95A3 3 0 0 1 4.242 10.83L4 10.586V6a2 2 0 0 1 2-2zm3 2a1.5 1.5 0 1 0 1.5 1.5A1.5 1.5 0 0 0 7 6z" />
+        </svg>
+        <ul class="tag-list tag-list--inline">
+          
+          <li><a href="/tags/c/">c</a></li>
+          
+        </ul>
+      </div>
+      
+    </div>
+  </header>
+  <div class="post__layout">
+    <div class="post__main">
+      <div class="post-content">
+        <h1 id="c">深入理解C语言中的赋值与递增运算符</h1>
+<p>在C语言编程中，赋值运算符(<code>=</code>)和递增运算符(<code>++</code>)的结合使用经常让初学者感到困惑。本文将深入解析这两者之间的关系，帮助你彻底理解这一重要概念。</p>
+<h2 id="_1">核心概念：表达式值与副作用</h2>
+<p>理解赋值和递增关系的关键在于区分<strong>表达式的值</strong>和<strong>副作用</strong>：</p>
+<ul>
+<li><strong>表达式的值</strong>：表达式计算结果是什么</li>
+<li><strong>副作用</strong>：表达式执行时改变了什么状态（如变量的值）</li>
+</ul>
+<h2 id="p">后置递增(<code>p++</code>)与赋值</h2>
+<div class="language-c codehilite"><pre><span></span><code><span class="kt">int</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="o">++</span><span class="p">;</span>
+</code></pre></div>
+<p><strong>执行过程分析：</strong></p>
+<ol>
+<li><strong>表达式的值</strong>：<code>a++</code>这个表达式的值是<code>a</code>的<strong>原始值</strong><code>5</code></li>
+<li><strong>副作用</strong>：表达式执行完毕后，<code>a</code>的值增加<code>1</code>，变成<code>6</code></li>
+<li><strong>赋值</strong>：将表达式的值<code>5</code>赋给<code>b</code></li>
+</ol>
+<p><strong>结果：</strong> <code>b = 5</code>, <code>a = 6</code></p>
+<p><strong>记忆技巧：</strong> <code>a++</code> - <strong>先用后加</strong>
+- <strong>用</strong>的是原始值（作为表达式值）
+- <strong>加</strong>的是变量本身（副作用）</p>
+<h2 id="p_1">前置递增(<code>++p</code>)与赋值</h2>
+<div class="language-c codehilite"><pre><span></span><code><span class="kt">int</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">++</span><span class="n">a</span><span class="p">;</span>
+</code></pre></div>
+<p><strong>执行过程分析：</strong></p>
+<ol>
+<li><strong>副作用</strong>：先执行<code>a</code>增加<code>1</code>，<code>a</code>变成<code>6</code></li>
+<li><strong>表达式的值</strong>：<code>++a</code>这个表达式的值是<code>a</code>的<strong>新值</strong><code>6</code></li>
+<li><strong>赋值</strong>：将表达式的值<code>6</code>赋给<code>b</code></li>
+</ol>
+<p><strong>结果：</strong> <code>b = 6</code>, <code>a = 6</code></p>
+<p><strong>记忆技巧：</strong> <code>++a</code> - <strong>先加后用</strong>
+- <strong>加</strong>的是变量本身（副作用）
+- <strong>用</strong>的是新值（作为表达式值）</p>
+<h2 id="_2">在指针中的应用</h2>
+<p>理解这一概念对于指针操作尤为重要：</p>
+<h3 id="1">情况1：移动指针</h3>
+<div class="language-c codehilite"><pre><span></span><code><span class="kt">int</span><span class="w"> </span><span class="n">arr</span><span class="p">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">20</span><span class="p">};</span>
+<span class="kt">int</span><span class="w"> </span><span class="o">*</span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">arr</span><span class="p">;</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">*</span><span class="n">p</span><span class="o">++</span><span class="p">;</span>
+</code></pre></div>
+<p><strong>分解执行：</strong></p>
+<ol>
+<li><code>p++</code>表达式的值：<code>p</code>的原始值（指向<code>arr[0]</code>）</li>
+<li><code>*p++</code> = <code>*(p的原始值)</code> = <code>arr[0]</code> = <code>10</code></li>
+<li><strong>赋值</strong>：<code>x = 10</code></li>
+<li><strong>副作用</strong>：<code>p</code>移动到<code>arr[1]</code></li>
+</ol>
+<h3 id="2">情况2：增加指针所指的值</h3>
+<div class="language-c codehilite"><pre><span></span><code><span class="kt">int</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">p</span><span class="p">)</span><span class="o">++</span><span class="p">;</span>
+</code></pre></div>
+<p><strong>分解执行：</strong></p>
+<ol>
+<li><code>(*p)</code>表达式的值：<code>arr[0]</code>的值<code>10</code></li>
+<li><code>(*p)++</code>表达式的值：<code>arr[0]</code>的原始值<code>10</code></li>
+<li><strong>赋值</strong>：<code>y = 10</code></li>
+<li><strong>副作用</strong>：<code>arr[0]</code>的值从<code>10</code>增加到<code>11</code></li>
+</ol>
+<h2 id="_3">总结表格</h2>
+<table>
+<thead>
+<tr>
+<th>表达式</th>
+<th>表达式的值</th>
+<th>副作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>a++</code></td>
+<td><code>a</code>的原始值</td>
+<td><code>a</code>增加1</td>
+</tr>
+<tr>
+<td><code>++a</code></td>
+<td><code>a</code>的新值</td>
+<td><code>a</code>增加1</td>
+</tr>
+<tr>
+<td><code>b = a++</code></td>
+<td><code>a</code>的原始值</td>
+<td>① <code>b</code>被赋值<br>② <code>a</code>增加1</td>
+</tr>
+<tr>
+<td><code>b = ++a</code></td>
+<td><code>a</code>的新值</td>
+<td>① <code>a</code>增加1<br>② <code>b</code>被赋值</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_4">关键要点</h2>
+<ol>
+<li><strong>赋值(<code>=</code>)</strong> 使用的是<strong>表达式的值</strong></li>
+<li><strong>变量的变化</strong>是<strong>副作用</strong></li>
+<li>两者在时间上是分开的：<ul>
+<li>对于后置递增：先使用原始值赋值，再修改变量</li>
+<li>对于前置递增：先修改变量，再使用新值赋值</li>
+</ul>
+</li>
+</ol>
+<h2 id="_5">实际编程建议</h2>
+<p>在复杂表达式中，为了代码清晰可读，建议：</p>
+<ol>
+<li><strong>使用括号</strong>明确优先级</li>
+<li><strong>拆分复杂表达式</strong>为多行</li>
+<li><strong>避免在同一个表达式中</strong>混合多个有副作用的操作</li>
+</ol>
+<div class="language-c codehilite"><pre><span></span><code><span class="c1">// 不推荐 - 难以理解</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">*</span><span class="n">p</span><span class="o">++</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">q</span><span class="p">)</span><span class="o">++</span><span class="p">;</span>
+
+<span class="c1">// 推荐 - 清晰明了</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">val1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">*</span><span class="n">p</span><span class="p">;</span>
+<span class="n">p</span><span class="o">++</span><span class="p">;</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">val2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">*</span><span class="n">q</span><span class="p">;</span>
+<span class="p">(</span><span class="o">*</span><span class="n">q</span><span class="p">)</span><span class="o">++</span><span class="p">;</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">val1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">val2</span><span class="p">;</span>
+</code></pre></div>
+<p>通过深入理解赋值与递增的关系，你将能够更准确地预测代码行为，编写出更可靠的C语言程序。</p>
+      </div>
+      
+      <nav class="post__neighbors" aria-label="文章导航">
+        
+        <a class="post__neighbor post__neighbor--newer" href="/posts/技术知识点/">
+          <span class="post__neighbor-label">
+            <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M19 11H9.414l2.293-2.293-1.414-1.414L6.586 12l3.707 3.707 1.414-1.414L9.414 13H19z" />
+            </svg>
+            <span>较新文章</span>
+          </span>
+          <span class="post__neighbor-title">技术知识点</span>
+        </a>
+        
+        
+        <a class="post__neighbor post__neighbor--older" href="/posts/积分小结/">
+          <span class="post__neighbor-label">
+            <span>较旧文章</span>
+            <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M5 12a1 1 0 0 1 1-1h9.586l-2.293-2.293 1.414-1.414L19.414 12l-4.707 4.707-1.414-1.414L15.586 13H6a1 1 0 0 1-1-1z" />
+            </svg>
+          </span>
+          <span class="post__neighbor-title">积分小结</span>
+        </a>
+        
+      </nav>
+      
+      
+      <section class="post__related" aria-label="相关文章">
+        <h2 class="post__related-title">延伸阅读</h2>
+        <ul class="post__related-list">
+          
+          <li class="post__related-item">
+            <a href="/posts/C语言字符串基础知识/">
+              c语言中字符串的基础知识
+              <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+                <path d="M5 12a1 1 0 0 1 1-1h9.586l-2.293-2.293 1.414-1.414L19.414 12l-4.707 4.707-1.414-1.414L15.586 13H6a1 1 0 0 1-1-1z" />
+              </svg>
+            </a>
+            <span class="post__related-meta">2025年12月04日 · 约 1 分钟阅读</span>
+          </li>
+          
+          <li class="post__related-item">
+            <a href="/posts/排序算法学习/">
+              排序算法学习
+              <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+                <path d="M5 12a1 1 0 0 1 1-1h9.586l-2.293-2.293 1.414-1.414L19.414 12l-4.707 4.707-1.414-1.414L15.586 13H6a1 1 0 0 1-1-1z" />
+              </svg>
+            </a>
+            <span class="post__related-meta">2025年11月06日 · 约 3 分钟阅读</span>
+          </li>
+          
+        </ul>
+      </section>
+      
+    </div>
+    <aside class="post-toc" id="post-toc" hidden>
+      <div class="post-toc__header">
+        <span class="post-toc__title">
+          <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M5 6h14v2H5zm0 5h14v2H5zm0 5h9v2H5z" />
+          </svg>
+          <span>目录</span>
+        </span>
+        <button type="button" class="post-toc__toggle" data-toc-toggle aria-expanded="true">
+          折叠
+          <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M12 9l4 4H8z" />
+          </svg>
+        </button>
+      </div>
+      <nav class="post-toc__body" data-toc-body aria-label="本文目录"></nav>
+    </aside>
+  </div>
+  <footer class="post__footer">
+    <a class="button button--ghost" href="/">
+      <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+        <path d="M10.414 12l4.293-4.293-1.414-1.414L7.586 12l5.707 5.707 1.414-1.414L10.414 12H20v-2z" />
+      </svg>
+      <span>返回首页</span>
+    </a>
+    <a class="button button--ghost" href="/archive/">
+      <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+        <path d="M5 4a2 2 0 0 0-2 2v13h2v-3h14v3h2V6a2 2 0 0 0-2-2zm0 2h14v6H5zm3 10a1 1 0 1 0 0 2h8a1 1 0 0 0 0-2z" />
+      </svg>
+      <span>查看归档</span>
+    </a>
+  </footer>
+</article>
+
+      </div>
+    </main>
+    <footer class="site-footer" role="contentinfo">
+      <div class="container site-footer__inner">
+        <div>
+          <p class="site-footer__title">何宸禹的博客</p>
+          
+          <p class="site-footer__description">由 AutoBlog 驱动的学习与创作记录。</p>
+          
+        </div>
+        <div class="site-footer__meta">
+          <span>© 2025 何宸禹</span>
+          <a class="site-footer__link" href="/autoblog/">了解 AutoBlog 引擎</a>
+          <div class="site-footer__counts" id="site-visit-stats" aria-live="polite">
+            <span id="busuanzi_container_site_uv" class="site-footer__count-item">
+              访问人数 <span id="busuanzi_value_site_uv">--</span>
+            </span>
+            <span id="busuanzi_container_site_pv" class="site-footer__count-item">
+              浏览次数 <span id="busuanzi_value_site_pv">--</span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+  <button class="back-to-top" type="button" data-back-to-top aria-label="返回顶部">
+    <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+      <path d="M12 5.586l5.707 5.707-1.414 1.414L13 9.414V19h-2V9.414l-3.293 3.293-1.414-1.414z" />
+    </svg>
+  </button>
+  <div class="lightbox" id="image-lightbox" aria-hidden="true" role="dialog" aria-modal="true" tabindex="-1">
+    <button type="button" class="lightbox__close" data-lightbox-close aria-label="关闭">
+      <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+        <path d="M6.343 5.343l12.02 12.02-1.414 1.414-12.02-12.02z" />
+        <path d="M17.657 5.343l1.414 1.414-12.02 12.02-1.414-1.414z" />
+      </svg>
+    </button>
+    <img class="lightbox__image" src="" alt="" />
+    <p class="lightbox__caption"></p>
+  </div>
+  <script src="/app.js" defer></script>
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" data-busuanzi></script>
+</body>
+</html>

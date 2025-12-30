@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AIOps的Python实战学习 | 何宸禹的博客</title>
+  <meta name="description" content="根据实际项目对python知识补漏的学习笔记" />
+  <meta name="author" content="何宸禹" />
+  
+  <link rel="canonical" href="https://chenyuheee.github.io/posts/AIOps-pyhton/" />
+  <meta property="og:url" content="https://chenyuheee.github.io/posts/AIOps-pyhton/" />
+  
+  <meta property="og:title" content="AIOps的Python实战学习 | 何宸禹的博客" />
+  <meta property="og:description" content="根据实际项目对python知识补漏的学习笔记" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary" />
+  <link rel="stylesheet" href="/style.css" />
+  
+  <link rel="alternate" type="application/rss+xml" title="何宸禹的博客 RSS" href="/feed.xml" />
+  
+</head>
+<body>
+  <div class="site-shell">
+    <div class="reading-progress" id="reading-progress" role="presentation" aria-hidden="true"></div>
+    
+    <div
+      class="site-audio"
+      data-audio-player
+      data-autoplay="false"
+      data-start-muted="false"
+      data-volume-expanded="false"
+    >
+      <div class="site-audio__cover" style="background-image: url('/media/cover.jpg');">
+        
+        <button class="site-audio__cover-toggle" type="button" data-audio-toggle aria-label="播放或暂停背景音乐" data-audio-no-drag>
+          <span class="site-audio__cover-blur" aria-hidden="true"></span>
+          <svg class="site-audio__icon site-audio__icon--play" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M8 5.5v13l10-6.5z" />
+          </svg>
+          <svg class="site-audio__icon site-audio__icon--pause" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M8 5.5h3v13H8zm5 0h3v13h-3z" />
+          </svg>
+        </button>
+      </div>
+      <div class="site-audio__meta">
+        <div class="site-audio__title-row">
+          <span class="site-audio__title">日落</span>
+          <span class="site-audio__time" data-audio-time>00:00</span>
+        </div>
+        
+        <span class="site-audio__artist">孙燕姿</span>
+        
+        <div
+          class="site-audio__progress"
+          data-audio-progress-track
+          role="progressbar"
+          aria-valuemin="0"
+          aria-valuemax="100"
+          aria-valuenow="0"
+          data-audio-no-drag
+        >
+          <div class="site-audio__progress-bar" data-audio-progress></div>
+        </div>
+      </div>
+      <div class="site-audio__controls">
+        <div class="site-audio__volume-shell" data-audio-no-drag>
+          <button class="site-audio__control site-audio__control--mute" type="button" data-audio-mute aria-label="切换静音" data-audio-no-drag>
+            <svg class="site-audio__icon site-audio__icon--volume" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M5 10h2.586L12 5.586V18.5L7.586 14H5z" />
+              <path d="M15.5 8.5a4 4 0 0 1 0 6" />
+              <path d="M17.5 6.5a6 6 0 0 1 0 10" />
+            </svg>
+            <svg class="site-audio__icon site-audio__icon--muted" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M5 10h2.586L12 5.586V18.5L7.586 14H5z" />
+              <path d="M15 9l6 6" />
+              <path d="M21 9l-6 6" />
+            </svg>
+          </button>
+          <div class="site-audio__volume" data-audio-volume aria-hidden="true">
+            <input
+              class="site-audio__volume-slider"
+              type="range"
+              min="0"
+              max="100"
+              value="100"
+              step="1"
+              data-audio-volume-slider
+              tabindex="-1"
+              aria-label="调节音量"
+              data-audio-no-drag
+            />
+          </div>
+        </div>
+      </div>
+      <audio
+        data-audio-element
+        loop
+        preload="auto"
+        src="/media/日落.mp3"
+      ></audio>
+    </div>
+    
+    <header class="site-header" role="banner">
+      <div class="container site-header__inner">
+        <div class="brand">
+          <a class="brand__title" href="/">何宸禹的博客</a>
+          
+          <p class="brand__description">由 AutoBlog 驱动的学习与创作记录。</p>
+          
+        </div>
+        
+        <nav class="site-nav" aria-label="主导航">
+          
+          <a class="site-nav__link" href="/">首页</a>
+          
+          <a class="site-nav__link" href="/archive/">归档</a>
+          
+          <a class="site-nav__link" href="/tags/">标签</a>
+          
+          <a class="site-nav__link" href="/about/">About</a>
+          
+        </nav>
+        
+        <div class="site-header__actions">
+          <button class="theme-toggle" type="button" data-theme-toggle data-theme-state="light" aria-pressed="false" aria-label="切换到夜间模式">
+            <span class="theme-toggle__icon theme-toggle__icon--sun" aria-hidden="true">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 5a1 1 0 0 1-1-1V3a1 1 0 1 1 2 0v1a1 1 0 0 1-1 1zm0 16a1 1 0 0 1-1-1v-1a1 1 0 0 1 2 0v1a1 1 0 0 1-1 1zm9-9a1 1 0 0 1-1 1h-1a1 1 0 1 1 0-2h1a1 1 0 0 1 1 1zm-16 0a1 1 0 0 1-1 1H3a1 1 0 1 1 0-2h1a1 1 0 0 1 1 1zm12.95-6.364a1 1 0 0 1 0 1.414l-.707.707a1 1 0 0 1-1.414-1.414l.707-.707a1 1 0 0 1 1.414 0zm-11.314 11.314a1 1 0 0 1 0 1.414l-.707.707a1 1 0 0 1-1.414-1.414l.707-.707a1 1 0 0 1 1.414 0zm11.314 1.414a1 1 0 0 1-1.414 0l-.707-.707a1 1 0 0 1 1.414-1.414l.707.707a1 1 0 0 1 0 1.414zm-11.314-11.314a1 1 0 0 1-1.414 0l-.707-.707A1 1 0 1 1 5.914 4.95l.707.707a1 1 0 0 1 0 1.414zM12 8a4 4 0 1 1 0 8 4 4 0 0 1 0-8z" />
+              </svg>
+            </span>
+            <span class="theme-toggle__icon theme-toggle__icon--moon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M20.742 14.045a1 1 0 0 0-1.077-.217 7 7 0 0 1-9.493-7.92 1 1 0 0 0-1.149-1.2A9 9 0 1 0 21 15a1 1 0 0 0-.258-.955z" />
+              </svg>
+            </span>
+            <span class="sr-only">切换主题</span>
+          </button>
+          <a class="site-header__search" href="/search/">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M10.5 4a6.5 6.5 0 0 1 5.196 10.49l3.907 3.907-1.414 1.414-3.907-3.907A6.5 6.5 0 1 1 10.5 4zm0 2a4.5 4.5 0 1 0 0 9 4.5 4.5 0 0 0 0-9z" />
+            </svg>
+            <span>站内搜索</span>
+          </a>
+        </div>
+      </div>
+    </header>
+    <main class="main-content">
+      <div class="container">
+        
+<article class="post">
+  <header class="post__header">
+    <p class="post__eyebrow">
+      <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+        <path d="M7 3a1 1 0 0 1 2 0v1h6V3a1 1 0 0 1 2 0v1h1.5A2.5 2.5 0 0 1 21 6.5v12A2.5 2.5 0 0 1 18.5 21h-13A2.5 2.5 0 0 1 3 18.5v-12A2.5 2.5 0 0 1 5.5 4H7zm11.5 4h-13A.5.5 0 0 0 5 7.5V10h14V7.5a.5.5 0 0 0-.5-.5zm.5 10.5v-7H5v7a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5z" />
+      </svg>
+      <span>发表于 2025年11月25日</span>
+    </p>
+    <h1 class="post__title">AIOps的Python实战学习</h1>
+    <div class="post__meta">
+      <div class="post__meta-item">
+        <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+          <path d="M12 3.5a8.5 8.5 0 1 0 8.5 8.5A8.5 8.5 0 0 0 12 3.5zm0 2a6.5 6.5 0 1 1-6.5 6.5A6.5 6.5 0 0 1 12 5.5zm-.75 3a1 1 0 0 1 2 0v3.382l2.268 1.307a1 1 0 1 1-1 1.732l-2.768-1.594A1 1 0 0 1 11.25 12z" />
+        </svg>
+        <span>约 4 分钟阅读</span>
+      </div>
+      
+      <div class="post__meta-item post__meta-item--tags">
+        <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+          <path d="M4 4h7.172a3 3 0 0 1 2.121.879l6.828 6.828a3 3 0 0 1 0 4.242l-3.172 3.172a3 3 0 0 1-4.242 0L5.121 12.95A3 3 0 0 1 4.242 10.83L4 10.586V6a2 2 0 0 1 2-2zm3 2a1.5 1.5 0 1 0 1.5 1.5A1.5 1.5 0 0 0 7 6z" />
+        </svg>
+        <ul class="tag-list tag-list--inline">
+          
+          <li><a href="/tags/python/">Python</a></li>
+          
+          <li><a href="/tags/学习/">学习</a></li>
+          
+        </ul>
+      </div>
+      
+    </div>
+  </header>
+  <div class="post__layout">
+    <div class="post__main">
+      <div class="post-content">
+        <h1 id="aiops-python">AIOps Python实战学习</h1>
+<h2 id="mainpy">main.py</h2>
+<ol>
+<li>导入 &amp; 项目根目录</li>
+</ol>
+<p><code>pandas</code>用来读csv；</p>
+<p><code>OrderedDict</code>（来自 typing，不过更常用的是 <code>collections.OrderedDict</code>）用来构造有序字典；</p>
+<p><code>project_root</code> 获取当前文件所在目录，用于拼接 <code>input/</code> 和 <code>output/</code> 的路径。</p>
+<p><strong>掌握点：</strong></p>
+<ul>
+<li>模块导入：<code>import ...</code>,<code>from ... import ...</code></li>
+<li><code>os.path</code>用法（dirname,abspath,join)</li>
+</ul>
+<ol start="2">
+<li>终止条件</li>
+</ol>
+<p><div class="language-python codehilite"><pre><span></span><code><span class="n">max_messages_termination</span> <span class="o">=</span> <span class="n">MaxMessageTermination</span><span class="p">(</span><span class="n">max_messages</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">termination</span> <span class="o">=</span> <span class="n">max_messages_termination</span>
+</code></pre></div>
+这两行是为 GraphFlow / GroupChat 设置一个终止条件：</p>
+<p>对话最多 20 条消息，超过就停。</p>
+<ol start="3">
+<li>主函数 main()（异步）</li>
+</ol>
+<div class="language-python codehilite"><pre><span></span><code><span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="n">input_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">project_root</span><span class="p">,</span> <span class="s1">&#39;input&#39;</span><span class="p">,</span> <span class="s1">&#39;input_timestamp.csv&#39;</span><span class="p">)</span>
+    <span class="n">df_input_timestamp</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">input_path</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+    
+    <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">df_input_timestamp</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+
+        <span class="k">if</span> <span class="n">index</span> <span class="o">&lt;</span> <span class="mi">32</span><span class="p">:</span>
+            <span class="k">continue</span>
+</code></pre></div>
+<p>这是一个 <code>async def</code>，说明里面会有 <code>await</code> 调用（例如调用 LLM 的异步接口）；
+<code>pd.read_csv</code> 把 CSV 读成一个 <code>DataFrame</code>；
+<code>df_input_timestamp.iterrows()</code> 逐行遍历：
+index 是行号；
+row 是这一行的数据（Series）。
+<code>if index &lt; 32: continue</code>：跳过前 32 行，只处理后面的 case。</p>
+<p><strong>掌握点:</strong></p>
+<ul>
+<li><code>for index, row in df.iterrows()</code> 的用法；</li>
+<li><code>continue</code> 的含义（跳过本次循环剩余部分）。</li>
+</ul>
+<ol start="4">
+<li>从每一行取字段</li>
+</ol>
+<p><div class="language-python codehilite"><pre><span></span><code>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&gt;&gt;&quot;</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;index: </span><span class="si">{</span><span class="n">index</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="n">start_timestamp</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;start_timestamp&#39;</span><span class="p">]</span>
+        <span class="n">end_timestamp</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;end_timestamp&#39;</span><span class="p">]</span>
+        <span class="n">start_time_hour</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;start_time_hour&#39;</span><span class="p">]</span>
+        <span class="n">uuid</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;uuid&#39;</span><span class="p">]</span>
+</code></pre></div>
+- 使用 <code>row['列名']</code> 取出这一行的几个关键字段；
+- <code>f"index: {index}"</code> 是 <code>f-string</code>，格式化输出。</p>
+<ol start="5">
+<li>日志 refinement + 日志 LLM 提炼</li>
+</ol>
+<p><div class="language-python codehilite"><pre><span></span><code>        <span class="n">refined_logs</span> <span class="o">=</span> <span class="n">log_refinement</span><span class="p">(</span><span class="n">start_time_hour</span><span class="p">,</span> <span class="n">start_timestamp</span><span class="p">,</span> <span class="n">end_timestamp</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">refined_logs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;//&#39;</span> <span class="o">*</span> <span class="mi">20</span><span class="p">)</span>
+            <span class="n">refined_logs</span> <span class="o">=</span> <span class="k">await</span> <span class="n">logs_agent</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">task</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;请提炼出以下日志中对故障诊断最关键、最有价值的日志：</span><span class="se">\n</span><span class="si">{</span><span class="n">refined_logs</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">refined_logs</span> <span class="o">=</span> <span class="n">refined_logs</span><span class="o">.</span><span class="n">messages</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">content</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">refined_logs</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;logs refinement completed!&#39;</span><span class="p">)</span>
+</code></pre></div>
+- <code>log_refinement(...)</code> 返回某个时间窗口的日志内容（已经过预筛）；</p>
+<p>如果不是 None：</p>
+<div class="codehilite"><pre><span></span><code>  使用 <span class="sb">`logs_agent.run(task=...)`</span> 让日志 Agent 调用 LLM，拿到一个对话结果对象（里面有 messages 列表）。
+
+  <span class="sb">`refined_logs.messages[-1].content`</span> 取最后一条消息（LLM 的最终回答）的文本内容。
+</code></pre></div>
+
+<p>否则就保持 None。</p>
+<p><strong>掌握点</strong></p>
+<ul>
+<li>await 的含义（协程调用）；</li>
+<li>对象属性访问：foo.bar.baz；</li>
+<li>列表索引 [-1] 表示最后一个元素。</li>
+</ul>
+<ol start="6">
+<li>
+<p>trace refinement + Agent 提炼
+<div class="language-python codehilite"><pre><span></span><code>        <span class="n">refined_traces</span><span class="p">,</span> <span class="n">trace_unique_dict</span><span class="p">,</span> <span class="n">status_combinations_csv</span> <span class="o">=</span> <span class="n">trace_refinement</span><span class="p">(</span><span class="n">start_time_hour</span><span class="p">,</span> <span class="n">start_timestamp</span><span class="p">,</span> <span class="n">end_timestamp</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">refined_traces</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">status_combinations_csv</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;//&#39;</span> <span class="o">*</span> <span class="mi">20</span><span class="p">)</span>
+            <span class="n">refined_traces</span> <span class="o">=</span> <span class="k">await</span> <span class="n">traces_agent</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">task</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;请提炼出以下trace中对故障诊断最关键、最有价值的traces：</span><span class="se">\n</span><span class="si">{</span><span class="n">refined_traces</span><span class="si">}</span><span class="se">\n</span><span class="si">{</span><span class="n">status_combinations_csv</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">refined_traces</span> <span class="o">=</span> <span class="n">refined_traces</span><span class="o">.</span><span class="n">messages</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">content</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">refined_traces</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;traces refinement completed!&#39;</span><span class="p">)</span>
+</code></pre></div>
+这里 <code>trace_refinement</code> 返回三个东西：
+- <code>refined_traces</code>：预处理后的 trace；
+- <code>trace_unique_dict</code>：可能是去重后的 trace 信息（这里没再用）；
+- <code>status_combinations_csv</code>：某些状态组合的信息（转成文本？）。
+如果两者之一不为空，就拼接起来扔给 <code>traces_agent</code> 处理。</p>
+</li>
+<li>
+<p>metrics refinement + Agent 提炼</p>
+</li>
+</ol>
+<p>略</p>
+<ol start="8">
+<li>构造多模态分析 prompt</li>
+</ol>
+<div class="language-python codehilite"><pre><span></span><code>        <span class="n">multimodal_prompt</span> <span class="o">=</span> <span class="n">get_multimodal_analysis_prompt</span><span class="p">(</span>
+            <span class="n">log_data</span><span class="o">=</span><span class="n">refined_logs</span> <span class="p">,</span>
+            <span class="n">trace_data</span><span class="o">=</span><span class="n">refined_traces</span> <span class="p">,</span>
+            <span class="n">metric_data</span><span class="o">=</span><span class="n">refined_metrics</span>
+        <span class="p">)</span>
+</code></pre></div>
+<p>这个函数应该是把三个模态的信息按照某个模板组合成一个大的任务描述，给 <code>orchestrator agent</code>用。</p>
+<ol start="9">
+<li>构建 Agent 对话图（Graph）</li>
+</ol>
+<p><div class="language-python codehilite"><pre><span></span><code>        <span class="n">builder</span> <span class="o">=</span> <span class="n">DiGraphBuilder</span><span class="p">()</span>
+        <span class="n">builder</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="n">orchestration_agent</span><span class="p">)</span>
+        <span class="n">builder</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="n">ad_agent</span><span class="p">)</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="n">ft_agent</span><span class="p">)</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="n">rcl_agent</span><span class="p">)</span>
+        <span class="n">builder</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="n">reflection_agent</span><span class="p">)</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="n">summarization_agent</span><span class="p">)</span>
+
+        <span class="n">builder</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">orchestration_agent</span><span class="p">,</span> <span class="n">ad_agent</span><span class="p">)</span>
+        <span class="n">builder</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">orchestration_agent</span><span class="p">,</span> <span class="n">ft_agent</span><span class="p">)</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">ad_agent</span><span class="p">,</span> <span class="n">ft_agent</span><span class="p">)</span>
+        <span class="n">builder</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">orchestration_agent</span><span class="p">,</span> <span class="n">rcl_agent</span><span class="p">)</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">ft_agent</span><span class="p">,</span> <span class="n">rcl_agent</span><span class="p">)</span>
+        <span class="n">builder</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">ad_agent</span><span class="p">,</span> <span class="n">reflection_agent</span><span class="p">)</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">ft_agent</span><span class="p">,</span> <span class="n">reflection_agent</span><span class="p">)</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">rcl_agent</span><span class="p">,</span> <span class="n">reflection_agent</span><span class="p">)</span>
+        <span class="n">builder</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">reflection_agent</span><span class="p">,</span> <span class="n">orchestration_agent</span><span class="p">,</span> <span class="n">condition</span><span class="o">=</span><span class="k">lambda</span> <span class="n">msg</span><span class="p">:</span> <span class="s2">&quot;APPROVE&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">msg</span><span class="o">.</span><span class="n">to_model_text</span><span class="p">())</span>
+        <span class="n">builder</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">reflection_agent</span><span class="p">,</span> <span class="n">summarization_agent</span><span class="p">,</span> <span class="n">condition</span><span class="o">=</span><span class="k">lambda</span> <span class="n">msg</span><span class="p">:</span> <span class="s2">&quot;APPROVE&quot;</span> <span class="ow">in</span> <span class="n">msg</span><span class="o">.</span><span class="n">to_model_text</span><span class="p">())</span>
+
+        <span class="n">builder</span><span class="o">.</span><span class="n">set_entry_point</span><span class="p">(</span><span class="n">orchestration_agent</span><span class="p">)</span>
+        <span class="n">graph</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">build</span><span class="p">()</span>
+</code></pre></div>
+这里使用 <code>DiGraphBuilder</code> 构造一个有向图：
+- 节点是不同的 <code>agent</code>；
+- 边表示“谁把消息发给谁”；
+- 最后两条边用 <code>condition</code> 决定从 <code>reflection</code> 分流到 <code>orchestration</code> 或 <code>summarization</code>：
+    - 如果消息里不含 <code>"APPROVE"</code>：回到 <code>orchestrator</code> 继续迭代；
+    - 如果含 <code>"APPROVE"</code>：进入 <code>summarization</code>，总结最终答案。</p>
+<p><strong>掌握点</strong></p>
+<ul>
+<li>lambda 表达式 <code>lambda msg: ...</code>；</li>
+<li>链式调用 <code>builder.add_edge(...).add_edge(...)</code> 是什么含义（返回 <code>builder</code> 自己）。</li>
+</ul>
+<ol start="10">
+<li>创建 GraphFlow 团队并运行</li>
+</ol>
+<p><div class="language-python codehilite"><pre><span></span><code>        <span class="n">team</span> <span class="o">=</span> <span class="n">GraphFlow</span><span class="p">(</span>
+            <span class="n">participants</span> <span class="o">=</span> <span class="p">[</span><span class="n">orchestration_agent</span><span class="p">,</span> <span class="n">ad_agent</span><span class="p">,</span> <span class="n">ft_agent</span><span class="p">,</span> <span class="n">rcl_agent</span><span class="p">,</span> <span class="n">reflection_agent</span><span class="p">,</span> <span class="n">summarization_agent</span><span class="p">],</span>
+            <span class="n">graph</span> <span class="o">=</span> <span class="n">graph</span><span class="p">,</span>
+            <span class="n">termination_condition</span><span class="o">=</span><span class="n">termination</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">await</span> <span class="n">team</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+
+        <span class="c1"># await Console(team.run_stream(task=f&quot;{multimodal_prompt}&quot;))</span>
+        <span class="n">respose</span> <span class="o">=</span> <span class="k">await</span> <span class="n">team</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">task</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">multimodal_prompt</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+- <code>GraphFlow</code> 用刚才的图 + <code>agent</code> 列表构建一个团队；
+- <code>await team.reset()</code> 重置对话状态；
+- <code>team.run(task=...)</code> 运行任务一次，并得到一个包含消息历史的结果对象。
+（注：respose 这个变量名有点小拼写错误，正常应该是 response，但不影响运行。）</p>
+<ol start="11">
+<li>从结果里抓 JSON，解析并写文件</li>
+</ol>
+<p><div class="language-python codehilite"><pre><span></span><code>        <span class="n">result</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;(\{.*\})&#39;</span><span class="p">,</span> <span class="n">respose</span><span class="o">.</span><span class="n">messages</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">content</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">DOTALL</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">result</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="kc">None</span>
+    
+        <span class="n">json_result</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+        <span class="n">result_data</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+        <span class="n">result_data</span><span class="p">[</span><span class="s2">&quot;component&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">json_result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;component&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="n">result_data</span><span class="p">[</span><span class="s2">&quot;uuid&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">uuid</span>
+        <span class="n">result_data</span><span class="p">[</span><span class="s2">&quot;reason&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">json_result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;reason&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="n">result_data</span><span class="p">[</span><span class="s2">&quot;reasoning_trace&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">json_result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;reasoning_trace&quot;</span><span class="p">,</span> <span class="p">[])</span>
+
+        <span class="n">result_list_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">project_root</span><span class="p">,</span> <span class="s1">&#39;output&#39;</span><span class="p">,</span> <span class="s1">&#39;results_list.json&#39;</span><span class="p">)</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">result_list_path</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">result_data</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>   
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>   
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;第</span><span class="si">{</span><span class="n">index</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">条数据处理完成&quot;</span><span class="p">)</span>
+</code></pre></div>
+- <code>respose.messages[-1].content</code>：取最后一条消息文本；
+- <code>re.search(r'(\{.*\})', ..., re.DOTALL)</code>：
+    - 用正则在这段文本里找一个“从第一个 { 到最后一个 } 的大块字符串”；
+    - <code>re.DOTALL</code> 让 . 能匹配换行符。
+- <code>json.loads(result)</code>：把 JSON 字符串变成 Python 字典；
+- <code>OrderedDict()</code>：按顺序插入字段；
+- 写入文件时用 'a' 模式，表示“追加写入”，每一行写一个 JSON + 换行。</p>
+<p><strong>掌握点</strong>
+- 正则表达式 re.search 的基本用法；
+- json.loads / json.dump；
+- with open(...) as f: 的上下文管理器语法。</p>
+<ol start="12">
+<li>程序入口</li>
+</ol>
+<div class="language-text codehilite"><pre><span></span><code>if __name__ == &quot;__main__&quot;:
+    asyncio.run(main())
+</code></pre></div>
+<p>这段是 Python 脚本的常见写法：</p>
+<div class="codehilite"><pre><span></span><code><span class="w">  </span><span class="o">-</span><span class="w"> </span><span class="n">只有当这个文件被“直接运行”时才会执行</span><span class="w"> </span><span class="n n-Quoted">`main()`</span><span class="n">；</span>
+<span class="w">  </span><span class="o">-</span><span class="w"> </span><span class="n">如果被别的文件</span><span class="w"> </span><span class="n n-Quoted">`import`</span><span class="w"> </span><span class="n">时，这一块不会执行。</span>
+</code></pre></div>
+
+<p><code>asyncio.run(main())</code> 负责跑异步的主函数。</p>
+<h2 id="list-1">List 1</h2>
+<ol>
+<li>基本语法与数据结构</li>
+</ol>
+<ul>
+<li>for 循环：特别是 for index, row in df.iterrows():</li>
+<li>if/else + continue</li>
+<li>列表索引、字典取值（dict.get()）</li>
+</ul>
+<ol start="2">
+<li>文件与路径操作</li>
+</ol>
+<ul>
+<li>os.path.join, os.path.dirname, os.path.abspath</li>
+<li>with open(path, 'a', encoding='utf-8') as f: 写文件</li>
+</ul>
+<ol start="3">
+<li>pandas</li>
+</ol>
+<ul>
+<li>pd.read_csv 读表</li>
+<li>df.iterrows() 遍历</li>
+<li>用 row['col'] 访问字段</li>
+</ul>
+<ol start="4">
+<li>异步与协程（了解用法即可，不必深挖原理）</li>
+</ol>
+<ul>
+<li>async def / await</li>
+<li>asyncio.run(main())</li>
+</ul>
+<ol start="5">
+<li>JSON 与正则</li>
+</ol>
+<ul>
+<li>json.loads / json.dump 基本用法</li>
+<li>re.search(pattern, text, flags)：找出匹配结果，用 .group(1) 取括号里的子串</li>
+</ul>
+<ol start="6">
+<li>面向对象的简单用法（通过 Agent 对象理解）</li>
+</ol>
+<ul>
+<li>对象的方法调用：logs_agent.run(...)</li>
+<li>对象属性：respose.messages[-1].content</li>
+</ul>
+      </div>
+      
+      <nav class="post__neighbors" aria-label="文章导航">
+        
+        <a class="post__neighbor post__neighbor--newer" href="/posts/项目开发及学习经历/">
+          <span class="post__neighbor-label">
+            <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M19 11H9.414l2.293-2.293-1.414-1.414L6.586 12l3.707 3.707 1.414-1.414L9.414 13H19z" />
+            </svg>
+            <span>较新文章</span>
+          </span>
+          <span class="post__neighbor-title">项目开发及学习经历</span>
+        </a>
+        
+        
+        <a class="post__neighbor post__neighbor--older" href="/posts/排序算法学习/">
+          <span class="post__neighbor-label">
+            <span>较旧文章</span>
+            <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M5 12a1 1 0 0 1 1-1h9.586l-2.293-2.293 1.414-1.414L19.414 12l-4.707 4.707-1.414-1.414L15.586 13H6a1 1 0 0 1-1-1z" />
+            </svg>
+          </span>
+          <span class="post__neighbor-title">排序算法学习</span>
+        </a>
+        
+      </nav>
+      
+      
+      <section class="post__related" aria-label="相关文章">
+        <h2 class="post__related-title">延伸阅读</h2>
+        <ul class="post__related-list">
+          
+          <li class="post__related-item">
+            <a href="/posts/SequenceMatcher字符串相似度函数学习/">
+              SequenceMatcher字符串相似度函数学习
+              <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+                <path d="M5 12a1 1 0 0 1 1-1h9.586l-2.293-2.293 1.414-1.414L19.414 12l-4.707 4.707-1.414-1.414L15.586 13H6a1 1 0 0 1-1-1z" />
+              </svg>
+            </a>
+            <span class="post__related-meta">2025年12月04日 · 约 2 分钟阅读</span>
+          </li>
+          
+          <li class="post__related-item">
+            <a href="/posts/AIOPS论文翻译与学习/ChainOfEvent_可解释根因分析_翻译/">
+              Chain-of-Event: 微服务可解释根因分析
+              <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+                <path d="M5 12a1 1 0 0 1 1-1h9.586l-2.293-2.293 1.414-1.414L19.414 12l-4.707 4.707-1.414-1.414L15.586 13H6a1 1 0 0 1-1-1z" />
+              </svg>
+            </a>
+            <span class="post__related-meta">2025年12月04日 · 约 3 分钟阅读</span>
+          </li>
+          
+          <li class="post__related-item">
+            <a href="/posts/AIOPS论文翻译与学习/ChainOfEvent_学习笔记/">
+              Chain-of-Event论文学习笔记
+              <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+                <path d="M5 12a1 1 0 0 1 1-1h9.586l-2.293-2.293 1.414-1.414L19.414 12l-4.707 4.707-1.414-1.414L15.586 13H6a1 1 0 0 1-1-1z" />
+              </svg>
+            </a>
+            <span class="post__related-meta">2025年12月04日 · 约 2 分钟阅读</span>
+          </li>
+          
+        </ul>
+      </section>
+      
+    </div>
+    <aside class="post-toc" id="post-toc" hidden>
+      <div class="post-toc__header">
+        <span class="post-toc__title">
+          <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M5 6h14v2H5zm0 5h14v2H5zm0 5h9v2H5z" />
+          </svg>
+          <span>目录</span>
+        </span>
+        <button type="button" class="post-toc__toggle" data-toc-toggle aria-expanded="true">
+          折叠
+          <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M12 9l4 4H8z" />
+          </svg>
+        </button>
+      </div>
+      <nav class="post-toc__body" data-toc-body aria-label="本文目录"></nav>
+    </aside>
+  </div>
+  <footer class="post__footer">
+    <a class="button button--ghost" href="/">
+      <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+        <path d="M10.414 12l4.293-4.293-1.414-1.414L7.586 12l5.707 5.707 1.414-1.414L10.414 12H20v-2z" />
+      </svg>
+      <span>返回首页</span>
+    </a>
+    <a class="button button--ghost" href="/archive/">
+      <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+        <path d="M5 4a2 2 0 0 0-2 2v13h2v-3h14v3h2V6a2 2 0 0 0-2-2zm0 2h14v6H5zm3 10a1 1 0 1 0 0 2h8a1 1 0 0 0 0-2z" />
+      </svg>
+      <span>查看归档</span>
+    </a>
+  </footer>
+</article>
+
+      </div>
+    </main>
+    <footer class="site-footer" role="contentinfo">
+      <div class="container site-footer__inner">
+        <div>
+          <p class="site-footer__title">何宸禹的博客</p>
+          
+          <p class="site-footer__description">由 AutoBlog 驱动的学习与创作记录。</p>
+          
+        </div>
+        <div class="site-footer__meta">
+          <span>© 2025 何宸禹</span>
+          <a class="site-footer__link" href="/autoblog/">了解 AutoBlog 引擎</a>
+          <div class="site-footer__counts" id="site-visit-stats" aria-live="polite">
+            <span id="busuanzi_container_site_uv" class="site-footer__count-item">
+              访问人数 <span id="busuanzi_value_site_uv">--</span>
+            </span>
+            <span id="busuanzi_container_site_pv" class="site-footer__count-item">
+              浏览次数 <span id="busuanzi_value_site_pv">--</span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+  <button class="back-to-top" type="button" data-back-to-top aria-label="返回顶部">
+    <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+      <path d="M12 5.586l5.707 5.707-1.414 1.414L13 9.414V19h-2V9.414l-3.293 3.293-1.414-1.414z" />
+    </svg>
+  </button>
+  <div class="lightbox" id="image-lightbox" aria-hidden="true" role="dialog" aria-modal="true" tabindex="-1">
+    <button type="button" class="lightbox__close" data-lightbox-close aria-label="关闭">
+      <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+        <path d="M6.343 5.343l12.02 12.02-1.414 1.414-12.02-12.02z" />
+        <path d="M17.657 5.343l1.414 1.414-12.02 12.02-1.414-1.414z" />
+      </svg>
+    </button>
+    <img class="lightbox__image" src="" alt="" />
+    <p class="lightbox__caption"></p>
+  </div>
+  <script src="/app.js" defer></script>
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" data-busuanzi></script>
+</body>
+</html>

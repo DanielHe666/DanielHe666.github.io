@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>JSON数据格式 | 何宸禹的博客</title>
+  <meta name="description" content="JSON是一种轻量级、语言无关的数据交换格式，广泛应用于网络开发和系统间通信。它基于文本、结构简洁，支持对象和数组两种核心结构，便于不同编程语言解析与生成。文章解析了JSON的语法规则、与JavaScript对象的区别及转换方法，并通过比喻阐明其作为“通用语言”在API接口、配置存储及前后端数据传输中的关键作用。读者可掌握JSON的核心概念与实际应用，提升数据处理与跨平台协作能力。" />
+  <meta name="author" content="何宸禹" />
+  
+  <link rel="canonical" href="https://chenyuheee.github.io/posts/JSON/" />
+  <meta property="og:url" content="https://chenyuheee.github.io/posts/JSON/" />
+  
+  <meta property="og:title" content="JSON数据格式 | 何宸禹的博客" />
+  <meta property="og:description" content="JSON是一种轻量级、语言无关的数据交换格式，广泛应用于网络开发和系统间通信。它基于文本、结构简洁，支持对象和数组两种核心结构，便于不同编程语言解析与生成。文章解析了JSON的语法规则、与JavaScript对象的区别及转换方法，并通过比喻阐明其作为“通用语言”在API接口、配置存储及前后端数据传输中的关键作用。读者可掌握JSON的核心概念与实际应用，提升数据处理与跨平台协作能力。" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary" />
+  <link rel="stylesheet" href="/style.css" />
+  
+  <link rel="alternate" type="application/rss+xml" title="何宸禹的博客 RSS" href="/feed.xml" />
+  
+</head>
+<body>
+  <div class="site-shell">
+    <div class="reading-progress" id="reading-progress" role="presentation" aria-hidden="true"></div>
+    
+    <div
+      class="site-audio"
+      data-audio-player
+      data-autoplay="false"
+      data-start-muted="false"
+      data-volume-expanded="false"
+    >
+      <div class="site-audio__cover" style="background-image: url('/media/cover.jpg');">
+        
+        <button class="site-audio__cover-toggle" type="button" data-audio-toggle aria-label="播放或暂停背景音乐" data-audio-no-drag>
+          <span class="site-audio__cover-blur" aria-hidden="true"></span>
+          <svg class="site-audio__icon site-audio__icon--play" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M8 5.5v13l10-6.5z" />
+          </svg>
+          <svg class="site-audio__icon site-audio__icon--pause" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M8 5.5h3v13H8zm5 0h3v13h-3z" />
+          </svg>
+        </button>
+      </div>
+      <div class="site-audio__meta">
+        <div class="site-audio__title-row">
+          <span class="site-audio__title">日落</span>
+          <span class="site-audio__time" data-audio-time>00:00</span>
+        </div>
+        
+        <span class="site-audio__artist">孙燕姿</span>
+        
+        <div
+          class="site-audio__progress"
+          data-audio-progress-track
+          role="progressbar"
+          aria-valuemin="0"
+          aria-valuemax="100"
+          aria-valuenow="0"
+          data-audio-no-drag
+        >
+          <div class="site-audio__progress-bar" data-audio-progress></div>
+        </div>
+      </div>
+      <div class="site-audio__controls">
+        <div class="site-audio__volume-shell" data-audio-no-drag>
+          <button class="site-audio__control site-audio__control--mute" type="button" data-audio-mute aria-label="切换静音" data-audio-no-drag>
+            <svg class="site-audio__icon site-audio__icon--volume" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M5 10h2.586L12 5.586V18.5L7.586 14H5z" />
+              <path d="M15.5 8.5a4 4 0 0 1 0 6" />
+              <path d="M17.5 6.5a6 6 0 0 1 0 10" />
+            </svg>
+            <svg class="site-audio__icon site-audio__icon--muted" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M5 10h2.586L12 5.586V18.5L7.586 14H5z" />
+              <path d="M15 9l6 6" />
+              <path d="M21 9l-6 6" />
+            </svg>
+          </button>
+          <div class="site-audio__volume" data-audio-volume aria-hidden="true">
+            <input
+              class="site-audio__volume-slider"
+              type="range"
+              min="0"
+              max="100"
+              value="100"
+              step="1"
+              data-audio-volume-slider
+              tabindex="-1"
+              aria-label="调节音量"
+              data-audio-no-drag
+            />
+          </div>
+        </div>
+      </div>
+      <audio
+        data-audio-element
+        loop
+        preload="auto"
+        src="/media/日落.mp3"
+      ></audio>
+    </div>
+    
+    <header class="site-header" role="banner">
+      <div class="container site-header__inner">
+        <div class="brand">
+          <a class="brand__title" href="/">何宸禹的博客</a>
+          
+          <p class="brand__description">由 AutoBlog 驱动的学习与创作记录。</p>
+          
+        </div>
+        
+        <nav class="site-nav" aria-label="主导航">
+          
+          <a class="site-nav__link" href="/">首页</a>
+          
+          <a class="site-nav__link" href="/archive/">归档</a>
+          
+          <a class="site-nav__link" href="/tags/">标签</a>
+          
+          <a class="site-nav__link" href="/about/">About</a>
+          
+        </nav>
+        
+        <div class="site-header__actions">
+          <button class="theme-toggle" type="button" data-theme-toggle data-theme-state="light" aria-pressed="false" aria-label="切换到夜间模式">
+            <span class="theme-toggle__icon theme-toggle__icon--sun" aria-hidden="true">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 5a1 1 0 0 1-1-1V3a1 1 0 1 1 2 0v1a1 1 0 0 1-1 1zm0 16a1 1 0 0 1-1-1v-1a1 1 0 0 1 2 0v1a1 1 0 0 1-1 1zm9-9a1 1 0 0 1-1 1h-1a1 1 0 1 1 0-2h1a1 1 0 0 1 1 1zm-16 0a1 1 0 0 1-1 1H3a1 1 0 1 1 0-2h1a1 1 0 0 1 1 1zm12.95-6.364a1 1 0 0 1 0 1.414l-.707.707a1 1 0 0 1-1.414-1.414l.707-.707a1 1 0 0 1 1.414 0zm-11.314 11.314a1 1 0 0 1 0 1.414l-.707.707a1 1 0 0 1-1.414-1.414l.707-.707a1 1 0 0 1 1.414 0zm11.314 1.414a1 1 0 0 1-1.414 0l-.707-.707a1 1 0 0 1 1.414-1.414l.707.707a1 1 0 0 1 0 1.414zm-11.314-11.314a1 1 0 0 1-1.414 0l-.707-.707A1 1 0 1 1 5.914 4.95l.707.707a1 1 0 0 1 0 1.414zM12 8a4 4 0 1 1 0 8 4 4 0 0 1 0-8z" />
+              </svg>
+            </span>
+            <span class="theme-toggle__icon theme-toggle__icon--moon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M20.742 14.045a1 1 0 0 0-1.077-.217 7 7 0 0 1-9.493-7.92 1 1 0 0 0-1.149-1.2A9 9 0 1 0 21 15a1 1 0 0 0-.258-.955z" />
+              </svg>
+            </span>
+            <span class="sr-only">切换主题</span>
+          </button>
+          <a class="site-header__search" href="/search/">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M10.5 4a6.5 6.5 0 0 1 5.196 10.49l3.907 3.907-1.414 1.414-3.907-3.907A6.5 6.5 0 1 1 10.5 4zm0 2a4.5 4.5 0 1 0 0 9 4.5 4.5 0 0 0 0-9z" />
+            </svg>
+            <span>站内搜索</span>
+          </a>
+        </div>
+      </div>
+    </header>
+    <main class="main-content">
+      <div class="container">
+        
+<article class="post">
+  <header class="post__header">
+    <p class="post__eyebrow">
+      <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+        <path d="M7 3a1 1 0 0 1 2 0v1h6V3a1 1 0 0 1 2 0v1h1.5A2.5 2.5 0 0 1 21 6.5v12A2.5 2.5 0 0 1 18.5 21h-13A2.5 2.5 0 0 1 3 18.5v-12A2.5 2.5 0 0 1 5.5 4H7zm11.5 4h-13A.5.5 0 0 0 5 7.5V10h14V7.5a.5.5 0 0 0-.5-.5zm.5 10.5v-7H5v7a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5z" />
+      </svg>
+      <span>发表于 2025年12月04日</span>
+    </p>
+    <h1 class="post__title">JSON数据格式</h1>
+    <div class="post__meta">
+      <div class="post__meta-item">
+        <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+          <path d="M12 3.5a8.5 8.5 0 1 0 8.5 8.5A8.5 8.5 0 0 0 12 3.5zm0 2a6.5 6.5 0 1 1-6.5 6.5A6.5 6.5 0 0 1 12 5.5zm-.75 3a1 1 0 0 1 2 0v3.382l2.268 1.307a1 1 0 1 1-1 1.732l-2.768-1.594A1 1 0 0 1 11.25 12z" />
+        </svg>
+        <span>约 2 分钟阅读</span>
+      </div>
+      
+      <div class="post__meta-item post__meta-item--tags">
+        <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+          <path d="M4 4h7.172a3 3 0 0 1 2.121.879l6.828 6.828a3 3 0 0 1 0 4.242l-3.172 3.172a3 3 0 0 1-4.242 0L5.121 12.95A3 3 0 0 1 4.242 10.83L4 10.586V6a2 2 0 0 1 2-2zm3 2a1.5 1.5 0 1 0 1.5 1.5A1.5 1.5 0 0 0 7 6z" />
+        </svg>
+        <ul class="tag-list tag-list--inline">
+          
+          <li><a href="/tags/知识积累/">知识积累</a></li>
+          
+        </ul>
+      </div>
+      
+    </div>
+  </header>
+  <div class="post__layout">
+    <div class="post__main">
+      <div class="post-content">
+        <h1 id="json">JSON数据格式</h1>
+<p>JSON 是一种非常重要的数据格式，尤其在现代网络开发和数据交换中无处不在。</p>
+<p><strong>JSON</strong> 的全称是 <strong>JavaScript Object Notation</strong>（JavaScript 对象表示法）。</p>
+<p>简单来说，<strong>JSON 是一种轻量级的数据交换格式</strong>。它采用完全独立于语言的文本格式，但使用了类似于 C 语言家族（包括 C, C++, C#, Java, JavaScript, Python 等）程序员熟悉的约定。</p>
+<hr />
+<h3 id="_1">核心概念解析</h3>
+<h4 id="1">1. 它是什么？（本质）</h4>
+<ul>
+<li><strong>一种数据格式</strong>： 它的唯一用途就是用来表示和存储数据。它本身不是程序，不能执行函数。</li>
+<li><strong>基于文本</strong>： 它使用纯文本来表示数据，这意味着人们可以直接阅读和理解（尽管通常由机器处理）。</li>
+<li><strong>轻量级</strong>： 与 XML 等其他数据格式相比，JSON 没有复杂的标签和严格的文档结构，所以文件更小，传输更快。</li>
+<li><strong>语言无关</strong>： 虽然它源自 JavaScript，但现在几乎所有主流编程语言都内置了生成和解析 JSON 的工具库。</li>
+</ul>
+<h4 id="2-json">2. 为什么需要 JSON？</h4>
+<p>在网络通信中，客户端（如浏览器）和服务器（如后端程序）需要交换数据。但这些程序可能用不同的语言编写（如前端用 JavaScript，后端用 Python 或 Java）。它们需要一个共同认可、简单易懂的“中间语言”来传递数据。JSON 完美地扮演了这个角色。</p>
+<hr />
+<h3 id="json_1">JSON 的语法规则</h3>
+<p>JSON 的语法非常严格和简洁，主要构建于两种结构：</p>
+<ol>
+<li><strong>键值对集合</strong>（在各种语言中被实现为对象、记录、字典等）</li>
+<li><strong>有序值列表</strong>（在大多数语言中被实现为数组、列表等）</li>
+</ol>
+<p>以下是 JSON 支持的数据类型和语法：</p>
+<ul>
+<li>
+<p><strong>对象</strong>： 由花括号 <code>{}</code> 包裹，内容是一组无序的 <strong>键值对</strong>。
+    *   键值对之间用逗号 <code>,</code> 分隔。
+    *   键和值之间用冒号 <code>:</code> 分隔。
+    *   <strong>键</strong> 必须是<strong>字符串</strong>（必须用双引号 <code>""</code> 包围）。
+    *   <strong>值</strong> 可以是字符串、数字、布尔值、数组、对象，或者 <code>null</code>。
+    <div class="language-json codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;张三&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;age&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;isStudent&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;hobbies&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;阅读&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;游泳&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;编程&quot;</span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;address&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;city&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;北京&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;postalCode&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;100000&quot;</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></p>
+</li>
+<li>
+<p><strong>数组</strong>： 由方括号 <code>[]</code> 包裹，内容是一个有序的值的列表。值之间用逗号 <code>,</code> 分隔。
+    <div class="language-json codehilite"><pre><span></span><code><span class="p">[</span><span class="s2">&quot;苹果&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;香蕉&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;橙子&quot;</span><span class="p">]</span>
+</code></pre></div>
+    <div class="language-json codehilite"><pre><span></span><code><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">]</span>
+</code></pre></div>
+    <div class="language-json codehilite"><pre><span></span><code><span class="p">[{</span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;A&quot;</span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;B&quot;</span><span class="p">}]</span>
+</code></pre></div></p>
+</li>
+<li>
+<p><strong>值</strong> 可以是：
+    *   <strong>字符串</strong>： 必须使用<strong>双引号</strong> <code>""</code>。例如：<code>"Hello World"</code>。
+    *   <strong>数字</strong>： 整数或浮点数。例如：<code>10</code>, <code>3.14</code>。
+    *   <strong>布尔值</strong>： <code>true</code> 或 <code>false</code>。
+    *   <strong>空值</strong>： <code>null</code>。
+    *   <strong>对象</strong>： <code>{ ... }</code>
+    *   <strong>数组</strong>： <code>[ ... ]</code></p>
+</li>
+</ul>
+<hr />
+<h3 id="json-javascript">JSON 与 JavaScript 对象的关系与区别</h3>
+<p>这是一个常见的混淆点。</p>
+<ul>
+<li><strong>关系</strong>： JSON 的语法是 JavaScript 对象字面量语法的<strong>子集</strong>。看起来非常像。</li>
+<li><strong>区别</strong>：
+    *   <strong>JSON 是字符串</strong>： 它是一个<strong>格式化的字符串</strong>，用于数据传输和存储。
+    *   <strong>JavaScript 对象是内存中的数据结构</strong>： 它是程序在内存中创建的一个实体，拥有属性和方法。</li>
+</ul>
+<p><strong>转换过程（在 JavaScript 中）：</strong></p>
+<ul>
+<li>
+<p><strong>将 JavaScript 对象转换为 JSON 字符串</strong>（序列化）：
+    <div class="language-javascript codehilite"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">obj</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;张三&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">age</span><span class="o">:</span><span class="w"> </span><span class="mf">30</span><span class="w"> </span><span class="p">};</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">jsonString</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">obj</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">jsonString</span><span class="p">);</span><span class="w"> </span><span class="c1">// 输出： &#39;{&quot;name&quot;:&quot;张三&quot;,&quot;age&quot;:30}&#39;</span>
+</code></pre></div></p>
+</li>
+<li>
+<p><strong>将 JSON 字符串转换为 JavaScript 对象</strong>（反序列化）：
+    <div class="language-javascript codehilite"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">jsonString</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;{&quot;name&quot;:&quot;张三&quot;,&quot;age&quot;:30}&#39;</span><span class="p">;</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">obj</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">jsonString</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">obj</span><span class="p">.</span><span class="nx">name</span><span class="p">);</span><span class="w"> </span><span class="c1">// 输出： &quot;张三&quot;</span>
+</code></pre></div></p>
+</li>
+</ul>
+<hr />
+<h3 id="_2">一个简单的比喻</h3>
+<p>想象一下你需要把一个人的信息从<strong>中文</strong>（一种语言）翻译成<strong>英文</strong>（另一种语言）。</p>
+<ul>
+<li><strong>原始数据</strong>（在程序A的内存中）就像是用<strong>中文</strong>写的一段话。</li>
+<li><strong>JSON</strong> 就像是双方都认可的 <strong>“世界语”</strong> 或 <strong>“摩斯电码”</strong>。程序A先把中文信息转换成这种标准的“世界语”（<code>JSON.stringify</code>）。</li>
+<li><strong>传输</strong>： 然后，这段“世界语”文本通过网络发送给程序B。</li>
+<li><strong>解析</strong>： 程序B收到后，再把这套“世界语”翻译成自己理解的<strong>英文</strong>（<code>JSON.parse</code>），放入自己的内存中使用。</li>
+</ul>
+<hr />
+<h3 id="_3">应用场景</h3>
+<ol>
+<li><strong>API 接口</strong>： 绝大多数 Web API（如获取天气、用户信息、新闻列表）返回的数据格式都是 JSON。</li>
+<li><strong>配置文件</strong>： 很多现代软件和工具（如 VS Code, ESLint, NPM）使用 <code>.json</code> 文件来存储配置。</li>
+<li><strong>NoSQL 数据库</strong>： 像 MongoDB 这样的数据库，其文档就是以类似 JSON 的格式（BSON）存储的。</li>
+<li><strong>前后端数据传递</strong>： 前端通过 AJAX/Fetch 请求后端数据，后端返回 JSON，前端再将其渲染到页面上。</li>
+</ol>
+<h3 id="_4">总结</h3>
+<p><strong>JSON 是一种简单、清晰、易于人和机器读写的数据交换格式。它作为不同系统之间的“通用语言”，是现代软件开发中不可或缺的一部分。</strong></p>
+      </div>
+      
+      <nav class="post__neighbors" aria-label="文章导航">
+        
+        <a class="post__neighbor post__neighbor--newer" href="/posts/C语言字符串基础知识/">
+          <span class="post__neighbor-label">
+            <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M19 11H9.414l2.293-2.293-1.414-1.414L6.586 12l3.707 3.707 1.414-1.414L9.414 13H19z" />
+            </svg>
+            <span>较新文章</span>
+          </span>
+          <span class="post__neighbor-title">c语言中字符串的基础知识</span>
+        </a>
+        
+        
+        <a class="post__neighbor post__neighbor--older" href="/posts/Jaccard相似度/">
+          <span class="post__neighbor-label">
+            <span>较旧文章</span>
+            <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M5 12a1 1 0 0 1 1-1h9.586l-2.293-2.293 1.414-1.414L19.414 12l-4.707 4.707-1.414-1.414L15.586 13H6a1 1 0 0 1-1-1z" />
+            </svg>
+          </span>
+          <span class="post__neighbor-title">Jaccard相似度</span>
+        </a>
+        
+      </nav>
+      
+      
+      <section class="post__related" aria-label="相关文章">
+        <h2 class="post__related-title">延伸阅读</h2>
+        <ul class="post__related-list">
+          
+          <li class="post__related-item">
+            <a href="/posts/Base64/">
+              Base64
+              <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+                <path d="M5 12a1 1 0 0 1 1-1h9.586l-2.293-2.293 1.414-1.414L19.414 12l-4.707 4.707-1.414-1.414L15.586 13H6a1 1 0 0 1-1-1z" />
+              </svg>
+            </a>
+            <span class="post__related-meta">2025年12月04日 · 约 2 分钟阅读</span>
+          </li>
+          
+          <li class="post__related-item">
+            <a href="/posts/WASM/">
+              WASM
+              <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+                <path d="M5 12a1 1 0 0 1 1-1h9.586l-2.293-2.293 1.414-1.414L19.414 12l-4.707 4.707-1.414-1.414L15.586 13H6a1 1 0 0 1-1-1z" />
+              </svg>
+            </a>
+            <span class="post__related-meta">2025年12月04日 · 约 1 分钟阅读</span>
+          </li>
+          
+          <li class="post__related-item">
+            <a href="/posts/XML/">
+              XML是什么
+              <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+                <path d="M5 12a1 1 0 0 1 1-1h9.586l-2.293-2.293 1.414-1.414L19.414 12l-4.707 4.707-1.414-1.414L15.586 13H6a1 1 0 0 1-1-1z" />
+              </svg>
+            </a>
+            <span class="post__related-meta">2025年12月04日 · 约 2 分钟阅读</span>
+          </li>
+          
+        </ul>
+      </section>
+      
+    </div>
+    <aside class="post-toc" id="post-toc" hidden>
+      <div class="post-toc__header">
+        <span class="post-toc__title">
+          <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M5 6h14v2H5zm0 5h14v2H5zm0 5h9v2H5z" />
+          </svg>
+          <span>目录</span>
+        </span>
+        <button type="button" class="post-toc__toggle" data-toc-toggle aria-expanded="true">
+          折叠
+          <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M12 9l4 4H8z" />
+          </svg>
+        </button>
+      </div>
+      <nav class="post-toc__body" data-toc-body aria-label="本文目录"></nav>
+    </aside>
+  </div>
+  <footer class="post__footer">
+    <a class="button button--ghost" href="/">
+      <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+        <path d="M10.414 12l4.293-4.293-1.414-1.414L7.586 12l5.707 5.707 1.414-1.414L10.414 12H20v-2z" />
+      </svg>
+      <span>返回首页</span>
+    </a>
+    <a class="button button--ghost" href="/archive/">
+      <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+        <path d="M5 4a2 2 0 0 0-2 2v13h2v-3h14v3h2V6a2 2 0 0 0-2-2zm0 2h14v6H5zm3 10a1 1 0 1 0 0 2h8a1 1 0 0 0 0-2z" />
+      </svg>
+      <span>查看归档</span>
+    </a>
+  </footer>
+</article>
+
+      </div>
+    </main>
+    <footer class="site-footer" role="contentinfo">
+      <div class="container site-footer__inner">
+        <div>
+          <p class="site-footer__title">何宸禹的博客</p>
+          
+          <p class="site-footer__description">由 AutoBlog 驱动的学习与创作记录。</p>
+          
+        </div>
+        <div class="site-footer__meta">
+          <span>© 2025 何宸禹</span>
+          <a class="site-footer__link" href="/autoblog/">了解 AutoBlog 引擎</a>
+          <div class="site-footer__counts" id="site-visit-stats" aria-live="polite">
+            <span id="busuanzi_container_site_uv" class="site-footer__count-item">
+              访问人数 <span id="busuanzi_value_site_uv">--</span>
+            </span>
+            <span id="busuanzi_container_site_pv" class="site-footer__count-item">
+              浏览次数 <span id="busuanzi_value_site_pv">--</span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+  <button class="back-to-top" type="button" data-back-to-top aria-label="返回顶部">
+    <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+      <path d="M12 5.586l5.707 5.707-1.414 1.414L13 9.414V19h-2V9.414l-3.293 3.293-1.414-1.414z" />
+    </svg>
+  </button>
+  <div class="lightbox" id="image-lightbox" aria-hidden="true" role="dialog" aria-modal="true" tabindex="-1">
+    <button type="button" class="lightbox__close" data-lightbox-close aria-label="关闭">
+      <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+        <path d="M6.343 5.343l12.02 12.02-1.414 1.414-12.02-12.02z" />
+        <path d="M17.657 5.343l1.414 1.414-12.02 12.02-1.414-1.414z" />
+      </svg>
+    </button>
+    <img class="lightbox__image" src="" alt="" />
+    <p class="lightbox__caption"></p>
+  </div>
+  <script src="/app.js" defer></script>
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" data-busuanzi></script>
+</body>
+</html>

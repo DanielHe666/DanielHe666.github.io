@@ -1,0 +1,1149 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>何宸禹的博客</title>
+  <meta name="description" content="由 AutoBlog 驱动的学习与创作记录。" />
+  <meta name="author" content="何宸禹" />
+  
+  <link rel="canonical" href="https://chenyuheee.github.io/" />
+  <meta property="og:url" content="https://chenyuheee.github.io/" />
+  
+  <meta property="og:title" content="何宸禹的博客" />
+  <meta property="og:description" content="由 AutoBlog 驱动的学习与创作记录。" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary" />
+  <link rel="stylesheet" href="/style.css" />
+  
+  <link rel="alternate" type="application/rss+xml" title="何宸禹的博客 RSS" href="/feed.xml" />
+  
+</head>
+<body>
+  <div class="site-shell">
+    <div class="reading-progress" id="reading-progress" role="presentation" aria-hidden="true"></div>
+    
+    <div
+      class="site-audio"
+      data-audio-player
+      data-autoplay="false"
+      data-start-muted="false"
+      data-volume-expanded="false"
+    >
+      <div class="site-audio__cover" style="background-image: url('/media/cover.jpg');">
+        
+        <button class="site-audio__cover-toggle" type="button" data-audio-toggle aria-label="播放或暂停背景音乐" data-audio-no-drag>
+          <span class="site-audio__cover-blur" aria-hidden="true"></span>
+          <svg class="site-audio__icon site-audio__icon--play" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M8 5.5v13l10-6.5z" />
+          </svg>
+          <svg class="site-audio__icon site-audio__icon--pause" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M8 5.5h3v13H8zm5 0h3v13h-3z" />
+          </svg>
+        </button>
+      </div>
+      <div class="site-audio__meta">
+        <div class="site-audio__title-row">
+          <span class="site-audio__title">日落</span>
+          <span class="site-audio__time" data-audio-time>00:00</span>
+        </div>
+        
+        <span class="site-audio__artist">孙燕姿</span>
+        
+        <div
+          class="site-audio__progress"
+          data-audio-progress-track
+          role="progressbar"
+          aria-valuemin="0"
+          aria-valuemax="100"
+          aria-valuenow="0"
+          data-audio-no-drag
+        >
+          <div class="site-audio__progress-bar" data-audio-progress></div>
+        </div>
+      </div>
+      <div class="site-audio__controls">
+        <div class="site-audio__volume-shell" data-audio-no-drag>
+          <button class="site-audio__control site-audio__control--mute" type="button" data-audio-mute aria-label="切换静音" data-audio-no-drag>
+            <svg class="site-audio__icon site-audio__icon--volume" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M5 10h2.586L12 5.586V18.5L7.586 14H5z" />
+              <path d="M15.5 8.5a4 4 0 0 1 0 6" />
+              <path d="M17.5 6.5a6 6 0 0 1 0 10" />
+            </svg>
+            <svg class="site-audio__icon site-audio__icon--muted" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M5 10h2.586L12 5.586V18.5L7.586 14H5z" />
+              <path d="M15 9l6 6" />
+              <path d="M21 9l-6 6" />
+            </svg>
+          </button>
+          <div class="site-audio__volume" data-audio-volume aria-hidden="true">
+            <input
+              class="site-audio__volume-slider"
+              type="range"
+              min="0"
+              max="100"
+              value="100"
+              step="1"
+              data-audio-volume-slider
+              tabindex="-1"
+              aria-label="调节音量"
+              data-audio-no-drag
+            />
+          </div>
+        </div>
+      </div>
+      <audio
+        data-audio-element
+        loop
+        preload="auto"
+        src="/media/日落.mp3"
+      ></audio>
+    </div>
+    
+    <header class="site-header" role="banner">
+      <div class="container site-header__inner">
+        <div class="brand">
+          <a class="brand__title" href="/">何宸禹的博客</a>
+          
+          <p class="brand__description">由 AutoBlog 驱动的学习与创作记录。</p>
+          
+        </div>
+        
+        <nav class="site-nav" aria-label="主导航">
+          
+          <a class="site-nav__link" href="/">首页</a>
+          
+          <a class="site-nav__link" href="/archive/">归档</a>
+          
+          <a class="site-nav__link" href="/tags/">标签</a>
+          
+          <a class="site-nav__link" href="/about/">About</a>
+          
+        </nav>
+        
+        <div class="site-header__actions">
+          <button class="theme-toggle" type="button" data-theme-toggle data-theme-state="light" aria-pressed="false" aria-label="切换到夜间模式">
+            <span class="theme-toggle__icon theme-toggle__icon--sun" aria-hidden="true">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 5a1 1 0 0 1-1-1V3a1 1 0 1 1 2 0v1a1 1 0 0 1-1 1zm0 16a1 1 0 0 1-1-1v-1a1 1 0 0 1 2 0v1a1 1 0 0 1-1 1zm9-9a1 1 0 0 1-1 1h-1a1 1 0 1 1 0-2h1a1 1 0 0 1 1 1zm-16 0a1 1 0 0 1-1 1H3a1 1 0 1 1 0-2h1a1 1 0 0 1 1 1zm12.95-6.364a1 1 0 0 1 0 1.414l-.707.707a1 1 0 0 1-1.414-1.414l.707-.707a1 1 0 0 1 1.414 0zm-11.314 11.314a1 1 0 0 1 0 1.414l-.707.707a1 1 0 0 1-1.414-1.414l.707-.707a1 1 0 0 1 1.414 0zm11.314 1.414a1 1 0 0 1-1.414 0l-.707-.707a1 1 0 0 1 1.414-1.414l.707.707a1 1 0 0 1 0 1.414zm-11.314-11.314a1 1 0 0 1-1.414 0l-.707-.707A1 1 0 1 1 5.914 4.95l.707.707a1 1 0 0 1 0 1.414zM12 8a4 4 0 1 1 0 8 4 4 0 0 1 0-8z" />
+              </svg>
+            </span>
+            <span class="theme-toggle__icon theme-toggle__icon--moon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M20.742 14.045a1 1 0 0 0-1.077-.217 7 7 0 0 1-9.493-7.92 1 1 0 0 0-1.149-1.2A9 9 0 1 0 21 15a1 1 0 0 0-.258-.955z" />
+              </svg>
+            </span>
+            <span class="sr-only">切换主题</span>
+          </button>
+          <a class="site-header__search" href="/search/">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M10.5 4a6.5 6.5 0 0 1 5.196 10.49l3.907 3.907-1.414 1.414-3.907-3.907A6.5 6.5 0 1 1 10.5 4zm0 2a4.5 4.5 0 1 0 0 9 4.5 4.5 0 0 0 0-9z" />
+            </svg>
+            <span>站内搜索</span>
+          </a>
+        </div>
+      </div>
+    </header>
+    <main class="main-content">
+      <div class="container">
+        
+<section class="hero">
+  
+  <div class="hero__content">
+    
+    <p class="hero__eyebrow">置顶文章</p>
+    
+    
+    <h1 class="hero__title"><a href="/posts/help/">校园跑新手指南</a></h1>
+    <p class="hero__summary">本文为校园跑新手提供详细指南，帮助用户通过命令行在iOS设备上实现模拟跑步。内容涵盖Windows与macOS系统的软件准备、项目配置、设备连接及常见问题解决，确保读者能顺利完成虚拟定位设置并避免操作失误。</p>
+    <div class="post-meta">
+      <span class="post-meta__item">
+        <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+          <path d="M7 3a1 1 0 0 1 2 0v1h6V3a1 1 0 0 1 2 0v1h1.5A2.5 2.5 0 0 1 21 6.5v12A2.5 2.5 0 0 1 18.5 21h-13A2.5 2.5 0 0 1 3 18.5v-12A2.5 2.5 0 0 1 5.5 4H7zm11.5 4h-13A.5.5 0 0 0 5 7.5V10h14V7.5a.5.5 0 0 0-.5-.5zm.5 10.5v-7H5v7a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5z" />
+        </svg>
+        <span>2025年12月04日</span>
+      </span>
+      <span class="post-meta__item">
+        <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+          <path d="M12 3.5a8.5 8.5 0 1 0 8.5 8.5A8.5 8.5 0 0 0 12 3.5zm0 2a6.5 6.5 0 1 1-6.5 6.5A6.5 6.5 0 0 1 12 5.5zm-.75 3a1 1 0 0 1 2 0v3.382l2.268 1.307a1 1 0 1 1-1 1.732l-2.768-1.594A1 1 0 0 1 11.25 12z" />
+        </svg>
+        <span>约 4 分钟阅读</span>
+      </span>
+    </div>
+    
+    <a class="button" href="/posts/help/">
+      阅读全文
+      <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+        <path d="M5 12a1 1 0 0 1 1-1h9.586l-2.293-2.293 1.414-1.414L19.414 12l-4.707 4.707-1.414-1.414L15.586 13H6a1 1 0 0 1-1-1z" />
+      </svg>
+    </a>
+  </div>
+  
+</section>
+
+<section class="content-layout">
+  <div class="posts-grid">
+    <h2 class="section-title">全部文章</h2>
+    
+    <div class="posts-grid__list">
+      
+      <article class="post-card">
+        
+        <span class="post-card__badge">文章合集 · 19 篇</span>
+        
+        <p class="post-card__meta">
+          <span class="post-card__meta-item">
+            <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M7 3a1 1 0 0 1 2 0v1h6V3a1 1 0 0 1 2 0v1h1.5A2.5 2.5 0 0 1 21 6.5v12A2.5 2.5 0 0 1 18.5 21h-13A2.5 2.5 0 0 1 3 18.5v-12A2.5 2.5 0 0 1 5.5 4H7zm11.5 4h-13A.5.5 0 0 0 5 7.5V10h14V7.5a.5.5 0 0 0-.5-.5zm.5 10.5v-7H5v7a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5z" />
+            </svg>
+            <span>2025年12月04日</span>
+          </span>
+          <span class="post-card__meta-item">
+            <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M12 3.5a8.5 8.5 0 1 0 8.5 8.5A8.5 8.5 0 0 0 12 3.5zm0 2a6.5 6.5 0 1 1-6.5 6.5A6.5 6.5 0 0 1 12 5.5zm-.75 3a1 1 0 0 1 2 0v3.382l2.268 1.307a1 1 0 1 1-1 1.732l-2.768-1.594A1 1 0 0 1 11.25 12z" />
+            </svg>
+            <span>共 19 篇文章</span>
+          </span>
+        </p>
+        <h3 class="post-card__title"><a href="/posts/AIOPS论文翻译与学习/">AIOPS论文翻译与学习</a></h3>
+        <p class="post-card__excerpt">数篇AIOPS论文的翻译与学习，重点关注RCA</p>
+        
+        <ul class="tag-list tag-list--compact">
+          
+          <li><a href="/tags/aiops/">AIOPS</a></li>
+          
+          <li><a href="/tags/论文/">论文</a></li>
+          
+          <li><a href="/tags/学习/">学习</a></li>
+          
+        </ul>
+        
+        <a class="post-card__read-more" href="/posts/AIOPS论文翻译与学习/">
+          打开合集
+          <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M5 12a1 1 0 0 1 1-1h9.586l-2.293-2.293 1.414-1.414L19.414 12l-4.707 4.707-1.414-1.414L15.586 13H6a1 1 0 0 1-1-1z" />
+          </svg>
+        </a>
+      </article>
+      
+      <article class="post-card">
+        
+        <span class="post-card__badge">文章合集 · 1 篇</span>
+        
+        <p class="post-card__meta">
+          <span class="post-card__meta-item">
+            <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M7 3a1 1 0 0 1 2 0v1h6V3a1 1 0 0 1 2 0v1h1.5A2.5 2.5 0 0 1 21 6.5v12A2.5 2.5 0 0 1 18.5 21h-13A2.5 2.5 0 0 1 3 18.5v-12A2.5 2.5 0 0 1 5.5 4H7zm11.5 4h-13A.5.5 0 0 0 5 7.5V10h14V7.5a.5.5 0 0 0-.5-.5zm.5 10.5v-7H5v7a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5z" />
+            </svg>
+            <span>2025年12月04日</span>
+          </span>
+          <span class="post-card__meta-item">
+            <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M12 3.5a8.5 8.5 0 1 0 8.5 8.5A8.5 8.5 0 0 0 12 3.5zm0 2a6.5 6.5 0 1 1-6.5 6.5A6.5 6.5 0 0 1 12 5.5zm-.75 3a1 1 0 0 1 2 0v3.382l2.268 1.307a1 1 0 1 1-1 1.732l-2.768-1.594A1 1 0 0 1 11.25 12z" />
+            </svg>
+            <span>共 1 篇文章</span>
+          </span>
+        </p>
+        <h3 class="post-card__title"><a href="/posts/OhMyGold/">OhMyGold</a></h3>
+        <p class="post-card__excerpt">OhMyGold项目资源整理</p>
+        
+        <ul class="tag-list tag-list--compact">
+          
+          <li><a href="/tags/gold/">Gold</a></li>
+          
+          <li><a href="/tags/论文/">论文</a></li>
+          
+          <li><a href="/tags/学习/">学习</a></li>
+          
+          <li><a href="/tags/量化/">量化</a></li>
+          
+        </ul>
+        
+        <a class="post-card__read-more" href="/posts/OhMyGold/">
+          打开合集
+          <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M5 12a1 1 0 0 1 1-1h9.586l-2.293-2.293 1.414-1.414L19.414 12l-4.707 4.707-1.414-1.414L15.586 13H6a1 1 0 0 1-1-1z" />
+          </svg>
+        </a>
+      </article>
+      
+      <article class="post-card">
+        
+        <p class="post-card__meta">
+          <span class="post-card__meta-item">
+            <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M7 3a1 1 0 0 1 2 0v1h6V3a1 1 0 0 1 2 0v1h1.5A2.5 2.5 0 0 1 21 6.5v12A2.5 2.5 0 0 1 18.5 21h-13A2.5 2.5 0 0 1 3 18.5v-12A2.5 2.5 0 0 1 5.5 4H7zm11.5 4h-13A.5.5 0 0 0 5 7.5V10h14V7.5a.5.5 0 0 0-.5-.5zm.5 10.5v-7H5v7a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5z" />
+            </svg>
+            <span>2025年12月07日</span>
+          </span>
+          <span class="post-card__meta-item">
+            <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M12 3.5a8.5 8.5 0 1 0 8.5 8.5A8.5 8.5 0 0 0 12 3.5zm0 2a6.5 6.5 0 1 1-6.5 6.5A6.5 6.5 0 0 1 12 5.5zm-.75 3a1 1 0 0 1 2 0v3.382l2.268 1.307a1 1 0 1 1-1 1.732l-2.768-1.594A1 1 0 0 1 11.25 12z" />
+            </svg>
+            <span>约 1 分钟阅读</span>
+          </span>
+        </p>
+        <h3 class="post-card__title"><a href="/posts/AIAgent4elang使用教程/">慧学外语AI助手使用教程</a></h3>
+        <p class="post-card__excerpt">本文介绍了慧学外语AI助手的使用教程，专为不熟悉命令行的用户设计。教程涵盖Windows和macOS系统，重点推荐“一键脚本”简化操作流程。用户需提前准备DeepSeek API密钥，并按照步骤配置运行。</p>
+        
+        <a class="post-card__read-more" href="/posts/AIAgent4elang使用教程/">
+          继续阅读
+          <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M5 12a1 1 0 0 1 1-1h9.586l-2.293-2.293 1.414-1.414L19.414 12l-4.707 4.707-1.414-1.414L15.586 13H6a1 1 0 0 1-1-1z" />
+          </svg>
+        </a>
+      </article>
+      
+      <article class="post-card">
+        
+        <p class="post-card__meta">
+          <span class="post-card__meta-item">
+            <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M7 3a1 1 0 0 1 2 0v1h6V3a1 1 0 0 1 2 0v1h1.5A2.5 2.5 0 0 1 21 6.5v12A2.5 2.5 0 0 1 18.5 21h-13A2.5 2.5 0 0 1 3 18.5v-12A2.5 2.5 0 0 1 5.5 4H7zm11.5 4h-13A.5.5 0 0 0 5 7.5V10h14V7.5a.5.5 0 0 0-.5-.5zm.5 10.5v-7H5v7a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5z" />
+            </svg>
+            <span>2025年12月04日</span>
+          </span>
+          <span class="post-card__meta-item">
+            <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M12 3.5a8.5 8.5 0 1 0 8.5 8.5A8.5 8.5 0 0 0 12 3.5zm0 2a6.5 6.5 0 1 1-6.5 6.5A6.5 6.5 0 0 1 12 5.5zm-.75 3a1 1 0 0 1 2 0v3.382l2.268 1.307a1 1 0 1 1-1 1.732l-2.768-1.594A1 1 0 0 1 11.25 12z" />
+            </svg>
+            <span>约 2 分钟阅读</span>
+          </span>
+        </p>
+        <h3 class="post-card__title"><a href="/posts/AIOPS/AIOPSLAB项目学习/">AIOPSLAB 项目学习</a></h3>
+        <p class="post-card__excerpt">微软 AIOpsLab 项目为根因分析提供了清晰的设计模式，将任务拆解为结构化步骤，并通过中间件封装真实服务器数据，转化为 Agent 易读的 CSV 格式。</p>
+        
+        <a class="post-card__read-more" href="/posts/AIOPS/AIOPSLAB项目学习/">
+          继续阅读
+          <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M5 12a1 1 0 0 1 1-1h9.586l-2.293-2.293 1.414-1.414L19.414 12l-4.707 4.707-1.414-1.414L15.586 13H6a1 1 0 0 1-1-1z" />
+          </svg>
+        </a>
+      </article>
+      
+      <article class="post-card">
+        
+        <p class="post-card__meta">
+          <span class="post-card__meta-item">
+            <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M7 3a1 1 0 0 1 2 0v1h6V3a1 1 0 0 1 2 0v1h1.5A2.5 2.5 0 0 1 21 6.5v12A2.5 2.5 0 0 1 18.5 21h-13A2.5 2.5 0 0 1 3 18.5v-12A2.5 2.5 0 0 1 5.5 4H7zm11.5 4h-13A.5.5 0 0 0 5 7.5V10h14V7.5a.5.5 0 0 0-.5-.5zm.5 10.5v-7H5v7a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5z" />
+            </svg>
+            <span>2025年12月04日</span>
+          </span>
+          <span class="post-card__meta-item">
+            <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M12 3.5a8.5 8.5 0 1 0 8.5 8.5A8.5 8.5 0 0 0 12 3.5zm0 2a6.5 6.5 0 1 1-6.5 6.5A6.5 6.5 0 0 1 12 5.5zm-.75 3a1 1 0 0 1 2 0v3.382l2.268 1.307a1 1 0 1 1-1 1.732l-2.768-1.594A1 1 0 0 1 11.25 12z" />
+            </svg>
+            <span>约 7 分钟阅读</span>
+          </span>
+        </p>
+        <h3 class="post-card__title"><a href="/posts/AIOPS/AIOps多智能体项目与论文资源汇总/">AIOps 多智能体项目与论文资源汇总</a></h3>
+        <p class="post-card__excerpt">本文汇总了AIOps领域多智能体相关的核心开源项目、重要学术论文及开发测试资源，旨在帮助读者优化根因定位与分析方案。</p>
+        
+        <a class="post-card__read-more" href="/posts/AIOPS/AIOps多智能体项目与论文资源汇总/">
+          继续阅读
+          <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M5 12a1 1 0 0 1 1-1h9.586l-2.293-2.293 1.414-1.414L19.414 12l-4.707 4.707-1.414-1.414L15.586 13H6a1 1 0 0 1-1-1z" />
+          </svg>
+        </a>
+      </article>
+      
+      <article class="post-card">
+        
+        <p class="post-card__meta">
+          <span class="post-card__meta-item">
+            <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M7 3a1 1 0 0 1 2 0v1h6V3a1 1 0 0 1 2 0v1h1.5A2.5 2.5 0 0 1 21 6.5v12A2.5 2.5 0 0 1 18.5 21h-13A2.5 2.5 0 0 1 3 18.5v-12A2.5 2.5 0 0 1 5.5 4H7zm11.5 4h-13A.5.5 0 0 0 5 7.5V10h14V7.5a.5.5 0 0 0-.5-.5zm.5 10.5v-7H5v7a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5z" />
+            </svg>
+            <span>2025年12月04日</span>
+          </span>
+          <span class="post-card__meta-item">
+            <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M12 3.5a8.5 8.5 0 1 0 8.5 8.5A8.5 8.5 0 0 0 12 3.5zm0 2a6.5 6.5 0 1 1-6.5 6.5A6.5 6.5 0 0 1 12 5.5zm-.75 3a1 1 0 0 1 2 0v3.382l2.268 1.307a1 1 0 1 1-1 1.732l-2.768-1.594A1 1 0 0 1 11.25 12z" />
+            </svg>
+            <span>约 9 分钟阅读</span>
+          </span>
+        </p>
+        <h3 class="post-card__title"><a href="/posts/AIOPSLAB论文_专业中文翻译/">AIOpsLab：用于评估AI代理实现自主云的整体框架</a></h3>
+        <p class="post-card__excerpt">本文提出AIOpsLab框架，旨在评估AI代理在实现自主云运维（AgentOps）中的能力。该框架通过部署云环境、注入故障、生成工作负载并协调组件，为代理提供交互接口，以支持复杂运维任务的端到端自动化测试。</p>
+        
+        <a class="post-card__read-more" href="/posts/AIOPSLAB论文_专业中文翻译/">
+          继续阅读
+          <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M5 12a1 1 0 0 1 1-1h9.586l-2.293-2.293 1.414-1.414L19.414 12l-4.707 4.707-1.414-1.414L15.586 13H6a1 1 0 0 1-1-1z" />
+          </svg>
+        </a>
+      </article>
+      
+      <article class="post-card">
+        
+        <p class="post-card__meta">
+          <span class="post-card__meta-item">
+            <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M7 3a1 1 0 0 1 2 0v1h6V3a1 1 0 0 1 2 0v1h1.5A2.5 2.5 0 0 1 21 6.5v12A2.5 2.5 0 0 1 18.5 21h-13A2.5 2.5 0 0 1 3 18.5v-12A2.5 2.5 0 0 1 5.5 4H7zm11.5 4h-13A.5.5 0 0 0 5 7.5V10h14V7.5a.5.5 0 0 0-.5-.5zm.5 10.5v-7H5v7a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5z" />
+            </svg>
+            <span>2025年12月04日</span>
+          </span>
+          <span class="post-card__meta-item">
+            <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M12 3.5a8.5 8.5 0 1 0 8.5 8.5A8.5 8.5 0 0 0 12 3.5zm0 2a6.5 6.5 0 1 1-6.5 6.5A6.5 6.5 0 0 1 12 5.5zm-.75 3a1 1 0 0 1 2 0v3.382l2.268 1.307a1 1 0 1 1-1 1.732l-2.768-1.594A1 1 0 0 1 11.25 12z" />
+            </svg>
+            <span>约 2 分钟阅读</span>
+          </span>
+        </p>
+        <h3 class="post-card__title"><a href="/posts/Base64/">Base64</a></h3>
+        <p class="post-card__excerpt">Base64是一种将二进制数据编码为64个可打印字符的方法，确保数据在文本协议传输中不被修改。文章通过传真发送图片的比喻解释了其必要性，并简述了编码原理：将二进制数据按3字节分组，转换为6比特单位后查表映射为字符。读者可掌握Base64的核心机制与适用场景，如电子邮件附件和网页资源嵌入，理解其虽非加密工具但能保障数据完整性，同时注意编码会导致数据体积增加约33%。</p>
+        
+        <ul class="tag-list tag-list--compact">
+          
+          <li><a href="/tags/知识积累/">知识积累</a></li>
+          
+        </ul>
+        
+        <a class="post-card__read-more" href="/posts/Base64/">
+          继续阅读
+          <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M5 12a1 1 0 0 1 1-1h9.586l-2.293-2.293 1.414-1.414L19.414 12l-4.707 4.707-1.414-1.414L15.586 13H6a1 1 0 0 1-1-1z" />
+          </svg>
+        </a>
+      </article>
+      
+      <article class="post-card">
+        
+        <p class="post-card__meta">
+          <span class="post-card__meta-item">
+            <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M7 3a1 1 0 0 1 2 0v1h6V3a1 1 0 0 1 2 0v1h1.5A2.5 2.5 0 0 1 21 6.5v12A2.5 2.5 0 0 1 18.5 21h-13A2.5 2.5 0 0 1 3 18.5v-12A2.5 2.5 0 0 1 5.5 4H7zm11.5 4h-13A.5.5 0 0 0 5 7.5V10h14V7.5a.5.5 0 0 0-.5-.5zm.5 10.5v-7H5v7a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5z" />
+            </svg>
+            <span>2025年12月04日</span>
+          </span>
+          <span class="post-card__meta-item">
+            <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M12 3.5a8.5 8.5 0 1 0 8.5 8.5A8.5 8.5 0 0 0 12 3.5zm0 2a6.5 6.5 0 1 1-6.5 6.5A6.5 6.5 0 0 1 12 5.5zm-.75 3a1 1 0 0 1 2 0v3.382l2.268 1.307a1 1 0 1 1-1 1.732l-2.768-1.594A1 1 0 0 1 11.25 12z" />
+            </svg>
+            <span>约 1 分钟阅读</span>
+          </span>
+        </p>
+        <h3 class="post-card__title"><a href="/posts/C语言字符串基础知识/">c语言中字符串的基础知识</a></h3>
+        <p class="post-card__excerpt">本文介绍了C语言中字符串的基础知识，涵盖定义、输入输出及常用函数。读者可掌握字符数组与指针的定义方法、动态内存分配技巧以及多种输入输出方式，如scanf和fgets的使用。亮点包括处理整行输入和删除换行符的实用技巧，以及strcpy、strcat和strcmp等核心函数的应用，帮助提升字符串操作效率，避免常见错误。</p>
+        
+        <ul class="tag-list tag-list--compact">
+          
+          <li><a href="/tags/c/">c</a></li>
+          
+        </ul>
+        
+        <a class="post-card__read-more" href="/posts/C语言字符串基础知识/">
+          继续阅读
+          <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M5 12a1 1 0 0 1 1-1h9.586l-2.293-2.293 1.414-1.414L19.414 12l-4.707 4.707-1.414-1.414L15.586 13H6a1 1 0 0 1-1-1z" />
+          </svg>
+        </a>
+      </article>
+      
+      <article class="post-card">
+        
+        <p class="post-card__meta">
+          <span class="post-card__meta-item">
+            <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M7 3a1 1 0 0 1 2 0v1h6V3a1 1 0 0 1 2 0v1h1.5A2.5 2.5 0 0 1 21 6.5v12A2.5 2.5 0 0 1 18.5 21h-13A2.5 2.5 0 0 1 3 18.5v-12A2.5 2.5 0 0 1 5.5 4H7zm11.5 4h-13A.5.5 0 0 0 5 7.5V10h14V7.5a.5.5 0 0 0-.5-.5zm.5 10.5v-7H5v7a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5z" />
+            </svg>
+            <span>2025年12月04日</span>
+          </span>
+          <span class="post-card__meta-item">
+            <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M12 3.5a8.5 8.5 0 1 0 8.5 8.5A8.5 8.5 0 0 0 12 3.5zm0 2a6.5 6.5 0 1 1-6.5 6.5A6.5 6.5 0 0 1 12 5.5zm-.75 3a1 1 0 0 1 2 0v3.382l2.268 1.307a1 1 0 1 1-1 1.732l-2.768-1.594A1 1 0 0 1 11.25 12z" />
+            </svg>
+            <span>约 2 分钟阅读</span>
+          </span>
+        </p>
+        <h3 class="post-card__title"><a href="/posts/JSON/">JSON数据格式</a></h3>
+        <p class="post-card__excerpt">JSON是一种轻量级、语言无关的数据交换格式，广泛应用于网络开发和系统间通信。它基于文本、结构简洁，支持对象和数组两种核心结构，便于不同编程语言解析与生成。文章解析了JSON的语法规则、与JavaScript对象的区别及转换方法，并通过比喻阐明其作为“通用语言”在API接口、配置存储及前后端数据传输中的关键作用。读者可掌握JSON的核心概念与实际应用，提升数据处理与跨平台协作能力。</p>
+        
+        <ul class="tag-list tag-list--compact">
+          
+          <li><a href="/tags/知识积累/">知识积累</a></li>
+          
+        </ul>
+        
+        <a class="post-card__read-more" href="/posts/JSON/">
+          继续阅读
+          <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M5 12a1 1 0 0 1 1-1h9.586l-2.293-2.293 1.414-1.414L19.414 12l-4.707 4.707-1.414-1.414L15.586 13H6a1 1 0 0 1-1-1z" />
+          </svg>
+        </a>
+      </article>
+      
+      <article class="post-card">
+        
+        <p class="post-card__meta">
+          <span class="post-card__meta-item">
+            <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M7 3a1 1 0 0 1 2 0v1h6V3a1 1 0 0 1 2 0v1h1.5A2.5 2.5 0 0 1 21 6.5v12A2.5 2.5 0 0 1 18.5 21h-13A2.5 2.5 0 0 1 3 18.5v-12A2.5 2.5 0 0 1 5.5 4H7zm11.5 4h-13A.5.5 0 0 0 5 7.5V10h14V7.5a.5.5 0 0 0-.5-.5zm.5 10.5v-7H5v7a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5z" />
+            </svg>
+            <span>2025年12月04日</span>
+          </span>
+          <span class="post-card__meta-item">
+            <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M12 3.5a8.5 8.5 0 1 0 8.5 8.5A8.5 8.5 0 0 0 12 3.5zm0 2a6.5 6.5 0 1 1-6.5 6.5A6.5 6.5 0 0 1 12 5.5zm-.75 3a1 1 0 0 1 2 0v3.382l2.268 1.307a1 1 0 1 1-1 1.732l-2.768-1.594A1 1 0 0 1 11.25 12z" />
+            </svg>
+            <span>约 3 分钟阅读</span>
+          </span>
+        </p>
+        <h3 class="post-card__title"><a href="/posts/Jaccard相似度/">Jaccard相似度</a></h3>
+        <p class="post-card__excerpt">Jaccard相似度通过计算两个集合交集与并集之比来衡量其相似性。本文介绍了其基本公式与计算方法，并举例说明了在文本处理、文档去重和推荐系统等场景中的应用。读者可掌握这一简单直观的度量工具，用于处理集合数据并快速评估相似度。</p>
+        
+        <ul class="tag-list tag-list--compact">
+          
+          <li><a href="/tags/学习/">学习</a></li>
+          
+        </ul>
+        
+        <a class="post-card__read-more" href="/posts/Jaccard相似度/">
+          继续阅读
+          <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M5 12a1 1 0 0 1 1-1h9.586l-2.293-2.293 1.414-1.414L19.414 12l-4.707 4.707-1.414-1.414L15.586 13H6a1 1 0 0 1-1-1z" />
+          </svg>
+        </a>
+      </article>
+      
+      <article class="post-card">
+        
+        <p class="post-card__meta">
+          <span class="post-card__meta-item">
+            <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M7 3a1 1 0 0 1 2 0v1h6V3a1 1 0 0 1 2 0v1h1.5A2.5 2.5 0 0 1 21 6.5v12A2.5 2.5 0 0 1 18.5 21h-13A2.5 2.5 0 0 1 3 18.5v-12A2.5 2.5 0 0 1 5.5 4H7zm11.5 4h-13A.5.5 0 0 0 5 7.5V10h14V7.5a.5.5 0 0 0-.5-.5zm.5 10.5v-7H5v7a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5z" />
+            </svg>
+            <span>2025年12月04日</span>
+          </span>
+          <span class="post-card__meta-item">
+            <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M12 3.5a8.5 8.5 0 1 0 8.5 8.5A8.5 8.5 0 0 0 12 3.5zm0 2a6.5 6.5 0 1 1-6.5 6.5A6.5 6.5 0 0 1 12 5.5zm-.75 3a1 1 0 0 1 2 0v3.382l2.268 1.307a1 1 0 1 1-1 1.732l-2.768-1.594A1 1 0 0 1 11.25 12z" />
+            </svg>
+            <span>约 2 分钟阅读</span>
+          </span>
+        </p>
+        <h3 class="post-card__title"><a href="/posts/MedAgt/">MedAgt 开发流程</a></h3>
+        <p class="post-card__excerpt">本文介绍了MedAgt医疗辅助系统的完整开发流程，涵盖从预备知识到部署运维的七个阶段。读者可学习如何结合FastAPI与Next.js构建多Agent推理应用，并掌握医疗数据检索与可视化实现方法。亮点包括基于DeepSeek的智能分诊决策链设计、PubMed/NICE证据整合机制，以及具备进度追踪与追问锁定的交互式前端界面，为开发医疗AI系统提供全链路实践参考。</p>
+        
+        <a class="post-card__read-more" href="/posts/MedAgt/">
+          继续阅读
+          <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M5 12a1 1 0 0 1 1-1h9.586l-2.293-2.293 1.414-1.414L19.414 12l-4.707 4.707-1.414-1.414L15.586 13H6a1 1 0 0 1-1-1z" />
+          </svg>
+        </a>
+      </article>
+      
+      <article class="post-card">
+        
+        <p class="post-card__meta">
+          <span class="post-card__meta-item">
+            <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M7 3a1 1 0 0 1 2 0v1h6V3a1 1 0 0 1 2 0v1h1.5A2.5 2.5 0 0 1 21 6.5v12A2.5 2.5 0 0 1 18.5 21h-13A2.5 2.5 0 0 1 3 18.5v-12A2.5 2.5 0 0 1 5.5 4H7zm11.5 4h-13A.5.5 0 0 0 5 7.5V10h14V7.5a.5.5 0 0 0-.5-.5zm.5 10.5v-7H5v7a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5z" />
+            </svg>
+            <span>2025年12月04日</span>
+          </span>
+          <span class="post-card__meta-item">
+            <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M12 3.5a8.5 8.5 0 1 0 8.5 8.5A8.5 8.5 0 0 0 12 3.5zm0 2a6.5 6.5 0 1 1-6.5 6.5A6.5 6.5 0 0 1 12 5.5zm-.75 3a1 1 0 0 1 2 0v3.382l2.268 1.307a1 1 0 1 1-1 1.732l-2.768-1.594A1 1 0 0 1 11.25 12z" />
+            </svg>
+            <span>约 2 分钟阅读</span>
+          </span>
+        </p>
+        <h3 class="post-card__title"><a href="/posts/SequenceMatcher字符串相似度函数学习/">SequenceMatcher字符串相似度函数学习</a></h3>
+        <p class="post-card__excerpt">本文介绍了Python标准库difflib中的SequenceMatcher类，用于计算字符串相似度。通过实例演示了基本用法、三种精度不同的比较方法及实际应用场景，帮助读者快速掌握该工具在文本比较、拼写检查等任务中的使用技巧。</p>
+        
+        <ul class="tag-list tag-list--compact">
+          
+          <li><a href="/tags/python/">Python</a></li>
+          
+          <li><a href="/tags/学习/">学习</a></li>
+          
+        </ul>
+        
+        <a class="post-card__read-more" href="/posts/SequenceMatcher字符串相似度函数学习/">
+          继续阅读
+          <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M5 12a1 1 0 0 1 1-1h9.586l-2.293-2.293 1.414-1.414L19.414 12l-4.707 4.707-1.414-1.414L15.586 13H6a1 1 0 0 1-1-1z" />
+          </svg>
+        </a>
+      </article>
+      
+      <article class="post-card">
+        
+        <p class="post-card__meta">
+          <span class="post-card__meta-item">
+            <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M7 3a1 1 0 0 1 2 0v1h6V3a1 1 0 0 1 2 0v1h1.5A2.5 2.5 0 0 1 21 6.5v12A2.5 2.5 0 0 1 18.5 21h-13A2.5 2.5 0 0 1 3 18.5v-12A2.5 2.5 0 0 1 5.5 4H7zm11.5 4h-13A.5.5 0 0 0 5 7.5V10h14V7.5a.5.5 0 0 0-.5-.5zm.5 10.5v-7H5v7a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5z" />
+            </svg>
+            <span>2025年12月04日</span>
+          </span>
+          <span class="post-card__meta-item">
+            <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M12 3.5a8.5 8.5 0 1 0 8.5 8.5A8.5 8.5 0 0 0 12 3.5zm0 2a6.5 6.5 0 1 1-6.5 6.5A6.5 6.5 0 0 1 12 5.5zm-.75 3a1 1 0 0 1 2 0v3.382l2.268 1.307a1 1 0 1 1-1 1.732l-2.768-1.594A1 1 0 0 1 11.25 12z" />
+            </svg>
+            <span>约 1 分钟阅读</span>
+          </span>
+        </p>
+        <h3 class="post-card__title"><a href="/posts/WASM/">WASM</a></h3>
+        <p class="post-card__excerpt">WebAssembly（WASM）是一种为Web设计的高性能二进制指令格式，允许C++、Rust等语言编写的代码以接近原生速度在浏览器中运行。它并非替代JavaScript，而是与其协作，专门处理计算密集型任务，如游戏、图形设计和音视频编辑，同时具备安全、可移植和快速启动的优势。读者可了解如何利用WASM提升Web应用性能并复用现有代码库，扩展开发可能性。</p>
+        
+        <ul class="tag-list tag-list--compact">
+          
+          <li><a href="/tags/知识积累/">知识积累</a></li>
+          
+        </ul>
+        
+        <a class="post-card__read-more" href="/posts/WASM/">
+          继续阅读
+          <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M5 12a1 1 0 0 1 1-1h9.586l-2.293-2.293 1.414-1.414L19.414 12l-4.707 4.707-1.414-1.414L15.586 13H6a1 1 0 0 1-1-1z" />
+          </svg>
+        </a>
+      </article>
+      
+      <article class="post-card">
+        
+        <p class="post-card__meta">
+          <span class="post-card__meta-item">
+            <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M7 3a1 1 0 0 1 2 0v1h6V3a1 1 0 0 1 2 0v1h1.5A2.5 2.5 0 0 1 21 6.5v12A2.5 2.5 0 0 1 18.5 21h-13A2.5 2.5 0 0 1 3 18.5v-12A2.5 2.5 0 0 1 5.5 4H7zm11.5 4h-13A.5.5 0 0 0 5 7.5V10h14V7.5a.5.5 0 0 0-.5-.5zm.5 10.5v-7H5v7a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5z" />
+            </svg>
+            <span>2025年12月04日</span>
+          </span>
+          <span class="post-card__meta-item">
+            <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M12 3.5a8.5 8.5 0 1 0 8.5 8.5A8.5 8.5 0 0 0 12 3.5zm0 2a6.5 6.5 0 1 1-6.5 6.5A6.5 6.5 0 0 1 12 5.5zm-.75 3a1 1 0 0 1 2 0v3.382l2.268 1.307a1 1 0 1 1-1 1.732l-2.768-1.594A1 1 0 0 1 11.25 12z" />
+            </svg>
+            <span>约 2 分钟阅读</span>
+          </span>
+        </p>
+        <h3 class="post-card__title"><a href="/posts/XML/">XML是什么</a></h3>
+        <p class="post-card__excerpt">XML是一种可扩展标记语言，专注于存储和传输结构化数据，与HTML不同，它允许自定义标签以增强数据的自我描述性。文章解析了XML的核心特性、严格语法规则及其在数据交换、配置文件和作为技术基础方面的应用，并通过示例展示其实际用途。读者可以掌握XML的基本概念、语法要点及其与JSON的对比，了解如何在不同场景中选择合适的数据格式，从而提升数据处理与系统集成的能力。</p>
+        
+        <ul class="tag-list tag-list--compact">
+          
+          <li><a href="/tags/知识积累/">知识积累</a></li>
+          
+        </ul>
+        
+        <a class="post-card__read-more" href="/posts/XML/">
+          继续阅读
+          <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M5 12a1 1 0 0 1 1-1h9.586l-2.293-2.293 1.414-1.414L19.414 12l-4.707 4.707-1.414-1.414L15.586 13H6a1 1 0 0 1-1-1z" />
+          </svg>
+        </a>
+      </article>
+      
+      <article class="post-card">
+        
+        <p class="post-card__meta">
+          <span class="post-card__meta-item">
+            <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M7 3a1 1 0 0 1 2 0v1h6V3a1 1 0 0 1 2 0v1h1.5A2.5 2.5 0 0 1 21 6.5v12A2.5 2.5 0 0 1 18.5 21h-13A2.5 2.5 0 0 1 3 18.5v-12A2.5 2.5 0 0 1 5.5 4H7zm11.5 4h-13A.5.5 0 0 0 5 7.5V10h14V7.5a.5.5 0 0 0-.5-.5zm.5 10.5v-7H5v7a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5z" />
+            </svg>
+            <span>2025年12月04日</span>
+          </span>
+          <span class="post-card__meta-item">
+            <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M12 3.5a8.5 8.5 0 1 0 8.5 8.5A8.5 8.5 0 0 0 12 3.5zm0 2a6.5 6.5 0 1 1-6.5 6.5A6.5 6.5 0 0 1 12 5.5zm-.75 3a1 1 0 0 1 2 0v3.382l2.268 1.307a1 1 0 1 1-1 1.732l-2.768-1.594A1 1 0 0 1 11.25 12z" />
+            </svg>
+            <span>约 1 分钟阅读</span>
+          </span>
+        </p>
+        <h3 class="post-card__title"><a href="/posts/git merge solution/">git merge solution</a></h3>
+        <p class="post-card__excerpt">本文介绍了使用 Git rebase 进行分支合并的解决方案，帮助开发者保持线性清晰的提交历史。读者将学会如何安全地执行 rebase 操作，包括查看分支状态、处理冲突及完成推送。亮点在于通过 fetch、rebase 和冲突解决步骤，有效避免合并混乱，提升版本管理效率。</p>
+        
+        <ul class="tag-list tag-list--compact">
+          
+          <li><a href="/tags/git/">git</a></li>
+          
+        </ul>
+        
+        <a class="post-card__read-more" href="/posts/git merge solution/">
+          继续阅读
+          <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M5 12a1 1 0 0 1 1-1h9.586l-2.293-2.293 1.414-1.414L19.414 12l-4.707 4.707-1.414-1.414L15.586 13H6a1 1 0 0 1-1-1z" />
+          </svg>
+        </a>
+      </article>
+      
+      <article class="post-card">
+        
+        <p class="post-card__meta">
+          <span class="post-card__meta-item">
+            <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M7 3a1 1 0 0 1 2 0v1h6V3a1 1 0 0 1 2 0v1h1.5A2.5 2.5 0 0 1 21 6.5v12A2.5 2.5 0 0 1 18.5 21h-13A2.5 2.5 0 0 1 3 18.5v-12A2.5 2.5 0 0 1 5.5 4H7zm11.5 4h-13A.5.5 0 0 0 5 7.5V10h14V7.5a.5.5 0 0 0-.5-.5zm.5 10.5v-7H5v7a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5z" />
+            </svg>
+            <span>2025年12月04日</span>
+          </span>
+          <span class="post-card__meta-item">
+            <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M12 3.5a8.5 8.5 0 1 0 8.5 8.5A8.5 8.5 0 0 0 12 3.5zm0 2a6.5 6.5 0 1 1-6.5 6.5A6.5 6.5 0 0 1 12 5.5zm-.75 3a1 1 0 0 1 2 0v3.382l2.268 1.307a1 1 0 1 1-1 1.732l-2.768-1.594A1 1 0 0 1 11.25 12z" />
+            </svg>
+            <span>约 2 分钟阅读</span>
+          </span>
+        </p>
+        <h3 class="post-card__title"><a href="/posts/zju-live-better/">ZJU Live Better | 浙大生活脚本集合</a></h3>
+        <p class="post-card__excerpt">《ZJU Live Better》是一个面向浙江大学学生的开源脚本集合，通过Node.js实现教学与行政平台的自动化辅助功能。用户可完成自动签到、课程资料下载、Quiz答案获取等任务，有效提升校园生活效率。文章详细介绍了环境配置、脚本运行方法和常见问题解决方案，强调账户安全与合规使用，帮助学生快速上手并自主优化日常操作流程。</p>
+        
+        <a class="post-card__read-more" href="/posts/zju-live-better/">
+          继续阅读
+          <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M5 12a1 1 0 0 1 1-1h9.586l-2.293-2.293 1.414-1.414L19.414 12l-4.707 4.707-1.414-1.414L15.586 13H6a1 1 0 0 1-1-1z" />
+          </svg>
+        </a>
+      </article>
+      
+      <article class="post-card">
+        
+        <p class="post-card__meta">
+          <span class="post-card__meta-item">
+            <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M7 3a1 1 0 0 1 2 0v1h6V3a1 1 0 0 1 2 0v1h1.5A2.5 2.5 0 0 1 21 6.5v12A2.5 2.5 0 0 1 18.5 21h-13A2.5 2.5 0 0 1 3 18.5v-12A2.5 2.5 0 0 1 5.5 4H7zm11.5 4h-13A.5.5 0 0 0 5 7.5V10h14V7.5a.5.5 0 0 0-.5-.5zm.5 10.5v-7H5v7a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5z" />
+            </svg>
+            <span>2025年12月04日</span>
+          </span>
+          <span class="post-card__meta-item">
+            <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M12 3.5a8.5 8.5 0 1 0 8.5 8.5A8.5 8.5 0 0 0 12 3.5zm0 2a6.5 6.5 0 1 1-6.5 6.5A6.5 6.5 0 0 1 12 5.5zm-.75 3a1 1 0 0 1 2 0v3.382l2.268 1.307a1 1 0 1 1-1 1.732l-2.768-1.594A1 1 0 0 1 11.25 12z" />
+            </svg>
+            <span>约 3 分钟阅读</span>
+          </span>
+        </p>
+        <h3 class="post-card__title"><a href="/posts/代码高尔夫/">代码高尔夫平台开发路线</a></h3>
+        <p class="post-card__excerpt">本文详细介绍了在6至8周内从零开发代码高尔夫平台的完整路线，涵盖需求拆解、环境搭建、前后端实现、评测系统集成及部署运维等关键环节。读者可学习全栈项目规划与敏捷开发方法，掌握Docker容器化部署、多服务通信及生产环境监控等实用技能。亮点包括基于RabbitMQ的异步判题架构、AI助教集成、安全隔离设计，以及从开发到上云的端到端实践指南，为构建高可用编程竞赛平台提供完整参考。</p>
+        
+        <a class="post-card__read-more" href="/posts/代码高尔夫/">
+          继续阅读
+          <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M5 12a1 1 0 0 1 1-1h9.586l-2.293-2.293 1.414-1.414L19.414 12l-4.707 4.707-1.414-1.414L15.586 13H6a1 1 0 0 1-1-1z" />
+          </svg>
+        </a>
+      </article>
+      
+      <article class="post-card">
+        
+        <p class="post-card__meta">
+          <span class="post-card__meta-item">
+            <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M7 3a1 1 0 0 1 2 0v1h6V3a1 1 0 0 1 2 0v1h1.5A2.5 2.5 0 0 1 21 6.5v12A2.5 2.5 0 0 1 18.5 21h-13A2.5 2.5 0 0 1 3 18.5v-12A2.5 2.5 0 0 1 5.5 4H7zm11.5 4h-13A.5.5 0 0 0 5 7.5V10h14V7.5a.5.5 0 0 0-.5-.5zm.5 10.5v-7H5v7a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5z" />
+            </svg>
+            <span>2025年12月04日</span>
+          </span>
+          <span class="post-card__meta-item">
+            <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M12 3.5a8.5 8.5 0 1 0 8.5 8.5A8.5 8.5 0 0 0 12 3.5zm0 2a6.5 6.5 0 1 1-6.5 6.5A6.5 6.5 0 0 1 12 5.5zm-.75 3a1 1 0 0 1 2 0v3.382l2.268 1.307a1 1 0 1 1-1 1.732l-2.768-1.594A1 1 0 0 1 11.25 12z" />
+            </svg>
+            <span>约 2 分钟阅读</span>
+          </span>
+        </p>
+        <h3 class="post-card__title"><a href="/posts/在线c语言编译器/">在线 C 语言编译器开发流程</a></h3>
+        <p class="post-card__excerpt">本文介绍了开发零后端依赖的在线C语言编译器的完整流程，从搭建基础页面到部署上线。读者可学习如何利用Monaco编辑器、Wandbox API和PWA技术构建功能丰富的Web应用，实现代码编辑、运行测试、主题切换和离线访问。亮点包括全前端实现、本地持久化与分享功能，以及详细的版本控制和部署方案，帮助开发者掌握现代Web开发的核心技能。</p>
+        
+        <a class="post-card__read-more" href="/posts/在线c语言编译器/">
+          继续阅读
+          <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M5 12a1 1 0 0 1 1-1h9.586l-2.293-2.293 1.414-1.414L19.414 12l-4.707 4.707-1.414-1.414L15.586 13H6a1 1 0 0 1-1-1z" />
+          </svg>
+        </a>
+      </article>
+      
+      <article class="post-card">
+        
+        <p class="post-card__meta">
+          <span class="post-card__meta-item">
+            <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M7 3a1 1 0 0 1 2 0v1h6V3a1 1 0 0 1 2 0v1h1.5A2.5 2.5 0 0 1 21 6.5v12A2.5 2.5 0 0 1 18.5 21h-13A2.5 2.5 0 0 1 3 18.5v-12A2.5 2.5 0 0 1 5.5 4H7zm11.5 4h-13A.5.5 0 0 0 5 7.5V10h14V7.5a.5.5 0 0 0-.5-.5zm.5 10.5v-7H5v7a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5z" />
+            </svg>
+            <span>2025年12月04日</span>
+          </span>
+          <span class="post-card__meta-item">
+            <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M12 3.5a8.5 8.5 0 1 0 8.5 8.5A8.5 8.5 0 0 0 12 3.5zm0 2a6.5 6.5 0 1 1-6.5 6.5A6.5 6.5 0 0 1 12 5.5zm-.75 3a1 1 0 0 1 2 0v3.382l2.268 1.307a1 1 0 1 1-1 1.732l-2.768-1.594A1 1 0 0 1 11.25 12z" />
+            </svg>
+            <span>约 5 分钟阅读</span>
+          </span>
+        </p>
+        <h3 class="post-card__title"><a href="/posts/技术知识点/">技术知识点</a></h3>
+        <p class="post-card__excerpt">本文介绍了在线C语言编译器的核心实现技术，重点解析了Monaco Editor的集成、智能缩进算法与浏览器持久化策略。读者可学习如何通过CDN直接引入编辑器、实现自适应布局与主题切换，掌握基于状态机的代码格式化方法，以及利用localStorage进行数据存储的技巧。</p>
+        
+        <a class="post-card__read-more" href="/posts/技术知识点/">
+          继续阅读
+          <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M5 12a1 1 0 0 1 1-1h9.586l-2.293-2.293 1.414-1.414L19.414 12l-4.707 4.707-1.414-1.414L15.586 13H6a1 1 0 0 1-1-1z" />
+          </svg>
+        </a>
+      </article>
+      
+      <article class="post-card">
+        
+        <p class="post-card__meta">
+          <span class="post-card__meta-item">
+            <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M7 3a1 1 0 0 1 2 0v1h6V3a1 1 0 0 1 2 0v1h1.5A2.5 2.5 0 0 1 21 6.5v12A2.5 2.5 0 0 1 18.5 21h-13A2.5 2.5 0 0 1 3 18.5v-12A2.5 2.5 0 0 1 5.5 4H7zm11.5 4h-13A.5.5 0 0 0 5 7.5V10h14V7.5a.5.5 0 0 0-.5-.5zm.5 10.5v-7H5v7a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5z" />
+            </svg>
+            <span>2025年12月04日</span>
+          </span>
+          <span class="post-card__meta-item">
+            <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M12 3.5a8.5 8.5 0 1 0 8.5 8.5A8.5 8.5 0 0 0 12 3.5zm0 2a6.5 6.5 0 1 1-6.5 6.5A6.5 6.5 0 0 1 12 5.5zm-.75 3a1 1 0 0 1 2 0v3.382l2.268 1.307a1 1 0 1 1-1 1.732l-2.768-1.594A1 1 0 0 1 11.25 12z" />
+            </svg>
+            <span>约 2 分钟阅读</span>
+          </span>
+        </p>
+        <h3 class="post-card__title"><a href="/posts/深入理解C语言中的赋值与递增运算符/">深入理解C语言中的赋值与递增运算符</a></h3>
+        <p class="post-card__excerpt">本文深入解析C语言中赋值与递增运算符的核心概念，帮助读者区分表达式值与副作用，掌握后置递增与前置递增在赋值操作中的不同执行顺序。通过指针应用实例和实际编程建议，读者能够准确预测代码行为，避免常见错误，提升代码可读性与可靠性。</p>
+        
+        <ul class="tag-list tag-list--compact">
+          
+          <li><a href="/tags/c/">c</a></li>
+          
+        </ul>
+        
+        <a class="post-card__read-more" href="/posts/深入理解C语言中的赋值与递增运算符/">
+          继续阅读
+          <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M5 12a1 1 0 0 1 1-1h9.586l-2.293-2.293 1.414-1.414L19.414 12l-4.707 4.707-1.414-1.414L15.586 13H6a1 1 0 0 1-1-1z" />
+          </svg>
+        </a>
+      </article>
+      
+      <article class="post-card">
+        
+        <p class="post-card__meta">
+          <span class="post-card__meta-item">
+            <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M7 3a1 1 0 0 1 2 0v1h6V3a1 1 0 0 1 2 0v1h1.5A2.5 2.5 0 0 1 21 6.5v12A2.5 2.5 0 0 1 18.5 21h-13A2.5 2.5 0 0 1 3 18.5v-12A2.5 2.5 0 0 1 5.5 4H7zm11.5 4h-13A.5.5 0 0 0 5 7.5V10h14V7.5a.5.5 0 0 0-.5-.5zm.5 10.5v-7H5v7a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5z" />
+            </svg>
+            <span>2025年12月04日</span>
+          </span>
+          <span class="post-card__meta-item">
+            <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M12 3.5a8.5 8.5 0 1 0 8.5 8.5A8.5 8.5 0 0 0 12 3.5zm0 2a6.5 6.5 0 1 1-6.5 6.5A6.5 6.5 0 0 1 12 5.5zm-.75 3a1 1 0 0 1 2 0v3.382l2.268 1.307a1 1 0 1 1-1 1.732l-2.768-1.594A1 1 0 0 1 11.25 12z" />
+            </svg>
+            <span>约 1 分钟阅读</span>
+          </span>
+        </p>
+        <h3 class="post-card__title"><a href="/posts/积分小结/">积分小结</a></h3>
+        <p class="post-card__excerpt">本文系统总结了三角函数积分与根号积分的核心解法。针对三角积分，介绍了乘积形式、有理函数及线性形式的代换技巧；对于根号积分，详述了代换法、三角代换与完成平方等策略。读者可掌握分类处理积分问题的思路，提升对复杂积分结构的化解能力。</p>
+        
+        <ul class="tag-list tag-list--compact">
+          
+          <li><a href="/tags/学习/">学习</a></li>
+          
+          <li><a href="/tags/数学/">数学</a></li>
+          
+        </ul>
+        
+        <a class="post-card__read-more" href="/posts/积分小结/">
+          继续阅读
+          <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M5 12a1 1 0 0 1 1-1h9.586l-2.293-2.293 1.414-1.414L19.414 12l-4.707 4.707-1.414-1.414L15.586 13H6a1 1 0 0 1-1-1z" />
+          </svg>
+        </a>
+      </article>
+      
+      <article class="post-card">
+        
+        <p class="post-card__meta">
+          <span class="post-card__meta-item">
+            <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M7 3a1 1 0 0 1 2 0v1h6V3a1 1 0 0 1 2 0v1h1.5A2.5 2.5 0 0 1 21 6.5v12A2.5 2.5 0 0 1 18.5 21h-13A2.5 2.5 0 0 1 3 18.5v-12A2.5 2.5 0 0 1 5.5 4H7zm11.5 4h-13A.5.5 0 0 0 5 7.5V10h14V7.5a.5.5 0 0 0-.5-.5zm.5 10.5v-7H5v7a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5z" />
+            </svg>
+            <span>2025年12月04日</span>
+          </span>
+          <span class="post-card__meta-item">
+            <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M12 3.5a8.5 8.5 0 1 0 8.5 8.5A8.5 8.5 0 0 0 12 3.5zm0 2a6.5 6.5 0 1 1-6.5 6.5A6.5 6.5 0 0 1 12 5.5zm-.75 3a1 1 0 0 1 2 0v3.382l2.268 1.307a1 1 0 1 1-1 1.732l-2.768-1.594A1 1 0 0 1 11.25 12z" />
+            </svg>
+            <span>约 2 分钟阅读</span>
+          </span>
+        </p>
+        <h3 class="post-card__title"><a href="/posts/策划案撰写/">策划案撰写</a></h3>
+        <p class="post-card__excerpt">《巧手时光·定格温暖》策划案围绕40分钟干花相框制作沙龙展开，通过一对一结对形式促进长者和学生的深度交流与陪伴。</p>
+        
+        <a class="post-card__read-more" href="/posts/策划案撰写/">
+          继续阅读
+          <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M5 12a1 1 0 0 1 1-1h9.586l-2.293-2.293 1.414-1.414L19.414 12l-4.707 4.707-1.414-1.414L15.586 13H6a1 1 0 0 1-1-1z" />
+          </svg>
+        </a>
+      </article>
+      
+      <article class="post-card">
+        
+        <p class="post-card__meta">
+          <span class="post-card__meta-item">
+            <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M7 3a1 1 0 0 1 2 0v1h6V3a1 1 0 0 1 2 0v1h1.5A2.5 2.5 0 0 1 21 6.5v12A2.5 2.5 0 0 1 18.5 21h-13A2.5 2.5 0 0 1 3 18.5v-12A2.5 2.5 0 0 1 5.5 4H7zm11.5 4h-13A.5.5 0 0 0 5 7.5V10h14V7.5a.5.5 0 0 0-.5-.5zm.5 10.5v-7H5v7a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5z" />
+            </svg>
+            <span>2025年12月04日</span>
+          </span>
+          <span class="post-card__meta-item">
+            <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M12 3.5a8.5 8.5 0 1 0 8.5 8.5A8.5 8.5 0 0 0 12 3.5zm0 2a6.5 6.5 0 1 1-6.5 6.5A6.5 6.5 0 0 1 12 5.5zm-.75 3a1 1 0 0 1 2 0v3.382l2.268 1.307a1 1 0 1 1-1 1.732l-2.768-1.594A1 1 0 0 1 11.25 12z" />
+            </svg>
+            <span>约 4 分钟阅读</span>
+          </span>
+        </p>
+        <h3 class="post-card__title"><a href="/posts/项目开发及学习经历/">项目开发及学习经历</a></h3>
+        <p class="post-card__excerpt">本文介绍了三个技术项目：在线C语言编译器提供零配置的编译环境，支持代码持久化与分享，适合编程练习；代码高尔夫平台实现异步评测与AI助教功能，助力编程竞赛；AI医学辅助系统通过多智能体协作生成诊断建议，整合医学证据。这些项目展示了前端工程、容器化部署与智能决策等技术的应用，帮助读者了解如何构建实用工具与平台，提升开发与学习效率。</p>
+        
+        <ul class="tag-list tag-list--compact">
+          
+          <li><a href="/tags/项目/">项目</a></li>
+          
+        </ul>
+        
+        <a class="post-card__read-more" href="/posts/项目开发及学习经历/">
+          继续阅读
+          <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M5 12a1 1 0 0 1 1-1h9.586l-2.293-2.293 1.414-1.414L19.414 12l-4.707 4.707-1.414-1.414L15.586 13H6a1 1 0 0 1-1-1z" />
+          </svg>
+        </a>
+      </article>
+      
+      <article class="post-card">
+        
+        <p class="post-card__meta">
+          <span class="post-card__meta-item">
+            <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M7 3a1 1 0 0 1 2 0v1h6V3a1 1 0 0 1 2 0v1h1.5A2.5 2.5 0 0 1 21 6.5v12A2.5 2.5 0 0 1 18.5 21h-13A2.5 2.5 0 0 1 3 18.5v-12A2.5 2.5 0 0 1 5.5 4H7zm11.5 4h-13A.5.5 0 0 0 5 7.5V10h14V7.5a.5.5 0 0 0-.5-.5zm.5 10.5v-7H5v7a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5z" />
+            </svg>
+            <span>2025年11月25日</span>
+          </span>
+          <span class="post-card__meta-item">
+            <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M12 3.5a8.5 8.5 0 1 0 8.5 8.5A8.5 8.5 0 0 0 12 3.5zm0 2a6.5 6.5 0 1 1-6.5 6.5A6.5 6.5 0 0 1 12 5.5zm-.75 3a1 1 0 0 1 2 0v3.382l2.268 1.307a1 1 0 1 1-1 1.732l-2.768-1.594A1 1 0 0 1 11.25 12z" />
+            </svg>
+            <span>约 4 分钟阅读</span>
+          </span>
+        </p>
+        <h3 class="post-card__title"><a href="/posts/AIOps-pyhton/">AIOps的Python实战学习</a></h3>
+        <p class="post-card__excerpt">根据实际项目对python知识补漏的学习笔记</p>
+        
+        <ul class="tag-list tag-list--compact">
+          
+          <li><a href="/tags/python/">Python</a></li>
+          
+          <li><a href="/tags/学习/">学习</a></li>
+          
+        </ul>
+        
+        <a class="post-card__read-more" href="/posts/AIOps-pyhton/">
+          继续阅读
+          <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M5 12a1 1 0 0 1 1-1h9.586l-2.293-2.293 1.414-1.414L19.414 12l-4.707 4.707-1.414-1.414L15.586 13H6a1 1 0 0 1-1-1z" />
+          </svg>
+        </a>
+      </article>
+      
+      <article class="post-card">
+        
+        <p class="post-card__meta">
+          <span class="post-card__meta-item">
+            <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M7 3a1 1 0 0 1 2 0v1h6V3a1 1 0 0 1 2 0v1h1.5A2.5 2.5 0 0 1 21 6.5v12A2.5 2.5 0 0 1 18.5 21h-13A2.5 2.5 0 0 1 3 18.5v-12A2.5 2.5 0 0 1 5.5 4H7zm11.5 4h-13A.5.5 0 0 0 5 7.5V10h14V7.5a.5.5 0 0 0-.5-.5zm.5 10.5v-7H5v7a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5z" />
+            </svg>
+            <span>2025年11月06日</span>
+          </span>
+          <span class="post-card__meta-item">
+            <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M12 3.5a8.5 8.5 0 1 0 8.5 8.5A8.5 8.5 0 0 0 12 3.5zm0 2a6.5 6.5 0 1 1-6.5 6.5A6.5 6.5 0 0 1 12 5.5zm-.75 3a1 1 0 0 1 2 0v3.382l2.268 1.307a1 1 0 1 1-1 1.732l-2.768-1.594A1 1 0 0 1 11.25 12z" />
+            </svg>
+            <span>约 3 分钟阅读</span>
+          </span>
+        </p>
+        <h3 class="post-card__title"><a href="/posts/排序算法学习/">排序算法学习</a></h3>
+        <p class="post-card__excerpt">本文介绍了C语言中常用的排序算法，包括内置库函数qsort()、简单排序算法如冒泡排序、选择排序和插入排序，以及高效排序算法如快速排序、归并排序和堆排序，还提及了线性时间排序方法如计数排序和基数排序。读者可以了解各类算法的实现原理、时间与空间复杂度及适用场景，从而根据实际需求选择合适算法，提升编程效率与代码性能。文章亮点在于详细对比了不同算法的优缺点，并提供了实用建议，帮助开发者优化排序操作。</p>
+        
+        <ul class="tag-list tag-list--compact">
+          
+          <li><a href="/tags/c/">c</a></li>
+          
+          <li><a href="/tags/算法/">算法</a></li>
+          
+        </ul>
+        
+        <a class="post-card__read-more" href="/posts/排序算法学习/">
+          继续阅读
+          <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M5 12a1 1 0 0 1 1-1h9.586l-2.293-2.293 1.414-1.414L19.414 12l-4.707 4.707-1.414-1.414L15.586 13H6a1 1 0 0 1-1-1z" />
+          </svg>
+        </a>
+      </article>
+      
+    </div>
+    
+  </div>
+  <aside class="sidebar">
+    <div class="sidebar__section">
+      <h2 class="section-title">
+        <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+          <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 3.25a1.25 1.25 0 1 1-1.25 1.25A1.25 1.25 0 0 1 12 5.25zM11 10h2v7h-2z" />
+        </svg>
+        关于本站
+      </h2>
+      <p>由 AutoBlog 驱动的学习与创作记录。</p>
+      <a class="button button--ghost" href="/about/">
+        <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+          <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm.75 5a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0zM11 10h2v7h-2z" />
+        </svg>
+        了解更多
+      </a>
+    </div>
+    
+    <div class="sidebar__section sidebar__section--contacts">
+      <h2 class="section-title">
+        <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+          <path d="M12 12.713l8-4.8V7.2a2.2 2.2 0 0 0-2.2-2.2H6.2A2.2 2.2 0 0 0 4 7.2v.713l8 4.8zm0 2.574L4 10.487V16.8A2.2 2.2 0 0 0 6.2 19h11.6a2.2 2.2 0 0 0 2.2-2.2v-6.313z" />
+        </svg>
+        联系方式
+      </h2>
+      <ul class="contact-list">
+        
+        <li class="contact-list__item">
+          <span class="contact-list__icon" aria-hidden="true">
+            
+            <svg viewBox="0 0 24 24">
+              <path d="M4 6.5A2.5 2.5 0 0 1 6.5 4h11A2.5 2.5 0 0 1 20 6.5v11A2.5 2.5 0 0 1 17.5 20h-11A2.5 2.5 0 0 1 4 17.5v-11Zm2.5-.5a.5.5 0 0 0-.5.5v.287l6 3.6 6-3.6V6.5a.5.5 0 0 0-.5-.5h-11Zm11.5 3.487-6 3.6-6-3.6V17.5a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 .5-.5Z" />
+            </svg>
+            
+          </span>
+          <div class="contact-list__body">
+            
+            <a class="contact-list__link" href="mailto:hechenyu@zju.edu.cn" >邮箱：hechenyu@zju.edu.cn</a>
+            
+            <p class="contact-list__note">学习交流、工作联系欢迎直接来信</p>
+            
+          </div>
+        </li>
+        
+        <li class="contact-list__item">
+          <span class="contact-list__icon" aria-hidden="true">
+            
+            <svg viewBox="0 0 24 24">
+              <path d="M12 2a10 10 0 0 0-3.162 19.492c.5.094.683-.217.683-.483 0-.237-.01-1.022-.015-1.854-2.78.604-3.369-1.19-3.369-1.19-.454-1.152-1.11-1.46-1.11-1.46-.908-.62.069-.608.069-.608 1.004.07 1.532 1.032 1.532 1.032.892 1.53 2.341 1.088 2.91.833.091-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.942 0-1.09.39-1.983 1.03-2.68-.104-.253-.447-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.563 9.563 0 0 1 12 6.844a9.56 9.56 0 0 1 2.5.336c1.91-1.294 2.748-1.025 2.748-1.025.547 1.378.204 2.395.1 2.648.642.697 1.03 1.59 1.03 2.68 0 3.842-2.338 4.686-4.566 4.935.36.31.68.92.68 1.855 0 1.338-.012 2.418-.012 2.746 0 .268.18.58.688.48A10.001 10.001 0 0 0 12 2Z" />
+            </svg>
+            
+          </span>
+          <div class="contact-list__body">
+            
+            <a class="contact-list__link" href="https://github.com/ChenyuHeee" target="_blank" rel="noopener">GitHub @ChenyuHeee</a>
+            
+            <p class="contact-list__note">关注项目与代码更新</p>
+            
+          </div>
+        </li>
+        
+      </ul>
+    </div>
+    
+    
+    <div class="sidebar__section">
+      <h2 class="section-title">
+        <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+          <path d="M4 4h7.172a3 3 0 0 1 2.121.879l6.828 6.828a3 3 0 0 1 0 4.242l-3.172 3.172a3 3 0 0 1-4.242 0L5.121 12.95A3 3 0 0 1 4.242 10.83L4 10.586V6a2 2 0 0 1 2-2zm3 2a1.5 1.5 0 1 0 1.5 1.5A1.5 1.5 0 0 0 7 6z" />
+        </svg>
+        热门标签
+      </h2>
+      <ul class="tag-list tag-list--cloud">
+        
+        <li><a href="/tags/aiops/">AIOPS <span>19</span></a></li>
+        
+        <li><a href="/tags/c/">c <span>3</span></a></li>
+        
+        <li><a href="/tags/git/">git <span>1</span></a></li>
+        
+        <li><a href="/tags/gold/">Gold <span>1</span></a></li>
+        
+        <li><a href="/tags/python/">Python <span>2</span></a></li>
+        
+        <li><a href="/tags/学习/">学习 <span>24</span></a></li>
+        
+        <li><a href="/tags/数学/">数学 <span>1</span></a></li>
+        
+        <li><a href="/tags/知识积累/">知识积累 <span>4</span></a></li>
+        
+        <li><a href="/tags/算法/">算法 <span>1</span></a></li>
+        
+        <li><a href="/tags/论文/">论文 <span>20</span></a></li>
+        
+        <li><a href="/tags/量化/">量化 <span>1</span></a></li>
+        
+        <li><a href="/tags/项目/">项目 <span>1</span></a></li>
+        
+      </ul>
+    </div>
+    
+    
+    <div class="sidebar__section">
+      <h2 class="section-title">
+        <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+          <path d="M6 5a2 2 0 0 1 2-2h12v18H8a2 2 0 0 1-2-2zm2 0v14h10V5zm-4 2H4v12a4 4 0 0 0 4 4h12v-2H8a2 2 0 0 1-2-2z" />
+        </svg>
+        最新文章
+      </h2>
+      <ul class="sidebar__list">
+        
+        <li><a href="/posts/AIAgent4elang使用教程/">慧学外语AI助手使用教程</a></li>
+        
+        <li><a href="/posts/AIOPS/AIOPSLAB项目学习/">AIOPSLAB 项目学习</a></li>
+        
+        <li><a href="/posts/AIOPS/AIOps多智能体项目与论文资源汇总/">AIOps 多智能体项目与论文资源汇总</a></li>
+        
+        <li><a href="/posts/AIOPSLAB论文_专业中文翻译/">AIOpsLab：用于评估AI代理实现自主云的整体框架</a></li>
+        
+        <li><a href="/posts/AIOPS论文翻译与学习/ChainOfEvent_可解释根因分析_翻译/">Chain-of-Event: 微服务可解释根因分析</a></li>
+        
+      </ul>
+    </div>
+    
+  </aside>
+</section>
+
+      </div>
+    </main>
+    <footer class="site-footer" role="contentinfo">
+      <div class="container site-footer__inner">
+        <div>
+          <p class="site-footer__title">何宸禹的博客</p>
+          
+          <p class="site-footer__description">由 AutoBlog 驱动的学习与创作记录。</p>
+          
+        </div>
+        <div class="site-footer__meta">
+          <span>© 2025 何宸禹</span>
+          <a class="site-footer__link" href="/autoblog/">了解 AutoBlog 引擎</a>
+          <div class="site-footer__counts" id="site-visit-stats" aria-live="polite">
+            <span id="busuanzi_container_site_uv" class="site-footer__count-item">
+              访问人数 <span id="busuanzi_value_site_uv">--</span>
+            </span>
+            <span id="busuanzi_container_site_pv" class="site-footer__count-item">
+              浏览次数 <span id="busuanzi_value_site_pv">--</span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+  <button class="back-to-top" type="button" data-back-to-top aria-label="返回顶部">
+    <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+      <path d="M12 5.586l5.707 5.707-1.414 1.414L13 9.414V19h-2V9.414l-3.293 3.293-1.414-1.414z" />
+    </svg>
+  </button>
+  <div class="lightbox" id="image-lightbox" aria-hidden="true" role="dialog" aria-modal="true" tabindex="-1">
+    <button type="button" class="lightbox__close" data-lightbox-close aria-label="关闭">
+      <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+        <path d="M6.343 5.343l12.02 12.02-1.414 1.414-12.02-12.02z" />
+        <path d="M17.657 5.343l1.414 1.414-12.02 12.02-1.414-1.414z" />
+      </svg>
+    </button>
+    <img class="lightbox__image" src="" alt="" />
+    <p class="lightbox__caption"></p>
+  </div>
+  <script src="/app.js" defer></script>
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" data-busuanzi></script>
+</body>
+</html>

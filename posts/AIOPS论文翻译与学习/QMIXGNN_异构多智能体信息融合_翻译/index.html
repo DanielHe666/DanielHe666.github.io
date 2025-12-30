@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>QMIX-GNN: 基于图神经网络的异构多智能体信息融合 | 何宸禹的博客</title>
+  <meta name="description" content="本文提出QMIX-GNN方法，利用图神经网络解决异构多智能体强化学习中的信息融合难题。该方法通过自适应聚合智能体观测信息，有效提升了团队协作能力与任务性能，尤其在复杂场景下显著优于传统方法，为多智能体协调提供了高效解决方案。" />
+  <meta name="author" content="何宸禹" />
+  
+  <link rel="canonical" href="https://chenyuheee.github.io/posts/AIOPS论文翻译与学习/QMIXGNN_异构多智能体信息融合_翻译/" />
+  <meta property="og:url" content="https://chenyuheee.github.io/posts/AIOPS论文翻译与学习/QMIXGNN_异构多智能体信息融合_翻译/" />
+  
+  <meta property="og:title" content="QMIX-GNN: 基于图神经网络的异构多智能体信息融合 | 何宸禹的博客" />
+  <meta property="og:description" content="本文提出QMIX-GNN方法，利用图神经网络解决异构多智能体强化学习中的信息融合难题。该方法通过自适应聚合智能体观测信息，有效提升了团队协作能力与任务性能，尤其在复杂场景下显著优于传统方法，为多智能体协调提供了高效解决方案。" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary" />
+  <link rel="stylesheet" href="/style.css" />
+  
+  <link rel="alternate" type="application/rss+xml" title="何宸禹的博客 RSS" href="/feed.xml" />
+  
+</head>
+<body>
+  <div class="site-shell">
+    <div class="reading-progress" id="reading-progress" role="presentation" aria-hidden="true"></div>
+    
+    <div
+      class="site-audio"
+      data-audio-player
+      data-autoplay="false"
+      data-start-muted="false"
+      data-volume-expanded="false"
+    >
+      <div class="site-audio__cover" style="background-image: url('/media/cover.jpg');">
+        
+        <button class="site-audio__cover-toggle" type="button" data-audio-toggle aria-label="播放或暂停背景音乐" data-audio-no-drag>
+          <span class="site-audio__cover-blur" aria-hidden="true"></span>
+          <svg class="site-audio__icon site-audio__icon--play" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M8 5.5v13l10-6.5z" />
+          </svg>
+          <svg class="site-audio__icon site-audio__icon--pause" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M8 5.5h3v13H8zm5 0h3v13h-3z" />
+          </svg>
+        </button>
+      </div>
+      <div class="site-audio__meta">
+        <div class="site-audio__title-row">
+          <span class="site-audio__title">日落</span>
+          <span class="site-audio__time" data-audio-time>00:00</span>
+        </div>
+        
+        <span class="site-audio__artist">孙燕姿</span>
+        
+        <div
+          class="site-audio__progress"
+          data-audio-progress-track
+          role="progressbar"
+          aria-valuemin="0"
+          aria-valuemax="100"
+          aria-valuenow="0"
+          data-audio-no-drag
+        >
+          <div class="site-audio__progress-bar" data-audio-progress></div>
+        </div>
+      </div>
+      <div class="site-audio__controls">
+        <div class="site-audio__volume-shell" data-audio-no-drag>
+          <button class="site-audio__control site-audio__control--mute" type="button" data-audio-mute aria-label="切换静音" data-audio-no-drag>
+            <svg class="site-audio__icon site-audio__icon--volume" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M5 10h2.586L12 5.586V18.5L7.586 14H5z" />
+              <path d="M15.5 8.5a4 4 0 0 1 0 6" />
+              <path d="M17.5 6.5a6 6 0 0 1 0 10" />
+            </svg>
+            <svg class="site-audio__icon site-audio__icon--muted" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M5 10h2.586L12 5.586V18.5L7.586 14H5z" />
+              <path d="M15 9l6 6" />
+              <path d="M21 9l-6 6" />
+            </svg>
+          </button>
+          <div class="site-audio__volume" data-audio-volume aria-hidden="true">
+            <input
+              class="site-audio__volume-slider"
+              type="range"
+              min="0"
+              max="100"
+              value="100"
+              step="1"
+              data-audio-volume-slider
+              tabindex="-1"
+              aria-label="调节音量"
+              data-audio-no-drag
+            />
+          </div>
+        </div>
+      </div>
+      <audio
+        data-audio-element
+        loop
+        preload="auto"
+        src="/media/日落.mp3"
+      ></audio>
+    </div>
+    
+    <header class="site-header" role="banner">
+      <div class="container site-header__inner">
+        <div class="brand">
+          <a class="brand__title" href="/">何宸禹的博客</a>
+          
+          <p class="brand__description">由 AutoBlog 驱动的学习与创作记录。</p>
+          
+        </div>
+        
+        <nav class="site-nav" aria-label="主导航">
+          
+          <a class="site-nav__link" href="/">首页</a>
+          
+          <a class="site-nav__link" href="/archive/">归档</a>
+          
+          <a class="site-nav__link" href="/tags/">标签</a>
+          
+          <a class="site-nav__link" href="/about/">About</a>
+          
+        </nav>
+        
+        <div class="site-header__actions">
+          <button class="theme-toggle" type="button" data-theme-toggle data-theme-state="light" aria-pressed="false" aria-label="切换到夜间模式">
+            <span class="theme-toggle__icon theme-toggle__icon--sun" aria-hidden="true">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 5a1 1 0 0 1-1-1V3a1 1 0 1 1 2 0v1a1 1 0 0 1-1 1zm0 16a1 1 0 0 1-1-1v-1a1 1 0 0 1 2 0v1a1 1 0 0 1-1 1zm9-9a1 1 0 0 1-1 1h-1a1 1 0 1 1 0-2h1a1 1 0 0 1 1 1zm-16 0a1 1 0 0 1-1 1H3a1 1 0 1 1 0-2h1a1 1 0 0 1 1 1zm12.95-6.364a1 1 0 0 1 0 1.414l-.707.707a1 1 0 0 1-1.414-1.414l.707-.707a1 1 0 0 1 1.414 0zm-11.314 11.314a1 1 0 0 1 0 1.414l-.707.707a1 1 0 0 1-1.414-1.414l.707-.707a1 1 0 0 1 1.414 0zm11.314 1.414a1 1 0 0 1-1.414 0l-.707-.707a1 1 0 0 1 1.414-1.414l.707.707a1 1 0 0 1 0 1.414zm-11.314-11.314a1 1 0 0 1-1.414 0l-.707-.707A1 1 0 1 1 5.914 4.95l.707.707a1 1 0 0 1 0 1.414zM12 8a4 4 0 1 1 0 8 4 4 0 0 1 0-8z" />
+              </svg>
+            </span>
+            <span class="theme-toggle__icon theme-toggle__icon--moon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M20.742 14.045a1 1 0 0 0-1.077-.217 7 7 0 0 1-9.493-7.92 1 1 0 0 0-1.149-1.2A9 9 0 1 0 21 15a1 1 0 0 0-.258-.955z" />
+              </svg>
+            </span>
+            <span class="sr-only">切换主题</span>
+          </button>
+          <a class="site-header__search" href="/search/">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M10.5 4a6.5 6.5 0 0 1 5.196 10.49l3.907 3.907-1.414 1.414-3.907-3.907A6.5 6.5 0 1 1 10.5 4zm0 2a4.5 4.5 0 1 0 0 9 4.5 4.5 0 0 0 0-9z" />
+            </svg>
+            <span>站内搜索</span>
+          </a>
+        </div>
+      </div>
+    </header>
+    <main class="main-content">
+      <div class="container">
+        
+<article class="post">
+  <header class="post__header">
+    <p class="post__eyebrow">
+      <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+        <path d="M7 3a1 1 0 0 1 2 0v1h6V3a1 1 0 0 1 2 0v1h1.5A2.5 2.5 0 0 1 21 6.5v12A2.5 2.5 0 0 1 18.5 21h-13A2.5 2.5 0 0 1 3 18.5v-12A2.5 2.5 0 0 1 5.5 4H7zm11.5 4h-13A.5.5 0 0 0 5 7.5V10h14V7.5a.5.5 0 0 0-.5-.5zm.5 10.5v-7H5v7a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5z" />
+      </svg>
+      <span>发表于 2025年12月04日</span>
+    </p>
+    <h1 class="post__title">QMIX-GNN: 基于图神经网络的异构多智能体信息融合</h1>
+    <div class="post__meta">
+      <div class="post__meta-item">
+        <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+          <path d="M12 3.5a8.5 8.5 0 1 0 8.5 8.5A8.5 8.5 0 0 0 12 3.5zm0 2a6.5 6.5 0 1 1-6.5 6.5A6.5 6.5 0 0 1 12 5.5zm-.75 3a1 1 0 0 1 2 0v3.382l2.268 1.307a1 1 0 1 1-1 1.732l-2.768-1.594A1 1 0 0 1 11.25 12z" />
+        </svg>
+        <span>约 2 分钟阅读</span>
+      </div>
+      
+      <div class="post__meta-item post__meta-item--tags">
+        <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+          <path d="M4 4h7.172a3 3 0 0 1 2.121.879l6.828 6.828a3 3 0 0 1 0 4.242l-3.172 3.172a3 3 0 0 1-4.242 0L5.121 12.95A3 3 0 0 1 4.242 10.83L4 10.586V6a2 2 0 0 1 2-2zm3 2a1.5 1.5 0 1 0 1.5 1.5A1.5 1.5 0 0 0 7 6z" />
+        </svg>
+        <ul class="tag-list tag-list--inline">
+          
+          <li><a href="/tags/aiops/">AIOPS</a></li>
+          
+          <li><a href="/tags/论文/">论文</a></li>
+          
+          <li><a href="/tags/学习/">学习</a></li>
+          
+        </ul>
+      </div>
+      
+    </div>
+  </header>
+  <div class="post__layout">
+    <div class="post__main">
+      <div class="post-content">
+        <h1 id="qmix-gnn">QMIX-GNN: 基于图神经网络的异构多智能体信息融合</h1>
+<blockquote>
+<p><strong>原文标题</strong>: QMIX-GNN: GNN-Based Heterogeneous Multi-Agent Information Fusion</p>
+<p><strong>来源</strong>: Applied Sciences (MDPI, 2025)</p>
+<p><strong>关键词</strong>: 多智能体强化学习、图神经网络、异构智能体、CTDE</p>
+</blockquote>
+<hr />
+<h2 id="_1">摘要</h2>
+<p>在多智能体强化学习（MARL）中，异构智能体的协调面临观测空间不同、信息融合困难等挑战。本文提出<strong>QMIX-GNN</strong>，通过图神经网络（GNN）增强异构多智能体的协作和协调：</p>
+<ol>
+<li><strong>自适应信息融合</strong>: GNN聚合多智能体数据，增强团队感知</li>
+<li><strong>异构信息处理</strong>: 专门模块处理不同观测和动作空间</li>
+<li><strong>复杂任务扩展性</strong>: 在CTDE框架下提升性能和收敛速度</li>
+</ol>
+<hr />
+<h2 id="1">1. 背景</h2>
+<h3 id="11-marl">1.1 多智能体强化学习（MARL）</h3>
+<p><strong>核心挑战</strong>:
+- <strong>部分可观测性</strong>: 智能体只能看到局部信息
+- <strong>非平稳性</strong>: 其他智能体策略变化导致环境不稳定
+- <strong>信用分配</strong>: 难以判断哪个智能体贡献了团队奖励</p>
+<p><strong>CTDE范式</strong>:
+- <strong>Centralized Training</strong>: 训练时使用全局信息
+- <strong>Decentralized Execution</strong>: 执行时仅用局部观测</p>
+<h3 id="12">1.2 现有方法的局限性</h3>
+<table>
+<thead>
+<tr>
+<th>问题</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>部分可观测约束</td>
+<td>现有CTDE方法假设智能体可通过共享价值函数协调</td>
+</tr>
+<tr>
+<td>静态交互建模</td>
+<td>假设固定的单调性，忽略动态关系</td>
+</tr>
+<tr>
+<td>异构信息融合</td>
+<td>简单拼接或平均会丢失关系模式</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="2">2. 系统架构</h2>
+<h3 id="21">2.1 整体框架</h3>
+<div class="language-text codehilite"><pre><span></span><code>┌──────────────────────────────────────────────────────────────┐
+│                        QMIX-GNN Framework                     │
+├──────────────────────────────────────────────────────────────┤
+│                                                               │
+│  ┌─────────────────────────────────────────────────────────┐ │
+│  │  Information Fusion Network (GNN)                        │ │
+│  │                                                          │ │
+│  │  Agent 1 Obs ──┐                                        │ │
+│  │  Agent 2 Obs ──┼──→ GNN聚合 ──→ 团队级信息              │ │
+│  │  ...          ─┘                                        │ │
+│  │  Agent N Obs ──                                         │ │
+│  └─────────────────────────────────────────────────────────┘ │
+│                              ↓                                │
+│  ┌─────────────────────────────────────────────────────────┐ │
+│  │  Agent Network (RNN/GRU)                                 │ │
+│  │                                                          │ │
+│  │  局部观测 + 团队信息 → Q值                               │ │
+│  └─────────────────────────────────────────────────────────┘ │
+│                              ↓                                │
+│  ┌─────────────────────────────────────────────────────────┐ │
+│  │  Mixing Network (Hypernetwork)                           │ │
+│  │                                                          │ │
+│  │  个体Q值 → 全局Q值 (保持单调性)                          │ │
+│  └─────────────────────────────────────────────────────────┘ │
+│                                                               │
+└──────────────────────────────────────────────────────────────┘
+</code></pre></div>
+<h3 id="22">2.2 三大核心模块</h3>
+<table>
+<thead>
+<tr>
+<th>模块</th>
+<th>功能</th>
+<th>技术</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>信息融合网络</td>
+<td>聚合多智能体观测</td>
+<td>Graph Attention Network</td>
+</tr>
+<tr>
+<td>智能体网络</td>
+<td>生成个体Q值</td>
+<td>GRU</td>
+</tr>
+<tr>
+<td>混合网络</td>
+<td>生成全局Q值</td>
+<td>Hypernetwork</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="3">3. 核心技术</h2>
+<h3 id="31">3.1 图神经网络信息融合</h3>
+<p><strong>图结构</strong>:
+- <strong>节点</strong>: 智能体
+- <strong>边</strong>: 智能体间的交互关系</p>
+<p><strong>GAT注意力机制</strong>:
+<div class="language-text codehilite"><pre><span></span><code>α_ij = softmax(LeakyReLU(a^T[Wh_i || Wh_j]))
+
+节点i对节点j的注意力权重
+</code></pre></div></p>
+<p><strong>信息聚合</strong>:
+<div class="language-text codehilite"><pre><span></span><code>h&#39;_i = σ(Σ_j α_ij · W · h_j)
+
+节点i的新表示 = 激活函数(加权邻居表示)
+</code></pre></div></p>
+<h3 id="32">3.2 智能体网络</h3>
+<p><strong>GRU结构</strong>:
+- 捕获历史观测信息
+- 结合团队级信息
+- 输出个体Q值</p>
+<p><strong>输入</strong>: 局部观测 + GNN融合的团队信息
+<strong>输出</strong>: Q_i(o_i, a_i)</p>
+<h3 id="33">3.3 混合网络</h3>
+<p><strong>QMIX单调性约束</strong>:
+<div class="language-text codehilite"><pre><span></span><code>∂Q_tot / ∂Q_i ≥ 0
+
+全局Q值对每个个体Q值单调递增
+</code></pre></div></p>
+<p><strong>Hypernetwork</strong>:
+- 根据全局状态生成混合网络权重
+- 确保可分解性</p>
+<hr />
+<h2 id="4">4. 实验</h2>
+<h3 id="41">4.1 实验环境</h3>
+<p>使用StarCraft Multi-Agent Challenge (SMAC)：
+- 多种异构智能体配置
+- 复杂协调任务</p>
+<h3 id="42">4.2 基线方法</h3>
+<ul>
+<li>QMIX</li>
+<li>COMA</li>
+<li>QTRAN</li>
+</ul>
+<h3 id="43">4.3 主要结果</h3>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>胜率（简单任务）</th>
+<th>胜率（困难任务）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>QMIX</td>
+<td>85%</td>
+<td>52%</td>
+</tr>
+<tr>
+<td>QTRAN</td>
+<td>82%</td>
+<td>48%</td>
+</tr>
+<tr>
+<td><strong>QMIX-GNN</strong></td>
+<td><strong>92%</strong></td>
+<td><strong>68%</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>关键发现</strong>:
+- GNN信息融合显著提升协调能力
+- 在困难任务上优势更明显</p>
+<h3 id="44">4.4 消融研究</h3>
+<table>
+<thead>
+<tr>
+<th>配置</th>
+<th>胜率下降</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>无GNN融合</td>
+<td>-15%</td>
+</tr>
+<tr>
+<td>无注意力机制</td>
+<td>-8%</td>
+</tr>
+<tr>
+<td>固定图结构</td>
+<td>-5%</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="5-aiops">5. 与AIOps的关联</h2>
+<p>虽然QMIX-GNN主要针对游戏/机器人场景，但其技术对AIOps有参考价值：</p>
+<h3 id="51">5.1 可借鉴点</h3>
+<table>
+<thead>
+<tr>
+<th>技术</th>
+<th>AIOps应用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GNN信息融合</td>
+<td>多数据源融合（日志、指标、追踪）</td>
+</tr>
+<tr>
+<td>注意力机制</td>
+<td>关键信息筛选</td>
+</tr>
+<tr>
+<td>异构处理</td>
+<td>处理不同格式的运维数据</td>
+</tr>
+</tbody>
+</table>
+<h3 id="52">5.2 潜在扩展</h3>
+<ul>
+<li><strong>服务拓扑建模</strong>: 用GNN表示微服务依赖</li>
+<li><strong>多Agent诊断</strong>: 不同专业Agent的协调</li>
+<li><strong>动态关系学习</strong>: 学习服务间动态依赖</li>
+</ul>
+<hr />
+<h2 id="6">6. 结论</h2>
+<p>QMIX-GNN通过图神经网络有效解决了异构多智能体的信息融合问题：
+1. GAT注意力机制自适应聚合信息
+2. 保持QMIX的可分解性和单调性
+3. 在复杂任务上表现优异</p>
+<p>为多智能体系统的协调提供了新的技术方案。</p>
+<hr />
+<h2 id="_2">附录：关键公式</h2>
+<h3 id="_3">图注意力权重</h3>
+<div class="language-text codehilite"><pre><span></span><code>α_ij = softmax_j(LeakyReLU(a^T[Wh_i || Wh_j]))
+</code></pre></div>
+<h3 id="_4">节点特征更新</h3>
+<div class="language-text codehilite"><pre><span></span><code>h&#39;_i = σ(Σ_{j∈N(i)} α_ij · Wh_j)
+</code></pre></div>
+<h3 id="qmix">QMIX单调性</h3>
+<div class="language-text codehilite"><pre><span></span><code>Q_tot = f(Q_1, Q_2, ..., Q_n | s)
+s.t. ∂Q_tot/∂Q_i ≥ 0 for all i
+</code></pre></div>
+      </div>
+      
+      <nav class="post__neighbors" aria-label="文章导航">
+        
+        <a class="post__neighbor post__neighbor--newer" href="/posts/AIOPS论文翻译与学习/MARCA_学习笔记/">
+          <span class="post__neighbor-label">
+            <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M19 11H9.414l2.293-2.293-1.414-1.414L6.586 12l3.707 3.707 1.414-1.414L9.414 13H19z" />
+            </svg>
+            <span>较新文章</span>
+          </span>
+          <span class="post__neighbor-title">MA-RCA论文学习笔记</span>
+        </a>
+        
+        
+        <a class="post__neighbor post__neighbor--older" href="/posts/AIOPS论文翻译与学习/RCAgent_学习笔记/">
+          <span class="post__neighbor-label">
+            <span>较旧文章</span>
+            <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M5 12a1 1 0 0 1 1-1h9.586l-2.293-2.293 1.414-1.414L19.414 12l-4.707 4.707-1.414-1.414L15.586 13H6a1 1 0 0 1-1-1z" />
+            </svg>
+          </span>
+          <span class="post__neighbor-title">RCAgent论文学习笔记</span>
+        </a>
+        
+      </nav>
+      
+      
+      <section class="post__related" aria-label="相关文章">
+        <h2 class="post__related-title">延伸阅读</h2>
+        <ul class="post__related-list">
+          
+          <li class="post__related-item">
+            <a href="/posts/AIOPS论文翻译与学习/ChainOfEvent_可解释根因分析_翻译/">
+              Chain-of-Event: 微服务可解释根因分析
+              <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+                <path d="M5 12a1 1 0 0 1 1-1h9.586l-2.293-2.293 1.414-1.414L19.414 12l-4.707 4.707-1.414-1.414L15.586 13H6a1 1 0 0 1-1-1z" />
+              </svg>
+            </a>
+            <span class="post__related-meta">2025年12月04日 · 约 3 分钟阅读</span>
+          </li>
+          
+          <li class="post__related-item">
+            <a href="/posts/AIOPS论文翻译与学习/ChainOfEvent_学习笔记/">
+              Chain-of-Event论文学习笔记
+              <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+                <path d="M5 12a1 1 0 0 1 1-1h9.586l-2.293-2.293 1.414-1.414L19.414 12l-4.707 4.707-1.414-1.414L15.586 13H6a1 1 0 0 1-1-1z" />
+              </svg>
+            </a>
+            <span class="post__related-meta">2025年12月04日 · 约 2 分钟阅读</span>
+          </li>
+          
+          <li class="post__related-item">
+            <a href="/posts/AIOPS论文翻译与学习/FLASH_学习笔记/">
+              FLASH论文学习笔记
+              <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+                <path d="M5 12a1 1 0 0 1 1-1h9.586l-2.293-2.293 1.414-1.414L19.414 12l-4.707 4.707-1.414-1.414L15.586 13H6a1 1 0 0 1-1-1z" />
+              </svg>
+            </a>
+            <span class="post__related-meta">2025年12月04日 · 约 2 分钟阅读</span>
+          </li>
+          
+        </ul>
+      </section>
+      
+    </div>
+    <aside class="post-toc" id="post-toc" hidden>
+      <div class="post-toc__header">
+        <span class="post-toc__title">
+          <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M5 6h14v2H5zm0 5h14v2H5zm0 5h9v2H5z" />
+          </svg>
+          <span>目录</span>
+        </span>
+        <button type="button" class="post-toc__toggle" data-toc-toggle aria-expanded="true">
+          折叠
+          <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M12 9l4 4H8z" />
+          </svg>
+        </button>
+      </div>
+      <nav class="post-toc__body" data-toc-body aria-label="本文目录"></nav>
+    </aside>
+  </div>
+  <footer class="post__footer">
+    <a class="button button--ghost" href="/">
+      <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+        <path d="M10.414 12l4.293-4.293-1.414-1.414L7.586 12l5.707 5.707 1.414-1.414L10.414 12H20v-2z" />
+      </svg>
+      <span>返回首页</span>
+    </a>
+    <a class="button button--ghost" href="/archive/">
+      <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+        <path d="M5 4a2 2 0 0 0-2 2v13h2v-3h14v3h2V6a2 2 0 0 0-2-2zm0 2h14v6H5zm3 10a1 1 0 1 0 0 2h8a1 1 0 0 0 0-2z" />
+      </svg>
+      <span>查看归档</span>
+    </a>
+  </footer>
+</article>
+
+      </div>
+    </main>
+    <footer class="site-footer" role="contentinfo">
+      <div class="container site-footer__inner">
+        <div>
+          <p class="site-footer__title">何宸禹的博客</p>
+          
+          <p class="site-footer__description">由 AutoBlog 驱动的学习与创作记录。</p>
+          
+        </div>
+        <div class="site-footer__meta">
+          <span>© 2025 何宸禹</span>
+          <a class="site-footer__link" href="/autoblog/">了解 AutoBlog 引擎</a>
+          <div class="site-footer__counts" id="site-visit-stats" aria-live="polite">
+            <span id="busuanzi_container_site_uv" class="site-footer__count-item">
+              访问人数 <span id="busuanzi_value_site_uv">--</span>
+            </span>
+            <span id="busuanzi_container_site_pv" class="site-footer__count-item">
+              浏览次数 <span id="busuanzi_value_site_pv">--</span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+  <button class="back-to-top" type="button" data-back-to-top aria-label="返回顶部">
+    <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+      <path d="M12 5.586l5.707 5.707-1.414 1.414L13 9.414V19h-2V9.414l-3.293 3.293-1.414-1.414z" />
+    </svg>
+  </button>
+  <div class="lightbox" id="image-lightbox" aria-hidden="true" role="dialog" aria-modal="true" tabindex="-1">
+    <button type="button" class="lightbox__close" data-lightbox-close aria-label="关闭">
+      <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+        <path d="M6.343 5.343l12.02 12.02-1.414 1.414-12.02-12.02z" />
+        <path d="M17.657 5.343l1.414 1.414-12.02 12.02-1.414-1.414z" />
+      </svg>
+    </button>
+    <img class="lightbox__image" src="" alt="" />
+    <p class="lightbox__caption"></p>
+  </div>
+  <script src="/app.js" defer></script>
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" data-busuanzi></script>
+</body>
+</html>

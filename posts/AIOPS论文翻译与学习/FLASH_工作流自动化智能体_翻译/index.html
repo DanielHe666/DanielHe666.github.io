@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>FLASH: 诊断重复性事件的工作流自动化智能体 | 何宸禹的博客</title>
+  <meta name="description" content="FLASH是微软研发的工作流自动化智能体，用于诊断云服务中的重复性事件。它通过状态监督将复杂指令分解为可管理片段，并利用事后学习从历史失败中积累经验，防止错误传播。实验表明，FLASH将诊断准确率提升了13." />
+  <meta name="author" content="何宸禹" />
+  
+  <link rel="canonical" href="https://chenyuheee.github.io/posts/AIOPS论文翻译与学习/FLASH_工作流自动化智能体_翻译/" />
+  <meta property="og:url" content="https://chenyuheee.github.io/posts/AIOPS论文翻译与学习/FLASH_工作流自动化智能体_翻译/" />
+  
+  <meta property="og:title" content="FLASH: 诊断重复性事件的工作流自动化智能体 | 何宸禹的博客" />
+  <meta property="og:description" content="FLASH是微软研发的工作流自动化智能体，用于诊断云服务中的重复性事件。它通过状态监督将复杂指令分解为可管理片段，并利用事后学习从历史失败中积累经验，防止错误传播。实验表明，FLASH将诊断准确率提升了13." />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary" />
+  <link rel="stylesheet" href="/style.css" />
+  
+  <link rel="alternate" type="application/rss+xml" title="何宸禹的博客 RSS" href="/feed.xml" />
+  
+</head>
+<body>
+  <div class="site-shell">
+    <div class="reading-progress" id="reading-progress" role="presentation" aria-hidden="true"></div>
+    
+    <div
+      class="site-audio"
+      data-audio-player
+      data-autoplay="false"
+      data-start-muted="false"
+      data-volume-expanded="false"
+    >
+      <div class="site-audio__cover" style="background-image: url('/media/cover.jpg');">
+        
+        <button class="site-audio__cover-toggle" type="button" data-audio-toggle aria-label="播放或暂停背景音乐" data-audio-no-drag>
+          <span class="site-audio__cover-blur" aria-hidden="true"></span>
+          <svg class="site-audio__icon site-audio__icon--play" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M8 5.5v13l10-6.5z" />
+          </svg>
+          <svg class="site-audio__icon site-audio__icon--pause" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M8 5.5h3v13H8zm5 0h3v13h-3z" />
+          </svg>
+        </button>
+      </div>
+      <div class="site-audio__meta">
+        <div class="site-audio__title-row">
+          <span class="site-audio__title">日落</span>
+          <span class="site-audio__time" data-audio-time>00:00</span>
+        </div>
+        
+        <span class="site-audio__artist">孙燕姿</span>
+        
+        <div
+          class="site-audio__progress"
+          data-audio-progress-track
+          role="progressbar"
+          aria-valuemin="0"
+          aria-valuemax="100"
+          aria-valuenow="0"
+          data-audio-no-drag
+        >
+          <div class="site-audio__progress-bar" data-audio-progress></div>
+        </div>
+      </div>
+      <div class="site-audio__controls">
+        <div class="site-audio__volume-shell" data-audio-no-drag>
+          <button class="site-audio__control site-audio__control--mute" type="button" data-audio-mute aria-label="切换静音" data-audio-no-drag>
+            <svg class="site-audio__icon site-audio__icon--volume" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M5 10h2.586L12 5.586V18.5L7.586 14H5z" />
+              <path d="M15.5 8.5a4 4 0 0 1 0 6" />
+              <path d="M17.5 6.5a6 6 0 0 1 0 10" />
+            </svg>
+            <svg class="site-audio__icon site-audio__icon--muted" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M5 10h2.586L12 5.586V18.5L7.586 14H5z" />
+              <path d="M15 9l6 6" />
+              <path d="M21 9l-6 6" />
+            </svg>
+          </button>
+          <div class="site-audio__volume" data-audio-volume aria-hidden="true">
+            <input
+              class="site-audio__volume-slider"
+              type="range"
+              min="0"
+              max="100"
+              value="100"
+              step="1"
+              data-audio-volume-slider
+              tabindex="-1"
+              aria-label="调节音量"
+              data-audio-no-drag
+            />
+          </div>
+        </div>
+      </div>
+      <audio
+        data-audio-element
+        loop
+        preload="auto"
+        src="/media/日落.mp3"
+      ></audio>
+    </div>
+    
+    <header class="site-header" role="banner">
+      <div class="container site-header__inner">
+        <div class="brand">
+          <a class="brand__title" href="/">何宸禹的博客</a>
+          
+          <p class="brand__description">由 AutoBlog 驱动的学习与创作记录。</p>
+          
+        </div>
+        
+        <nav class="site-nav" aria-label="主导航">
+          
+          <a class="site-nav__link" href="/">首页</a>
+          
+          <a class="site-nav__link" href="/archive/">归档</a>
+          
+          <a class="site-nav__link" href="/tags/">标签</a>
+          
+          <a class="site-nav__link" href="/about/">About</a>
+          
+        </nav>
+        
+        <div class="site-header__actions">
+          <button class="theme-toggle" type="button" data-theme-toggle data-theme-state="light" aria-pressed="false" aria-label="切换到夜间模式">
+            <span class="theme-toggle__icon theme-toggle__icon--sun" aria-hidden="true">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 5a1 1 0 0 1-1-1V3a1 1 0 1 1 2 0v1a1 1 0 0 1-1 1zm0 16a1 1 0 0 1-1-1v-1a1 1 0 0 1 2 0v1a1 1 0 0 1-1 1zm9-9a1 1 0 0 1-1 1h-1a1 1 0 1 1 0-2h1a1 1 0 0 1 1 1zm-16 0a1 1 0 0 1-1 1H3a1 1 0 1 1 0-2h1a1 1 0 0 1 1 1zm12.95-6.364a1 1 0 0 1 0 1.414l-.707.707a1 1 0 0 1-1.414-1.414l.707-.707a1 1 0 0 1 1.414 0zm-11.314 11.314a1 1 0 0 1 0 1.414l-.707.707a1 1 0 0 1-1.414-1.414l.707-.707a1 1 0 0 1 1.414 0zm11.314 1.414a1 1 0 0 1-1.414 0l-.707-.707a1 1 0 0 1 1.414-1.414l.707.707a1 1 0 0 1 0 1.414zm-11.314-11.314a1 1 0 0 1-1.414 0l-.707-.707A1 1 0 1 1 5.914 4.95l.707.707a1 1 0 0 1 0 1.414zM12 8a4 4 0 1 1 0 8 4 4 0 0 1 0-8z" />
+              </svg>
+            </span>
+            <span class="theme-toggle__icon theme-toggle__icon--moon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M20.742 14.045a1 1 0 0 0-1.077-.217 7 7 0 0 1-9.493-7.92 1 1 0 0 0-1.149-1.2A9 9 0 1 0 21 15a1 1 0 0 0-.258-.955z" />
+              </svg>
+            </span>
+            <span class="sr-only">切换主题</span>
+          </button>
+          <a class="site-header__search" href="/search/">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M10.5 4a6.5 6.5 0 0 1 5.196 10.49l3.907 3.907-1.414 1.414-3.907-3.907A6.5 6.5 0 1 1 10.5 4zm0 2a4.5 4.5 0 1 0 0 9 4.5 4.5 0 0 0 0-9z" />
+            </svg>
+            <span>站内搜索</span>
+          </a>
+        </div>
+      </div>
+    </header>
+    <main class="main-content">
+      <div class="container">
+        
+<article class="post">
+  <header class="post__header">
+    <p class="post__eyebrow">
+      <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+        <path d="M7 3a1 1 0 0 1 2 0v1h6V3a1 1 0 0 1 2 0v1h1.5A2.5 2.5 0 0 1 21 6.5v12A2.5 2.5 0 0 1 18.5 21h-13A2.5 2.5 0 0 1 3 18.5v-12A2.5 2.5 0 0 1 5.5 4H7zm11.5 4h-13A.5.5 0 0 0 5 7.5V10h14V7.5a.5.5 0 0 0-.5-.5zm.5 10.5v-7H5v7a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5z" />
+      </svg>
+      <span>发表于 2025年12月04日</span>
+    </p>
+    <h1 class="post__title">FLASH: 诊断重复性事件的工作流自动化智能体</h1>
+    <div class="post__meta">
+      <div class="post__meta-item">
+        <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+          <path d="M12 3.5a8.5 8.5 0 1 0 8.5 8.5A8.5 8.5 0 0 0 12 3.5zm0 2a6.5 6.5 0 1 1-6.5 6.5A6.5 6.5 0 0 1 12 5.5zm-.75 3a1 1 0 0 1 2 0v3.382l2.268 1.307a1 1 0 1 1-1 1.732l-2.768-1.594A1 1 0 0 1 11.25 12z" />
+        </svg>
+        <span>约 2 分钟阅读</span>
+      </div>
+      
+      <div class="post__meta-item post__meta-item--tags">
+        <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+          <path d="M4 4h7.172a3 3 0 0 1 2.121.879l6.828 6.828a3 3 0 0 1 0 4.242l-3.172 3.172a3 3 0 0 1-4.242 0L5.121 12.95A3 3 0 0 1 4.242 10.83L4 10.586V6a2 2 0 0 1 2-2zm3 2a1.5 1.5 0 1 0 1.5 1.5A1.5 1.5 0 0 0 7 6z" />
+        </svg>
+        <ul class="tag-list tag-list--inline">
+          
+          <li><a href="/tags/aiops/">AIOPS</a></li>
+          
+          <li><a href="/tags/论文/">论文</a></li>
+          
+          <li><a href="/tags/学习/">学习</a></li>
+          
+        </ul>
+      </div>
+      
+    </div>
+  </header>
+  <div class="post__layout">
+    <div class="post__main">
+      <div class="post-content">
+        <h1 id="flash">FLASH: 诊断重复性事件的工作流自动化智能体</h1>
+<blockquote>
+<p><strong>原文标题</strong>: FLASH: A Workflow Automation Agent for Diagnosing Recurring Incidents</p>
+<p><strong>来源</strong>: Microsoft Research Technical Report</p>
+<p><strong>全称</strong>: workFLow Automation agent with Status supervision and Hindsight integration</p>
+<p><strong>机构</strong>: Microsoft</p>
+</blockquote>
+<hr />
+<h2 id="_1">摘要</h2>
+<p>在云服务运维中，重复性事件的诊断是一项耗时且重要的任务。尽管存在标准操作流程（SOP）文档，工程师仍需大量时间进行诊断。本文提出<strong>FLASH</strong>，一个工作流自动化智能体，具有两个核心特性：</p>
+<ol>
+<li><strong>状态监督（Status Supervision）</strong>: 将复杂诊断指令分解为可管理的条件片段</li>
+<li><strong>事后学习集成（Hindsight Integration）</strong>: 从过去失败中自动学习，防止错误传播</li>
+</ol>
+<p>实验表明，FLASH比现有SOTA代理提升<strong>13.2%</strong>的诊断准确率。</p>
+<hr />
+<h2 id="1">1. 引言</h2>
+<h3 id="11">1.1 问题背景</h3>
+<p>云服务事件诊断面临以下挑战：
+- 事件频繁发生，需要快速响应
+- 诊断过程复杂，涉及多个工具
+- 即使有TSG（故障排除指南）文档，诊断仍然耗时
+- 现有Agent方法在复杂场景下表现不稳定</p>
+<h3 id="12">1.2 现有方法的局限性</h3>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>局限性</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ReAct</td>
+<td>指令过于复杂时决策混乱</td>
+</tr>
+<tr>
+<td>AutoGPT</td>
+<td>难以处理长诊断流程</td>
+</tr>
+<tr>
+<td>规则系统</td>
+<td>缺乏灵活性</td>
+</tr>
+</tbody>
+</table>
+<h3 id="13-flash">1.3 FLASH的创新</h3>
+<ul>
+<li><strong>状态监督</strong>: 根据诊断阶段动态调整指令</li>
+<li><strong>事后学习</strong>: 从失败案例中学习，防止重复错误</li>
+<li><strong>工具存根</strong>: 模拟工具输出用于测试和验证</li>
+</ul>
+<hr />
+<h2 id="2">2. 系统架构</h2>
+<h3 id="21">2.1 整体框架</h3>
+<div class="language-text codehilite"><pre><span></span><code>┌────────────────────────────────────────────────────────────┐
+│                      FLASH Agent                           │
+├────────────────────────────────────────────────────────────┤
+│                                                            │
+│  输入: 事件描述                                             │
+│         ↓                                                  │
+│  ┌────────────────────────────────────────────────────┐   │
+│  │              迭代诊断循环                            │   │
+│  │                                                     │   │
+│  │  状态推理 → 决策推理 → 行动执行 → 反思 → 下一迭代   │   │
+│  │                                                     │   │
+│  └────────────────────────────────────────────────────┘   │
+│         ↓                                                  │
+│  输出: 诊断结果                                             │
+│                                                            │
+│  组件:                                                     │
+│  - 状态监督模块 (Status Supervision)                       │
+│  - 事后学习模块 (Hindsight Integration)                    │
+│  - 全局工作记忆 (Global Working Memory)                    │
+│  - 工具存根 (ToolStub)                                     │
+│                                                            │
+└────────────────────────────────────────────────────────────┘
+</code></pre></div>
+<h3 id="22">2.2 诊断循环详解</h3>
+<p>每次迭代包含以下步骤：</p>
+<ol>
+<li><strong>状态推理</strong>: 识别当前诊断阶段 s_i = f_s(c_i)</li>
+<li><strong>上下文生成</strong>: 基于状态生成条件化上下文 ĉ_i = G(c_i|s_i, I)</li>
+<li><strong>决策推理</strong>: 根据上下文选择动作 a_i = π(a_i|ĉ_i, s_i)</li>
+<li><strong>行动执行</strong>: 执行选定的工具</li>
+<li><strong>反思</strong>: 检查是否有错误，应用事后学习</li>
+</ol>
+<hr />
+<h2 id="3">3. 核心技术</h2>
+<h3 id="31-status-supervision">3.1 状态监督（Status Supervision）</h3>
+<p><strong>核心思想</strong>: 根据诊断阶段简化指令复杂度</p>
+<p><strong>预定义状态</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>状态</th>
+<th>描述</th>
+<th>可用工具/指令</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Diagnosis Planning</strong></td>
+<td>生成故障排除计划</td>
+<td>diagnosis_planning</td>
+</tr>
+<tr>
+<td><strong>Step Initialization</strong></td>
+<td>准备执行诊断步骤</td>
+<td>plan_refining</td>
+</tr>
+<tr>
+<td><strong>Step Execution</strong></td>
+<td>执行诊断步骤</td>
+<td>各种诊断工具</td>
+</tr>
+<tr>
+<td><strong>Step Completion</strong></td>
+<td>完成当前步骤</td>
+<td>决定下一步</td>
+</tr>
+</tbody>
+</table>
+<p><strong>状态检测</strong>:
+<div class="language-text codehilite"><pre><span></span><code>s_i = f_s(c_i)  // 使用LLM检测当前状态
+
+// 状态条件化上下文生成
+ĉ_i = G(c_i | s_i, I)
+// 仅包含与当前状态相关的指令和工具
+</code></pre></div></p>
+<p><strong>优势</strong>:
+- 降低决策复杂度
+- 减少无关指令干扰
+- 提高诊断可靠性</p>
+<h3 id="32-hindsight-integration">3.2 事后学习集成（Hindsight Integration）</h3>
+<p><strong>核心思想</strong>: 从历史失败中学习，防止错误传播</p>
+<p><strong>反思过程</strong>:
+<div class="language-text codehilite"><pre><span></span><code>当前行动 a_i 执行后:
+1. 检查是否触发已知错误模式
+2. 如果触发，注入hindsight提示
+3. 生成修正后的行动
+</code></pre></div></p>
+<p><strong>Hindsight提示结构</strong>:
+<div class="language-text codehilite"><pre><span></span><code>以下是该工具在类似情况下的常见错误：
+[错误模式描述]
+
+请注意避免上述错误，并确保：
+[正确的执行指导]
+</code></pre></div></p>
+<p><strong>自动收集</strong>:
+- 监控诊断失败案例
+- 分析失败原因
+- 提取可复用的经验教训
+- 构建hindsight知识库</p>
+<h3 id="33">3.3 诊断工具设计</h3>
+<h4 id="_2">系统工具</h4>
+<table>
+<thead>
+<tr>
+<th>工具</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>human_query</code></td>
+<td>向用户询问缺失信息</td>
+</tr>
+<tr>
+<td><code>dummy_action</code></td>
+<td>跳过不需要操作的步骤</td>
+</tr>
+<tr>
+<td><code>llm_reasoning</code></td>
+<td>通过LLM执行推理任务</td>
+</tr>
+</tbody>
+</table>
+<h4 id="_3">诊断规划工具</h4>
+<table>
+<thead>
+<tr>
+<th>工具</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>diagnosis_planning</code></td>
+<td>基于TSG生成高层诊断计划</td>
+</tr>
+<tr>
+<td><code>plan_refining</code></td>
+<td>将计划细化为可执行步骤</td>
+</tr>
+</tbody>
+</table>
+<h4 id="_4">实用工具</h4>
+<table>
+<thead>
+<tr>
+<th>工具</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>db_query</code></td>
+<td>查询数据库</td>
+</tr>
+<tr>
+<td><code>log_query</code></td>
+<td>查询日志</td>
+</tr>
+<tr>
+<td><code>metric_query</code></td>
+<td>查询指标</td>
+</tr>
+</tbody>
+</table>
+<h3 id="34-toolstub">3.4 工具存根（ToolStub）</h3>
+<p><strong>用途</strong>: 模拟工具输出，用于测试和验证</p>
+<p><strong>工作流</strong>:
+<div class="language-text codehilite"><pre><span></span><code>1. 记录真实工具调用历史
+2. 创建模拟输出数据
+3. 测试时使用存根替代真实工具
+4. 验证Agent决策正确性
+</code></pre></div></p>
+<p><strong>优势</strong>:
+- 支持离线测试
+- 快速迭代优化
+- 确保可重现性</p>
+<h3 id="35">3.5 全局工作记忆</h3>
+<p><strong>功能</strong>:
+- 存储跨步骤共享信息
+- 记录诊断历史
+- 支持用户反馈交互</p>
+<hr />
+<h2 id="4">4. 实验</h2>
+<h3 id="41">4.1 数据集</h3>
+<p>使用微软内部事件数据：
+- 真实重复性事件
+- 包含完整TSG文档
+- 标注正确诊断结果</p>
+<h3 id="42">4.2 基线方法</h3>
+<ul>
+<li>ReAct</li>
+<li>AutoGPT</li>
+<li>Plan-and-Execute</li>
+</ul>
+<h3 id="43">4.3 主要结果</h3>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>诊断准确率</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ReAct</td>
+<td>52.3%</td>
+</tr>
+<tr>
+<td>AutoGPT</td>
+<td>55.1%</td>
+</tr>
+<tr>
+<td>Plan-and-Execute</td>
+<td>58.7%</td>
+</tr>
+<tr>
+<td><strong>FLASH</strong></td>
+<td><strong>71.9%</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>提升</strong>: 相比最优基线提升13.2%</p>
+<h3 id="44">4.4 消融研究</h3>
+<table>
+<thead>
+<tr>
+<th>配置</th>
+<th>准确率</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>完整FLASH</td>
+<td>71.9%</td>
+</tr>
+<tr>
+<td>无状态监督</td>
+<td>62.4%</td>
+</tr>
+<tr>
+<td>无事后学习</td>
+<td>65.8%</td>
+</tr>
+<tr>
+<td>无工具存根</td>
+<td>68.2%</td>
+</tr>
+</tbody>
+</table>
+<p><strong>结论</strong>: 状态监督贡献最大</p>
+<hr />
+<h2 id="5">5. 案例分析</h2>
+<h3 id="51">5.1 成功案例</h3>
+<p><strong>事件</strong>: 数据库连接超时</p>
+<p><strong>FLASH执行过程</strong>:
+<div class="language-text codehilite"><pre><span></span><code>状态: Diagnosis Planning
+行动: diagnosis_planning → 生成5步诊断计划
+
+状态: Step Initialization  
+行动: plan_refining → 细化第1步
+
+状态: Step Execution
+行动: db_query → 检查连接池状态
+观察: 连接池耗尽
+
+状态: Step Completion
+决定: 跳到根因确认步骤
+
+最终结果: 正确识别连接池配置问题
+</code></pre></div></p>
+<h3 id="52">5.2 事后学习效果</h3>
+<p><strong>错误模式</strong>: 在某类事件中，Agent总是错误地先查询日志而非指标</p>
+<p><strong>Hindsight注入后</strong>:
+- 识别该模式
+- 提醒优先查询指标
+- 准确率提升15%</p>
+<hr />
+<h2 id="6">6. 结论</h2>
+<p>FLASH通过状态监督和事后学习两个核心机制，有效提升了重复性事件诊断的自动化水平：</p>
+<ol>
+<li><strong>状态监督</strong>将复杂指令分解为可管理的片段</li>
+<li><strong>事后学习</strong>从失败中积累经验，防止错误传播</li>
+<li><strong>实验证明</strong>相比SOTA提升13.2%</li>
+</ol>
+<p>FLASH为云服务运维提供了可靠的智能诊断解决方案。</p>
+<hr />
+<h2 id="_5">附录：状态转换示例</h2>
+<div class="language-text codehilite"><pre><span></span><code>事件开始 → Diagnosis Planning
+    ↓
+生成计划后 → Step Initialization
+    ↓
+细化完成后 → Step Execution
+    ↓
+执行完成后 → Step Completion
+    ↓
+需要更多步骤? 
+    是 → Step Initialization
+    否 → 生成最终答案
+</code></pre></div>
+      </div>
+      
+      <nav class="post__neighbors" aria-label="文章导航">
+        
+        <a class="post__neighbor post__neighbor--newer" href="/posts/AIOPS论文翻译与学习/FLASH_学习笔记/">
+          <span class="post__neighbor-label">
+            <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M19 11H9.414l2.293-2.293-1.414-1.414L6.586 12l3.707 3.707 1.414-1.414L9.414 13H19z" />
+            </svg>
+            <span>较新文章</span>
+          </span>
+          <span class="post__neighbor-title">FLASH论文学习笔记</span>
+        </a>
+        
+        
+        <a class="post__neighbor post__neighbor--older" href="/posts/AIOPS论文翻译与学习/FlowOfAction_SOP增强多智能体系统_翻译/">
+          <span class="post__neighbor-label">
+            <span>较旧文章</span>
+            <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M5 12a1 1 0 0 1 1-1h9.586l-2.293-2.293 1.414-1.414L19.414 12l-4.707 4.707-1.414-1.414L15.586 13H6a1 1 0 0 1-1-1z" />
+            </svg>
+          </span>
+          <span class="post__neighbor-title">Flow-of-Action: 基于SOP增强的LLM多智能体根因分析系统</span>
+        </a>
+        
+      </nav>
+      
+      
+      <section class="post__related" aria-label="相关文章">
+        <h2 class="post__related-title">延伸阅读</h2>
+        <ul class="post__related-list">
+          
+          <li class="post__related-item">
+            <a href="/posts/AIOPS论文翻译与学习/ChainOfEvent_可解释根因分析_翻译/">
+              Chain-of-Event: 微服务可解释根因分析
+              <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+                <path d="M5 12a1 1 0 0 1 1-1h9.586l-2.293-2.293 1.414-1.414L19.414 12l-4.707 4.707-1.414-1.414L15.586 13H6a1 1 0 0 1-1-1z" />
+              </svg>
+            </a>
+            <span class="post__related-meta">2025年12月04日 · 约 3 分钟阅读</span>
+          </li>
+          
+          <li class="post__related-item">
+            <a href="/posts/AIOPS论文翻译与学习/ChainOfEvent_学习笔记/">
+              Chain-of-Event论文学习笔记
+              <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+                <path d="M5 12a1 1 0 0 1 1-1h9.586l-2.293-2.293 1.414-1.414L19.414 12l-4.707 4.707-1.414-1.414L15.586 13H6a1 1 0 0 1-1-1z" />
+              </svg>
+            </a>
+            <span class="post__related-meta">2025年12月04日 · 约 2 分钟阅读</span>
+          </li>
+          
+          <li class="post__related-item">
+            <a href="/posts/AIOPS论文翻译与学习/FLASH_学习笔记/">
+              FLASH论文学习笔记
+              <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+                <path d="M5 12a1 1 0 0 1 1-1h9.586l-2.293-2.293 1.414-1.414L19.414 12l-4.707 4.707-1.414-1.414L15.586 13H6a1 1 0 0 1-1-1z" />
+              </svg>
+            </a>
+            <span class="post__related-meta">2025年12月04日 · 约 2 分钟阅读</span>
+          </li>
+          
+        </ul>
+      </section>
+      
+    </div>
+    <aside class="post-toc" id="post-toc" hidden>
+      <div class="post-toc__header">
+        <span class="post-toc__title">
+          <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M5 6h14v2H5zm0 5h14v2H5zm0 5h9v2H5z" />
+          </svg>
+          <span>目录</span>
+        </span>
+        <button type="button" class="post-toc__toggle" data-toc-toggle aria-expanded="true">
+          折叠
+          <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M12 9l4 4H8z" />
+          </svg>
+        </button>
+      </div>
+      <nav class="post-toc__body" data-toc-body aria-label="本文目录"></nav>
+    </aside>
+  </div>
+  <footer class="post__footer">
+    <a class="button button--ghost" href="/">
+      <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+        <path d="M10.414 12l4.293-4.293-1.414-1.414L7.586 12l5.707 5.707 1.414-1.414L10.414 12H20v-2z" />
+      </svg>
+      <span>返回首页</span>
+    </a>
+    <a class="button button--ghost" href="/archive/">
+      <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+        <path d="M5 4a2 2 0 0 0-2 2v13h2v-3h14v3h2V6a2 2 0 0 0-2-2zm0 2h14v6H5zm3 10a1 1 0 1 0 0 2h8a1 1 0 0 0 0-2z" />
+      </svg>
+      <span>查看归档</span>
+    </a>
+  </footer>
+</article>
+
+      </div>
+    </main>
+    <footer class="site-footer" role="contentinfo">
+      <div class="container site-footer__inner">
+        <div>
+          <p class="site-footer__title">何宸禹的博客</p>
+          
+          <p class="site-footer__description">由 AutoBlog 驱动的学习与创作记录。</p>
+          
+        </div>
+        <div class="site-footer__meta">
+          <span>© 2025 何宸禹</span>
+          <a class="site-footer__link" href="/autoblog/">了解 AutoBlog 引擎</a>
+          <div class="site-footer__counts" id="site-visit-stats" aria-live="polite">
+            <span id="busuanzi_container_site_uv" class="site-footer__count-item">
+              访问人数 <span id="busuanzi_value_site_uv">--</span>
+            </span>
+            <span id="busuanzi_container_site_pv" class="site-footer__count-item">
+              浏览次数 <span id="busuanzi_value_site_pv">--</span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+  <button class="back-to-top" type="button" data-back-to-top aria-label="返回顶部">
+    <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+      <path d="M12 5.586l5.707 5.707-1.414 1.414L13 9.414V19h-2V9.414l-3.293 3.293-1.414-1.414z" />
+    </svg>
+  </button>
+  <div class="lightbox" id="image-lightbox" aria-hidden="true" role="dialog" aria-modal="true" tabindex="-1">
+    <button type="button" class="lightbox__close" data-lightbox-close aria-label="关闭">
+      <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+        <path d="M6.343 5.343l12.02 12.02-1.414 1.414-12.02-12.02z" />
+        <path d="M17.657 5.343l1.414 1.414-12.02 12.02-1.414-1.414z" />
+      </svg>
+    </button>
+    <img class="lightbox__image" src="" alt="" />
+    <p class="lightbox__caption"></p>
+  </div>
+  <script src="/app.js" defer></script>
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" data-busuanzi></script>
+</body>
+</html>

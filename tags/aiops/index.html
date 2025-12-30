@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>标签：AIOPS | 何宸禹的博客</title>
+  <meta name="description" content="AIOPS 标签下的文章与笔记。" />
+  <meta name="author" content="何宸禹" />
+  
+  <link rel="canonical" href="https://chenyuheee.github.io/tags/aiops/" />
+  <meta property="og:url" content="https://chenyuheee.github.io/tags/aiops/" />
+  
+  <meta property="og:title" content="标签：AIOPS | 何宸禹的博客" />
+  <meta property="og:description" content="AIOPS 标签下的文章与笔记。" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary" />
+  <link rel="stylesheet" href="/style.css" />
+  
+  <link rel="alternate" type="application/rss+xml" title="何宸禹的博客 RSS" href="/feed.xml" />
+  
+</head>
+<body>
+  <div class="site-shell">
+    <div class="reading-progress" id="reading-progress" role="presentation" aria-hidden="true"></div>
+    
+    <div
+      class="site-audio"
+      data-audio-player
+      data-autoplay="false"
+      data-start-muted="false"
+      data-volume-expanded="false"
+    >
+      <div class="site-audio__cover" style="background-image: url('/media/cover.jpg');">
+        
+        <button class="site-audio__cover-toggle" type="button" data-audio-toggle aria-label="播放或暂停背景音乐" data-audio-no-drag>
+          <span class="site-audio__cover-blur" aria-hidden="true"></span>
+          <svg class="site-audio__icon site-audio__icon--play" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M8 5.5v13l10-6.5z" />
+          </svg>
+          <svg class="site-audio__icon site-audio__icon--pause" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M8 5.5h3v13H8zm5 0h3v13h-3z" />
+          </svg>
+        </button>
+      </div>
+      <div class="site-audio__meta">
+        <div class="site-audio__title-row">
+          <span class="site-audio__title">日落</span>
+          <span class="site-audio__time" data-audio-time>00:00</span>
+        </div>
+        
+        <span class="site-audio__artist">孙燕姿</span>
+        
+        <div
+          class="site-audio__progress"
+          data-audio-progress-track
+          role="progressbar"
+          aria-valuemin="0"
+          aria-valuemax="100"
+          aria-valuenow="0"
+          data-audio-no-drag
+        >
+          <div class="site-audio__progress-bar" data-audio-progress></div>
+        </div>
+      </div>
+      <div class="site-audio__controls">
+        <div class="site-audio__volume-shell" data-audio-no-drag>
+          <button class="site-audio__control site-audio__control--mute" type="button" data-audio-mute aria-label="切换静音" data-audio-no-drag>
+            <svg class="site-audio__icon site-audio__icon--volume" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M5 10h2.586L12 5.586V18.5L7.586 14H5z" />
+              <path d="M15.5 8.5a4 4 0 0 1 0 6" />
+              <path d="M17.5 6.5a6 6 0 0 1 0 10" />
+            </svg>
+            <svg class="site-audio__icon site-audio__icon--muted" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M5 10h2.586L12 5.586V18.5L7.586 14H5z" />
+              <path d="M15 9l6 6" />
+              <path d="M21 9l-6 6" />
+            </svg>
+          </button>
+          <div class="site-audio__volume" data-audio-volume aria-hidden="true">
+            <input
+              class="site-audio__volume-slider"
+              type="range"
+              min="0"
+              max="100"
+              value="100"
+              step="1"
+              data-audio-volume-slider
+              tabindex="-1"
+              aria-label="调节音量"
+              data-audio-no-drag
+            />
+          </div>
+        </div>
+      </div>
+      <audio
+        data-audio-element
+        loop
+        preload="auto"
+        src="/media/日落.mp3"
+      ></audio>
+    </div>
+    
+    <header class="site-header" role="banner">
+      <div class="container site-header__inner">
+        <div class="brand">
+          <a class="brand__title" href="/">何宸禹的博客</a>
+          
+          <p class="brand__description">由 AutoBlog 驱动的学习与创作记录。</p>
+          
+        </div>
+        
+        <nav class="site-nav" aria-label="主导航">
+          
+          <a class="site-nav__link" href="/">首页</a>
+          
+          <a class="site-nav__link" href="/archive/">归档</a>
+          
+          <a class="site-nav__link" href="/tags/">标签</a>
+          
+          <a class="site-nav__link" href="/about/">About</a>
+          
+        </nav>
+        
+        <div class="site-header__actions">
+          <button class="theme-toggle" type="button" data-theme-toggle data-theme-state="light" aria-pressed="false" aria-label="切换到夜间模式">
+            <span class="theme-toggle__icon theme-toggle__icon--sun" aria-hidden="true">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 5a1 1 0 0 1-1-1V3a1 1 0 1 1 2 0v1a1 1 0 0 1-1 1zm0 16a1 1 0 0 1-1-1v-1a1 1 0 0 1 2 0v1a1 1 0 0 1-1 1zm9-9a1 1 0 0 1-1 1h-1a1 1 0 1 1 0-2h1a1 1 0 0 1 1 1zm-16 0a1 1 0 0 1-1 1H3a1 1 0 1 1 0-2h1a1 1 0 0 1 1 1zm12.95-6.364a1 1 0 0 1 0 1.414l-.707.707a1 1 0 0 1-1.414-1.414l.707-.707a1 1 0 0 1 1.414 0zm-11.314 11.314a1 1 0 0 1 0 1.414l-.707.707a1 1 0 0 1-1.414-1.414l.707-.707a1 1 0 0 1 1.414 0zm11.314 1.414a1 1 0 0 1-1.414 0l-.707-.707a1 1 0 0 1 1.414-1.414l.707.707a1 1 0 0 1 0 1.414zm-11.314-11.314a1 1 0 0 1-1.414 0l-.707-.707A1 1 0 1 1 5.914 4.95l.707.707a1 1 0 0 1 0 1.414zM12 8a4 4 0 1 1 0 8 4 4 0 0 1 0-8z" />
+              </svg>
+            </span>
+            <span class="theme-toggle__icon theme-toggle__icon--moon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M20.742 14.045a1 1 0 0 0-1.077-.217 7 7 0 0 1-9.493-7.92 1 1 0 0 0-1.149-1.2A9 9 0 1 0 21 15a1 1 0 0 0-.258-.955z" />
+              </svg>
+            </span>
+            <span class="sr-only">切换主题</span>
+          </button>
+          <a class="site-header__search" href="/search/">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M10.5 4a6.5 6.5 0 0 1 5.196 10.49l3.907 3.907-1.414 1.414-3.907-3.907A6.5 6.5 0 1 1 10.5 4zm0 2a4.5 4.5 0 1 0 0 9 4.5 4.5 0 0 0 0-9z" />
+            </svg>
+            <span>站内搜索</span>
+          </a>
+        </div>
+      </div>
+    </header>
+    <main class="main-content">
+      <div class="container">
+        
+<section class="page-header">
+  <h1 class="page-title">标签：AIOPS</h1>
+  <p class="page-subtitle">
+    <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+      <path d="M4 4h7.172a3 3 0 0 1 2.121.879l6.828 6.828a3 3 0 0 1 0 4.242l-3.172 3.172a3 3 0 0 1-4.242 0L5.121 12.95A3 3 0 0 1 4.242 10.83L4 10.586V6a2 2 0 0 1 2-2zm3 2a1.5 1.5 0 1 0 1.5 1.5A1.5 1.5 0 0 0 7 6z" />
+    </svg>
+    共 19 篇文章
+  </p>
+</section>
+
+<section class="posts-grid">
+  <div class="posts-grid__list">
+    
+    <article class="post-card">
+      <p class="post-card__meta">
+        <span class="post-card__meta-item">
+          <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M7 3a1 1 0 0 1 2 0v1h6V3a1 1 0 0 1 2 0v1h1.5A2.5 2.5 0 0 1 21 6.5v12A2.5 2.5 0 0 1 18.5 21h-13A2.5 2.5 0 0 1 3 18.5v-12A2.5 2.5 0 0 1 5.5 4H7zm11.5 4h-13A.5.5 0 0 0 5 7.5V10h14V7.5a.5.5 0 0 0-.5-.5zm.5 10.5v-7H5v7a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5z" />
+          </svg>
+          <span>2025年12月04日</span>
+        </span>
+        <span class="post-card__meta-item">
+          <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M12 3.5a8.5 8.5 0 1 0 8.5 8.5A8.5 8.5 0 0 0 12 3.5zm0 2a6.5 6.5 0 1 1-6.5 6.5A6.5 6.5 0 0 1 12 5.5zm-.75 3a1 1 0 0 1 2 0v3.382l2.268 1.307a1 1 0 1 1-1 1.732l-2.768-1.594A1 1 0 0 1 11.25 12z" />
+          </svg>
+          <span>约 3 分钟阅读</span>
+        </span>
+      </p>
+      <h2 class="post-card__title"><a href="/posts/AIOPS论文翻译与学习/ChainOfEvent_可解释根因分析_翻译/">Chain-of-Event: 微服务可解释根因分析</a></h2>
+      <p class="post-card__excerpt">本文提出Chain-of-Event方法，通过自动学习事件因果图，解决微服务根因分析中多模态数据兼容、可解释性差和依赖手动配置的难题。</p>
+      
+      <ul class="tag-list tag-list--compact">
+        
+        <li><a href="/tags/aiops/">AIOPS</a></li>
+        
+        <li><a href="/tags/论文/">论文</a></li>
+        
+        <li><a href="/tags/学习/">学习</a></li>
+        
+      </ul>
+      
+      <a class="post-card__read-more" href="/posts/AIOPS论文翻译与学习/ChainOfEvent_可解释根因分析_翻译/">
+        继续阅读
+        <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+          <path d="M5 12a1 1 0 0 1 1-1h9.586l-2.293-2.293 1.414-1.414L19.414 12l-4.707 4.707-1.414-1.414L15.586 13H6a1 1 0 0 1-1-1z" />
+        </svg>
+      </a>
+    </article>
+    
+    <article class="post-card">
+      <p class="post-card__meta">
+        <span class="post-card__meta-item">
+          <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M7 3a1 1 0 0 1 2 0v1h6V3a1 1 0 0 1 2 0v1h1.5A2.5 2.5 0 0 1 21 6.5v12A2.5 2.5 0 0 1 18.5 21h-13A2.5 2.5 0 0 1 3 18.5v-12A2.5 2.5 0 0 1 5.5 4H7zm11.5 4h-13A.5.5 0 0 0 5 7.5V10h14V7.5a.5.5 0 0 0-.5-.5zm.5 10.5v-7H5v7a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5z" />
+          </svg>
+          <span>2025年12月04日</span>
+        </span>
+        <span class="post-card__meta-item">
+          <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M12 3.5a8.5 8.5 0 1 0 8.5 8.5A8.5 8.5 0 0 0 12 3.5zm0 2a6.5 6.5 0 1 1-6.5 6.5A6.5 6.5 0 0 1 12 5.5zm-.75 3a1 1 0 0 1 2 0v3.382l2.268 1.307a1 1 0 1 1-1 1.732l-2.768-1.594A1 1 0 0 1 11.25 12z" />
+          </svg>
+          <span>约 2 分钟阅读</span>
+        </span>
+      </p>
+      <h2 class="post-card__title"><a href="/posts/AIOPS论文翻译与学习/ChainOfEvent_学习笔记/">Chain-of-Event论文学习笔记</a></h2>
+      <p class="post-card__excerpt">本文介绍了Chain-of-Event方法，用于解决微服务根因分析中多模态数据处理难、模型可解释性差及手动配置多等挑战。该方法通过将多源数据统一为事件，并构建可解释的因果概率图，实现自动学习与SRE友好调优，显著提升分析准确率与可操作性。</p>
+      
+      <ul class="tag-list tag-list--compact">
+        
+        <li><a href="/tags/aiops/">AIOPS</a></li>
+        
+        <li><a href="/tags/论文/">论文</a></li>
+        
+        <li><a href="/tags/学习/">学习</a></li>
+        
+      </ul>
+      
+      <a class="post-card__read-more" href="/posts/AIOPS论文翻译与学习/ChainOfEvent_学习笔记/">
+        继续阅读
+        <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+          <path d="M5 12a1 1 0 0 1 1-1h9.586l-2.293-2.293 1.414-1.414L19.414 12l-4.707 4.707-1.414-1.414L15.586 13H6a1 1 0 0 1-1-1z" />
+        </svg>
+      </a>
+    </article>
+    
+    <article class="post-card">
+      <p class="post-card__meta">
+        <span class="post-card__meta-item">
+          <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M7 3a1 1 0 0 1 2 0v1h6V3a1 1 0 0 1 2 0v1h1.5A2.5 2.5 0 0 1 21 6.5v12A2.5 2.5 0 0 1 18.5 21h-13A2.5 2.5 0 0 1 3 18.5v-12A2.5 2.5 0 0 1 5.5 4H7zm11.5 4h-13A.5.5 0 0 0 5 7.5V10h14V7.5a.5.5 0 0 0-.5-.5zm.5 10.5v-7H5v7a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5z" />
+          </svg>
+          <span>2025年12月04日</span>
+        </span>
+        <span class="post-card__meta-item">
+          <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M12 3.5a8.5 8.5 0 1 0 8.5 8.5A8.5 8.5 0 0 0 12 3.5zm0 2a6.5 6.5 0 1 1-6.5 6.5A6.5 6.5 0 0 1 12 5.5zm-.75 3a1 1 0 0 1 2 0v3.382l2.268 1.307a1 1 0 1 1-1 1.732l-2.768-1.594A1 1 0 0 1 11.25 12z" />
+          </svg>
+          <span>约 2 分钟阅读</span>
+        </span>
+      </p>
+      <h2 class="post-card__title"><a href="/posts/AIOPS论文翻译与学习/FLASH_学习笔记/">FLASH论文学习笔记</a></h2>
+      <p class="post-card__excerpt">FLASH论文提出一种用于诊断重复性事件的自动化工作流代理，通过状态监督机制分阶段简化指令、事后学习从历史失败中积累经验，以及工具存根支持离线测试，显著提升了诊断准确率。</p>
+      
+      <ul class="tag-list tag-list--compact">
+        
+        <li><a href="/tags/aiops/">AIOPS</a></li>
+        
+        <li><a href="/tags/论文/">论文</a></li>
+        
+        <li><a href="/tags/学习/">学习</a></li>
+        
+      </ul>
+      
+      <a class="post-card__read-more" href="/posts/AIOPS论文翻译与学习/FLASH_学习笔记/">
+        继续阅读
+        <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+          <path d="M5 12a1 1 0 0 1 1-1h9.586l-2.293-2.293 1.414-1.414L19.414 12l-4.707 4.707-1.414-1.414L15.586 13H6a1 1 0 0 1-1-1z" />
+        </svg>
+      </a>
+    </article>
+    
+    <article class="post-card">
+      <p class="post-card__meta">
+        <span class="post-card__meta-item">
+          <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M7 3a1 1 0 0 1 2 0v1h6V3a1 1 0 0 1 2 0v1h1.5A2.5 2.5 0 0 1 21 6.5v12A2.5 2.5 0 0 1 18.5 21h-13A2.5 2.5 0 0 1 3 18.5v-12A2.5 2.5 0 0 1 5.5 4H7zm11.5 4h-13A.5.5 0 0 0 5 7.5V10h14V7.5a.5.5 0 0 0-.5-.5zm.5 10.5v-7H5v7a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5z" />
+          </svg>
+          <span>2025年12月04日</span>
+        </span>
+        <span class="post-card__meta-item">
+          <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M12 3.5a8.5 8.5 0 1 0 8.5 8.5A8.5 8.5 0 0 0 12 3.5zm0 2a6.5 6.5 0 1 1-6.5 6.5A6.5 6.5 0 0 1 12 5.5zm-.75 3a1 1 0 0 1 2 0v3.382l2.268 1.307a1 1 0 1 1-1 1.732l-2.768-1.594A1 1 0 0 1 11.25 12z" />
+          </svg>
+          <span>约 2 分钟阅读</span>
+        </span>
+      </p>
+      <h2 class="post-card__title"><a href="/posts/AIOPS论文翻译与学习/FLASH_工作流自动化智能体_翻译/">FLASH: 诊断重复性事件的工作流自动化智能体</a></h2>
+      <p class="post-card__excerpt">FLASH是微软研发的工作流自动化智能体，用于诊断云服务中的重复性事件。它通过状态监督将复杂指令分解为可管理片段，并利用事后学习从历史失败中积累经验，防止错误传播。实验表明，FLASH将诊断准确率提升了13.</p>
+      
+      <ul class="tag-list tag-list--compact">
+        
+        <li><a href="/tags/aiops/">AIOPS</a></li>
+        
+        <li><a href="/tags/论文/">论文</a></li>
+        
+        <li><a href="/tags/学习/">学习</a></li>
+        
+      </ul>
+      
+      <a class="post-card__read-more" href="/posts/AIOPS论文翻译与学习/FLASH_工作流自动化智能体_翻译/">
+        继续阅读
+        <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+          <path d="M5 12a1 1 0 0 1 1-1h9.586l-2.293-2.293 1.414-1.414L19.414 12l-4.707 4.707-1.414-1.414L15.586 13H6a1 1 0 0 1-1-1z" />
+        </svg>
+      </a>
+    </article>
+    
+    <article class="post-card">
+      <p class="post-card__meta">
+        <span class="post-card__meta-item">
+          <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M7 3a1 1 0 0 1 2 0v1h6V3a1 1 0 0 1 2 0v1h1.5A2.5 2.5 0 0 1 21 6.5v12A2.5 2.5 0 0 1 18.5 21h-13A2.5 2.5 0 0 1 3 18.5v-12A2.5 2.5 0 0 1 5.5 4H7zm11.5 4h-13A.5.5 0 0 0 5 7.5V10h14V7.5a.5.5 0 0 0-.5-.5zm.5 10.5v-7H5v7a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5z" />
+          </svg>
+          <span>2025年12月04日</span>
+        </span>
+        <span class="post-card__meta-item">
+          <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M12 3.5a8.5 8.5 0 1 0 8.5 8.5A8.5 8.5 0 0 0 12 3.5zm0 2a6.5 6.5 0 1 1-6.5 6.5A6.5 6.5 0 0 1 12 5.5zm-.75 3a1 1 0 0 1 2 0v3.382l2.268 1.307a1 1 0 1 1-1 1.732l-2.768-1.594A1 1 0 0 1 11.25 12z" />
+          </svg>
+          <span>约 3 分钟阅读</span>
+        </span>
+      </p>
+      <h2 class="post-card__title"><a href="/posts/AIOPS论文翻译与学习/FlowOfAction_SOP增强多智能体系统_翻译/">Flow-of-Action: 基于SOP增强的LLM多智能体根因分析系统</a></h2>
+      <p class="post-card__excerpt">清华大学与阿里巴巴团队提出Flow-of-Action系统，通过标准操作流程约束多智能体协作，优化工具编排与搜索空间，显著提升微服务根因分析准确率至64%，为复杂故障诊断提供高效解决方案。</p>
+      
+      <ul class="tag-list tag-list--compact">
+        
+        <li><a href="/tags/aiops/">AIOPS</a></li>
+        
+        <li><a href="/tags/论文/">论文</a></li>
+        
+        <li><a href="/tags/学习/">学习</a></li>
+        
+      </ul>
+      
+      <a class="post-card__read-more" href="/posts/AIOPS论文翻译与学习/FlowOfAction_SOP增强多智能体系统_翻译/">
+        继续阅读
+        <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+          <path d="M5 12a1 1 0 0 1 1-1h9.586l-2.293-2.293 1.414-1.414L19.414 12l-4.707 4.707-1.414-1.414L15.586 13H6a1 1 0 0 1-1-1z" />
+        </svg>
+      </a>
+    </article>
+    
+    <article class="post-card">
+      <p class="post-card__meta">
+        <span class="post-card__meta-item">
+          <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M7 3a1 1 0 0 1 2 0v1h6V3a1 1 0 0 1 2 0v1h1.5A2.5 2.5 0 0 1 21 6.5v12A2.5 2.5 0 0 1 18.5 21h-13A2.5 2.5 0 0 1 3 18.5v-12A2.5 2.5 0 0 1 5.5 4H7zm11.5 4h-13A.5.5 0 0 0 5 7.5V10h14V7.5a.5.5 0 0 0-.5-.5zm.5 10.5v-7H5v7a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5z" />
+          </svg>
+          <span>2025年12月04日</span>
+        </span>
+        <span class="post-card__meta-item">
+          <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M12 3.5a8.5 8.5 0 1 0 8.5 8.5A8.5 8.5 0 0 0 12 3.5zm0 2a6.5 6.5 0 1 1-6.5 6.5A6.5 6.5 0 0 1 12 5.5zm-.75 3a1 1 0 0 1 2 0v3.382l2.268 1.307a1 1 0 1 1-1 1.732l-2.768-1.594A1 1 0 0 1 11.25 12z" />
+          </svg>
+          <span>约 2 分钟阅读</span>
+        </span>
+      </p>
+      <h2 class="post-card__title"><a href="/posts/AIOPS论文翻译与学习/FlowOfAction_学习笔记/">Flow-of-Action论文学习笔记</a></h2>
+      <p class="post-card__excerpt">《Flow-of-Action》论文提出一种基于SOP（标准作业程序）增强的多智能体系统，用于微服务根因分析。其核心创新在于将SOP代码化以精确引导智能体决策，并通过预生成动作集优化搜索空间。</p>
+      
+      <ul class="tag-list tag-list--compact">
+        
+        <li><a href="/tags/aiops/">AIOPS</a></li>
+        
+        <li><a href="/tags/论文/">论文</a></li>
+        
+        <li><a href="/tags/学习/">学习</a></li>
+        
+      </ul>
+      
+      <a class="post-card__read-more" href="/posts/AIOPS论文翻译与学习/FlowOfAction_学习笔记/">
+        继续阅读
+        <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+          <path d="M5 12a1 1 0 0 1 1-1h9.586l-2.293-2.293 1.414-1.414L19.414 12l-4.707 4.707-1.414-1.414L15.586 13H6a1 1 0 0 1-1-1z" />
+        </svg>
+      </a>
+    </article>
+    
+    <article class="post-card">
+      <p class="post-card__meta">
+        <span class="post-card__meta-item">
+          <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M7 3a1 1 0 0 1 2 0v1h6V3a1 1 0 0 1 2 0v1h1.5A2.5 2.5 0 0 1 21 6.5v12A2.5 2.5 0 0 1 18.5 21h-13A2.5 2.5 0 0 1 3 18.5v-12A2.5 2.5 0 0 1 5.5 4H7zm11.5 4h-13A.5.5 0 0 0 5 7.5V10h14V7.5a.5.5 0 0 0-.5-.5zm.5 10.5v-7H5v7a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5z" />
+          </svg>
+          <span>2025年12月04日</span>
+        </span>
+        <span class="post-card__meta-item">
+          <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M12 3.5a8.5 8.5 0 1 0 8.5 8.5A8.5 8.5 0 0 0 12 3.5zm0 2a6.5 6.5 0 1 1-6.5 6.5A6.5 6.5 0 0 1 12 5.5zm-.75 3a1 1 0 0 1 2 0v3.382l2.268 1.307a1 1 0 1 1-1 1.732l-2.768-1.594A1 1 0 0 1 11.25 12z" />
+          </svg>
+          <span>约 1 分钟阅读</span>
+        </span>
+      </p>
+      <h2 class="post-card__title"><a href="/posts/AIOPS论文翻译与学习/GNNVAE_多智能体协调_翻译/">GNN-VAE: 基于图神经网络的多智能体协调</a></h2>
+      <p class="post-card__excerpt">本文提出基于图神经网络与变分自编码器的GNN-VAE框架，用于解决多智能体协调中的约束优化问题。该模型通过图结构捕捉智能体交互，并生成满足无环与密度约束的可行解，在保证接近最优解质量的同时，显著提升了计算效率，可扩展至250个机器人的大规模…</p>
+      
+      <ul class="tag-list tag-list--compact">
+        
+        <li><a href="/tags/aiops/">AIOPS</a></li>
+        
+        <li><a href="/tags/论文/">论文</a></li>
+        
+        <li><a href="/tags/学习/">学习</a></li>
+        
+      </ul>
+      
+      <a class="post-card__read-more" href="/posts/AIOPS论文翻译与学习/GNNVAE_多智能体协调_翻译/">
+        继续阅读
+        <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+          <path d="M5 12a1 1 0 0 1 1-1h9.586l-2.293-2.293 1.414-1.414L19.414 12l-4.707 4.707-1.414-1.414L15.586 13H6a1 1 0 0 1-1-1z" />
+        </svg>
+      </a>
+    </article>
+    
+    <article class="post-card">
+      <p class="post-card__meta">
+        <span class="post-card__meta-item">
+          <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M7 3a1 1 0 0 1 2 0v1h6V3a1 1 0 0 1 2 0v1h1.5A2.5 2.5 0 0 1 21 6.5v12A2.5 2.5 0 0 1 18.5 21h-13A2.5 2.5 0 0 1 3 18.5v-12A2.5 2.5 0 0 1 5.5 4H7zm11.5 4h-13A.5.5 0 0 0 5 7.5V10h14V7.5a.5.5 0 0 0-.5-.5zm.5 10.5v-7H5v7a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5z" />
+          </svg>
+          <span>2025年12月04日</span>
+        </span>
+        <span class="post-card__meta-item">
+          <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M12 3.5a8.5 8.5 0 1 0 8.5 8.5A8.5 8.5 0 0 0 12 3.5zm0 2a6.5 6.5 0 1 1-6.5 6.5A6.5 6.5 0 0 1 12 5.5zm-.75 3a1 1 0 0 1 2 0v3.382l2.268 1.307a1 1 0 1 1-1 1.732l-2.768-1.594A1 1 0 0 1 11.25 12z" />
+          </svg>
+          <span>约 2 分钟阅读</span>
+        </span>
+      </p>
+      <h2 class="post-card__title"><a href="/posts/AIOPS论文翻译与学习/LLM_Agents_for_RCA_学习笔记/">探索基于LLM的智能体用于根因分析 - 学习笔记</a></h2>
+      <p class="post-card__excerpt">本文探讨了基于大语言模型的智能体在云服务根因分析中的应用。研究采用零样本设置，通过ReAct框架结合两步检索方法，有效提升了诊断的事实准确性并减少幻觉。</p>
+      
+      <ul class="tag-list tag-list--compact">
+        
+        <li><a href="/tags/aiops/">AIOPS</a></li>
+        
+        <li><a href="/tags/论文/">论文</a></li>
+        
+        <li><a href="/tags/学习/">学习</a></li>
+        
+      </ul>
+      
+      <a class="post-card__read-more" href="/posts/AIOPS论文翻译与学习/LLM_Agents_for_RCA_学习笔记/">
+        继续阅读
+        <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+          <path d="M5 12a1 1 0 0 1 1-1h9.586l-2.293-2.293 1.414-1.414L19.414 12l-4.707 4.707-1.414-1.414L15.586 13H6a1 1 0 0 1-1-1z" />
+        </svg>
+      </a>
+    </article>
+    
+    <article class="post-card">
+      <p class="post-card__meta">
+        <span class="post-card__meta-item">
+          <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M7 3a1 1 0 0 1 2 0v1h6V3a1 1 0 0 1 2 0v1h1.5A2.5 2.5 0 0 1 21 6.5v12A2.5 2.5 0 0 1 18.5 21h-13A2.5 2.5 0 0 1 3 18.5v-12A2.5 2.5 0 0 1 5.5 4H7zm11.5 4h-13A.5.5 0 0 0 5 7.5V10h14V7.5a.5.5 0 0 0-.5-.5zm.5 10.5v-7H5v7a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5z" />
+          </svg>
+          <span>2025年12月04日</span>
+        </span>
+        <span class="post-card__meta-item">
+          <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M12 3.5a8.5 8.5 0 1 0 8.5 8.5A8.5 8.5 0 0 0 12 3.5zm0 2a6.5 6.5 0 1 1-6.5 6.5A6.5 6.5 0 0 1 12 5.5zm-.75 3a1 1 0 0 1 2 0v3.382l2.268 1.307a1 1 0 1 1-1 1.732l-2.768-1.594A1 1 0 0 1 11.25 12z" />
+          </svg>
+          <span>约 3 分钟阅读</span>
+        </span>
+      </p>
+      <h2 class="post-card__title"><a href="/posts/AIOPS论文翻译与学习/LLM_Agents_for_RCA_翻译/">探索基于LLM的智能体用于根因分析</a></h2>
+      <p class="post-card__excerpt">本研究探索基于大语言模型的智能体用于云服务根因分析，采用ReAct框架在微软生产数据集上进行评估。结果表明，该方法在分布外事件中仍能提供有竞争力的根因预测性能，显著提升事实准确性，且历史讨论评论可进一步改善检索效果。</p>
+      
+      <ul class="tag-list tag-list--compact">
+        
+        <li><a href="/tags/aiops/">AIOPS</a></li>
+        
+        <li><a href="/tags/论文/">论文</a></li>
+        
+        <li><a href="/tags/学习/">学习</a></li>
+        
+      </ul>
+      
+      <a class="post-card__read-more" href="/posts/AIOPS论文翻译与学习/LLM_Agents_for_RCA_翻译/">
+        继续阅读
+        <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+          <path d="M5 12a1 1 0 0 1 1-1h9.586l-2.293-2.293 1.414-1.414L19.414 12l-4.707 4.707-1.414-1.414L15.586 13H6a1 1 0 0 1-1-1z" />
+        </svg>
+      </a>
+    </article>
+    
+    <article class="post-card">
+      <p class="post-card__meta">
+        <span class="post-card__meta-item">
+          <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M7 3a1 1 0 0 1 2 0v1h6V3a1 1 0 0 1 2 0v1h1.5A2.5 2.5 0 0 1 21 6.5v12A2.5 2.5 0 0 1 18.5 21h-13A2.5 2.5 0 0 1 3 18.5v-12A2.5 2.5 0 0 1 5.5 4H7zm11.5 4h-13A.5.5 0 0 0 5 7.5V10h14V7.5a.5.5 0 0 0-.5-.5zm.5 10.5v-7H5v7a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5z" />
+          </svg>
+          <span>2025年12月04日</span>
+        </span>
+        <span class="post-card__meta-item">
+          <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M12 3.5a8.5 8.5 0 1 0 8.5 8.5A8.5 8.5 0 0 0 12 3.5zm0 2a6.5 6.5 0 1 1-6.5 6.5A6.5 6.5 0 0 1 12 5.5zm-.75 3a1 1 0 0 1 2 0v3.382l2.268 1.307a1 1 0 1 1-1 1.732l-2.768-1.594A1 1 0 0 1 11.25 12z" />
+          </svg>
+          <span>约 3 分钟阅读</span>
+        </span>
+      </p>
+      <h2 class="post-card__title"><a href="/posts/AIOPS论文翻译与学习/MARCA_多智能体根因分析_翻译/">MA-RCA: 多智能体根因分析</a></h2>
+      <p class="post-card__excerpt">本文提出MA-RCA方法，通过专业化Agent分工、集成历史诊断经验及双重验证机制，有效抑制大语言模型在根因分析中的幻觉问题。实验表明，该方法在提升诊断准确率的同时显著降低了幻觉率，为复杂系统故障定位提供了更可靠的解决方案。</p>
+      
+      <ul class="tag-list tag-list--compact">
+        
+        <li><a href="/tags/aiops/">AIOPS</a></li>
+        
+        <li><a href="/tags/论文/">论文</a></li>
+        
+        <li><a href="/tags/学习/">学习</a></li>
+        
+      </ul>
+      
+      <a class="post-card__read-more" href="/posts/AIOPS论文翻译与学习/MARCA_多智能体根因分析_翻译/">
+        继续阅读
+        <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+          <path d="M5 12a1 1 0 0 1 1-1h9.586l-2.293-2.293 1.414-1.414L19.414 12l-4.707 4.707-1.414-1.414L15.586 13H6a1 1 0 0 1-1-1z" />
+        </svg>
+      </a>
+    </article>
+    
+    <article class="post-card">
+      <p class="post-card__meta">
+        <span class="post-card__meta-item">
+          <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M7 3a1 1 0 0 1 2 0v1h6V3a1 1 0 0 1 2 0v1h1.5A2.5 2.5 0 0 1 21 6.5v12A2.5 2.5 0 0 1 18.5 21h-13A2.5 2.5 0 0 1 3 18.5v-12A2.5 2.5 0 0 1 5.5 4H7zm11.5 4h-13A.5.5 0 0 0 5 7.5V10h14V7.5a.5.5 0 0 0-.5-.5zm.5 10.5v-7H5v7a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5z" />
+          </svg>
+          <span>2025年12月04日</span>
+        </span>
+        <span class="post-card__meta-item">
+          <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M12 3.5a8.5 8.5 0 1 0 8.5 8.5A8.5 8.5 0 0 0 12 3.5zm0 2a6.5 6.5 0 1 1-6.5 6.5A6.5 6.5 0 0 1 12 5.5zm-.75 3a1 1 0 0 1 2 0v3.382l2.268 1.307a1 1 0 1 1-1 1.732l-2.768-1.594A1 1 0 0 1 11.25 12z" />
+          </svg>
+          <span>约 2 分钟阅读</span>
+        </span>
+      </p>
+      <h2 class="post-card__title"><a href="/posts/AIOPS论文翻译与学习/MARCA_学习笔记/">MA-RCA论文学习笔记</a></h2>
+      <p class="post-card__excerpt">MA-RCA论文提出一种多智能体根因分析方法，通过专业化分工与强制历史检索两大机制，有效抑制LLM在故障诊断中的幻觉问题。</p>
+      
+      <ul class="tag-list tag-list--compact">
+        
+        <li><a href="/tags/aiops/">AIOPS</a></li>
+        
+        <li><a href="/tags/论文/">论文</a></li>
+        
+        <li><a href="/tags/学习/">学习</a></li>
+        
+      </ul>
+      
+      <a class="post-card__read-more" href="/posts/AIOPS论文翻译与学习/MARCA_学习笔记/">
+        继续阅读
+        <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+          <path d="M5 12a1 1 0 0 1 1-1h9.586l-2.293-2.293 1.414-1.414L19.414 12l-4.707 4.707-1.414-1.414L15.586 13H6a1 1 0 0 1-1-1z" />
+        </svg>
+      </a>
+    </article>
+    
+    <article class="post-card">
+      <p class="post-card__meta">
+        <span class="post-card__meta-item">
+          <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M7 3a1 1 0 0 1 2 0v1h6V3a1 1 0 0 1 2 0v1h1.5A2.5 2.5 0 0 1 21 6.5v12A2.5 2.5 0 0 1 18.5 21h-13A2.5 2.5 0 0 1 3 18.5v-12A2.5 2.5 0 0 1 5.5 4H7zm11.5 4h-13A.5.5 0 0 0 5 7.5V10h14V7.5a.5.5 0 0 0-.5-.5zm.5 10.5v-7H5v7a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5z" />
+          </svg>
+          <span>2025年12月04日</span>
+        </span>
+        <span class="post-card__meta-item">
+          <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M12 3.5a8.5 8.5 0 1 0 8.5 8.5A8.5 8.5 0 0 0 12 3.5zm0 2a6.5 6.5 0 1 1-6.5 6.5A6.5 6.5 0 0 1 12 5.5zm-.75 3a1 1 0 0 1 2 0v3.382l2.268 1.307a1 1 0 1 1-1 1.732l-2.768-1.594A1 1 0 0 1 11.25 12z" />
+          </svg>
+          <span>约 2 分钟阅读</span>
+        </span>
+      </p>
+      <h2 class="post-card__title"><a href="/posts/AIOPS论文翻译与学习/QMIXGNN_异构多智能体信息融合_翻译/">QMIX-GNN: 基于图神经网络的异构多智能体信息融合</a></h2>
+      <p class="post-card__excerpt">本文提出QMIX-GNN方法，利用图神经网络解决异构多智能体强化学习中的信息融合难题。该方法通过自适应聚合智能体观测信息，有效提升了团队协作能力与任务性能，尤其在复杂场景下显著优于传统方法，为多智能体协调提供了高效解决方案。</p>
+      
+      <ul class="tag-list tag-list--compact">
+        
+        <li><a href="/tags/aiops/">AIOPS</a></li>
+        
+        <li><a href="/tags/论文/">论文</a></li>
+        
+        <li><a href="/tags/学习/">学习</a></li>
+        
+      </ul>
+      
+      <a class="post-card__read-more" href="/posts/AIOPS论文翻译与学习/QMIXGNN_异构多智能体信息融合_翻译/">
+        继续阅读
+        <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+          <path d="M5 12a1 1 0 0 1 1-1h9.586l-2.293-2.293 1.414-1.414L19.414 12l-4.707 4.707-1.414-1.414L15.586 13H6a1 1 0 0 1-1-1z" />
+        </svg>
+      </a>
+    </article>
+    
+    <article class="post-card">
+      <p class="post-card__meta">
+        <span class="post-card__meta-item">
+          <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M7 3a1 1 0 0 1 2 0v1h6V3a1 1 0 0 1 2 0v1h1.5A2.5 2.5 0 0 1 21 6.5v12A2.5 2.5 0 0 1 18.5 21h-13A2.5 2.5 0 0 1 3 18.5v-12A2.5 2.5 0 0 1 5.5 4H7zm11.5 4h-13A.5.5 0 0 0 5 7.5V10h14V7.5a.5.5 0 0 0-.5-.5zm.5 10.5v-7H5v7a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5z" />
+          </svg>
+          <span>2025年12月04日</span>
+        </span>
+        <span class="post-card__meta-item">
+          <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M12 3.5a8.5 8.5 0 1 0 8.5 8.5A8.5 8.5 0 0 0 12 3.5zm0 2a6.5 6.5 0 1 1-6.5 6.5A6.5 6.5 0 0 1 12 5.5zm-.75 3a1 1 0 0 1 2 0v3.382l2.268 1.307a1 1 0 1 1-1 1.732l-2.768-1.594A1 1 0 0 1 11.25 12z" />
+          </svg>
+          <span>约 2 分钟阅读</span>
+        </span>
+      </p>
+      <h2 class="post-card__title"><a href="/posts/AIOPS论文翻译与学习/RCAgent_学习笔记/">RCAgent论文学习笔记</a></h2>
+      <p class="post-card__excerpt">RCAgent论文提出了一种基于自主智能体与工具增强大语言模型的云端根因分析方法。其创新架构结合自主决策、轨迹级自一致性及优化的日志检索技术，有效解决了传统方法灵活性不足、生成结果不稳定及隐私安全等问题。</p>
+      
+      <ul class="tag-list tag-list--compact">
+        
+        <li><a href="/tags/aiops/">AIOPS</a></li>
+        
+        <li><a href="/tags/论文/">论文</a></li>
+        
+        <li><a href="/tags/学习/">学习</a></li>
+        
+      </ul>
+      
+      <a class="post-card__read-more" href="/posts/AIOPS论文翻译与学习/RCAgent_学习笔记/">
+        继续阅读
+        <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+          <path d="M5 12a1 1 0 0 1 1-1h9.586l-2.293-2.293 1.414-1.414L19.414 12l-4.707 4.707-1.414-1.414L15.586 13H6a1 1 0 0 1-1-1z" />
+        </svg>
+      </a>
+    </article>
+    
+    <article class="post-card">
+      <p class="post-card__meta">
+        <span class="post-card__meta-item">
+          <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M7 3a1 1 0 0 1 2 0v1h6V3a1 1 0 0 1 2 0v1h1.5A2.5 2.5 0 0 1 21 6.5v12A2.5 2.5 0 0 1 18.5 21h-13A2.5 2.5 0 0 1 3 18.5v-12A2.5 2.5 0 0 1 5.5 4H7zm11.5 4h-13A.5.5 0 0 0 5 7.5V10h14V7.5a.5.5 0 0 0-.5-.5zm.5 10.5v-7H5v7a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5z" />
+          </svg>
+          <span>2025年12月04日</span>
+        </span>
+        <span class="post-card__meta-item">
+          <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M12 3.5a8.5 8.5 0 1 0 8.5 8.5A8.5 8.5 0 0 0 12 3.5zm0 2a6.5 6.5 0 1 1-6.5 6.5A6.5 6.5 0 0 1 12 5.5zm-.75 3a1 1 0 0 1 2 0v3.382l2.268 1.307a1 1 0 1 1-1 1.732l-2.768-1.594A1 1 0 0 1 11.25 12z" />
+          </svg>
+          <span>约 3 分钟阅读</span>
+        </span>
+      </p>
+      <h2 class="post-card__title"><a href="/posts/AIOPS论文翻译与学习/RCAgent_工具增强自主智能体_翻译/">RCAgent: 基于工具增强大语言模型的自主智能体云端根因分析</a></h2>
+      <p class="post-card__excerpt">本文介绍了RCAgent，一个基于工具增强大语言模型的自主智能体框架，用于云端根因分析。该框架通过自主决策调用工具进行自由数据收集与综合分析，并采用轨迹自一致性等技术提升稳定性。</p>
+      
+      <ul class="tag-list tag-list--compact">
+        
+        <li><a href="/tags/aiops/">AIOPS</a></li>
+        
+        <li><a href="/tags/论文/">论文</a></li>
+        
+        <li><a href="/tags/学习/">学习</a></li>
+        
+      </ul>
+      
+      <a class="post-card__read-more" href="/posts/AIOPS论文翻译与学习/RCAgent_工具增强自主智能体_翻译/">
+        继续阅读
+        <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+          <path d="M5 12a1 1 0 0 1 1-1h9.586l-2.293-2.293 1.414-1.414L19.414 12l-4.707 4.707-1.414-1.414L15.586 13H6a1 1 0 0 1-1-1z" />
+        </svg>
+      </a>
+    </article>
+    
+    <article class="post-card">
+      <p class="post-card__meta">
+        <span class="post-card__meta-item">
+          <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M7 3a1 1 0 0 1 2 0v1h6V3a1 1 0 0 1 2 0v1h1.5A2.5 2.5 0 0 1 21 6.5v12A2.5 2.5 0 0 1 18.5 21h-13A2.5 2.5 0 0 1 3 18.5v-12A2.5 2.5 0 0 1 5.5 4H7zm11.5 4h-13A.5.5 0 0 0 5 7.5V10h14V7.5a.5.5 0 0 0-.5-.5zm.5 10.5v-7H5v7a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5z" />
+          </svg>
+          <span>2025年12月04日</span>
+        </span>
+        <span class="post-card__meta-item">
+          <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M12 3.5a8.5 8.5 0 1 0 8.5 8.5A8.5 8.5 0 0 0 12 3.5zm0 2a6.5 6.5 0 1 1-6.5 6.5A6.5 6.5 0 0 1 12 5.5zm-.75 3a1 1 0 0 1 2 0v3.382l2.268 1.307a1 1 0 1 1-1 1.732l-2.768-1.594A1 1 0 0 1 11.25 12z" />
+          </svg>
+          <span>约 2 分钟阅读</span>
+        </span>
+      </p>
+      <h2 class="post-card__title"><a href="/posts/AIOPS论文翻译与学习/SmartGrid_异构图多任务学习_翻译/">异构图多任务学习用于智能电网故障事件诊断</a></h2>
+      <p class="post-card__excerpt">本文提出一种基于异构图多任务学习的图神经网络架构，用于智能电网故障诊断。该模型能同时处理故障检测、定位、类型分类及电阻电流估计等多个任务，有效融合电网拓扑与电气数据。</p>
+      
+      <ul class="tag-list tag-list--compact">
+        
+        <li><a href="/tags/aiops/">AIOPS</a></li>
+        
+        <li><a href="/tags/论文/">论文</a></li>
+        
+        <li><a href="/tags/学习/">学习</a></li>
+        
+      </ul>
+      
+      <a class="post-card__read-more" href="/posts/AIOPS论文翻译与学习/SmartGrid_异构图多任务学习_翻译/">
+        继续阅读
+        <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+          <path d="M5 12a1 1 0 0 1 1-1h9.586l-2.293-2.293 1.414-1.414L19.414 12l-4.707 4.707-1.414-1.414L15.586 13H6a1 1 0 0 1-1-1z" />
+        </svg>
+      </a>
+    </article>
+    
+    <article class="post-card">
+      <p class="post-card__meta">
+        <span class="post-card__meta-item">
+          <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M7 3a1 1 0 0 1 2 0v1h6V3a1 1 0 0 1 2 0v1h1.5A2.5 2.5 0 0 1 21 6.5v12A2.5 2.5 0 0 1 18.5 21h-13A2.5 2.5 0 0 1 3 18.5v-12A2.5 2.5 0 0 1 5.5 4H7zm11.5 4h-13A.5.5 0 0 0 5 7.5V10h14V7.5a.5.5 0 0 0-.5-.5zm.5 10.5v-7H5v7a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5z" />
+          </svg>
+          <span>2025年12月04日</span>
+        </span>
+        <span class="post-card__meta-item">
+          <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M12 3.5a8.5 8.5 0 1 0 8.5 8.5A8.5 8.5 0 0 0 12 3.5zm0 2a6.5 6.5 0 1 1-6.5 6.5A6.5 6.5 0 0 1 12 5.5zm-.75 3a1 1 0 0 1 2 0v3.382l2.268 1.307a1 1 0 1 1-1 1.732l-2.768-1.594A1 1 0 0 1 11.25 12z" />
+          </svg>
+          <span>约 3 分钟阅读</span>
+        </span>
+      </p>
+      <h2 class="post-card__title"><a href="/posts/AIOPS论文翻译与学习/TAMO_多模态工具辅助智能体_翻译/">TAMO: 集成多模态观测数据的工具辅助LLM智能体细粒度根因分析</a></h2>
+      <p class="post-card__excerpt">本文提出TAMO框架，通过双分支扩散模型融合日志、指标与追踪等多模态数据，并利用频域自注意力构建因果图进行根因定位。</p>
+      
+      <ul class="tag-list tag-list--compact">
+        
+        <li><a href="/tags/aiops/">AIOPS</a></li>
+        
+        <li><a href="/tags/论文/">论文</a></li>
+        
+        <li><a href="/tags/学习/">学习</a></li>
+        
+      </ul>
+      
+      <a class="post-card__read-more" href="/posts/AIOPS论文翻译与学习/TAMO_多模态工具辅助智能体_翻译/">
+        继续阅读
+        <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+          <path d="M5 12a1 1 0 0 1 1-1h9.586l-2.293-2.293 1.414-1.414L19.414 12l-4.707 4.707-1.414-1.414L15.586 13H6a1 1 0 0 1-1-1z" />
+        </svg>
+      </a>
+    </article>
+    
+    <article class="post-card">
+      <p class="post-card__meta">
+        <span class="post-card__meta-item">
+          <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M7 3a1 1 0 0 1 2 0v1h6V3a1 1 0 0 1 2 0v1h1.5A2.5 2.5 0 0 1 21 6.5v12A2.5 2.5 0 0 1 18.5 21h-13A2.5 2.5 0 0 1 3 18.5v-12A2.5 2.5 0 0 1 5.5 4H7zm11.5 4h-13A.5.5 0 0 0 5 7.5V10h14V7.5a.5.5 0 0 0-.5-.5zm.5 10.5v-7H5v7a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5z" />
+          </svg>
+          <span>2025年12月04日</span>
+        </span>
+        <span class="post-card__meta-item">
+          <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M12 3.5a8.5 8.5 0 1 0 8.5 8.5A8.5 8.5 0 0 0 12 3.5zm0 2a6.5 6.5 0 1 1-6.5 6.5A6.5 6.5 0 0 1 12 5.5zm-.75 3a1 1 0 0 1 2 0v3.382l2.268 1.307a1 1 0 1 1-1 1.732l-2.768-1.594A1 1 0 0 1 11.25 12z" />
+          </svg>
+          <span>约 2 分钟阅读</span>
+        </span>
+      </p>
+      <h2 class="post-card__title"><a href="/posts/AIOPS论文翻译与学习/TAMO_学习笔记/">TAMO论文学习笔记</a></h2>
+      <p class="post-card__excerpt">TAMO论文提出一种基于工具辅助LLM代理的细粒度根因分析方法，通过双分支扩散模型融合日志、指标与追踪等多模态数据，并利用频域自注意力构建因果图以准确定位故障实体。</p>
+      
+      <ul class="tag-list tag-list--compact">
+        
+        <li><a href="/tags/aiops/">AIOPS</a></li>
+        
+        <li><a href="/tags/论文/">论文</a></li>
+        
+        <li><a href="/tags/学习/">学习</a></li>
+        
+      </ul>
+      
+      <a class="post-card__read-more" href="/posts/AIOPS论文翻译与学习/TAMO_学习笔记/">
+        继续阅读
+        <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+          <path d="M5 12a1 1 0 0 1 1-1h9.586l-2.293-2.293 1.414-1.414L19.414 12l-4.707 4.707-1.414-1.414L15.586 13H6a1 1 0 0 1-1-1z" />
+        </svg>
+      </a>
+    </article>
+    
+    <article class="post-card">
+      <p class="post-card__meta">
+        <span class="post-card__meta-item">
+          <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M7 3a1 1 0 0 1 2 0v1h6V3a1 1 0 0 1 2 0v1h1.5A2.5 2.5 0 0 1 21 6.5v12A2.5 2.5 0 0 1 18.5 21h-13A2.5 2.5 0 0 1 3 18.5v-12A2.5 2.5 0 0 1 5.5 4H7zm11.5 4h-13A.5.5 0 0 0 5 7.5V10h14V7.5a.5.5 0 0 0-.5-.5zm.5 10.5v-7H5v7a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5z" />
+          </svg>
+          <span>2025年12月04日</span>
+        </span>
+        <span class="post-card__meta-item">
+          <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M12 3.5a8.5 8.5 0 1 0 8.5 8.5A8.5 8.5 0 0 0 12 3.5zm0 2a6.5 6.5 0 1 1-6.5 6.5A6.5 6.5 0 0 1 12 5.5zm-.75 3a1 1 0 0 1 2 0v3.382l2.268 1.307a1 1 0 1 1-1 1.732l-2.768-1.594A1 1 0 0 1 11.25 12z" />
+          </svg>
+          <span>约 3 分钟阅读</span>
+        </span>
+      </p>
+      <h2 class="post-card__title"><a href="/posts/AIOPS论文翻译与学习/mABC_多智能体区块链协作框架_翻译/">MABC: 微服务架构中基于区块链启发的多智能体协作根因分析</a></h2>
+      <p class="post-card__excerpt">本文提出MABC框架，针对微服务架构中根因分析面临的故障传播与循环依赖等挑战，通过多智能体协作与区块链启发投票机制，有效缓解大模型幻觉问题并避免非终止循环。</p>
+      
+      <ul class="tag-list tag-list--compact">
+        
+        <li><a href="/tags/aiops/">AIOPS</a></li>
+        
+        <li><a href="/tags/论文/">论文</a></li>
+        
+        <li><a href="/tags/学习/">学习</a></li>
+        
+      </ul>
+      
+      <a class="post-card__read-more" href="/posts/AIOPS论文翻译与学习/mABC_多智能体区块链协作框架_翻译/">
+        继续阅读
+        <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+          <path d="M5 12a1 1 0 0 1 1-1h9.586l-2.293-2.293 1.414-1.414L19.414 12l-4.707 4.707-1.414-1.414L15.586 13H6a1 1 0 0 1-1-1z" />
+        </svg>
+      </a>
+    </article>
+    
+    <article class="post-card">
+      <p class="post-card__meta">
+        <span class="post-card__meta-item">
+          <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M7 3a1 1 0 0 1 2 0v1h6V3a1 1 0 0 1 2 0v1h1.5A2.5 2.5 0 0 1 21 6.5v12A2.5 2.5 0 0 1 18.5 21h-13A2.5 2.5 0 0 1 3 18.5v-12A2.5 2.5 0 0 1 5.5 4H7zm11.5 4h-13A.5.5 0 0 0 5 7.5V10h14V7.5a.5.5 0 0 0-.5-.5zm.5 10.5v-7H5v7a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5z" />
+          </svg>
+          <span>2025年12月04日</span>
+        </span>
+        <span class="post-card__meta-item">
+          <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M12 3.5a8.5 8.5 0 1 0 8.5 8.5A8.5 8.5 0 0 0 12 3.5zm0 2a6.5 6.5 0 1 1-6.5 6.5A6.5 6.5 0 0 1 12 5.5zm-.75 3a1 1 0 0 1 2 0v3.382l2.268 1.307a1 1 0 1 1-1 1.732l-2.768-1.594A1 1 0 0 1 11.25 12z" />
+          </svg>
+          <span>约 2 分钟阅读</span>
+        </span>
+      </p>
+      <h2 class="post-card__title"><a href="/posts/AIOPS论文翻译与学习/mABC_学习笔记/">MABC论文学习笔记</a></h2>
+      <p class="post-card__excerpt">该论文提出MABC方法，通过多智能体协作与区块链启发式投票机制，解决微服务架构中故障根因分析面临的传播复杂、循环依赖和LLM幻觉等挑战。系统采用七个专业化智能体分工，结合标准化流程与投票验证，显著提升了分析准确性与结果可靠性。</p>
+      
+      <ul class="tag-list tag-list--compact">
+        
+        <li><a href="/tags/aiops/">AIOPS</a></li>
+        
+        <li><a href="/tags/论文/">论文</a></li>
+        
+        <li><a href="/tags/学习/">学习</a></li>
+        
+      </ul>
+      
+      <a class="post-card__read-more" href="/posts/AIOPS论文翻译与学习/mABC_学习笔记/">
+        继续阅读
+        <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+          <path d="M5 12a1 1 0 0 1 1-1h9.586l-2.293-2.293 1.414-1.414L19.414 12l-4.707 4.707-1.414-1.414L15.586 13H6a1 1 0 0 1-1-1z" />
+        </svg>
+      </a>
+    </article>
+    
+  </div>
+</section>
+
+      </div>
+    </main>
+    <footer class="site-footer" role="contentinfo">
+      <div class="container site-footer__inner">
+        <div>
+          <p class="site-footer__title">何宸禹的博客</p>
+          
+          <p class="site-footer__description">由 AutoBlog 驱动的学习与创作记录。</p>
+          
+        </div>
+        <div class="site-footer__meta">
+          <span>© 2025 何宸禹</span>
+          <a class="site-footer__link" href="/autoblog/">了解 AutoBlog 引擎</a>
+          <div class="site-footer__counts" id="site-visit-stats" aria-live="polite">
+            <span id="busuanzi_container_site_uv" class="site-footer__count-item">
+              访问人数 <span id="busuanzi_value_site_uv">--</span>
+            </span>
+            <span id="busuanzi_container_site_pv" class="site-footer__count-item">
+              浏览次数 <span id="busuanzi_value_site_pv">--</span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+  <button class="back-to-top" type="button" data-back-to-top aria-label="返回顶部">
+    <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+      <path d="M12 5.586l5.707 5.707-1.414 1.414L13 9.414V19h-2V9.414l-3.293 3.293-1.414-1.414z" />
+    </svg>
+  </button>
+  <div class="lightbox" id="image-lightbox" aria-hidden="true" role="dialog" aria-modal="true" tabindex="-1">
+    <button type="button" class="lightbox__close" data-lightbox-close aria-label="关闭">
+      <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+        <path d="M6.343 5.343l12.02 12.02-1.414 1.414-12.02-12.02z" />
+        <path d="M17.657 5.343l1.414 1.414-12.02 12.02-1.414-1.414z" />
+      </svg>
+    </button>
+    <img class="lightbox__image" src="" alt="" />
+    <p class="lightbox__caption"></p>
+  </div>
+  <script src="/app.js" defer></script>
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" data-busuanzi></script>
+</body>
+</html>

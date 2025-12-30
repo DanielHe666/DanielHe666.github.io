@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>WASM | 何宸禹的博客</title>
+  <meta name="description" content="WebAssembly（WASM）是一种为Web设计的高性能二进制指令格式，允许C++、Rust等语言编写的代码以接近原生速度在浏览器中运行。它并非替代JavaScript，而是与其协作，专门处理计算密集型任务，如游戏、图形设计和音视频编辑，同时具备安全、可移植和快速启动的优势。读者可了解如何利用WASM提升Web应用性能并复用现有代码库，扩展开发可能性。" />
+  <meta name="author" content="何宸禹" />
+  
+  <link rel="canonical" href="https://chenyuheee.github.io/posts/WASM/" />
+  <meta property="og:url" content="https://chenyuheee.github.io/posts/WASM/" />
+  
+  <meta property="og:title" content="WASM | 何宸禹的博客" />
+  <meta property="og:description" content="WebAssembly（WASM）是一种为Web设计的高性能二进制指令格式，允许C++、Rust等语言编写的代码以接近原生速度在浏览器中运行。它并非替代JavaScript，而是与其协作，专门处理计算密集型任务，如游戏、图形设计和音视频编辑，同时具备安全、可移植和快速启动的优势。读者可了解如何利用WASM提升Web应用性能并复用现有代码库，扩展开发可能性。" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary" />
+  <link rel="stylesheet" href="/style.css" />
+  
+  <link rel="alternate" type="application/rss+xml" title="何宸禹的博客 RSS" href="/feed.xml" />
+  
+</head>
+<body>
+  <div class="site-shell">
+    <div class="reading-progress" id="reading-progress" role="presentation" aria-hidden="true"></div>
+    
+    <div
+      class="site-audio"
+      data-audio-player
+      data-autoplay="false"
+      data-start-muted="false"
+      data-volume-expanded="false"
+    >
+      <div class="site-audio__cover" style="background-image: url('/media/cover.jpg');">
+        
+        <button class="site-audio__cover-toggle" type="button" data-audio-toggle aria-label="播放或暂停背景音乐" data-audio-no-drag>
+          <span class="site-audio__cover-blur" aria-hidden="true"></span>
+          <svg class="site-audio__icon site-audio__icon--play" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M8 5.5v13l10-6.5z" />
+          </svg>
+          <svg class="site-audio__icon site-audio__icon--pause" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M8 5.5h3v13H8zm5 0h3v13h-3z" />
+          </svg>
+        </button>
+      </div>
+      <div class="site-audio__meta">
+        <div class="site-audio__title-row">
+          <span class="site-audio__title">日落</span>
+          <span class="site-audio__time" data-audio-time>00:00</span>
+        </div>
+        
+        <span class="site-audio__artist">孙燕姿</span>
+        
+        <div
+          class="site-audio__progress"
+          data-audio-progress-track
+          role="progressbar"
+          aria-valuemin="0"
+          aria-valuemax="100"
+          aria-valuenow="0"
+          data-audio-no-drag
+        >
+          <div class="site-audio__progress-bar" data-audio-progress></div>
+        </div>
+      </div>
+      <div class="site-audio__controls">
+        <div class="site-audio__volume-shell" data-audio-no-drag>
+          <button class="site-audio__control site-audio__control--mute" type="button" data-audio-mute aria-label="切换静音" data-audio-no-drag>
+            <svg class="site-audio__icon site-audio__icon--volume" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M5 10h2.586L12 5.586V18.5L7.586 14H5z" />
+              <path d="M15.5 8.5a4 4 0 0 1 0 6" />
+              <path d="M17.5 6.5a6 6 0 0 1 0 10" />
+            </svg>
+            <svg class="site-audio__icon site-audio__icon--muted" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M5 10h2.586L12 5.586V18.5L7.586 14H5z" />
+              <path d="M15 9l6 6" />
+              <path d="M21 9l-6 6" />
+            </svg>
+          </button>
+          <div class="site-audio__volume" data-audio-volume aria-hidden="true">
+            <input
+              class="site-audio__volume-slider"
+              type="range"
+              min="0"
+              max="100"
+              value="100"
+              step="1"
+              data-audio-volume-slider
+              tabindex="-1"
+              aria-label="调节音量"
+              data-audio-no-drag
+            />
+          </div>
+        </div>
+      </div>
+      <audio
+        data-audio-element
+        loop
+        preload="auto"
+        src="/media/日落.mp3"
+      ></audio>
+    </div>
+    
+    <header class="site-header" role="banner">
+      <div class="container site-header__inner">
+        <div class="brand">
+          <a class="brand__title" href="/">何宸禹的博客</a>
+          
+          <p class="brand__description">由 AutoBlog 驱动的学习与创作记录。</p>
+          
+        </div>
+        
+        <nav class="site-nav" aria-label="主导航">
+          
+          <a class="site-nav__link" href="/">首页</a>
+          
+          <a class="site-nav__link" href="/archive/">归档</a>
+          
+          <a class="site-nav__link" href="/tags/">标签</a>
+          
+          <a class="site-nav__link" href="/about/">About</a>
+          
+        </nav>
+        
+        <div class="site-header__actions">
+          <button class="theme-toggle" type="button" data-theme-toggle data-theme-state="light" aria-pressed="false" aria-label="切换到夜间模式">
+            <span class="theme-toggle__icon theme-toggle__icon--sun" aria-hidden="true">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 5a1 1 0 0 1-1-1V3a1 1 0 1 1 2 0v1a1 1 0 0 1-1 1zm0 16a1 1 0 0 1-1-1v-1a1 1 0 0 1 2 0v1a1 1 0 0 1-1 1zm9-9a1 1 0 0 1-1 1h-1a1 1 0 1 1 0-2h1a1 1 0 0 1 1 1zm-16 0a1 1 0 0 1-1 1H3a1 1 0 1 1 0-2h1a1 1 0 0 1 1 1zm12.95-6.364a1 1 0 0 1 0 1.414l-.707.707a1 1 0 0 1-1.414-1.414l.707-.707a1 1 0 0 1 1.414 0zm-11.314 11.314a1 1 0 0 1 0 1.414l-.707.707a1 1 0 0 1-1.414-1.414l.707-.707a1 1 0 0 1 1.414 0zm11.314 1.414a1 1 0 0 1-1.414 0l-.707-.707a1 1 0 0 1 1.414-1.414l.707.707a1 1 0 0 1 0 1.414zm-11.314-11.314a1 1 0 0 1-1.414 0l-.707-.707A1 1 0 1 1 5.914 4.95l.707.707a1 1 0 0 1 0 1.414zM12 8a4 4 0 1 1 0 8 4 4 0 0 1 0-8z" />
+              </svg>
+            </span>
+            <span class="theme-toggle__icon theme-toggle__icon--moon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M20.742 14.045a1 1 0 0 0-1.077-.217 7 7 0 0 1-9.493-7.92 1 1 0 0 0-1.149-1.2A9 9 0 1 0 21 15a1 1 0 0 0-.258-.955z" />
+              </svg>
+            </span>
+            <span class="sr-only">切换主题</span>
+          </button>
+          <a class="site-header__search" href="/search/">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M10.5 4a6.5 6.5 0 0 1 5.196 10.49l3.907 3.907-1.414 1.414-3.907-3.907A6.5 6.5 0 1 1 10.5 4zm0 2a4.5 4.5 0 1 0 0 9 4.5 4.5 0 0 0 0-9z" />
+            </svg>
+            <span>站内搜索</span>
+          </a>
+        </div>
+      </div>
+    </header>
+    <main class="main-content">
+      <div class="container">
+        
+<article class="post">
+  <header class="post__header">
+    <p class="post__eyebrow">
+      <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+        <path d="M7 3a1 1 0 0 1 2 0v1h6V3a1 1 0 0 1 2 0v1h1.5A2.5 2.5 0 0 1 21 6.5v12A2.5 2.5 0 0 1 18.5 21h-13A2.5 2.5 0 0 1 3 18.5v-12A2.5 2.5 0 0 1 5.5 4H7zm11.5 4h-13A.5.5 0 0 0 5 7.5V10h14V7.5a.5.5 0 0 0-.5-.5zm.5 10.5v-7H5v7a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5z" />
+      </svg>
+      <span>发表于 2025年12月04日</span>
+    </p>
+    <h1 class="post__title">WASM</h1>
+    <div class="post__meta">
+      <div class="post__meta-item">
+        <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+          <path d="M12 3.5a8.5 8.5 0 1 0 8.5 8.5A8.5 8.5 0 0 0 12 3.5zm0 2a6.5 6.5 0 1 1-6.5 6.5A6.5 6.5 0 0 1 12 5.5zm-.75 3a1 1 0 0 1 2 0v3.382l2.268 1.307a1 1 0 1 1-1 1.732l-2.768-1.594A1 1 0 0 1 11.25 12z" />
+        </svg>
+        <span>约 1 分钟阅读</span>
+      </div>
+      
+      <div class="post__meta-item post__meta-item--tags">
+        <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+          <path d="M4 4h7.172a3 3 0 0 1 2.121.879l6.828 6.828a3 3 0 0 1 0 4.242l-3.172 3.172a3 3 0 0 1-4.242 0L5.121 12.95A3 3 0 0 1 4.242 10.83L4 10.586V6a2 2 0 0 1 2-2zm3 2a1.5 1.5 0 1 0 1.5 1.5A1.5 1.5 0 0 0 7 6z" />
+        </svg>
+        <ul class="tag-list tag-list--inline">
+          
+          <li><a href="/tags/知识积累/">知识积累</a></li>
+          
+        </ul>
+      </div>
+      
+    </div>
+  </header>
+  <div class="post__layout">
+    <div class="post__main">
+      <div class="post-content">
+        <h1 id="wasm">WASM</h1>
+<p><strong>WASM</strong>，全称为 <strong>WebAssembly</strong>，它是一种为Web设计的高性能、低级别的<strong>二进制指令格式</strong>。</p>
+<p>您可以把它理解为一个在现代Web浏览器中运行的、接近机器码的“虚拟机”。它的主要目标是让用C、C++、Rust等非JavaScript语言编写的代码，能够以接近原生的速度在Web上运行。</p>
+<hr />
+<h3 id="_1">核心概念解析</h3>
+<h4 id="1">1. 它是什么？（本质）</h4>
+<ul>
+<li><strong>一种编译目标</strong>： 开发者不用直接编写WASM代码，而是先用C/C++/Rust等系统级语言编写代码，然后将其编译成<code>.wasm</code>格式的二进制文件。</li>
+<li><strong>一种低级虚拟指令集</strong>： 它的指令非常紧凑，更接近机器码，因此文件小，加载和解析速度快。</li>
+<li><strong>不是一种编程语言</strong>： 你不能像写JavaScript或Python那样去“写”WASM，它主要是其他语言的编译输出结果。</li>
+</ul>
+<h4 id="2">2. 设计目标</h4>
+<ul>
+<li><strong>高效</strong>： 二进制格式使其具有小巧的体积和接近原生代码的执行速度。</li>
+<li><strong>安全</strong>： 在一个内存安全的沙箱环境中运行，无法直接访问操作系统或宿主机的内存，遵循浏览器的同源策略。</li>
+<li><strong>开放</strong>： 是一种开放的Web标准，由W3C组织维护，所有主流浏览器厂商都参与其中。</li>
+<li><strong>可移植</strong>： 设计为与硬件和平台无关，可以在任何支持WASM的环境中运行（不仅是浏览器，现在也扩展到了服务端）。</li>
+</ul>
+<hr />
+<h3 id="wasm_1">为什么需要WASM？</h3>
+<p>在WASM出现之前，Web应用的重度计算任务几乎完全由JavaScript承担。但JavaScript在某些领域存在瓶颈：</p>
+<ol>
+<li>
+<p><strong>性能密集型应用</strong>：
+    *   <strong>游戏</strong>： 需要处理复杂的图形、物理计算和AI。
+    *   <strong>CAD/3D建模</strong>： 例如AutoCAD和Figma现在都在使用WASM。
+    *   <strong>音视频编辑</strong>： 如在线版的Adobe Photoshop。
+    *   <strong>科学模拟与可视化</strong>： 在浏览器中运行复杂的数学模型。</p>
+</li>
+<li>
+<p><strong>代码复用</strong>：
+    *   许多核心库和引擎（如游戏引擎Unity、Unreal）是用C++等语言写的。WASM允许开发者将这些现有的、成熟的代码库直接移植到Web上，而无需用JavaScript重写。</p>
+</li>
+</ol>
+<hr />
+<h3 id="_2">主要特点</h3>
+<ul>
+<li><strong>与JavaScript协作，而非替代</strong>： WASM并不是要取代JavaScript。它们被设计为协同工作。JavaScript负责DOM操作、调用Web API等，而WASM则处理那些对性能要求极高的计算任务。你可以从JavaScript中调用WASM模块的函数，反之亦然。</li>
+<li><strong>启动速度快</strong>： 相比于需要先解析再编译的JavaScript，WASM的二进制格式可以被浏览器快速编译和优化。</li>
+<li><strong>广泛的语言支持</strong>： 除了C/C++/Rust，现在也有很多其他语言（如Go, AssemblyScript等）可以编译成WASM。</li>
+</ul>
+<hr />
+<h3 id="_3">一个简单的比喻</h3>
+<p>想象一下Web浏览器是一个<strong>餐厅厨房</strong>：</p>
+<ul>
+<li><strong>JavaScript</strong> 就像是那位多才多艺、沟通顺畅的<strong>主厨</strong>。他负责接收顾客订单（用户交互），指挥其他厨师（调用API），并最终把菜装盘上桌（操作DOM）。他非常灵活，但处理大量重复性切菜工作时可能不是最快的。</li>
+<li><strong>WASM</strong> 则像是一台<strong>高性能的自动切菜机</strong>。它被主厨请来专门负责最耗时、最需要力气的切菜任务（高性能计算）。它只做这一件事，但做得极快极好。主厨（JavaScript）把蔬菜（数据）交给切菜机（WASM），切菜机处理完后，再把切好的菜（结果）交还给主厨进行下一步操作。</li>
+</ul>
+<hr />
+<h3 id="_4">应用场景举例</h3>
+<ol>
+<li><strong>Figma</strong>： 著名的在线UI设计工具，其核心图形渲染引擎就是用C++编写并编译为WASM运行的，保证了流畅的编辑体验。</li>
+<li><strong>Google Earth</strong>： 在浏览器中实现了复杂3D地球的流畅渲染。</li>
+<li><strong>Unity/Unreal Engine游戏</strong>： 可以将用这些引擎开发的游戏直接发布到Web平台。</li>
+<li><strong>服务器端计算</strong>： 随着WASI等系统接口标准的出现，WASM也开始在云原生、边缘计算等非浏览器环境中大放异彩，因为它具有轻量、安全和跨平台的特性。</li>
+</ol>
+<h3 id="_5">总结</h3>
+<p><strong>WASM（WebAssembly）是一项突破性的Web技术，它通过为C++、Rust等语言提供一个高性能的Web编译目标，极大地扩展了Web应用的能力边界，使得在浏览器中运行以前只能在桌面端才能实现的复杂、高性能应用成为可能。它是Web平台功能的一个强大补充，与JavaScript相辅相成。</strong></p>
+      </div>
+      
+      <nav class="post__neighbors" aria-label="文章导航">
+        
+        <a class="post__neighbor post__neighbor--newer" href="/posts/SequenceMatcher字符串相似度函数学习/">
+          <span class="post__neighbor-label">
+            <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M19 11H9.414l2.293-2.293-1.414-1.414L6.586 12l3.707 3.707 1.414-1.414L9.414 13H19z" />
+            </svg>
+            <span>较新文章</span>
+          </span>
+          <span class="post__neighbor-title">SequenceMatcher字符串相似度函数学习</span>
+        </a>
+        
+        
+        <a class="post__neighbor post__neighbor--older" href="/posts/XML/">
+          <span class="post__neighbor-label">
+            <span>较旧文章</span>
+            <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M5 12a1 1 0 0 1 1-1h9.586l-2.293-2.293 1.414-1.414L19.414 12l-4.707 4.707-1.414-1.414L15.586 13H6a1 1 0 0 1-1-1z" />
+            </svg>
+          </span>
+          <span class="post__neighbor-title">XML是什么</span>
+        </a>
+        
+      </nav>
+      
+      
+      <section class="post__related" aria-label="相关文章">
+        <h2 class="post__related-title">延伸阅读</h2>
+        <ul class="post__related-list">
+          
+          <li class="post__related-item">
+            <a href="/posts/Base64/">
+              Base64
+              <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+                <path d="M5 12a1 1 0 0 1 1-1h9.586l-2.293-2.293 1.414-1.414L19.414 12l-4.707 4.707-1.414-1.414L15.586 13H6a1 1 0 0 1-1-1z" />
+              </svg>
+            </a>
+            <span class="post__related-meta">2025年12月04日 · 约 2 分钟阅读</span>
+          </li>
+          
+          <li class="post__related-item">
+            <a href="/posts/JSON/">
+              JSON数据格式
+              <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+                <path d="M5 12a1 1 0 0 1 1-1h9.586l-2.293-2.293 1.414-1.414L19.414 12l-4.707 4.707-1.414-1.414L15.586 13H6a1 1 0 0 1-1-1z" />
+              </svg>
+            </a>
+            <span class="post__related-meta">2025年12月04日 · 约 2 分钟阅读</span>
+          </li>
+          
+          <li class="post__related-item">
+            <a href="/posts/XML/">
+              XML是什么
+              <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+                <path d="M5 12a1 1 0 0 1 1-1h9.586l-2.293-2.293 1.414-1.414L19.414 12l-4.707 4.707-1.414-1.414L15.586 13H6a1 1 0 0 1-1-1z" />
+              </svg>
+            </a>
+            <span class="post__related-meta">2025年12月04日 · 约 2 分钟阅读</span>
+          </li>
+          
+        </ul>
+      </section>
+      
+    </div>
+    <aside class="post-toc" id="post-toc" hidden>
+      <div class="post-toc__header">
+        <span class="post-toc__title">
+          <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M5 6h14v2H5zm0 5h14v2H5zm0 5h9v2H5z" />
+          </svg>
+          <span>目录</span>
+        </span>
+        <button type="button" class="post-toc__toggle" data-toc-toggle aria-expanded="true">
+          折叠
+          <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M12 9l4 4H8z" />
+          </svg>
+        </button>
+      </div>
+      <nav class="post-toc__body" data-toc-body aria-label="本文目录"></nav>
+    </aside>
+  </div>
+  <footer class="post__footer">
+    <a class="button button--ghost" href="/">
+      <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+        <path d="M10.414 12l4.293-4.293-1.414-1.414L7.586 12l5.707 5.707 1.414-1.414L10.414 12H20v-2z" />
+      </svg>
+      <span>返回首页</span>
+    </a>
+    <a class="button button--ghost" href="/archive/">
+      <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+        <path d="M5 4a2 2 0 0 0-2 2v13h2v-3h14v3h2V6a2 2 0 0 0-2-2zm0 2h14v6H5zm3 10a1 1 0 1 0 0 2h8a1 1 0 0 0 0-2z" />
+      </svg>
+      <span>查看归档</span>
+    </a>
+  </footer>
+</article>
+
+      </div>
+    </main>
+    <footer class="site-footer" role="contentinfo">
+      <div class="container site-footer__inner">
+        <div>
+          <p class="site-footer__title">何宸禹的博客</p>
+          
+          <p class="site-footer__description">由 AutoBlog 驱动的学习与创作记录。</p>
+          
+        </div>
+        <div class="site-footer__meta">
+          <span>© 2025 何宸禹</span>
+          <a class="site-footer__link" href="/autoblog/">了解 AutoBlog 引擎</a>
+          <div class="site-footer__counts" id="site-visit-stats" aria-live="polite">
+            <span id="busuanzi_container_site_uv" class="site-footer__count-item">
+              访问人数 <span id="busuanzi_value_site_uv">--</span>
+            </span>
+            <span id="busuanzi_container_site_pv" class="site-footer__count-item">
+              浏览次数 <span id="busuanzi_value_site_pv">--</span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+  <button class="back-to-top" type="button" data-back-to-top aria-label="返回顶部">
+    <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+      <path d="M12 5.586l5.707 5.707-1.414 1.414L13 9.414V19h-2V9.414l-3.293 3.293-1.414-1.414z" />
+    </svg>
+  </button>
+  <div class="lightbox" id="image-lightbox" aria-hidden="true" role="dialog" aria-modal="true" tabindex="-1">
+    <button type="button" class="lightbox__close" data-lightbox-close aria-label="关闭">
+      <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+        <path d="M6.343 5.343l12.02 12.02-1.414 1.414-12.02-12.02z" />
+        <path d="M17.657 5.343l1.414 1.414-12.02 12.02-1.414-1.414z" />
+      </svg>
+    </button>
+    <img class="lightbox__image" src="" alt="" />
+    <p class="lightbox__caption"></p>
+  </div>
+  <script src="/app.js" defer></script>
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" data-busuanzi></script>
+</body>
+</html>

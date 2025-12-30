@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TAMO论文学习笔记 | 何宸禹的博客</title>
+  <meta name="description" content="TAMO论文提出一种基于工具辅助LLM代理的细粒度根因分析方法，通过双分支扩散模型融合日志、指标与追踪等多模态数据，并利用频域自注意力构建因果图以准确定位故障实体。" />
+  <meta name="author" content="何宸禹" />
+  
+  <link rel="canonical" href="https://chenyuheee.github.io/posts/AIOPS论文翻译与学习/TAMO_学习笔记/" />
+  <meta property="og:url" content="https://chenyuheee.github.io/posts/AIOPS论文翻译与学习/TAMO_学习笔记/" />
+  
+  <meta property="og:title" content="TAMO论文学习笔记 | 何宸禹的博客" />
+  <meta property="og:description" content="TAMO论文提出一种基于工具辅助LLM代理的细粒度根因分析方法，通过双分支扩散模型融合日志、指标与追踪等多模态数据，并利用频域自注意力构建因果图以准确定位故障实体。" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary" />
+  <link rel="stylesheet" href="/style.css" />
+  
+  <link rel="alternate" type="application/rss+xml" title="何宸禹的博客 RSS" href="/feed.xml" />
+  
+</head>
+<body>
+  <div class="site-shell">
+    <div class="reading-progress" id="reading-progress" role="presentation" aria-hidden="true"></div>
+    
+    <div
+      class="site-audio"
+      data-audio-player
+      data-autoplay="false"
+      data-start-muted="false"
+      data-volume-expanded="false"
+    >
+      <div class="site-audio__cover" style="background-image: url('/media/cover.jpg');">
+        
+        <button class="site-audio__cover-toggle" type="button" data-audio-toggle aria-label="播放或暂停背景音乐" data-audio-no-drag>
+          <span class="site-audio__cover-blur" aria-hidden="true"></span>
+          <svg class="site-audio__icon site-audio__icon--play" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M8 5.5v13l10-6.5z" />
+          </svg>
+          <svg class="site-audio__icon site-audio__icon--pause" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M8 5.5h3v13H8zm5 0h3v13h-3z" />
+          </svg>
+        </button>
+      </div>
+      <div class="site-audio__meta">
+        <div class="site-audio__title-row">
+          <span class="site-audio__title">日落</span>
+          <span class="site-audio__time" data-audio-time>00:00</span>
+        </div>
+        
+        <span class="site-audio__artist">孙燕姿</span>
+        
+        <div
+          class="site-audio__progress"
+          data-audio-progress-track
+          role="progressbar"
+          aria-valuemin="0"
+          aria-valuemax="100"
+          aria-valuenow="0"
+          data-audio-no-drag
+        >
+          <div class="site-audio__progress-bar" data-audio-progress></div>
+        </div>
+      </div>
+      <div class="site-audio__controls">
+        <div class="site-audio__volume-shell" data-audio-no-drag>
+          <button class="site-audio__control site-audio__control--mute" type="button" data-audio-mute aria-label="切换静音" data-audio-no-drag>
+            <svg class="site-audio__icon site-audio__icon--volume" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M5 10h2.586L12 5.586V18.5L7.586 14H5z" />
+              <path d="M15.5 8.5a4 4 0 0 1 0 6" />
+              <path d="M17.5 6.5a6 6 0 0 1 0 10" />
+            </svg>
+            <svg class="site-audio__icon site-audio__icon--muted" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M5 10h2.586L12 5.586V18.5L7.586 14H5z" />
+              <path d="M15 9l6 6" />
+              <path d="M21 9l-6 6" />
+            </svg>
+          </button>
+          <div class="site-audio__volume" data-audio-volume aria-hidden="true">
+            <input
+              class="site-audio__volume-slider"
+              type="range"
+              min="0"
+              max="100"
+              value="100"
+              step="1"
+              data-audio-volume-slider
+              tabindex="-1"
+              aria-label="调节音量"
+              data-audio-no-drag
+            />
+          </div>
+        </div>
+      </div>
+      <audio
+        data-audio-element
+        loop
+        preload="auto"
+        src="/media/日落.mp3"
+      ></audio>
+    </div>
+    
+    <header class="site-header" role="banner">
+      <div class="container site-header__inner">
+        <div class="brand">
+          <a class="brand__title" href="/">何宸禹的博客</a>
+          
+          <p class="brand__description">由 AutoBlog 驱动的学习与创作记录。</p>
+          
+        </div>
+        
+        <nav class="site-nav" aria-label="主导航">
+          
+          <a class="site-nav__link" href="/">首页</a>
+          
+          <a class="site-nav__link" href="/archive/">归档</a>
+          
+          <a class="site-nav__link" href="/tags/">标签</a>
+          
+          <a class="site-nav__link" href="/about/">About</a>
+          
+        </nav>
+        
+        <div class="site-header__actions">
+          <button class="theme-toggle" type="button" data-theme-toggle data-theme-state="light" aria-pressed="false" aria-label="切换到夜间模式">
+            <span class="theme-toggle__icon theme-toggle__icon--sun" aria-hidden="true">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 5a1 1 0 0 1-1-1V3a1 1 0 1 1 2 0v1a1 1 0 0 1-1 1zm0 16a1 1 0 0 1-1-1v-1a1 1 0 0 1 2 0v1a1 1 0 0 1-1 1zm9-9a1 1 0 0 1-1 1h-1a1 1 0 1 1 0-2h1a1 1 0 0 1 1 1zm-16 0a1 1 0 0 1-1 1H3a1 1 0 1 1 0-2h1a1 1 0 0 1 1 1zm12.95-6.364a1 1 0 0 1 0 1.414l-.707.707a1 1 0 0 1-1.414-1.414l.707-.707a1 1 0 0 1 1.414 0zm-11.314 11.314a1 1 0 0 1 0 1.414l-.707.707a1 1 0 0 1-1.414-1.414l.707-.707a1 1 0 0 1 1.414 0zm11.314 1.414a1 1 0 0 1-1.414 0l-.707-.707a1 1 0 0 1 1.414-1.414l.707.707a1 1 0 0 1 0 1.414zm-11.314-11.314a1 1 0 0 1-1.414 0l-.707-.707A1 1 0 1 1 5.914 4.95l.707.707a1 1 0 0 1 0 1.414zM12 8a4 4 0 1 1 0 8 4 4 0 0 1 0-8z" />
+              </svg>
+            </span>
+            <span class="theme-toggle__icon theme-toggle__icon--moon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M20.742 14.045a1 1 0 0 0-1.077-.217 7 7 0 0 1-9.493-7.92 1 1 0 0 0-1.149-1.2A9 9 0 1 0 21 15a1 1 0 0 0-.258-.955z" />
+              </svg>
+            </span>
+            <span class="sr-only">切换主题</span>
+          </button>
+          <a class="site-header__search" href="/search/">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M10.5 4a6.5 6.5 0 0 1 5.196 10.49l3.907 3.907-1.414 1.414-3.907-3.907A6.5 6.5 0 1 1 10.5 4zm0 2a4.5 4.5 0 1 0 0 9 4.5 4.5 0 0 0 0-9z" />
+            </svg>
+            <span>站内搜索</span>
+          </a>
+        </div>
+      </div>
+    </header>
+    <main class="main-content">
+      <div class="container">
+        
+<article class="post">
+  <header class="post__header">
+    <p class="post__eyebrow">
+      <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+        <path d="M7 3a1 1 0 0 1 2 0v1h6V3a1 1 0 0 1 2 0v1h1.5A2.5 2.5 0 0 1 21 6.5v12A2.5 2.5 0 0 1 18.5 21h-13A2.5 2.5 0 0 1 3 18.5v-12A2.5 2.5 0 0 1 5.5 4H7zm11.5 4h-13A.5.5 0 0 0 5 7.5V10h14V7.5a.5.5 0 0 0-.5-.5zm.5 10.5v-7H5v7a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5z" />
+      </svg>
+      <span>发表于 2025年12月04日</span>
+    </p>
+    <h1 class="post__title">TAMO论文学习笔记</h1>
+    <div class="post__meta">
+      <div class="post__meta-item">
+        <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+          <path d="M12 3.5a8.5 8.5 0 1 0 8.5 8.5A8.5 8.5 0 0 0 12 3.5zm0 2a6.5 6.5 0 1 1-6.5 6.5A6.5 6.5 0 0 1 12 5.5zm-.75 3a1 1 0 0 1 2 0v3.382l2.268 1.307a1 1 0 1 1-1 1.732l-2.768-1.594A1 1 0 0 1 11.25 12z" />
+        </svg>
+        <span>约 2 分钟阅读</span>
+      </div>
+      
+      <div class="post__meta-item post__meta-item--tags">
+        <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+          <path d="M4 4h7.172a3 3 0 0 1 2.121.879l6.828 6.828a3 3 0 0 1 0 4.242l-3.172 3.172a3 3 0 0 1-4.242 0L5.121 12.95A3 3 0 0 1 4.242 10.83L4 10.586V6a2 2 0 0 1 2-2zm3 2a1.5 1.5 0 1 0 1.5 1.5A1.5 1.5 0 0 0 7 6z" />
+        </svg>
+        <ul class="tag-list tag-list--inline">
+          
+          <li><a href="/tags/aiops/">AIOPS</a></li>
+          
+          <li><a href="/tags/论文/">论文</a></li>
+          
+          <li><a href="/tags/学习/">学习</a></li>
+          
+        </ul>
+      </div>
+      
+    </div>
+  </header>
+  <div class="post__layout">
+    <div class="post__main">
+      <div class="post-content">
+        <h1 id="tamo">TAMO论文学习笔记</h1>
+<blockquote>
+<p><strong>论文</strong>: TAMO: Fine-Grained Root Cause Analysis via Tool-Assisted LLM Agent</p>
+<p><strong>学习日期</strong>: 2025年12月</p>
+</blockquote>
+<hr />
+<h2 id="_1">📌 核心要点</h2>
+<h3 id="1">1. 论文解决的问题</h3>
+<p><strong>LLM在云原生RCA中的三大局限：</strong></p>
+<ol>
+<li><strong>上下文窗口限制</strong>: 无法处理大规模观测数据</li>
+<li><strong>文本模态局限</strong>: 难以处理时间序列数据</li>
+<li><strong>追踪数据缺失</strong>: 现有方法忽略关键的追踪信息</li>
+</ol>
+<h3 id="2">2. 核心创新</h3>
+<table>
+<thead>
+<tr>
+<th>创新</th>
+<th>技术</th>
+<th>解决问题</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>多模态融合</td>
+<td>双分支扩散模型</td>
+<td>日志+指标+追踪统一</td>
+</tr>
+<tr>
+<td>因果建模</td>
+<td>频域自注意力</td>
+<td>准确定位根因实体</td>
+</tr>
+<tr>
+<td>双任务支持</td>
+<td>分类+定位</td>
+<td>完整RCA解决方案</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="_2">🏗️ 系统架构</h2>
+<h3 id="_3">四组件流水线</h3>
+<div class="language-text codehilite"><pre><span></span><code>T1 (多模态对齐) → T2 (根因定位) → T3 (故障分类) → A (专家Agent)
+      ↓               ↓                ↓                ↓
+   融合特征         因果图          故障类型        综合分析
+</code></pre></div>
+<h3 id="_4">数据流</h3>
+<div class="language-text codehilite"><pre><span></span><code>日志 ────┐
+         ├─→ T1 (扩散模型) ─→ 融合时间序列
+追踪 ────┤                           ↓
+         │                    T2 (频域注意力)
+指标 ────┘                           ↓
+                               因果图 + Top-K根因
+                                     ↓
+调用链拓扑 ─────────────────→ T3 (图卷积)
+                                     ↓
+                                故障类型
+                                     ↓
+系统上下文 ─────────────────→ A (LLM Expert)
+                                     ↓
+                              分析报告 + 建议
+</code></pre></div>
+<hr />
+<h2 id="_5">💡 关键技术细节</h2>
+<h3 id="1-t1">1. 双分支协作扩散模型（T1）</h3>
+<p><strong>为什么用扩散模型？</strong>
+- 生成能力强
+- 支持条件引导
+- 可融合多模态信息</p>
+<p><strong>双分支设计</strong>:
+<div class="language-text codehilite"><pre><span></span><code>分支1: 日志条件 ────┐
+                   ├─→ 协作去噪 ─→ 融合时间序列
+分支2: 时间条件 ────┘
+</code></pre></div></p>
+<p><strong>扩散过程</strong>:
+1. <strong>前向</strong>: 逐步加噪 x₀ → x₁ → ... → xT (高斯噪声)
+2. <strong>逆向</strong>: 条件去噪 xT → xT₋₁ → ... → x₀ (融合特征)</p>
+<p><strong>关键</strong>: 两个分支的噪声预测协作完成，融合日志语义和时间模式</p>
+<h3 id="2-t2">2. 频域自注意力因果图（T2）</h3>
+<p><strong>为什么用频域？</strong>
+- 周期性模式清晰
+- 故障传播有频率特征
+- 降低计算复杂度</p>
+<p><strong>步骤</strong>:
+<div class="language-text codehilite"><pre><span></span><code>时间序列 X ──FFT──→ 频域特征 F
+                      ↓
+              频域自注意力
+                      ↓
+              注意力权重 → 因果强度
+                      ↓
+              构建因果图
+                      ↓
+              Top-K根因实体
+</code></pre></div></p>
+<p><strong>因果图构建</strong>:
+- 节点: 服务实体
+- 边权重: 注意力分数（越高因果关系越强）</p>
+<h3 id="3-t3">3. 图卷积分类器（T3）</h3>
+<p><strong>输入</strong>:
+- T2的因果图
+- 服务调用链拓扑</p>
+<p><strong>网络结构</strong>:
+<div class="language-text codehilite"><pre><span></span><code>融合图特征 → Multi-Head Attention → Graph Conv → Softmax → 故障类型
+</code></pre></div></p>
+<p><strong>关键设计</strong>: 加权BCE损失处理类别不平衡</p>
+<h3 id="4-rcaagenta">4. RCA专家Agent（A）</h3>
+<p><strong>角色</strong>: 整合工具输出，提供可解释分析</p>
+<p><strong>输出结构</strong>:
+<div class="language-text codehilite"><pre><span></span><code>1. 故障分析 - 描述故障发生过程
+2. 影响评估 - 评估故障影响范围
+3. 优先级评估 - 确定修复优先级
+4. 修复建议 - 提供具体解决方案
+</code></pre></div></p>
+<hr />
+<h2 id="_6">📊 实验亮点</h2>
+<h3 id="_7">核心数据</h3>
+<p><strong>根因定位（Acc@1）提升</strong>:
+| 数据集 | TAMO | 最佳基线 | 提升 |
+|-------|------|---------|-----|
+| Online Boutique | 68.5% | 51.2% | +34% |
+| Sock Shop | 63.2% | 47.8% | +32% |
+| Train-Ticket | 58.7% | 43.5% | +35% |</p>
+<h3 id="_8">消融实验</h3>
+<p>组件重要性排序:
+1. <strong>扩散模型融合</strong> (-12.3%) - 最关键
+2. <strong>频域注意力</strong> (-8.7%) - 非常重要
+3. <strong>追踪数据</strong> (-6.5%) - 重要
+4. <strong>日志数据</strong> (-5.2%) - 有价值</p>
+<h3 id="vs">多模态vs单模态</h3>
+<table>
+<thead>
+<tr>
+<th>配置</th>
+<th>Acc@1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>仅指标</td>
+<td>45.2%</td>
+</tr>
+<tr>
+<td>仅日志</td>
+<td>38.7%</td>
+</tr>
+<tr>
+<td>仅追踪</td>
+<td>42.1%</td>
+</tr>
+<tr>
+<td><strong>全部（TAMO）</strong></td>
+<td><strong>68.5%</strong></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="_9">🔍 个人思考</h2>
+<h3 id="_10">优势</h3>
+<ol>
+<li><strong>技术创新性高</strong>: 扩散模型用于多模态融合是新颖的</li>
+<li><strong>完整解决方案</strong>: 同时支持定位和分类</li>
+<li><strong>利用追踪数据</strong>: 弥补其他方法的缺失</li>
+<li><strong>可解释性</strong>: Expert Agent提供清晰分析</li>
+</ol>
+<h3 id="_11">局限性</h3>
+<ol>
+<li><strong>计算复杂度</strong>: 扩散模型训练成本高</li>
+<li><strong>实时性</strong>: 可能难以满足在线分析需求</li>
+<li><strong>预训练需求</strong>: 需要足够的历史数据训练</li>
+<li><strong>领域迁移</strong>: 不同系统可能需要重新训练</li>
+</ol>
+<h3 id="_12">与其他论文对比</h3>
+<table>
+<thead>
+<tr>
+<th>维度</th>
+<th>TAMO</th>
+<th>Flow-of-Action</th>
+<th>mABC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>核心技术</td>
+<td>扩散模型+GNN</td>
+<td>SOP约束</td>
+<td>区块链投票</td>
+</tr>
+<tr>
+<td>数据处理</td>
+<td>深度学习融合</td>
+<td>LLM直接处理</td>
+<td>LLM直接处理</td>
+</tr>
+<tr>
+<td>定位粒度</td>
+<td>实体级</td>
+<td>服务级</td>
+<td>节点级</td>
+</tr>
+<tr>
+<td>可解释性</td>
+<td>Agent生成</td>
+<td>SOP清晰</td>
+<td>投票过程</td>
+</tr>
+</tbody>
+</table>
+<h3 id="_13">可借鉴点</h3>
+<ol>
+<li><strong>扩散模型融合</strong>: 多模态数据统一表示的新思路</li>
+<li><strong>频域特征</strong>: 时间序列分析的有效方法</li>
+<li><strong>双任务设计</strong>: 定位+分类的完整方案</li>
+<li><strong>工具化设计</strong>: 模块化便于维护和扩展</li>
+</ol>
+<hr />
+<h2 id="_14">📚 相关论文</h2>
+<ul>
+<li><strong>扩散模型</strong>: DDPM, 条件生成</li>
+<li><strong>图神经网络</strong>: GDN, GTA</li>
+<li><strong>多模态RCA</strong>: MULAN, Eadro, HolisticRCA</li>
+<li><strong>LLM RCA</strong>: RCAcopilot, Agent Work</li>
+</ul>
+<hr />
+<h2 id="_15">💭 后续学习</h2>
+<ul>
+<li>[ ] 深入研究扩散模型的条件引导机制</li>
+<li>[ ] 了解频域自注意力的实现细节</li>
+<li>[ ] 思考如何降低计算复杂度</li>
+<li>[ ] 探索模型蒸馏用于实时场景</li>
+</ul>
+<hr />
+<h2 id="_16">🏷️ 关键词</h2>
+<p><code>扩散模型</code> <code>多模态融合</code> <code>因果图</code> <code>频域注意力</code> <code>图神经网络</code> <code>LLM Agent</code> <code>根因分析</code></p>
+      </div>
+      
+      <nav class="post__neighbors" aria-label="文章导航">
+        
+        <a class="post__neighbor post__neighbor--newer" href="/posts/AIOPS论文翻译与学习/TAMO_多模态工具辅助智能体_翻译/">
+          <span class="post__neighbor-label">
+            <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M19 11H9.414l2.293-2.293-1.414-1.414L6.586 12l3.707 3.707 1.414-1.414L9.414 13H19z" />
+            </svg>
+            <span>较新文章</span>
+          </span>
+          <span class="post__neighbor-title">TAMO: 集成多模态观测数据的工具辅助LLM智能体细粒度根因分析</span>
+        </a>
+        
+        
+        <a class="post__neighbor post__neighbor--older" href="/posts/AIOPS论文翻译与学习/mABC_多智能体区块链协作框架_翻译/">
+          <span class="post__neighbor-label">
+            <span>较旧文章</span>
+            <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M5 12a1 1 0 0 1 1-1h9.586l-2.293-2.293 1.414-1.414L19.414 12l-4.707 4.707-1.414-1.414L15.586 13H6a1 1 0 0 1-1-1z" />
+            </svg>
+          </span>
+          <span class="post__neighbor-title">MABC: 微服务架构中基于区块链启发的多智能体协作根因分析</span>
+        </a>
+        
+      </nav>
+      
+      
+      <section class="post__related" aria-label="相关文章">
+        <h2 class="post__related-title">延伸阅读</h2>
+        <ul class="post__related-list">
+          
+          <li class="post__related-item">
+            <a href="/posts/AIOPS论文翻译与学习/ChainOfEvent_可解释根因分析_翻译/">
+              Chain-of-Event: 微服务可解释根因分析
+              <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+                <path d="M5 12a1 1 0 0 1 1-1h9.586l-2.293-2.293 1.414-1.414L19.414 12l-4.707 4.707-1.414-1.414L15.586 13H6a1 1 0 0 1-1-1z" />
+              </svg>
+            </a>
+            <span class="post__related-meta">2025年12月04日 · 约 3 分钟阅读</span>
+          </li>
+          
+          <li class="post__related-item">
+            <a href="/posts/AIOPS论文翻译与学习/ChainOfEvent_学习笔记/">
+              Chain-of-Event论文学习笔记
+              <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+                <path d="M5 12a1 1 0 0 1 1-1h9.586l-2.293-2.293 1.414-1.414L19.414 12l-4.707 4.707-1.414-1.414L15.586 13H6a1 1 0 0 1-1-1z" />
+              </svg>
+            </a>
+            <span class="post__related-meta">2025年12月04日 · 约 2 分钟阅读</span>
+          </li>
+          
+          <li class="post__related-item">
+            <a href="/posts/AIOPS论文翻译与学习/FLASH_学习笔记/">
+              FLASH论文学习笔记
+              <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+                <path d="M5 12a1 1 0 0 1 1-1h9.586l-2.293-2.293 1.414-1.414L19.414 12l-4.707 4.707-1.414-1.414L15.586 13H6a1 1 0 0 1-1-1z" />
+              </svg>
+            </a>
+            <span class="post__related-meta">2025年12月04日 · 约 2 分钟阅读</span>
+          </li>
+          
+        </ul>
+      </section>
+      
+    </div>
+    <aside class="post-toc" id="post-toc" hidden>
+      <div class="post-toc__header">
+        <span class="post-toc__title">
+          <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M5 6h14v2H5zm0 5h14v2H5zm0 5h9v2H5z" />
+          </svg>
+          <span>目录</span>
+        </span>
+        <button type="button" class="post-toc__toggle" data-toc-toggle aria-expanded="true">
+          折叠
+          <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M12 9l4 4H8z" />
+          </svg>
+        </button>
+      </div>
+      <nav class="post-toc__body" data-toc-body aria-label="本文目录"></nav>
+    </aside>
+  </div>
+  <footer class="post__footer">
+    <a class="button button--ghost" href="/">
+      <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+        <path d="M10.414 12l4.293-4.293-1.414-1.414L7.586 12l5.707 5.707 1.414-1.414L10.414 12H20v-2z" />
+      </svg>
+      <span>返回首页</span>
+    </a>
+    <a class="button button--ghost" href="/archive/">
+      <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+        <path d="M5 4a2 2 0 0 0-2 2v13h2v-3h14v3h2V6a2 2 0 0 0-2-2zm0 2h14v6H5zm3 10a1 1 0 1 0 0 2h8a1 1 0 0 0 0-2z" />
+      </svg>
+      <span>查看归档</span>
+    </a>
+  </footer>
+</article>
+
+      </div>
+    </main>
+    <footer class="site-footer" role="contentinfo">
+      <div class="container site-footer__inner">
+        <div>
+          <p class="site-footer__title">何宸禹的博客</p>
+          
+          <p class="site-footer__description">由 AutoBlog 驱动的学习与创作记录。</p>
+          
+        </div>
+        <div class="site-footer__meta">
+          <span>© 2025 何宸禹</span>
+          <a class="site-footer__link" href="/autoblog/">了解 AutoBlog 引擎</a>
+          <div class="site-footer__counts" id="site-visit-stats" aria-live="polite">
+            <span id="busuanzi_container_site_uv" class="site-footer__count-item">
+              访问人数 <span id="busuanzi_value_site_uv">--</span>
+            </span>
+            <span id="busuanzi_container_site_pv" class="site-footer__count-item">
+              浏览次数 <span id="busuanzi_value_site_pv">--</span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+  <button class="back-to-top" type="button" data-back-to-top aria-label="返回顶部">
+    <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+      <path d="M12 5.586l5.707 5.707-1.414 1.414L13 9.414V19h-2V9.414l-3.293 3.293-1.414-1.414z" />
+    </svg>
+  </button>
+  <div class="lightbox" id="image-lightbox" aria-hidden="true" role="dialog" aria-modal="true" tabindex="-1">
+    <button type="button" class="lightbox__close" data-lightbox-close aria-label="关闭">
+      <svg class="icon icon--sm" aria-hidden="true" viewBox="0 0 24 24">
+        <path d="M6.343 5.343l12.02 12.02-1.414 1.414-12.02-12.02z" />
+        <path d="M17.657 5.343l1.414 1.414-12.02 12.02-1.414-1.414z" />
+      </svg>
+    </button>
+    <img class="lightbox__image" src="" alt="" />
+    <p class="lightbox__caption"></p>
+  </div>
+  <script src="/app.js" defer></script>
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" data-busuanzi></script>
+</body>
+</html>
