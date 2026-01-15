@@ -1,0 +1,160 @@
+<!DOCTYPE html><html lang="zh-CN" class="h-full"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="generator" content="Astro v5.16.9"><title>XML是什么 · 个人博客</title><meta name="description" content="XML是一种可扩展标记语言，专注于存储和传输结构化数据，与HTML不同，它允许自定义标签以增强数据的自我描述性。文章解析了XML的核心特性、严格语法规则及其在数据交换、配置文件和作为技术基础方面的应用，并通过示例展示其实际用途。读者可以掌握XML的基本概念、语法要点及其与JSON的对比，了解如何在不同场景中选择合适的数据格式，从而提升数据处理与系统集成的能力。"><meta property="og:title" content="XML是什么 · 个人博客"><meta property="og:description" content="XML是一种可扩展标记语言，专注于存储和传输结构化数据，与HTML不同，它允许自定义标签以增强数据的自我描述性。文章解析了XML的核心特性、严格语法规则及其在数据交换、配置文件和作为技术基础方面的应用，并通过示例展示其实际用途。读者可以掌握XML的基本概念、语法要点及其与JSON的对比，了解如何在不同场景中选择合适的数据格式，从而提升数据处理与系统集成的能力。"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="stylesheet" href="/_astro/_slug_.1UaX29b_.css">
+<style>.copy-btn[data-astro-cid-7jjqptxk]{position:absolute;top:8px;right:8px;padding:4px 8px;font-size:12px;border-radius:6px;border:1px solid var(--border-default);background:color-mix(in srgb,var(--canvas-default) 80%,var(--canvas-subtle));color:var(--fg-default);cursor:pointer}.copy-btn[data-astro-cid-7jjqptxk]:hover{background:color-mix(in srgb,var(--canvas-default) 65%,var(--canvas-subtle))}.copy-btn[data-astro-cid-7jjqptxk]:focus-visible{outline:2px solid color-mix(in srgb,var(--accent-emphasis) 55%,transparent);outline-offset:2px}a[data-astro-cid-7jjqptxk].toc-link[aria-current=true]{color:var(--fg-default);font-weight:600;text-decoration:none}.back-to-top[data-astro-cid-7jjqptxk]{position:fixed;right:18px;bottom:18px;width:36px;height:36px;border-radius:999px;border:1px solid var(--border-default);background:color-mix(in srgb,var(--canvas-default) 80%,var(--canvas-subtle));color:var(--fg-default);cursor:pointer;z-index:40}.back-to-top[data-astro-cid-7jjqptxk]:hover{background:color-mix(in srgb,var(--canvas-default) 65%,var(--canvas-subtle))}.back-to-top[data-astro-cid-7jjqptxk]:focus-visible{outline:2px solid color-mix(in srgb,var(--accent-emphasis) 55%,transparent);outline-offset:2px}
+</style></head> <body class="min-h-full antialiased"> <header class="sticky top-0 z-50 border-b" style="border-color: var(--border-default); background: var(--canvas-subtle)" data-astro-cid-dmqpwcec> <div class="gh-container flex h-12 items-center justify-between" data-astro-cid-dmqpwcec> <a href="/" class="flex items-center gap-2 text-[13px] font-semibold fg-default" data-astro-cid-dmqpwcec> <span class="inline-flex h-7 items-center rounded-md px-2" style="background: var(--fg-default); color: var(--canvas-default)" data-astro-cid-dmqpwcec>HCY</span> <span class="fg-muted" data-astro-cid-dmqpwcec>Blog</span> </a> <nav class="flex items-center gap-1 text-[13px]" data-astro-cid-dmqpwcec> <a href="/blog/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> 文章 </a><a href="/search/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> 搜索 </a><a href="/projects/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> 项目 </a><a href="/reading/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> Reading </a> <a href="https://github.com/ChenyuHeee" target="_blank" rel="noreferrer" class="ml-1 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec>
+GitHub
+</a> </nav> </div> </header>  <main class="gh-container py-6">  <div class="mx-auto max-w-[1040px] grid gap-6 lg:grid-cols-[1fr_280px]" data-astro-cid-7jjqptxk> <article class="min-w-0" data-astro-cid-7jjqptxk> <div class="gh-card overflow-hidden" style="border-color: var(--border-default)" data-astro-cid-7jjqptxk> <header class="border-b px-4 py-4" style="border-color: var(--border-default)" data-astro-cid-7jjqptxk> <h1 class="text-2xl font-semibold tracking-tight" style="color: var(--fg-default)" data-astro-cid-7jjqptxk>XML是什么</h1> <div class="mt-2 flex flex-wrap items-center gap-x-4 gap-y-2 text-[12px]" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <time datetime="2026-01-15T09:21:40.555Z" data-astro-cid-7jjqptxk>2026-01-15</time> <div class="flex flex-wrap gap-2" data-astro-cid-7jjqptxk> <span class="gh-pill" data-astro-cid-7jjqptxk>知识积累</span> </div> </div> <p class="mt-2 text-[13px]" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk>XML是一种可扩展标记语言，专注于存储和传输结构化数据，与HTML不同，它允许自定义标签以增强数据的自我描述性。文章解析了XML的核心特性、严格语法规则及其在数据交换、配置文件和作为技术基础方面的应用，并通过示例展示其实际用途。读者可以掌握XML的基本概念、语法要点及其与JSON的对比，了解如何在不同场景中选择合适的数据格式，从而提升数据处理与系统集成的能力。</p> </header> <div class="border-b px-4 py-3 lg:hidden" style="border-color: var(--border-default)" data-astro-cid-7jjqptxk> <details data-astro-cid-7jjqptxk> <summary class="cursor-pointer text-[13px] font-semibold fg-default" data-astro-cid-7jjqptxk>目录</summary> <div class="mt-2" data-astro-cid-7jjqptxk> <nav aria-label="目录" data-astro-cid-7jjqptxk> <ul class="space-y-1 text-[13px]" data-astro-cid-7jjqptxk> <li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#核心概念解析" data-toc-slug="核心概念解析" data-astro-cid-7jjqptxk>核心概念解析</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#xml-的语法规则" data-toc-slug="xml-的语法规则" data-astro-cid-7jjqptxk>XML 的语法规则</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#一个完整的-xml-示例" data-toc-slug="一个完整的-xml-示例" data-astro-cid-7jjqptxk>一个完整的 XML 示例</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#xml-的相关技术" data-toc-slug="xml-的相关技术" data-astro-cid-7jjqptxk>XML 的相关技术</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#xml-与-json-的对比" data-toc-slug="xml-与-json-的对比" data-astro-cid-7jjqptxk>XML 与 JSON 的对比</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#总结" data-toc-slug="总结" data-astro-cid-7jjqptxk>总结</a> </li> </ul> </nav> </div> </details> </div> <div class="px-4 py-4" data-astro-cid-7jjqptxk> <div class="prose prose-sm max-w-none" id="postContent" data-astro-cid-7jjqptxk> <h1 id="xml是什么">XML是什么</h1>
+<p><strong>XML</strong> 的全称是 <strong>eXtensible Markup Language</strong>，即可扩展标记语言。</p>
+<p>它是一种类似于 HTML 的<strong>标记语言</strong>，但它的设计目的完全不同。如果说 HTML 是用来<strong>显示</strong>数据的（专注于数据的外观和布局），那么 XML 就是用来<strong>存储和传输</strong>数据的（专注于数据本身的结构和含义）。</p>
+<hr>
+<h3 id="核心概念解析">核心概念解析</h3>
+<h4 id="1-它是什么本质">1. 它是什么？（本质）</h4>
+<ul>
+<li><strong>一种标记语言</strong>： 它使用标签（由 <code>&#x3C;</code> 和 <code>></code> 包围）来定义数据的结构。</li>
+<li><strong>可扩展的</strong>： 这是它最关键的特性。HTML 的标签是预定义的（如 <code>&#x3C;p></code>, <code>&#x3C;div></code>, <code>&#x3C;h1></code>），而 XML 允许你<strong>自己创建标签</strong>，从而为你的数据定义一套专属的结构。例如，你可以定义 <code>&#x3C;书名></code>, <code>&#x3C;价格></code>, <code>&#x3C;作者></code> 这样的标签。</li>
+<li><strong>自我描述性</strong>： 由于标签名可以自定义且通常具有明确的含义，一份 XML 文档即使没有外部说明，也常常能让人读懂其内容。</li>
+<li><strong>纯文本格式</strong>： 和 JSON 一样，它是纯文本，不依赖于任何特定的软件或硬件，具有极好的跨平台性。</li>
+</ul>
+<h4 id="2-设计目标">2. 设计目标</h4>
+<ul>
+<li><strong>存储和传输数据</strong>： 在不同系统、不同平台、不同应用程序之间作为通用的数据交换格式。</li>
+<li><strong>作为配置文件</strong>： 许多软件和框架使用 XML 文件来存储配置信息。</li>
+<li><strong>作为其他语言的基础</strong>： 许多重要的网络技术和技术标准都基于 XML 构建，例如：
+<ul>
+<li><strong>RSS</strong>（ Really Simple Syndication）： 用于内容订阅。</li>
+<li><strong>SOAP</strong>（ Simple Object Access Protocol）： 一种 Web 服务协议。</li>
+<li><strong>SVG</strong>（ Scalable Vector Graphics）： 用于定义矢量图形。</li>
+<li><strong>XHTML</strong>： 更严格、更纯净的 HTML 版本。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="xml-的语法规则">XML 的语法规则</h3>
+<p>XML 的语法非常严格，一个格式良好的 XML 文档必须遵循以下规则：</p>
+<ol>
+<li>
+<p><strong>必须有根元素</strong>： 文档必须有一个唯一的根元素，所有其他元素都是这个根元素的后代。</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="xml"><code><span class="line"><span style="color:#E1E4E8">&#x3C;</span><span style="color:#85E89D">书架</span><span style="color:#E1E4E8">></span></span>
+<span class="line"><span style="color:#E1E4E8">    ...所有其他元素...</span></span>
+<span class="line"><span style="color:#E1E4E8">&#x3C;/</span><span style="color:#85E89D">书架</span><span style="color:#E1E4E8">></span></span></code></pre>
+</li>
+<li>
+<p><strong>所有元素必须有关闭标签</strong>：</p>
+<ul>
+<li>HTML 中你可以写 <code>&#x3C;br></code> 或 <code>&#x3C;p></code> 而不关闭，但在 XML 中这是不允许的。</li>
+<li>成对标签： <code>&#x3C;书名></code> 必须对应 <code>&#x3C;/书名></code>。</li>
+<li>空标签可以自关闭： <code>&#x3C;页数 /></code>。</li>
+</ul>
+</li>
+<li>
+<p><strong>XML 标签对大小写敏感</strong>： <code>&#x3C;Book></code> 和 <code>&#x3C;book></code> 是两个不同的标签。</p>
+</li>
+<li>
+<p><strong>属性值必须加引号</strong>：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="xml"><code><span class="line"><span style="color:#E1E4E8">&#x3C;</span><span style="color:#85E89D">书</span><span style="color:#B392F0"> ISBN</span><span style="color:#E1E4E8">=</span><span style="color:#9ECBFF">"978-7-121-12345-6"</span><span style="color:#E1E4E8">> ... &#x3C;/</span><span style="color:#85E89D">书</span><span style="color:#E1E4E8">></span></span></code></pre>
+</li>
+<li>
+<p><strong>标签必须正确嵌套</strong>：</p>
+<ul>
+<li><strong>正确</strong>： <code>&#x3C;a>&#x3C;b>...&#x3C;/b>&#x3C;/a></code></li>
+<li><strong>错误</strong>： <code>&#x3C;a>&#x3C;b>...&#x3C;/a>&#x3C;/b></code></li>
+</ul>
+</li>
+<li>
+<p><strong>特殊字符必须转义</strong>：</p>
+<ul>
+<li><code>&#x26;</code> 必须写成 <code>&#x26;amp;</code></li>
+<li><code>&#x3C;</code> 必须写成 <code>&#x26;lt;</code></li>
+<li><code>></code> 必须写成 <code>&#x26;gt;</code></li>
+<li><code>"</code> 必须写成 <code>&#x26;quot;</code></li>
+<li><code>'</code> 必须写成 <code>&#x26;apos;</code></li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 id="一个完整的-xml-示例">一个完整的 XML 示例</h3>
+<p>下面是一个描述书籍信息的 XML 文档：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="xml"><code><span class="line"><span style="color:#E1E4E8">&#x3C;?</span><span style="color:#85E89D">xml</span><span style="color:#B392F0"> version</span><span style="color:#E1E4E8">=</span><span style="color:#9ECBFF">"1.0"</span><span style="color:#B392F0"> encoding</span><span style="color:#E1E4E8">=</span><span style="color:#9ECBFF">"UTF-8"</span><span style="color:#E1E4E8">?></span></span>
+<span class="line"><span style="color:#E1E4E8">&#x3C;</span><span style="color:#85E89D">书架</span><span style="color:#E1E4E8">></span></span>
+<span class="line"><span style="color:#E1E4E8">    &#x3C;</span><span style="color:#85E89D">书</span><span style="color:#B392F0"> 类别</span><span style="color:#E1E4E8">=</span><span style="color:#9ECBFF">"小说"</span><span style="color:#E1E4E8">></span></span>
+<span class="line"><span style="color:#E1E4E8">        &#x3C;</span><span style="color:#85E89D">书名</span><span style="color:#E1E4E8">>围城&#x3C;/</span><span style="color:#85E89D">书名</span><span style="color:#E1E4E8">></span></span>
+<span class="line"><span style="color:#E1E4E8">        &#x3C;</span><span style="color:#85E89D">作者</span><span style="color:#E1E4E8">>钱钟书&#x3C;/</span><span style="color:#85E89D">作者</span><span style="color:#E1E4E8">></span></span>
+<span class="line"><span style="color:#E1E4E8">        &#x3C;</span><span style="color:#85E89D">年份</span><span style="color:#E1E4E8">>1947&#x3C;/</span><span style="color:#85E89D">年份</span><span style="color:#E1E4E8">></span></span>
+<span class="line"><span style="color:#E1E4E8">        &#x3C;</span><span style="color:#85E89D">价格</span><span style="color:#B392F0"> 单位</span><span style="color:#E1E4E8">=</span><span style="color:#9ECBFF">"人民币"</span><span style="color:#E1E4E8">>39.00&#x3C;/</span><span style="color:#85E89D">价格</span><span style="color:#E1E4E8">></span></span>
+<span class="line"><span style="color:#E1E4E8">    &#x3C;/</span><span style="color:#85E89D">书</span><span style="color:#E1E4E8">></span></span>
+<span class="line"><span style="color:#E1E4E8">    &#x3C;</span><span style="color:#85E89D">书</span><span style="color:#B392F0"> 类别</span><span style="color:#E1E4E8">=</span><span style="color:#9ECBFF">"计算机"</span><span style="color:#E1E4E8">></span></span>
+<span class="line"><span style="color:#E1E4E8">        &#x3C;</span><span style="color:#85E89D">书名</span><span style="color:#E1E4E8">>深入理解计算机系统&#x3C;/</span><span style="color:#85E89D">书名</span><span style="color:#E1E4E8">></span></span>
+<span class="line"><span style="color:#E1E4E8">        &#x3C;</span><span style="color:#85E89D">作者</span><span style="color:#E1E4E8">>Randal E. Bryant&#x3C;/</span><span style="color:#85E89D">作者</span><span style="color:#E1E4E8">></span></span>
+<span class="line"><span style="color:#E1E4E8">        &#x3C;</span><span style="color:#85E89D">译者</span><span style="color:#E1E4E8">>龚奕利&#x3C;/</span><span style="color:#85E89D">译者</span><span style="color:#E1E4E8">></span></span>
+<span class="line"><span style="color:#E1E4E8">        &#x3C;</span><span style="color:#85E89D">年份</span><span style="color:#E1E4E8">>2016&#x3C;/</span><span style="color:#85E89D">年份</span><span style="color:#E1E4E8">></span></span>
+<span class="line"><span style="color:#E1E4E8">        &#x3C;</span><span style="color:#85E89D">价格</span><span style="color:#B392F0"> 单位</span><span style="color:#E1E4E8">=</span><span style="color:#9ECBFF">"人民币"</span><span style="color:#E1E4E8">>139.00&#x3C;/</span><span style="color:#85E89D">价格</span><span style="color:#E1E4E8">></span></span>
+<span class="line"><span style="color:#E1E4E8">    &#x3C;/</span><span style="color:#85E89D">书</span><span style="color:#E1E4E8">></span></span>
+<span class="line"><span style="color:#E1E4E8">&#x3C;/</span><span style="color:#85E89D">书架</span><span style="color:#E1E4E8">></span></span></code></pre>
+<ul>
+<li><strong>第一行是 XML 声明</strong>，定义了版本和编码。</li>
+<li><strong><code>&#x3C;书架></code></strong> 是<strong>根元素</strong>。</li>
+<li><strong><code>&#x3C;书></code></strong> 是元素，它有一个<strong>属性</strong>叫“类别”。</li>
+<li><strong><code>&#x3C;书名></code>、<code>&#x3C;作者></code>、<code>&#x3C;价格></code></strong> 等是子元素，清晰地描述了数据的各个部分。</li>
+<li><strong><code>&#x3C;价格></code></strong> 元素自己也有一个“单位”属性。</li>
+</ul>
+<hr>
+<h3 id="xml-的相关技术">XML 的相关技术</h3>
+<p>为了更有效地使用 XML，诞生了一系列相关技术：</p>
+<ul>
+<li><strong>DTD</strong>： 文档类型定义，用于定义 XML 文档的合法构建模块。</li>
+<li><strong>XSD</strong>： XML Schema Definition，是比 DTD 更强大、更常用的定义 XML 结构的方式。</li>
+<li><strong>XSLT</strong>： XML 样式表转换，可以将一个 XML 文档转换为另一种格式（如 HTML, PDF 或另一个 XML）。</li>
+<li><strong>XPath</strong>： 一种在 XML 文档中导航和查询信息的语言。</li>
+</ul>
+<hr>
+<h3 id="xml-与-json-的对比">XML 与 JSON 的对比</h3>
+<p>这是一个非常常见的问题，因为两者都用于数据交换。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th align="left">特性</th><th align="left">XML</th><th align="left">JSON</th></tr></thead><tbody><tr><td align="left"><strong>可读性</strong></td><td align="left">很好，结构清晰</td><td align="left">很好，更简洁</td></tr><tr><td align="left"><strong>体积</strong></td><td align="left">相对较大（标签名重复）</td><td align="left">相对较小（无冗余标签）</td></tr><tr><td align="left"><strong>解析速度</strong></td><td align="left">相对较慢（结构更复杂）</td><td align="left">相对较快（结构简单）</td></tr><tr><td align="left"><strong>数据模型</strong></td><td align="left">树形结构，支持属性、注释等</td><td align="left">键值对集合和数组，更简单</td></tr><tr><td align="left"><strong>扩展性</strong></td><td align="left">极强，有完整的生态（XSD, XSLT等）</td><td align="left">较弱，但足以应对大多数场景</td></tr><tr><td align="left"><strong>与JavaScript</strong></td><td align="left">需要专门的 DOM 解析器</td><td align="left">天生支持，可直接转换为对象</td></tr></tbody></table>
+<p><strong>简单总结选择：</strong></p>
+<ul>
+<li>在<strong>Web前端与API通信</strong>、<strong>配置文件</strong>等现代场景中，<strong>JSON</strong> 因其简洁和高效已成为主流。</li>
+<li>在<strong>企业级应用</strong>、<strong>复杂文档处理</strong>（如 Office文档）、<strong>需要严格数据验证和转换</strong>的领域，<strong>XML</strong> 依然占据着重要地位。</li>
+</ul>
+<h3 id="总结">总结</h3>
+<p><strong>XML 是一种强大、灵活、可扩展的标记语言，主要用于以结构化的方式存储和传输数据。它通过自定义标签使数据具有自我描述性，虽然在新项目中常被更轻量的 JSON 取代，但在许多传统和企业级应用场景中，它依然是不可或缺的基石技术。</strong></p> </div> </div> </div> </article> <aside class="hidden lg:block" data-astro-cid-7jjqptxk> <div class="gh-card border-default sticky top-16 px-4 py-3" data-astro-cid-7jjqptxk> <div class="text-[12px] font-semibold fg-default" data-astro-cid-7jjqptxk>目录</div> <nav class="mt-2" aria-label="目录" data-astro-cid-7jjqptxk> <ul class="space-y-1 text-[13px]" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#核心概念解析" data-toc-slug="核心概念解析" data-astro-cid-7jjqptxk>核心概念解析</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#xml-的语法规则" data-toc-slug="xml-的语法规则" data-astro-cid-7jjqptxk>XML 的语法规则</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#一个完整的-xml-示例" data-toc-slug="一个完整的-xml-示例" data-astro-cid-7jjqptxk>一个完整的 XML 示例</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#xml-的相关技术" data-toc-slug="xml-的相关技术" data-astro-cid-7jjqptxk>XML 的相关技术</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#xml-与-json-的对比" data-toc-slug="xml-与-json-的对比" data-astro-cid-7jjqptxk>XML 与 JSON 的对比</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#总结" data-toc-slug="总结" data-astro-cid-7jjqptxk>总结</a> </li> </ul> </nav> </div> </aside> </div> <button id="backToTop" class="back-to-top" type="button" aria-label="回到顶部" hidden data-astro-cid-7jjqptxk>
+↑
+</button> <script type="module">(function(){const s=document.getElementById("postContent");if(!s)return;const l=Array.from(document.querySelectorAll("a.toc-link")),r=new Map;l.forEach(t=>{const e=t.getAttribute("data-toc-slug");if(!e)return;const n=r.get(e)||[];n.push(t),r.set(e,n)});const c=Array.from(s.querySelectorAll("h2[id], h3[id]"));function a(t){if(l.forEach(n=>n.removeAttribute("aria-current")),!t)return;const e=r.get(t);e&&e.forEach(n=>n.setAttribute("aria-current","true"))}function f(){if(!c.length)return"";const t=120;for(let e=c.length-1;e>=0;e--){const n=c[e];if(n.getBoundingClientRect().top<=t)return n.id||""}return c[0].id||""}let d=!1;function i(){d||(d=!0,window.requestAnimationFrame(()=>{d=!1;const t=(location.hash||"").replace(/^#/,"");if(t&&r.has(t)){a(t);return}a(f())}))}window.addEventListener("scroll",i,{passive:!0}),window.addEventListener("resize",i),window.addEventListener("hashchange",i),l.forEach(t=>t.addEventListener("click",()=>{const e=t.getAttribute("data-toc-slug")||"";a(e)})),i();const u=document.getElementById("backToTop");if(u){const t=()=>{const e=window.scrollY||document.documentElement.scrollTop||0;u.hidden=e<320};window.addEventListener("scroll",t,{passive:!0}),t(),u.addEventListener("click",()=>{window.scrollTo({top:0,behavior:"smooth"})})}s.querySelectorAll("pre > code").forEach(t=>{const e=t.parentElement;if(!e||e.querySelector(".copy-btn"))return;e.style.position="relative";const n=document.createElement("button");n.type="button",n.className="copy-btn",n.textContent="复制",n.addEventListener("click",async()=>{const m=t.textContent||"";try{await navigator.clipboard.writeText(m),n.textContent="已复制",window.setTimeout(()=>n.textContent="复制",900)}catch{const o=document.createElement("textarea");o.value=m,o.style.position="fixed",o.style.opacity="0",document.body.appendChild(o),o.select(),document.execCommand("copy"),document.body.removeChild(o),n.textContent="已复制",window.setTimeout(()=>n.textContent="复制",900)}}),e.appendChild(n)})})();</script>   </main> <footer class="border-t py-6 text-[13px]" style="border-color: var(--border-default); color: var(--fg-muted)"> <div class="gh-container flex items-center justify-between"> <p>© 2026 · Built with Astro</p> <p style="color: var(--fg-muted)">Zhejiang University · CS</p> </div> </footer> </body></html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html><html lang="zh-CN" class="h-full"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="generator" content="Astro v5.16.9"><title>AIOPSLAB 项目学习 · 个人博客</title><meta name="description" content="微软 AIOpsLab 项目为根因分析提供了清晰的设计模式，将任务拆解为结构化步骤，并通过中间件封装真实服务器数据，转化为 Agent 易读的 CSV 格式。"><meta property="og:title" content="AIOPSLAB 项目学习 · 个人博客"><meta property="og:description" content="微软 AIOpsLab 项目为根因分析提供了清晰的设计模式，将任务拆解为结构化步骤，并通过中间件封装真实服务器数据，转化为 Agent 易读的 CSV 格式。"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="stylesheet" href="/_astro/_slug_.1UaX29b_.css">
+<style>.copy-btn[data-astro-cid-7jjqptxk]{position:absolute;top:8px;right:8px;padding:4px 8px;font-size:12px;border-radius:6px;border:1px solid var(--border-default);background:color-mix(in srgb,var(--canvas-default) 80%,var(--canvas-subtle));color:var(--fg-default);cursor:pointer}.copy-btn[data-astro-cid-7jjqptxk]:hover{background:color-mix(in srgb,var(--canvas-default) 65%,var(--canvas-subtle))}.copy-btn[data-astro-cid-7jjqptxk]:focus-visible{outline:2px solid color-mix(in srgb,var(--accent-emphasis) 55%,transparent);outline-offset:2px}a[data-astro-cid-7jjqptxk].toc-link[aria-current=true]{color:var(--fg-default);font-weight:600;text-decoration:none}.back-to-top[data-astro-cid-7jjqptxk]{position:fixed;right:18px;bottom:18px;width:36px;height:36px;border-radius:999px;border:1px solid var(--border-default);background:color-mix(in srgb,var(--canvas-default) 80%,var(--canvas-subtle));color:var(--fg-default);cursor:pointer;z-index:40}.back-to-top[data-astro-cid-7jjqptxk]:hover{background:color-mix(in srgb,var(--canvas-default) 65%,var(--canvas-subtle))}.back-to-top[data-astro-cid-7jjqptxk]:focus-visible{outline:2px solid color-mix(in srgb,var(--accent-emphasis) 55%,transparent);outline-offset:2px}
+</style></head> <body class="min-h-full antialiased"> <header class="sticky top-0 z-50 border-b" style="border-color: var(--border-default); background: var(--canvas-subtle)" data-astro-cid-dmqpwcec> <div class="gh-container flex h-12 items-center justify-between" data-astro-cid-dmqpwcec> <a href="/" class="flex items-center gap-2 text-[13px] font-semibold fg-default" data-astro-cid-dmqpwcec> <span class="inline-flex h-7 items-center rounded-md px-2" style="background: var(--fg-default); color: var(--canvas-default)" data-astro-cid-dmqpwcec>HCY</span> <span class="fg-muted" data-astro-cid-dmqpwcec>Blog</span> </a> <nav class="flex items-center gap-1 text-[13px]" data-astro-cid-dmqpwcec> <a href="/blog/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> 文章 </a><a href="/search/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> 搜索 </a><a href="/projects/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> 项目 </a><a href="/reading/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> Reading </a> <a href="https://github.com/ChenyuHeee" target="_blank" rel="noreferrer" class="ml-1 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec>
+GitHub
+</a> </nav> </div> </header>  <main class="gh-container py-6">  <div class="mx-auto max-w-[1040px] grid gap-6 lg:grid-cols-[1fr_280px]" data-astro-cid-7jjqptxk> <article class="min-w-0" data-astro-cid-7jjqptxk> <div class="gh-card overflow-hidden" style="border-color: var(--border-default)" data-astro-cid-7jjqptxk> <header class="border-b px-4 py-4" style="border-color: var(--border-default)" data-astro-cid-7jjqptxk> <h1 class="text-2xl font-semibold tracking-tight" style="color: var(--fg-default)" data-astro-cid-7jjqptxk>AIOPSLAB 项目学习</h1> <div class="mt-2 flex flex-wrap items-center gap-x-4 gap-y-2 text-[12px]" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <time datetime="2026-01-15T09:21:40.551Z" data-astro-cid-7jjqptxk>2026-01-15</time>  </div> <p class="mt-2 text-[13px]" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk>微软 AIOpsLab 项目为根因分析提供了清晰的设计模式，将任务拆解为结构化步骤，并通过中间件封装真实服务器数据，转化为 Agent 易读的 CSV 格式。</p> </header> <div class="border-b px-4 py-3 lg:hidden" style="border-color: var(--border-default)" data-astro-cid-7jjqptxk> <details data-astro-cid-7jjqptxk> <summary class="cursor-pointer text-[13px] font-semibold fg-default" data-astro-cid-7jjqptxk>目录</summary> <div class="mt-2" data-astro-cid-7jjqptxk> <nav aria-label="目录" data-astro-cid-7jjqptxk> <ul class="space-y-1 text-[13px]" data-astro-cid-7jjqptxk> <li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#1-根因分析-rca-是如何实现的" data-toc-slug="1-根因分析-rca-是如何实现的" data-astro-cid-7jjqptxk>1. 根因分析 (RCA) 是如何实现的？</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#2-如何处理真实服务器数据" data-toc-slug="2-如何处理真实服务器数据" data-astro-cid-7jjqptxk>2. 如何处理真实服务器数据？</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#总结" data-toc-slug="总结" data-astro-cid-7jjqptxk>总结</a> </li> </ul> </nav> </div> </details> </div> <div class="px-4 py-4" data-astro-cid-7jjqptxk> <div class="prose prose-sm max-w-none" id="postContent" data-astro-cid-7jjqptxk> <h1 id="aiopslab-项目学习">AIOPSLAB 项目学习</h1>
+<p>AIOpsLab 项目在根因分析（RCA）的设计和真实数据处理上有一套非常清晰的模式，非常适合你借鉴。</p>
+<p>针对你的两个核心问题（根因分析怎么做、如何处理真实服务器数据），我为你总结了以下关键点：</p>
+<h3 id="1-根因分析-rca-是如何实现的">1. 根因分析 (RCA) 是如何实现的？</h3>
+<p>AIOpsLab 将根因分析拆解为标准的 <strong>Task（任务）</strong> 和 <strong>Action（动作）</strong> 模式。</p>
+<ul>
+<li>
+<p><strong>任务定义 (<code>AnalysisTask</code>)</strong>:</p>
+<ul>
+<li><strong>目标</strong>: Agent 需要分析出两个核心要素：<code>system_level</code>（故障层级，如应用层、虚拟化层、硬件层）和 <code>fault_type</code>（故障类型，如配置错误、代码缺陷、网络问题）。</li>
+<li><strong>流程</strong>:
+<ol>
+<li><strong>Prompt</strong>: 给 Agent 一个初始提示，包含服务架构摘要 (<code>app_summary</code>) 和任务目标。</li>
+<li><strong>交互</strong>: Agent 可以自由调用工具（查日志、查指标、查链路）来收集信息。</li>
+<li><strong>提交</strong>: Agent 最终调用 <code>submit()</code> 函数提交分析结果。</li>
+</ol>
+</li>
+<li><strong>代码参考</strong>: analysis.py</li>
+</ul>
+</li>
+<li>
+<p><strong>定位任务 (<code>LocalizationTask</code>)</strong>:</p>
+<ul>
+<li>这是一个更简单的子任务，目标是找出<strong>哪个服务</strong>出问题了。</li>
+<li>Agent 提交的是一个服务名称列表（例如 <code>['user-service']</code>）。</li>
+<li><strong>代码参考</strong>: localization.py</li>
+</ul>
+</li>
+<li>
+<p><strong>借鉴建议</strong>:</p>
+<ul>
+<li><strong>结构化输出</strong>: 不要让 Agent 随便回答一段话。强制要求 Agent 输出结构化的 JSON 或调用特定的 <code>submit</code> 函数（如 <code>submit(system_level="Application", fault_type="Misconfig")</code>）。这样你才能用你的静态数据集标签进行自动化评估。</li>
+<li><strong>分步引导</strong>: AIOpsLab 将任务细分为检测、定位、分析、缓解。你可以先让 Agent 做“定位”（哪个服务器/服务坏了），再做“分析”（为什么坏了），降低单次推理的复杂度。</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-如何处理真实服务器数据">2. 如何处理真实服务器数据？</h3>
+<p>AIOpsLab 并没有让 Agent 直接去写 PromQL 或 SQL 查库，而是封装了一层 <strong>中间件 (Observer)</strong>，将复杂的监控数据转化为 Agent 易读的格式（主要是 CSV 和 文本）。</p>
+<ul>
+<li>
+<p><strong>架构模式</strong>:</p>
+<ul>
+<li><strong>底层</strong>: 使用标准的云原生监控栈（Prometheus 存指标，Jaeger 存链路，ELK/Filebeat 存日志）。</li>
+<li><strong>中间层 (API)</strong>: 编写 Python 类 (<code>PrometheusAPI</code>, <code>TraceAPI</code>) 负责与底层工具通信。</li>
+<li><strong>上层 (Agent)</strong>: Agent 只能看到封装好的工具，如 <code>get_metrics()</code>, <code>get_logs()</code>。</li>
+</ul>
+</li>
+<li>
+<p><strong>具体实现细节</strong>:</p>
+<ul>
+<li><strong>指标 (Metrics)</strong>:
+<ul>
+<li><code>PrometheusAPI</code> 通过 <code>kubectl port-forward</code> 连接到 Prometheus。</li>
+<li>它查询指定时间窗口的数据，然后<strong>转换成 CSV 文件</strong>保存到本地。</li>
+<li>Agent 读取这个 CSV 文件进行分析。</li>
+<li><strong>代码参考</strong>: metric_api.py</li>
+</ul>
+</li>
+<li><strong>链路 (Traces)</strong>:
+<ul>
+<li><code>TraceAPI</code> 连接 Jaeger，拉取 Trace JSON 数据。</li>
+<li>它将复杂的 JSON 树打平成 <strong>DataFrame</strong>（包含 trace_id, span_id, service_name, duration, error 等字段），并保存为 CSV。</li>
+<li><strong>代码参考</strong>: trace_api.py</li>
+</ul>
+</li>
+<li><strong>日志 (Logs)</strong>:
+<ul>
+<li>直接调用 <code>kubectl logs</code> 获取原始文本。</li>
+<li><strong>关键点</strong>: 做了一个 <code>greedy_compress_lines</code> (贪婪压缩) 处理。如果日志大量重复（例如报错刷屏），它会压缩重复行，防止 Token 爆炸。</li>
+<li><strong>代码参考</strong>: base.py</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>对你的借鉴 (静态数据集场景)</strong>:</p>
+<ul>
+<li><strong>模拟真实接口</strong>: 既然你用的是静态数据集，你可以写一个 <strong>Mock API</strong>。
+<ul>
+<li>定义一个 <code>get_metrics(service_name, time_window)</code> 函数。</li>
+<li>在这个函数内部，不是去查 Prometheus，而是去你的静态 CSV/Parquet 文件里切片数据。</li>
+<li><strong>好处</strong>: 你的 Agent 代码逻辑可以和处理真实服务器完全一样。未来如果你要接真实环境，只需要把底层的 Mock API 换成真的 Prometheus API，Agent 逻辑不需要改。</li>
+</ul>
+</li>
+<li><strong>文件交换模式</strong>: 学习 AIOpsLab 的做法，对于大量数据（指标/链路），不要直接把数据塞进 Prompt。而是让工具返回一个<strong>文件路径</strong>，然后让 Agent 写代码（Python Pandas）去分析这个文件，或者只读取文件的头部/统计信息。</li>
+</ul>
+</li>
+</ul>
+<h3 id="总结">总结</h3>
+<p>微软 AIOpsLab 的核心思路是 <strong>“工具化”</strong> 和 <strong>“中间层封装”</strong>。它把运维操作变成了 Agent 可以调用的 Python 函数，把复杂的监控数据变成了标准化的 CSV 文件。这对于多智能体协作非常友好，因为不同的 Agent 可以基于统一的数据格式进行交流。</p> </div> </div> </div> </article> <aside class="hidden lg:block" data-astro-cid-7jjqptxk> <div class="gh-card border-default sticky top-16 px-4 py-3" data-astro-cid-7jjqptxk> <div class="text-[12px] font-semibold fg-default" data-astro-cid-7jjqptxk>目录</div> <nav class="mt-2" aria-label="目录" data-astro-cid-7jjqptxk> <ul class="space-y-1 text-[13px]" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#1-根因分析-rca-是如何实现的" data-toc-slug="1-根因分析-rca-是如何实现的" data-astro-cid-7jjqptxk>1. 根因分析 (RCA) 是如何实现的？</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#2-如何处理真实服务器数据" data-toc-slug="2-如何处理真实服务器数据" data-astro-cid-7jjqptxk>2. 如何处理真实服务器数据？</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#总结" data-toc-slug="总结" data-astro-cid-7jjqptxk>总结</a> </li> </ul> </nav> </div> </aside> </div> <button id="backToTop" class="back-to-top" type="button" aria-label="回到顶部" hidden data-astro-cid-7jjqptxk>
+↑
+</button> <script type="module">(function(){const s=document.getElementById("postContent");if(!s)return;const l=Array.from(document.querySelectorAll("a.toc-link")),r=new Map;l.forEach(t=>{const e=t.getAttribute("data-toc-slug");if(!e)return;const n=r.get(e)||[];n.push(t),r.set(e,n)});const c=Array.from(s.querySelectorAll("h2[id], h3[id]"));function a(t){if(l.forEach(n=>n.removeAttribute("aria-current")),!t)return;const e=r.get(t);e&&e.forEach(n=>n.setAttribute("aria-current","true"))}function f(){if(!c.length)return"";const t=120;for(let e=c.length-1;e>=0;e--){const n=c[e];if(n.getBoundingClientRect().top<=t)return n.id||""}return c[0].id||""}let d=!1;function i(){d||(d=!0,window.requestAnimationFrame(()=>{d=!1;const t=(location.hash||"").replace(/^#/,"");if(t&&r.has(t)){a(t);return}a(f())}))}window.addEventListener("scroll",i,{passive:!0}),window.addEventListener("resize",i),window.addEventListener("hashchange",i),l.forEach(t=>t.addEventListener("click",()=>{const e=t.getAttribute("data-toc-slug")||"";a(e)})),i();const u=document.getElementById("backToTop");if(u){const t=()=>{const e=window.scrollY||document.documentElement.scrollTop||0;u.hidden=e<320};window.addEventListener("scroll",t,{passive:!0}),t(),u.addEventListener("click",()=>{window.scrollTo({top:0,behavior:"smooth"})})}s.querySelectorAll("pre > code").forEach(t=>{const e=t.parentElement;if(!e||e.querySelector(".copy-btn"))return;e.style.position="relative";const n=document.createElement("button");n.type="button",n.className="copy-btn",n.textContent="复制",n.addEventListener("click",async()=>{const m=t.textContent||"";try{await navigator.clipboard.writeText(m),n.textContent="已复制",window.setTimeout(()=>n.textContent="复制",900)}catch{const o=document.createElement("textarea");o.value=m,o.style.position="fixed",o.style.opacity="0",document.body.appendChild(o),o.select(),document.execCommand("copy"),document.body.removeChild(o),n.textContent="已复制",window.setTimeout(()=>n.textContent="复制",900)}}),e.appendChild(n)})})();</script>   </main> <footer class="border-t py-6 text-[13px]" style="border-color: var(--border-default); color: var(--fg-muted)"> <div class="gh-container flex items-center justify-between"> <p>© 2026 · Built with Astro</p> <p style="color: var(--fg-muted)">Zhejiang University · CS</p> </div> </footer> </body></html>

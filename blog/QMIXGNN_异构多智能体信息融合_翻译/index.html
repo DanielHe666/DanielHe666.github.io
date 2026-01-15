@@ -1,0 +1,267 @@
+<!DOCTYPE html><html lang="zh-CN" class="h-full"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="generator" content="Astro v5.16.9"><title>QMIX-GNN: 基于图神经网络的异构多智能体信息融合 · 个人博客</title><meta name="description" content="本文提出QMIX-GNN方法，利用图神经网络解决异构多智能体强化学习中的信息融合难题。该方法通过自适应聚合智能体观测信息，有效提升了团队协作能力与任务性能，尤其在复杂场景下显著优于传统方法，为多智能体协调提供了高效解决方案。"><meta property="og:title" content="QMIX-GNN: 基于图神经网络的异构多智能体信息融合 · 个人博客"><meta property="og:description" content="本文提出QMIX-GNN方法，利用图神经网络解决异构多智能体强化学习中的信息融合难题。该方法通过自适应聚合智能体观测信息，有效提升了团队协作能力与任务性能，尤其在复杂场景下显著优于传统方法，为多智能体协调提供了高效解决方案。"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="stylesheet" href="/_astro/_slug_.1UaX29b_.css">
+<style>.copy-btn[data-astro-cid-7jjqptxk]{position:absolute;top:8px;right:8px;padding:4px 8px;font-size:12px;border-radius:6px;border:1px solid var(--border-default);background:color-mix(in srgb,var(--canvas-default) 80%,var(--canvas-subtle));color:var(--fg-default);cursor:pointer}.copy-btn[data-astro-cid-7jjqptxk]:hover{background:color-mix(in srgb,var(--canvas-default) 65%,var(--canvas-subtle))}.copy-btn[data-astro-cid-7jjqptxk]:focus-visible{outline:2px solid color-mix(in srgb,var(--accent-emphasis) 55%,transparent);outline-offset:2px}a[data-astro-cid-7jjqptxk].toc-link[aria-current=true]{color:var(--fg-default);font-weight:600;text-decoration:none}.back-to-top[data-astro-cid-7jjqptxk]{position:fixed;right:18px;bottom:18px;width:36px;height:36px;border-radius:999px;border:1px solid var(--border-default);background:color-mix(in srgb,var(--canvas-default) 80%,var(--canvas-subtle));color:var(--fg-default);cursor:pointer;z-index:40}.back-to-top[data-astro-cid-7jjqptxk]:hover{background:color-mix(in srgb,var(--canvas-default) 65%,var(--canvas-subtle))}.back-to-top[data-astro-cid-7jjqptxk]:focus-visible{outline:2px solid color-mix(in srgb,var(--accent-emphasis) 55%,transparent);outline-offset:2px}
+</style></head> <body class="min-h-full antialiased"> <header class="sticky top-0 z-50 border-b" style="border-color: var(--border-default); background: var(--canvas-subtle)" data-astro-cid-dmqpwcec> <div class="gh-container flex h-12 items-center justify-between" data-astro-cid-dmqpwcec> <a href="/" class="flex items-center gap-2 text-[13px] font-semibold fg-default" data-astro-cid-dmqpwcec> <span class="inline-flex h-7 items-center rounded-md px-2" style="background: var(--fg-default); color: var(--canvas-default)" data-astro-cid-dmqpwcec>HCY</span> <span class="fg-muted" data-astro-cid-dmqpwcec>Blog</span> </a> <nav class="flex items-center gap-1 text-[13px]" data-astro-cid-dmqpwcec> <a href="/blog/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> 文章 </a><a href="/search/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> 搜索 </a><a href="/projects/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> 项目 </a><a href="/reading/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> Reading </a> <a href="https://github.com/ChenyuHeee" target="_blank" rel="noreferrer" class="ml-1 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec>
+GitHub
+</a> </nav> </div> </header>  <main class="gh-container py-6">  <div class="mx-auto max-w-[1040px] grid gap-6 lg:grid-cols-[1fr_280px]" data-astro-cid-7jjqptxk> <article class="min-w-0" data-astro-cid-7jjqptxk> <div class="gh-card overflow-hidden" style="border-color: var(--border-default)" data-astro-cid-7jjqptxk> <header class="border-b px-4 py-4" style="border-color: var(--border-default)" data-astro-cid-7jjqptxk> <h1 class="text-2xl font-semibold tracking-tight" style="color: var(--fg-default)" data-astro-cid-7jjqptxk>QMIX-GNN: 基于图神经网络的异构多智能体信息融合</h1> <div class="mt-2 flex flex-wrap items-center gap-x-4 gap-y-2 text-[12px]" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <time datetime="2026-01-15T09:21:40.553Z" data-astro-cid-7jjqptxk>2026-01-15</time> <div class="flex flex-wrap gap-2" data-astro-cid-7jjqptxk> <span class="gh-pill" data-astro-cid-7jjqptxk>AIOPS</span><span class="gh-pill" data-astro-cid-7jjqptxk>论文</span><span class="gh-pill" data-astro-cid-7jjqptxk>学习</span> </div> </div> <p class="mt-2 text-[13px]" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk>本文提出QMIX-GNN方法，利用图神经网络解决异构多智能体强化学习中的信息融合难题。该方法通过自适应聚合智能体观测信息，有效提升了团队协作能力与任务性能，尤其在复杂场景下显著优于传统方法，为多智能体协调提供了高效解决方案。</p> </header> <div class="border-b px-4 py-3 lg:hidden" style="border-color: var(--border-default)" data-astro-cid-7jjqptxk> <details data-astro-cid-7jjqptxk> <summary class="cursor-pointer text-[13px] font-semibold fg-default" data-astro-cid-7jjqptxk>目录</summary> <div class="mt-2" data-astro-cid-7jjqptxk> <nav aria-label="目录" data-astro-cid-7jjqptxk> <ul class="space-y-1 text-[13px]" data-astro-cid-7jjqptxk> <li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#摘要" data-toc-slug="摘要" data-astro-cid-7jjqptxk>摘要</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#1-背景" data-toc-slug="1-背景" data-astro-cid-7jjqptxk>1. 背景</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#11-多智能体强化学习marl" data-toc-slug="11-多智能体强化学习marl" data-astro-cid-7jjqptxk>1.1 多智能体强化学习（MARL）</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#12-现有方法的局限性" data-toc-slug="12-现有方法的局限性" data-astro-cid-7jjqptxk>1.2 现有方法的局限性</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#2-系统架构" data-toc-slug="2-系统架构" data-astro-cid-7jjqptxk>2. 系统架构</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#21-整体框架" data-toc-slug="21-整体框架" data-astro-cid-7jjqptxk>2.1 整体框架</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#22-三大核心模块" data-toc-slug="22-三大核心模块" data-astro-cid-7jjqptxk>2.2 三大核心模块</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#3-核心技术" data-toc-slug="3-核心技术" data-astro-cid-7jjqptxk>3. 核心技术</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#31-图神经网络信息融合" data-toc-slug="31-图神经网络信息融合" data-astro-cid-7jjqptxk>3.1 图神经网络信息融合</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#32-智能体网络" data-toc-slug="32-智能体网络" data-astro-cid-7jjqptxk>3.2 智能体网络</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#33-混合网络" data-toc-slug="33-混合网络" data-astro-cid-7jjqptxk>3.3 混合网络</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#4-实验" data-toc-slug="4-实验" data-astro-cid-7jjqptxk>4. 实验</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#41-实验环境" data-toc-slug="41-实验环境" data-astro-cid-7jjqptxk>4.1 实验环境</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#42-基线方法" data-toc-slug="42-基线方法" data-astro-cid-7jjqptxk>4.2 基线方法</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#43-主要结果" data-toc-slug="43-主要结果" data-astro-cid-7jjqptxk>4.3 主要结果</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#44-消融研究" data-toc-slug="44-消融研究" data-astro-cid-7jjqptxk>4.4 消融研究</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#5-与aiops的关联" data-toc-slug="5-与aiops的关联" data-astro-cid-7jjqptxk>5. 与AIOps的关联</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#51-可借鉴点" data-toc-slug="51-可借鉴点" data-astro-cid-7jjqptxk>5.1 可借鉴点</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#52-潜在扩展" data-toc-slug="52-潜在扩展" data-astro-cid-7jjqptxk>5.2 潜在扩展</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#6-结论" data-toc-slug="6-结论" data-astro-cid-7jjqptxk>6. 结论</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#附录关键公式" data-toc-slug="附录关键公式" data-astro-cid-7jjqptxk>附录：关键公式</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#图注意力权重" data-toc-slug="图注意力权重" data-astro-cid-7jjqptxk>图注意力权重</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#节点特征更新" data-toc-slug="节点特征更新" data-astro-cid-7jjqptxk>节点特征更新</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#qmix单调性" data-toc-slug="qmix单调性" data-astro-cid-7jjqptxk>QMIX单调性</a> </li> </ul> </nav> </div> </details> </div> <div class="px-4 py-4" data-astro-cid-7jjqptxk> <div class="prose prose-sm max-w-none" id="postContent" data-astro-cid-7jjqptxk> <h1 id="qmix-gnn-基于图神经网络的异构多智能体信息融合">QMIX-GNN: 基于图神经网络的异构多智能体信息融合</h1>
+<blockquote>
+<p><strong>原文标题</strong>: QMIX-GNN: GNN-Based Heterogeneous Multi-Agent Information Fusion</p>
+<p><strong>来源</strong>: Applied Sciences (MDPI, 2025)</p>
+<p><strong>关键词</strong>: 多智能体强化学习、图神经网络、异构智能体、CTDE</p>
+</blockquote>
+<hr>
+<h2 id="摘要">摘要</h2>
+<p>在多智能体强化学习（MARL）中，异构智能体的协调面临观测空间不同、信息融合困难等挑战。本文提出<strong>QMIX-GNN</strong>，通过图神经网络（GNN）增强异构多智能体的协作和协调：</p>
+<ol>
+<li><strong>自适应信息融合</strong>: GNN聚合多智能体数据，增强团队感知</li>
+<li><strong>异构信息处理</strong>: 专门模块处理不同观测和动作空间</li>
+<li><strong>复杂任务扩展性</strong>: 在CTDE框架下提升性能和收敛速度</li>
+</ol>
+<hr>
+<h2 id="1-背景">1. 背景</h2>
+<h3 id="11-多智能体强化学习marl">1.1 多智能体强化学习（MARL）</h3>
+<p><strong>核心挑战</strong>:</p>
+<ul>
+<li><strong>部分可观测性</strong>: 智能体只能看到局部信息</li>
+<li><strong>非平稳性</strong>: 其他智能体策略变化导致环境不稳定</li>
+<li><strong>信用分配</strong>: 难以判断哪个智能体贡献了团队奖励</li>
+</ul>
+<p><strong>CTDE范式</strong>:</p>
+<ul>
+<li><strong>Centralized Training</strong>: 训练时使用全局信息</li>
+<li><strong>Decentralized Execution</strong>: 执行时仅用局部观测</li>
+</ul>
+<h3 id="12-现有方法的局限性">1.2 现有方法的局限性</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>问题</th><th>描述</th></tr></thead><tbody><tr><td>部分可观测约束</td><td>现有CTDE方法假设智能体可通过共享价值函数协调</td></tr><tr><td>静态交互建模</td><td>假设固定的单调性，忽略动态关系</td></tr><tr><td>异构信息融合</td><td>简单拼接或平均会丢失关系模式</td></tr></tbody></table>
+<hr>
+<h2 id="2-系统架构">2. 系统架构</h2>
+<h3 id="21-整体框架">2.1 整体框架</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>┌──────────────────────────────────────────────────────────────┐</span></span>
+<span class="line"><span>│                        QMIX-GNN Framework                     │</span></span>
+<span class="line"><span>├──────────────────────────────────────────────────────────────┤</span></span>
+<span class="line"><span>│                                                               │</span></span>
+<span class="line"><span>│  ┌─────────────────────────────────────────────────────────┐ │</span></span>
+<span class="line"><span>│  │  Information Fusion Network (GNN)                        │ │</span></span>
+<span class="line"><span>│  │                                                          │ │</span></span>
+<span class="line"><span>│  │  Agent 1 Obs ──┐                                        │ │</span></span>
+<span class="line"><span>│  │  Agent 2 Obs ──┼──→ GNN聚合 ──→ 团队级信息              │ │</span></span>
+<span class="line"><span>│  │  ...          ─┘                                        │ │</span></span>
+<span class="line"><span>│  │  Agent N Obs ──                                         │ │</span></span>
+<span class="line"><span>│  └─────────────────────────────────────────────────────────┘ │</span></span>
+<span class="line"><span>│                              ↓                                │</span></span>
+<span class="line"><span>│  ┌─────────────────────────────────────────────────────────┐ │</span></span>
+<span class="line"><span>│  │  Agent Network (RNN/GRU)                                 │ │</span></span>
+<span class="line"><span>│  │                                                          │ │</span></span>
+<span class="line"><span>│  │  局部观测 + 团队信息 → Q值                               │ │</span></span>
+<span class="line"><span>│  └─────────────────────────────────────────────────────────┘ │</span></span>
+<span class="line"><span>│                              ↓                                │</span></span>
+<span class="line"><span>│  ┌─────────────────────────────────────────────────────────┐ │</span></span>
+<span class="line"><span>│  │  Mixing Network (Hypernetwork)                           │ │</span></span>
+<span class="line"><span>│  │                                                          │ │</span></span>
+<span class="line"><span>│  │  个体Q值 → 全局Q值 (保持单调性)                          │ │</span></span>
+<span class="line"><span>│  └─────────────────────────────────────────────────────────┘ │</span></span>
+<span class="line"><span>│                                                               │</span></span>
+<span class="line"><span>└──────────────────────────────────────────────────────────────┘</span></span></code></pre>
+<h3 id="22-三大核心模块">2.2 三大核心模块</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>模块</th><th>功能</th><th>技术</th></tr></thead><tbody><tr><td>信息融合网络</td><td>聚合多智能体观测</td><td>Graph Attention Network</td></tr><tr><td>智能体网络</td><td>生成个体Q值</td><td>GRU</td></tr><tr><td>混合网络</td><td>生成全局Q值</td><td>Hypernetwork</td></tr></tbody></table>
+<hr>
+<h2 id="3-核心技术">3. 核心技术</h2>
+<h3 id="31-图神经网络信息融合">3.1 图神经网络信息融合</h3>
+<p><strong>图结构</strong>:</p>
+<ul>
+<li><strong>节点</strong>: 智能体</li>
+<li><strong>边</strong>: 智能体间的交互关系</li>
+</ul>
+<p><strong>GAT注意力机制</strong>:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>α_ij = softmax(LeakyReLU(a^T[Wh_i || Wh_j]))</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>节点i对节点j的注意力权重</span></span></code></pre>
+<p><strong>信息聚合</strong>:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>h'_i = σ(Σ_j α_ij · W · h_j)</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>节点i的新表示 = 激活函数(加权邻居表示)</span></span></code></pre>
+<h3 id="32-智能体网络">3.2 智能体网络</h3>
+<p><strong>GRU结构</strong>:</p>
+<ul>
+<li>捕获历史观测信息</li>
+<li>结合团队级信息</li>
+<li>输出个体Q值</li>
+</ul>
+<p><strong>输入</strong>: 局部观测 + GNN融合的团队信息
+<strong>输出</strong>: Q_i(o_i, a_i)</p>
+<h3 id="33-混合网络">3.3 混合网络</h3>
+<p><strong>QMIX单调性约束</strong>:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>∂Q_tot / ∂Q_i ≥ 0</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>全局Q值对每个个体Q值单调递增</span></span></code></pre>
+<p><strong>Hypernetwork</strong>:</p>
+<ul>
+<li>根据全局状态生成混合网络权重</li>
+<li>确保可分解性</li>
+</ul>
+<hr>
+<h2 id="4-实验">4. 实验</h2>
+<h3 id="41-实验环境">4.1 实验环境</h3>
+<p>使用StarCraft Multi-Agent Challenge (SMAC)：</p>
+<ul>
+<li>多种异构智能体配置</li>
+<li>复杂协调任务</li>
+</ul>
+<h3 id="42-基线方法">4.2 基线方法</h3>
+<ul>
+<li>QMIX</li>
+<li>COMA</li>
+<li>QTRAN</li>
+</ul>
+<h3 id="43-主要结果">4.3 主要结果</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>方法</th><th>胜率（简单任务）</th><th>胜率（困难任务）</th></tr></thead><tbody><tr><td>QMIX</td><td>85%</td><td>52%</td></tr><tr><td>QTRAN</td><td>82%</td><td>48%</td></tr><tr><td><strong>QMIX-GNN</strong></td><td><strong>92%</strong></td><td><strong>68%</strong></td></tr></tbody></table>
+<p><strong>关键发现</strong>:</p>
+<ul>
+<li>GNN信息融合显著提升协调能力</li>
+<li>在困难任务上优势更明显</li>
+</ul>
+<h3 id="44-消融研究">4.4 消融研究</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>配置</th><th>胜率下降</th></tr></thead><tbody><tr><td>无GNN融合</td><td>-15%</td></tr><tr><td>无注意力机制</td><td>-8%</td></tr><tr><td>固定图结构</td><td>-5%</td></tr></tbody></table>
+<hr>
+<h2 id="5-与aiops的关联">5. 与AIOps的关联</h2>
+<p>虽然QMIX-GNN主要针对游戏/机器人场景，但其技术对AIOps有参考价值：</p>
+<h3 id="51-可借鉴点">5.1 可借鉴点</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>技术</th><th>AIOps应用</th></tr></thead><tbody><tr><td>GNN信息融合</td><td>多数据源融合（日志、指标、追踪）</td></tr><tr><td>注意力机制</td><td>关键信息筛选</td></tr><tr><td>异构处理</td><td>处理不同格式的运维数据</td></tr></tbody></table>
+<h3 id="52-潜在扩展">5.2 潜在扩展</h3>
+<ul>
+<li><strong>服务拓扑建模</strong>: 用GNN表示微服务依赖</li>
+<li><strong>多Agent诊断</strong>: 不同专业Agent的协调</li>
+<li><strong>动态关系学习</strong>: 学习服务间动态依赖</li>
+</ul>
+<hr>
+<h2 id="6-结论">6. 结论</h2>
+<p>QMIX-GNN通过图神经网络有效解决了异构多智能体的信息融合问题：</p>
+<ol>
+<li>GAT注意力机制自适应聚合信息</li>
+<li>保持QMIX的可分解性和单调性</li>
+<li>在复杂任务上表现优异</li>
+</ol>
+<p>为多智能体系统的协调提供了新的技术方案。</p>
+<hr>
+<h2 id="附录关键公式">附录：关键公式</h2>
+<h3 id="图注意力权重">图注意力权重</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>α_ij = softmax_j(LeakyReLU(a^T[Wh_i || Wh_j]))</span></span></code></pre>
+<h3 id="节点特征更新">节点特征更新</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>h'_i = σ(Σ_{j∈N(i)} α_ij · Wh_j)</span></span></code></pre>
+<h3 id="qmix单调性">QMIX单调性</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>Q_tot = f(Q_1, Q_2, ..., Q_n | s)</span></span>
+<span class="line"><span>s.t. ∂Q_tot/∂Q_i ≥ 0 for all i</span></span></code></pre> </div> </div> </div> </article> <aside class="hidden lg:block" data-astro-cid-7jjqptxk> <div class="gh-card border-default sticky top-16 px-4 py-3" data-astro-cid-7jjqptxk> <div class="text-[12px] font-semibold fg-default" data-astro-cid-7jjqptxk>目录</div> <nav class="mt-2" aria-label="目录" data-astro-cid-7jjqptxk> <ul class="space-y-1 text-[13px]" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#摘要" data-toc-slug="摘要" data-astro-cid-7jjqptxk>摘要</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#1-背景" data-toc-slug="1-背景" data-astro-cid-7jjqptxk>1. 背景</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#11-多智能体强化学习marl" data-toc-slug="11-多智能体强化学习marl" data-astro-cid-7jjqptxk>1.1 多智能体强化学习（MARL）</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#12-现有方法的局限性" data-toc-slug="12-现有方法的局限性" data-astro-cid-7jjqptxk>1.2 现有方法的局限性</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#2-系统架构" data-toc-slug="2-系统架构" data-astro-cid-7jjqptxk>2. 系统架构</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#21-整体框架" data-toc-slug="21-整体框架" data-astro-cid-7jjqptxk>2.1 整体框架</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#22-三大核心模块" data-toc-slug="22-三大核心模块" data-astro-cid-7jjqptxk>2.2 三大核心模块</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#3-核心技术" data-toc-slug="3-核心技术" data-astro-cid-7jjqptxk>3. 核心技术</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#31-图神经网络信息融合" data-toc-slug="31-图神经网络信息融合" data-astro-cid-7jjqptxk>3.1 图神经网络信息融合</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#32-智能体网络" data-toc-slug="32-智能体网络" data-astro-cid-7jjqptxk>3.2 智能体网络</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#33-混合网络" data-toc-slug="33-混合网络" data-astro-cid-7jjqptxk>3.3 混合网络</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#4-实验" data-toc-slug="4-实验" data-astro-cid-7jjqptxk>4. 实验</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#41-实验环境" data-toc-slug="41-实验环境" data-astro-cid-7jjqptxk>4.1 实验环境</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#42-基线方法" data-toc-slug="42-基线方法" data-astro-cid-7jjqptxk>4.2 基线方法</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#43-主要结果" data-toc-slug="43-主要结果" data-astro-cid-7jjqptxk>4.3 主要结果</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#44-消融研究" data-toc-slug="44-消融研究" data-astro-cid-7jjqptxk>4.4 消融研究</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#5-与aiops的关联" data-toc-slug="5-与aiops的关联" data-astro-cid-7jjqptxk>5. 与AIOps的关联</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#51-可借鉴点" data-toc-slug="51-可借鉴点" data-astro-cid-7jjqptxk>5.1 可借鉴点</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#52-潜在扩展" data-toc-slug="52-潜在扩展" data-astro-cid-7jjqptxk>5.2 潜在扩展</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#6-结论" data-toc-slug="6-结论" data-astro-cid-7jjqptxk>6. 结论</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#附录关键公式" data-toc-slug="附录关键公式" data-astro-cid-7jjqptxk>附录：关键公式</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#图注意力权重" data-toc-slug="图注意力权重" data-astro-cid-7jjqptxk>图注意力权重</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#节点特征更新" data-toc-slug="节点特征更新" data-astro-cid-7jjqptxk>节点特征更新</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#qmix单调性" data-toc-slug="qmix单调性" data-astro-cid-7jjqptxk>QMIX单调性</a> </li> </ul> </nav> </div> </aside> </div> <button id="backToTop" class="back-to-top" type="button" aria-label="回到顶部" hidden data-astro-cid-7jjqptxk>
+↑
+</button> <script type="module">(function(){const s=document.getElementById("postContent");if(!s)return;const l=Array.from(document.querySelectorAll("a.toc-link")),r=new Map;l.forEach(t=>{const e=t.getAttribute("data-toc-slug");if(!e)return;const n=r.get(e)||[];n.push(t),r.set(e,n)});const c=Array.from(s.querySelectorAll("h2[id], h3[id]"));function a(t){if(l.forEach(n=>n.removeAttribute("aria-current")),!t)return;const e=r.get(t);e&&e.forEach(n=>n.setAttribute("aria-current","true"))}function f(){if(!c.length)return"";const t=120;for(let e=c.length-1;e>=0;e--){const n=c[e];if(n.getBoundingClientRect().top<=t)return n.id||""}return c[0].id||""}let d=!1;function i(){d||(d=!0,window.requestAnimationFrame(()=>{d=!1;const t=(location.hash||"").replace(/^#/,"");if(t&&r.has(t)){a(t);return}a(f())}))}window.addEventListener("scroll",i,{passive:!0}),window.addEventListener("resize",i),window.addEventListener("hashchange",i),l.forEach(t=>t.addEventListener("click",()=>{const e=t.getAttribute("data-toc-slug")||"";a(e)})),i();const u=document.getElementById("backToTop");if(u){const t=()=>{const e=window.scrollY||document.documentElement.scrollTop||0;u.hidden=e<320};window.addEventListener("scroll",t,{passive:!0}),t(),u.addEventListener("click",()=>{window.scrollTo({top:0,behavior:"smooth"})})}s.querySelectorAll("pre > code").forEach(t=>{const e=t.parentElement;if(!e||e.querySelector(".copy-btn"))return;e.style.position="relative";const n=document.createElement("button");n.type="button",n.className="copy-btn",n.textContent="复制",n.addEventListener("click",async()=>{const m=t.textContent||"";try{await navigator.clipboard.writeText(m),n.textContent="已复制",window.setTimeout(()=>n.textContent="复制",900)}catch{const o=document.createElement("textarea");o.value=m,o.style.position="fixed",o.style.opacity="0",document.body.appendChild(o),o.select(),document.execCommand("copy"),document.body.removeChild(o),n.textContent="已复制",window.setTimeout(()=>n.textContent="复制",900)}}),e.appendChild(n)})})();</script>   </main> <footer class="border-t py-6 text-[13px]" style="border-color: var(--border-default); color: var(--fg-muted)"> <div class="gh-container flex items-center justify-between"> <p>© 2026 · Built with Astro</p> <p style="color: var(--fg-muted)">Zhejiang University · CS</p> </div> </footer> </body></html>

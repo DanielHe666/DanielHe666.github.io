@@ -1,0 +1,29 @@
+<!DOCTYPE html><html lang="zh-CN" class="h-full"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="generator" content="Astro v5.16.9"><title>在线 C 语言编辑器 · 个人博客</title><meta name="description" content="简洁、现代的在线 C 语言编译环境：浏览器中编写/格式化/运行，适合教学演示，也方便未安装编译器（尤其是 Mac 用户）快速学习。"><meta property="og:title" content="在线 C 语言编辑器 · 个人博客"><meta property="og:description" content="简洁、现代的在线 C 语言编译环境：浏览器中编写/格式化/运行，适合教学演示，也方便未安装编译器（尤其是 Mac 用户）快速学习。"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="stylesheet" href="/_astro/_slug_.1UaX29b_.css"></head> <body class="min-h-full antialiased"> <header class="sticky top-0 z-50 border-b" style="border-color: var(--border-default); background: var(--canvas-subtle)" data-astro-cid-dmqpwcec> <div class="gh-container flex h-12 items-center justify-between" data-astro-cid-dmqpwcec> <a href="/" class="flex items-center gap-2 text-[13px] font-semibold fg-default" data-astro-cid-dmqpwcec> <span class="inline-flex h-7 items-center rounded-md px-2" style="background: var(--fg-default); color: var(--canvas-default)" data-astro-cid-dmqpwcec>HCY</span> <span class="fg-muted" data-astro-cid-dmqpwcec>Blog</span> </a> <nav class="flex items-center gap-1 text-[13px]" data-astro-cid-dmqpwcec> <a href="/blog/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> 文章 </a><a href="/search/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> 搜索 </a><a href="/projects/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> 项目 </a><a href="/reading/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> Reading </a> <a href="https://github.com/ChenyuHeee" target="_blank" rel="noreferrer" class="ml-1 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec>
+GitHub
+</a> </nav> </div> </header>  <main class="gh-container py-6">  <div class="mx-auto max-w-[1012px]"> <div class="mb-4 flex items-baseline justify-between gap-4"> <div class="min-w-0"> <p class="text-[12px] fg-muted">项目</p> <h1 class="mt-1 truncate text-xl font-semibold tracking-tight fg-default">在线 C 语言编辑器</h1> <p class="mt-2 text-[13px] fg-muted">简洁、现代的在线 C 语言编译环境：浏览器中编写/格式化/运行，适合教学演示，也方便未安装编译器（尤其是 Mac 用户）快速学习。</p> </div> <div class="shrink-0 flex gap-2"> <a class="gh-btn" href="/projects/">返回列表</a> <a class="gh-btn-primary" href="https://github.com/ChenyuHeee/c" target="_blank" rel="noreferrer">Repo</a> </div> </div> <div class="gh-card px-4 py-3 border-default"> <div class="flex flex-wrap items-center gap-x-4 gap-y-2 text-[12px] fg-muted"> <span>Updated 2026-01-14</span> <a class="gh-link" href="https://chenyuheee.github.io/c/" target="_blank" rel="noreferrer">Demo / Link</a> </div> <div class="mt-3 flex flex-wrap gap-1.5"> <span class="gh-pill">Monaco</span><span class="gh-pill">WASM</span><span class="gh-pill">Uncrustify</span><span class="gh-pill">GitHub Pages</span> </div> </div> <section class="mt-4 gh-card px-4 py-4 border-default"> <div class="prose prose-sm max-w-none"> <h2 id="概览">概览</h2>
+<p>直接在浏览器里写 C、运行、看输入输出；并提供格式化与更好的编辑体验（Monaco + Uncrustify WASM）。</p>
+<h2 id="我做了什么">我做了什么</h2>
+<ul>
+<li>实现“在线编写 → 运行 → 展示输出”的完整交互闭环，适配教学/演示场景</li>
+<li>面向“没装编译器也能用”为目标，降低环境配置成本，尤其方便 macOS 用户快速上手 C</li>
+<li>集成 Monaco 编辑器与格式化链路（Uncrustify WASM），把编辑体验做到接近本地 IDE</li>
+<li>通过 GitHub Pages 持续部署，让项目可随时分享与访问</li>
+</ul>
+<h2 id="技术要点">技术要点</h2>
+<ul>
+<li>编辑器：Monaco（高亮/快捷键/主题），并针对小屏/移动端做布局适配</li>
+<li>格式化：Uncrustify 编译到 WASM，前端直接调用以保证体验与一致性</li>
+<li>运行链路：前端负责编辑/格式化/请求与输出渲染，运行结果以标准输入/输出模型呈现</li>
+</ul>
+<h2 id="功能亮点">功能亮点</h2>
+<ul>
+<li>零安装：纯前端运行，打开即用</li>
+<li>编辑体验：Monaco 编辑器（高亮/快捷键/主题）</li>
+<li>代码格式化：Uncrustify WASM</li>
+<li>便捷交互：输入/输出侧栏、移动端适配</li>
+</ul>
+<h2 id="链接">链接</h2>
+<ul>
+<li>Repo: <a href="https://github.com/ChenyuHeee/c">https://github.com/ChenyuHeee/c</a></li>
+<li>在线体验: <a href="https://chenyuheee.github.io/c/">https://chenyuheee.github.io/c/</a></li>
+</ul> </div> <div class="mt-6 flex flex-wrap gap-3 text-[13px]"> <a class="gh-link" href="https://github.com/ChenyuHeee/c" target="_blank" rel="noreferrer">GitHub Repo</a> <a class="gh-link" href="https://chenyuheee.github.io/c/" target="_blank" rel="noreferrer">Demo / Link</a> </div> </section> </div>  </main> <footer class="border-t py-6 text-[13px]" style="border-color: var(--border-default); color: var(--fg-muted)"> <div class="gh-container flex items-center justify-between"> <p>© 2026 · Built with Astro</p> <p style="color: var(--fg-muted)">Zhejiang University · CS</p> </div> </footer> </body></html>

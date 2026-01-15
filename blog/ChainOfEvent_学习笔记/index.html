@@ -1,0 +1,247 @@
+<!DOCTYPE html><html lang="zh-CN" class="h-full"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="generator" content="Astro v5.16.9"><title>Chain-of-Event论文学习笔记 · 个人博客</title><meta name="description" content="本文介绍了Chain-of-Event方法，用于解决微服务根因分析中多模态数据处理难、模型可解释性差及手动配置多等挑战。该方法通过将多源数据统一为事件，并构建可解释的因果概率图，实现自动学习与SRE友好调优，显著提升分析准确率与可操作性。"><meta property="og:title" content="Chain-of-Event论文学习笔记 · 个人博客"><meta property="og:description" content="本文介绍了Chain-of-Event方法，用于解决微服务根因分析中多模态数据处理难、模型可解释性差及手动配置多等挑战。该方法通过将多源数据统一为事件，并构建可解释的因果概率图，实现自动学习与SRE友好调优，显著提升分析准确率与可操作性。"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="stylesheet" href="/_astro/_slug_.1UaX29b_.css">
+<style>.copy-btn[data-astro-cid-7jjqptxk]{position:absolute;top:8px;right:8px;padding:4px 8px;font-size:12px;border-radius:6px;border:1px solid var(--border-default);background:color-mix(in srgb,var(--canvas-default) 80%,var(--canvas-subtle));color:var(--fg-default);cursor:pointer}.copy-btn[data-astro-cid-7jjqptxk]:hover{background:color-mix(in srgb,var(--canvas-default) 65%,var(--canvas-subtle))}.copy-btn[data-astro-cid-7jjqptxk]:focus-visible{outline:2px solid color-mix(in srgb,var(--accent-emphasis) 55%,transparent);outline-offset:2px}a[data-astro-cid-7jjqptxk].toc-link[aria-current=true]{color:var(--fg-default);font-weight:600;text-decoration:none}.back-to-top[data-astro-cid-7jjqptxk]{position:fixed;right:18px;bottom:18px;width:36px;height:36px;border-radius:999px;border:1px solid var(--border-default);background:color-mix(in srgb,var(--canvas-default) 80%,var(--canvas-subtle));color:var(--fg-default);cursor:pointer;z-index:40}.back-to-top[data-astro-cid-7jjqptxk]:hover{background:color-mix(in srgb,var(--canvas-default) 65%,var(--canvas-subtle))}.back-to-top[data-astro-cid-7jjqptxk]:focus-visible{outline:2px solid color-mix(in srgb,var(--accent-emphasis) 55%,transparent);outline-offset:2px}
+</style></head> <body class="min-h-full antialiased"> <header class="sticky top-0 z-50 border-b" style="border-color: var(--border-default); background: var(--canvas-subtle)" data-astro-cid-dmqpwcec> <div class="gh-container flex h-12 items-center justify-between" data-astro-cid-dmqpwcec> <a href="/" class="flex items-center gap-2 text-[13px] font-semibold fg-default" data-astro-cid-dmqpwcec> <span class="inline-flex h-7 items-center rounded-md px-2" style="background: var(--fg-default); color: var(--canvas-default)" data-astro-cid-dmqpwcec>HCY</span> <span class="fg-muted" data-astro-cid-dmqpwcec>Blog</span> </a> <nav class="flex items-center gap-1 text-[13px]" data-astro-cid-dmqpwcec> <a href="/blog/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> 文章 </a><a href="/search/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> 搜索 </a><a href="/projects/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> 项目 </a><a href="/reading/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> Reading </a> <a href="https://github.com/ChenyuHeee" target="_blank" rel="noreferrer" class="ml-1 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec>
+GitHub
+</a> </nav> </div> </header>  <main class="gh-container py-6">  <div class="mx-auto max-w-[1040px] grid gap-6 lg:grid-cols-[1fr_280px]" data-astro-cid-7jjqptxk> <article class="min-w-0" data-astro-cid-7jjqptxk> <div class="gh-card overflow-hidden" style="border-color: var(--border-default)" data-astro-cid-7jjqptxk> <header class="border-b px-4 py-4" style="border-color: var(--border-default)" data-astro-cid-7jjqptxk> <h1 class="text-2xl font-semibold tracking-tight" style="color: var(--fg-default)" data-astro-cid-7jjqptxk>Chain-of-Event论文学习笔记</h1> <div class="mt-2 flex flex-wrap items-center gap-x-4 gap-y-2 text-[12px]" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <time datetime="2026-01-15T09:21:40.552Z" data-astro-cid-7jjqptxk>2026-01-15</time> <div class="flex flex-wrap gap-2" data-astro-cid-7jjqptxk> <span class="gh-pill" data-astro-cid-7jjqptxk>AIOPS</span><span class="gh-pill" data-astro-cid-7jjqptxk>论文</span><span class="gh-pill" data-astro-cid-7jjqptxk>学习</span> </div> </div> <p class="mt-2 text-[13px]" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk>本文介绍了Chain-of-Event方法，用于解决微服务根因分析中多模态数据处理难、模型可解释性差及手动配置多等挑战。该方法通过将多源数据统一为事件，并构建可解释的因果概率图，实现自动学习与SRE友好调优，显著提升分析准确率与可操作性。</p> </header> <div class="border-b px-4 py-3 lg:hidden" style="border-color: var(--border-default)" data-astro-cid-7jjqptxk> <details data-astro-cid-7jjqptxk> <summary class="cursor-pointer text-[13px] font-semibold fg-default" data-astro-cid-7jjqptxk>目录</summary> <div class="mt-2" data-astro-cid-7jjqptxk> <nav aria-label="目录" data-astro-cid-7jjqptxk> <ul class="space-y-1 text-[13px]" data-astro-cid-7jjqptxk> <li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#-核心要点" data-toc-slug="-核心要点" data-astro-cid-7jjqptxk>📌 核心要点</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#1-论文解决的问题" data-toc-slug="1-论文解决的问题" data-astro-cid-7jjqptxk>1. 论文解决的问题</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#2-核心创新" data-toc-slug="2-核心创新" data-astro-cid-7jjqptxk>2. 核心创新</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#️-系统架构" data-toc-slug="️-系统架构" data-astro-cid-7jjqptxk>🏗️ 系统架构</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#事件转换流程" data-toc-slug="事件转换流程" data-astro-cid-7jjqptxk>事件转换流程</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#因果图结构" data-toc-slug="因果图结构" data-astro-cid-7jjqptxk>因果图结构</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#-关键技术细节" data-toc-slug="-关键技术细节" data-astro-cid-7jjqptxk>💡 关键技术细节</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#1-参数的物理意义" data-toc-slug="1-参数的物理意义" data-astro-cid-7jjqptxk>1. 参数的物理意义</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#2-因果概率学习" data-toc-slug="2-因果概率学习" data-astro-cid-7jjqptxk>2. 因果概率学习</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#3-重要性学习类pagerank" data-toc-slug="3-重要性学习类pagerank" data-astro-cid-7jjqptxk>3. 重要性学习（类PageRank）</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#4-根因概率计算" data-toc-slug="4-根因概率计算" data-astro-cid-7jjqptxk>4. 根因概率计算</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#-实验亮点" data-toc-slug="-实验亮点" data-astro-cid-7jjqptxk>📊 实验亮点</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#核心数据" data-toc-slug="核心数据" data-astro-cid-7jjqptxk>核心数据</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#人类知识集成效果" data-toc-slug="人类知识集成效果" data-astro-cid-7jjqptxk>人类知识集成效果</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#可解释性优势" data-toc-slug="可解释性优势" data-astro-cid-7jjqptxk>可解释性优势</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#-个人思考" data-toc-slug="-个人思考" data-astro-cid-7jjqptxk>🔍 个人思考</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#优势" data-toc-slug="优势" data-astro-cid-7jjqptxk>优势</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#局限性" data-toc-slug="局限性" data-astro-cid-7jjqptxk>局限性</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#与其他论文对比" data-toc-slug="与其他论文对比" data-astro-cid-7jjqptxk>与其他论文对比</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#可借鉴点" data-toc-slug="可借鉴点" data-astro-cid-7jjqptxk>可借鉴点</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#-相关论文" data-toc-slug="-相关论文" data-astro-cid-7jjqptxk>📚 相关论文</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#-后续学习" data-toc-slug="-后续学习" data-astro-cid-7jjqptxk>💭 后续学习</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#️-关键词" data-toc-slug="️-关键词" data-astro-cid-7jjqptxk>🏷️ 关键词</a> </li> </ul> </nav> </div> </details> </div> <div class="px-4 py-4" data-astro-cid-7jjqptxk> <div class="prose prose-sm max-w-none" id="postContent" data-astro-cid-7jjqptxk> <h1 id="chain-of-event论文学习笔记">Chain-of-Event论文学习笔记</h1>
+<blockquote>
+<p><strong>论文</strong>: Chain-of-Event: Interpretable Root Cause Analysis for Microservices</p>
+<p><strong>学习日期</strong>: 2025年12月</p>
+</blockquote>
+<hr>
+<h2 id="-核心要点">📌 核心要点</h2>
+<h3 id="1-论文解决的问题">1. 论文解决的问题</h3>
+<p><strong>微服务RCA的三大挑战：</strong></p>
+<ol>
+<li><strong>多模态数据</strong>: 指标+日志+追踪需要统一处理</li>
+<li><strong>可解释性差</strong>: 深度学习模型是黑盒，SRE无法理解</li>
+<li><strong>手动配置多</strong>: 规则方法需要大量人工维护</li>
+</ol>
+<h3 id="2-核心创新">2. 核心创新</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>创新</th><th>描述</th><th>价值</th></tr></thead><tbody><tr><td><strong>事件驱动框架</strong></td><td>多模态→统一事件</td><td>兼容各类数据</td></tr><tr><td><strong>可解释参数</strong></td><td>因果概率+重要性</td><td>SRE可理解调优</td></tr><tr><td><strong>自动因果学习</strong></td><td>从历史数据学习</td><td>无需手动规则</td></tr></tbody></table>
+<hr>
+<h2 id="️-系统架构">🏗️ 系统架构</h2>
+<h3 id="事件转换流程">事件转换流程</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>指标数据 ─→ 异常检测 ─→ [High CPU, High Memory, ...]</span></span>
+<span class="line"><span>                          ↓</span></span>
+<span class="line"><span>日志数据 ─→ 关键词解析 ─→ [Exception, Error, Warning, ...]</span></span>
+<span class="line"><span>                          ↓</span></span>
+<span class="line"><span>追踪数据 ─→ 异常span检测 ─→ [Timeout, Error Response, ...]</span></span>
+<span class="line"><span>                          ↓</span></span>
+<span class="line"><span>操作记录 ─→ 直接转换 ─→ [Deployment, Scaling, ...]</span></span>
+<span class="line"><span>                          ↓</span></span>
+<span class="line"><span>                   统一事件表示</span></span></code></pre>
+<h3 id="因果图结构">因果图结构</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>     Deployment</span></span>
+<span class="line"><span>         ↓ (0.72)</span></span>
+<span class="line"><span>     High CPU ──(0.65)──→ High Memory</span></span>
+<span class="line"><span>         ↓ (0.81)</span></span>
+<span class="line"><span>     Service Timeout</span></span>
+<span class="line"><span>         ↓ (0.45)</span></span>
+<span class="line"><span>     Client Error</span></span></code></pre>
+<p><strong>边权重</strong>: P(child | parent) = 父事件引发子事件的概率</p>
+<hr>
+<h2 id="-关键技术细节">💡 关键技术细节</h2>
+<h3 id="1-参数的物理意义">1. 参数的物理意义</h3>
+<p><strong>因果概率 P(e_j | e_i)</strong>:</p>
+<ul>
+<li>含义: 事件i发生后事件j发生的条件概率</li>
+<li>例如: P(High CPU | Deployment) = 0.72</li>
+<li>SRE理解: “部署后CPU飙高的可能性是72%”</li>
+</ul>
+<p><strong>事件重要性 Importance(e)</strong>:</p>
+<ul>
+<li>含义: 事件在系统故障传播中的关键程度</li>
+<li>例如: I(Database Error) = 0.95</li>
+<li>SRE理解: “数据库错误是非常关键的事件”</li>
+</ul>
+<h3 id="2-因果概率学习">2. 因果概率学习</h3>
+<p><strong>从历史数据统计</strong>:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>给定历史故障案例集合 D:</span></span>
+<span class="line"><span>for each case in D:</span></span>
+<span class="line"><span>    提取发生的事件序列</span></span>
+<span class="line"><span>    统计事件对 (e_i, e_j) 的共现次数</span></span>
+<span class="line"><span>    </span></span>
+<span class="line"><span>P(e_j | e_i) = Count(e_i → e_j) / Count(e_i)</span></span></code></pre>
+<p><strong>过滤低概率边</strong>:</p>
+<ul>
+<li>设置阈值 θ</li>
+<li>移除 P &#x3C; θ 的边</li>
+<li>保持图的稀疏性</li>
+</ul>
+<h3 id="3-重要性学习类pagerank">3. 重要性学习（类PageRank）</h3>
+<p><strong>迭代计算</strong>:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>I(e) = (1-d) + d × Σ P(e|e') × I(e')</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>d: 阻尼系数 (如0.85)</span></span></code></pre>
+<p><strong>含义</strong>: 被更多重要事件影响的事件更重要</p>
+<h3 id="4-根因概率计算">4. 根因概率计算</h3>
+<p><strong>问题</strong>: 需要枚举所有可能的事件链</p>
+<p><strong>近似方法</strong>:</p>
+<ol>
+<li>只考虑概率>阈值的链</li>
+<li>深度优先搜索高概率路径</li>
+<li>提供误差理论上界</li>
+</ol>
+<hr>
+<h2 id="-实验亮点">📊 实验亮点</h2>
+<h3 id="核心数据">核心数据</h3>
+<p><strong>服务级数据集（5000+服务）</strong>:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>方法</th><th>Top-1</th><th>Top-3</th></tr></thead><tbody><tr><td>MicroRCA</td><td>52.3%</td><td>71.2%</td></tr><tr><td>Nezha</td><td>65.2%</td><td>85.7%</td></tr><tr><td><strong>CoE</strong></td><td><strong>79.3%</strong></td><td><strong>98.8%</strong></td></tr></tbody></table>
+<h3 id="人类知识集成效果">人类知识集成效果</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>配置</th><th>Top-1准确率</th></tr></thead><tbody><tr><td>自动学习</td><td>79.3%</td></tr><tr><td>+SRE调优</td><td>84.5%</td></tr></tbody></table>
+<p><strong>提升</strong>: +5.2%，证明参数对齐人类知识有价值</p>
+<h3 id="可解释性优势">可解释性优势</h3>
+<p>SRE评价:</p>
+<ul>
+<li>“因果概率直接对应我们的经验判断”</li>
+<li>“可以快速定位需要调整的参数”</li>
+<li>“比黑盒模型更有信任度”</li>
+</ul>
+<hr>
+<h2 id="-个人思考">🔍 个人思考</h2>
+<h3 id="优势">优势</h3>
+<ol>
+<li><strong>可解释性极强</strong>: 参数有直接物理意义</li>
+<li><strong>SRE友好</strong>: 非AI背景也能理解和调优</li>
+<li><strong>实际验证</strong>: Top-5电商系统实测98.8%</li>
+<li><strong>理论严谨</strong>: 近似算法有误差保证</li>
+</ol>
+<h3 id="局限性">局限性</h3>
+<ol>
+<li><strong>事件定义</strong>: 需要预定义事件类型</li>
+<li><strong>冷启动</strong>: 新系统缺乏历史数据</li>
+<li><strong>时序关系</strong>: 可能忽略复杂的时间依赖</li>
+<li><strong>因果假设</strong>: 假设因果关系是稳定的</li>
+</ol>
+<h3 id="与其他论文对比">与其他论文对比</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>维度</th><th>CoE</th><th>TAMO</th><th>mABC</th></tr></thead><tbody><tr><td>核心技术</td><td>因果图学习</td><td>扩散模型</td><td>投票验证</td></tr><tr><td>可解释性</td><td>很高</td><td>中</td><td>中</td></tr><tr><td>数据处理</td><td>事件抽象</td><td>特征融合</td><td>原始数据</td></tr><tr><td>人类参与</td><td>可调优</td><td>仅使用</td><td>仅使用</td></tr></tbody></table>
+<h3 id="可借鉴点">可借鉴点</h3>
+<ol>
+<li><strong>事件抽象</strong>: 多模态→统一表示的有效方法</li>
+<li><strong>参数意义</strong>: 设计参数时考虑物理含义</li>
+<li><strong>知识集成</strong>: 允许人类专家参与调优</li>
+<li><strong>PageRank思想</strong>: 重要性传播的经典方法</li>
+</ol>
+<hr>
+<h2 id="-相关论文">📚 相关论文</h2>
+<ul>
+<li><strong>Groot</strong>: 手动规则的事件因果图</li>
+<li><strong>Nezha</strong>: 事件模式频率方法</li>
+<li><strong>Eadro</strong>: 深度学习多模态融合</li>
+<li><strong>PDiagnose</strong>: 阈值检测方法</li>
+</ul>
+<hr>
+<h2 id="-后续学习">💭 后续学习</h2>
+<ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" disabled> 深入研究因果发现算法</li>
+<li class="task-list-item"><input type="checkbox" disabled> 了解事件定义的最佳实践</li>
+<li class="task-list-item"><input type="checkbox" disabled> 探索动态因果关系的学习方法</li>
+<li class="task-list-item"><input type="checkbox" disabled> 研究如何处理因果关系的时变性</li>
+</ul>
+<hr>
+<h2 id="️-关键词">🏷️ 关键词</h2>
+<p><code>事件因果图</code> <code>可解释性</code> <code>PageRank</code> <code>多模态</code> <code>自动学习</code> <code>SRE友好</code></p> </div> </div> </div> </article> <aside class="hidden lg:block" data-astro-cid-7jjqptxk> <div class="gh-card border-default sticky top-16 px-4 py-3" data-astro-cid-7jjqptxk> <div class="text-[12px] font-semibold fg-default" data-astro-cid-7jjqptxk>目录</div> <nav class="mt-2" aria-label="目录" data-astro-cid-7jjqptxk> <ul class="space-y-1 text-[13px]" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#-核心要点" data-toc-slug="-核心要点" data-astro-cid-7jjqptxk>📌 核心要点</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#1-论文解决的问题" data-toc-slug="1-论文解决的问题" data-astro-cid-7jjqptxk>1. 论文解决的问题</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#2-核心创新" data-toc-slug="2-核心创新" data-astro-cid-7jjqptxk>2. 核心创新</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#️-系统架构" data-toc-slug="️-系统架构" data-astro-cid-7jjqptxk>🏗️ 系统架构</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#事件转换流程" data-toc-slug="事件转换流程" data-astro-cid-7jjqptxk>事件转换流程</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#因果图结构" data-toc-slug="因果图结构" data-astro-cid-7jjqptxk>因果图结构</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#-关键技术细节" data-toc-slug="-关键技术细节" data-astro-cid-7jjqptxk>💡 关键技术细节</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#1-参数的物理意义" data-toc-slug="1-参数的物理意义" data-astro-cid-7jjqptxk>1. 参数的物理意义</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#2-因果概率学习" data-toc-slug="2-因果概率学习" data-astro-cid-7jjqptxk>2. 因果概率学习</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#3-重要性学习类pagerank" data-toc-slug="3-重要性学习类pagerank" data-astro-cid-7jjqptxk>3. 重要性学习（类PageRank）</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#4-根因概率计算" data-toc-slug="4-根因概率计算" data-astro-cid-7jjqptxk>4. 根因概率计算</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#-实验亮点" data-toc-slug="-实验亮点" data-astro-cid-7jjqptxk>📊 实验亮点</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#核心数据" data-toc-slug="核心数据" data-astro-cid-7jjqptxk>核心数据</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#人类知识集成效果" data-toc-slug="人类知识集成效果" data-astro-cid-7jjqptxk>人类知识集成效果</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#可解释性优势" data-toc-slug="可解释性优势" data-astro-cid-7jjqptxk>可解释性优势</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#-个人思考" data-toc-slug="-个人思考" data-astro-cid-7jjqptxk>🔍 个人思考</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#优势" data-toc-slug="优势" data-astro-cid-7jjqptxk>优势</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#局限性" data-toc-slug="局限性" data-astro-cid-7jjqptxk>局限性</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#与其他论文对比" data-toc-slug="与其他论文对比" data-astro-cid-7jjqptxk>与其他论文对比</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#可借鉴点" data-toc-slug="可借鉴点" data-astro-cid-7jjqptxk>可借鉴点</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#-相关论文" data-toc-slug="-相关论文" data-astro-cid-7jjqptxk>📚 相关论文</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#-后续学习" data-toc-slug="-后续学习" data-astro-cid-7jjqptxk>💭 后续学习</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#️-关键词" data-toc-slug="️-关键词" data-astro-cid-7jjqptxk>🏷️ 关键词</a> </li> </ul> </nav> </div> </aside> </div> <button id="backToTop" class="back-to-top" type="button" aria-label="回到顶部" hidden data-astro-cid-7jjqptxk>
+↑
+</button> <script type="module">(function(){const s=document.getElementById("postContent");if(!s)return;const l=Array.from(document.querySelectorAll("a.toc-link")),r=new Map;l.forEach(t=>{const e=t.getAttribute("data-toc-slug");if(!e)return;const n=r.get(e)||[];n.push(t),r.set(e,n)});const c=Array.from(s.querySelectorAll("h2[id], h3[id]"));function a(t){if(l.forEach(n=>n.removeAttribute("aria-current")),!t)return;const e=r.get(t);e&&e.forEach(n=>n.setAttribute("aria-current","true"))}function f(){if(!c.length)return"";const t=120;for(let e=c.length-1;e>=0;e--){const n=c[e];if(n.getBoundingClientRect().top<=t)return n.id||""}return c[0].id||""}let d=!1;function i(){d||(d=!0,window.requestAnimationFrame(()=>{d=!1;const t=(location.hash||"").replace(/^#/,"");if(t&&r.has(t)){a(t);return}a(f())}))}window.addEventListener("scroll",i,{passive:!0}),window.addEventListener("resize",i),window.addEventListener("hashchange",i),l.forEach(t=>t.addEventListener("click",()=>{const e=t.getAttribute("data-toc-slug")||"";a(e)})),i();const u=document.getElementById("backToTop");if(u){const t=()=>{const e=window.scrollY||document.documentElement.scrollTop||0;u.hidden=e<320};window.addEventListener("scroll",t,{passive:!0}),t(),u.addEventListener("click",()=>{window.scrollTo({top:0,behavior:"smooth"})})}s.querySelectorAll("pre > code").forEach(t=>{const e=t.parentElement;if(!e||e.querySelector(".copy-btn"))return;e.style.position="relative";const n=document.createElement("button");n.type="button",n.className="copy-btn",n.textContent="复制",n.addEventListener("click",async()=>{const m=t.textContent||"";try{await navigator.clipboard.writeText(m),n.textContent="已复制",window.setTimeout(()=>n.textContent="复制",900)}catch{const o=document.createElement("textarea");o.value=m,o.style.position="fixed",o.style.opacity="0",document.body.appendChild(o),o.select(),document.execCommand("copy"),document.body.removeChild(o),n.textContent="已复制",window.setTimeout(()=>n.textContent="复制",900)}}),e.appendChild(n)})})();</script>   </main> <footer class="border-t py-6 text-[13px]" style="border-color: var(--border-default); color: var(--fg-muted)"> <div class="gh-container flex items-center justify-between"> <p>© 2026 · Built with Astro</p> <p style="color: var(--fg-muted)">Zhejiang University · CS</p> </div> </footer> </body></html>

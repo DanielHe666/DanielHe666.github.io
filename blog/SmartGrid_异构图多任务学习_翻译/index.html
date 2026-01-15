@@ -1,0 +1,308 @@
+<!DOCTYPE html><html lang="zh-CN" class="h-full"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="generator" content="Astro v5.16.9"><title>异构图多任务学习用于智能电网故障事件诊断 · 个人博客</title><meta name="description" content="本文提出一种基于异构图多任务学习的图神经网络架构，用于智能电网故障诊断。该模型能同时处理故障检测、定位、类型分类及电阻电流估计等多个任务，有效融合电网拓扑与电气数据。"><meta property="og:title" content="异构图多任务学习用于智能电网故障事件诊断 · 个人博客"><meta property="og:description" content="本文提出一种基于异构图多任务学习的图神经网络架构，用于智能电网故障诊断。该模型能同时处理故障检测、定位、类型分类及电阻电流估计等多个任务，有效融合电网拓扑与电气数据。"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="stylesheet" href="/_astro/_slug_.1UaX29b_.css">
+<style>.copy-btn[data-astro-cid-7jjqptxk]{position:absolute;top:8px;right:8px;padding:4px 8px;font-size:12px;border-radius:6px;border:1px solid var(--border-default);background:color-mix(in srgb,var(--canvas-default) 80%,var(--canvas-subtle));color:var(--fg-default);cursor:pointer}.copy-btn[data-astro-cid-7jjqptxk]:hover{background:color-mix(in srgb,var(--canvas-default) 65%,var(--canvas-subtle))}.copy-btn[data-astro-cid-7jjqptxk]:focus-visible{outline:2px solid color-mix(in srgb,var(--accent-emphasis) 55%,transparent);outline-offset:2px}a[data-astro-cid-7jjqptxk].toc-link[aria-current=true]{color:var(--fg-default);font-weight:600;text-decoration:none}.back-to-top[data-astro-cid-7jjqptxk]{position:fixed;right:18px;bottom:18px;width:36px;height:36px;border-radius:999px;border:1px solid var(--border-default);background:color-mix(in srgb,var(--canvas-default) 80%,var(--canvas-subtle));color:var(--fg-default);cursor:pointer;z-index:40}.back-to-top[data-astro-cid-7jjqptxk]:hover{background:color-mix(in srgb,var(--canvas-default) 65%,var(--canvas-subtle))}.back-to-top[data-astro-cid-7jjqptxk]:focus-visible{outline:2px solid color-mix(in srgb,var(--accent-emphasis) 55%,transparent);outline-offset:2px}
+</style></head> <body class="min-h-full antialiased"> <header class="sticky top-0 z-50 border-b" style="border-color: var(--border-default); background: var(--canvas-subtle)" data-astro-cid-dmqpwcec> <div class="gh-container flex h-12 items-center justify-between" data-astro-cid-dmqpwcec> <a href="/" class="flex items-center gap-2 text-[13px] font-semibold fg-default" data-astro-cid-dmqpwcec> <span class="inline-flex h-7 items-center rounded-md px-2" style="background: var(--fg-default); color: var(--canvas-default)" data-astro-cid-dmqpwcec>HCY</span> <span class="fg-muted" data-astro-cid-dmqpwcec>Blog</span> </a> <nav class="flex items-center gap-1 text-[13px]" data-astro-cid-dmqpwcec> <a href="/blog/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> 文章 </a><a href="/search/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> 搜索 </a><a href="/projects/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> 项目 </a><a href="/reading/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> Reading </a> <a href="https://github.com/ChenyuHeee" target="_blank" rel="noreferrer" class="ml-1 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec>
+GitHub
+</a> </nav> </div> </header>  <main class="gh-container py-6">  <div class="mx-auto max-w-[1040px] grid gap-6 lg:grid-cols-[1fr_280px]" data-astro-cid-7jjqptxk> <article class="min-w-0" data-astro-cid-7jjqptxk> <div class="gh-card overflow-hidden" style="border-color: var(--border-default)" data-astro-cid-7jjqptxk> <header class="border-b px-4 py-4" style="border-color: var(--border-default)" data-astro-cid-7jjqptxk> <h1 class="text-2xl font-semibold tracking-tight" style="color: var(--fg-default)" data-astro-cid-7jjqptxk>异构图多任务学习用于智能电网故障事件诊断</h1> <div class="mt-2 flex flex-wrap items-center gap-x-4 gap-y-2 text-[12px]" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <time datetime="2026-01-15T09:21:40.553Z" data-astro-cid-7jjqptxk>2026-01-15</time> <div class="flex flex-wrap gap-2" data-astro-cid-7jjqptxk> <span class="gh-pill" data-astro-cid-7jjqptxk>AIOPS</span><span class="gh-pill" data-astro-cid-7jjqptxk>论文</span><span class="gh-pill" data-astro-cid-7jjqptxk>学习</span> </div> </div> <p class="mt-2 text-[13px]" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk>本文提出一种基于异构图多任务学习的图神经网络架构，用于智能电网故障诊断。该模型能同时处理故障检测、定位、类型分类及电阻电流估计等多个任务，有效融合电网拓扑与电气数据。</p> </header> <div class="border-b px-4 py-3 lg:hidden" style="border-color: var(--border-default)" data-astro-cid-7jjqptxk> <details data-astro-cid-7jjqptxk> <summary class="cursor-pointer text-[13px] font-semibold fg-default" data-astro-cid-7jjqptxk>目录</summary> <div class="mt-2" data-astro-cid-7jjqptxk> <nav aria-label="目录" data-astro-cid-7jjqptxk> <ul class="space-y-1 text-[13px]" data-astro-cid-7jjqptxk> <li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#摘要" data-toc-slug="摘要" data-astro-cid-7jjqptxk>摘要</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#1-问题背景" data-toc-slug="1-问题背景" data-astro-cid-7jjqptxk>1. 问题背景</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#11-智能电网故障诊断的重要性" data-toc-slug="11-智能电网故障诊断的重要性" data-astro-cid-7jjqptxk>1.1 智能电网故障诊断的重要性</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#12-故障类型" data-toc-slug="12-故障类型" data-astro-cid-7jjqptxk>1.2 故障类型</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#13-现有方法的局限性" data-toc-slug="13-现有方法的局限性" data-astro-cid-7jjqptxk>1.3 现有方法的局限性</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#2-系统架构" data-toc-slug="2-系统架构" data-astro-cid-7jjqptxk>2. 系统架构</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#21-异构多任务学习框架" data-toc-slug="21-异构多任务学习框架" data-astro-cid-7jjqptxk>2.1 异构多任务学习框架</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#22-五个任务" data-toc-slug="22-五个任务" data-astro-cid-7jjqptxk>2.2 五个任务</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#23-异构性" data-toc-slug="23-异构性" data-astro-cid-7jjqptxk>2.3 异构性</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#3-核心技术" data-toc-slug="3-核心技术" data-astro-cid-7jjqptxk>3. 核心技术</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#31-图结构表示" data-toc-slug="31-图结构表示" data-astro-cid-7jjqptxk>3.1 图结构表示</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#32-gnn消息传递" data-toc-slug="32-gnn消息传递" data-astro-cid-7jjqptxk>3.2 GNN消息传递</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#33-多任务学习" data-toc-slug="33-多任务学习" data-astro-cid-7jjqptxk>3.3 多任务学习</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#4-实验" data-toc-slug="4-实验" data-astro-cid-7jjqptxk>4. 实验</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#41-测试系统" data-toc-slug="41-测试系统" data-astro-cid-7jjqptxk>4.1 测试系统</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#42-考虑的实际挑战" data-toc-slug="42-考虑的实际挑战" data-astro-cid-7jjqptxk>4.2 考虑的实际挑战</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#43-主要结果" data-toc-slug="43-主要结果" data-astro-cid-7jjqptxk>4.3 主要结果</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#5-与aiops的关联" data-toc-slug="5-与aiops的关联" data-astro-cid-7jjqptxk>5. 与AIOps的关联</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#51-技术借鉴" data-toc-slug="51-技术借鉴" data-astro-cid-7jjqptxk>5.1 技术借鉴</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#52-潜在应用" data-toc-slug="52-潜在应用" data-astro-cid-7jjqptxk>5.2 潜在应用</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#6-结论" data-toc-slug="6-结论" data-astro-cid-7jjqptxk>6. 结论</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#附录关键公式" data-toc-slug="附录关键公式" data-astro-cid-7jjqptxk>附录：关键公式</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#多任务损失" data-toc-slug="多任务损失" data-astro-cid-7jjqptxk>多任务损失</a> </li> </ul> </nav> </div> </details> </div> <div class="px-4 py-4" data-astro-cid-7jjqptxk> <div class="prose prose-sm max-w-none" id="postContent" data-astro-cid-7jjqptxk> <h1 id="异构图多任务学习用于智能电网故障事件诊断">异构图多任务学习用于智能电网故障事件诊断</h1>
+<blockquote>
+<p><strong>原文标题</strong>: A Heterogeneous Graph-Based Multi-Task Learning for Fault Event Diagnosis in Smart Grid</p>
+<p><strong>来源</strong>: IEEE Transactions on Power Systems (2024)</p>
+<p><strong>关键词</strong>: 智能电网、图神经网络、多任务学习、故障诊断</p>
+</blockquote>
+<hr>
+<h2 id="摘要">摘要</h2>
+<p>智能电网中的故障诊断需要同时完成多个任务：故障检测、故障定位、故障类型分类、故障电阻估计和故障电流估计。本文提出**异构多任务学习GNN (MTL-GNN)**架构，同时执行分类和回归任务，解决实际部署中的挑战。</p>
+<hr>
+<h2 id="1-问题背景">1. 问题背景</h2>
+<h3 id="11-智能电网故障诊断的重要性">1.1 智能电网故障诊断的重要性</h3>
+<ul>
+<li>故障期间错误操作可导致级联停电</li>
+<li>需要准确识别故障位置和类型</li>
+<li>故障电阻和电流信息用于安全措施</li>
+</ul>
+<h3 id="12-故障类型">1.2 故障类型</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>类型</th><th>缩写</th><th>描述</th></tr></thead><tbody><tr><td>单相接地</td><td>LG</td><td>Line-to-Ground</td></tr><tr><td>相间短路</td><td>LL</td><td>Line-to-Line</td></tr><tr><td>两相接地</td><td>LLG</td><td>Line-to-Line-to-Ground</td></tr><tr><td>三相接地</td><td>LLLG</td><td>Line-to-Line-to-Line-to-Ground</td></tr><tr><td>三相短路</td><td>LLL</td><td>Line-to-Line-to-Line</td></tr></tbody></table>
+<h3 id="13-现有方法的局限性">1.3 现有方法的局限性</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>类别</th><th>方法</th><th>局限性</th></tr></thead><tbody><tr><td>传统方法</td><td>行波法、阻抗法</td><td>需要特殊设备</td></tr><tr><td>CNN/MLP</td><td>单任务学习</td><td>任务耦合，效率低</td></tr><tr><td>现有GNN</td><td>单一故障类型</td><td>不够全面</td></tr></tbody></table>
+<hr>
+<h2 id="2-系统架构">2. 系统架构</h2>
+<h3 id="21-异构多任务学习框架">2.1 异构多任务学习框架</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>┌──────────────────────────────────────────────────────────────┐</span></span>
+<span class="line"><span>│                    MTL-GNN Architecture                       │</span></span>
+<span class="line"><span>├──────────────────────────────────────────────────────────────┤</span></span>
+<span class="line"><span>│                                                               │</span></span>
+<span class="line"><span>│  输入: 电网拓扑图 + 电压/电流测量                              │</span></span>
+<span class="line"><span>│         ↓                                                     │</span></span>
+<span class="line"><span>│  ┌─────────────────────────────────────────────────────────┐ │</span></span>
+<span class="line"><span>│  │  GNN Backbone (共享特征提取)                             │ │</span></span>
+<span class="line"><span>│  │                                                          │ │</span></span>
+<span class="line"><span>│  │  节点特征: 电压/电流相量                                  │ │</span></span>
+<span class="line"><span>│  │  边特征: 阻抗、导纳参数                                   │ │</span></span>
+<span class="line"><span>│  └─────────────────────────────────────────────────────────┘ │</span></span>
+<span class="line"><span>│                              ↓                                │</span></span>
+<span class="line"><span>│  ┌─────────────────┬─────────────────┬─────────────────────┐ │</span></span>
+<span class="line"><span>│  │  分类头         │  分类头         │  回归头              │ │</span></span>
+<span class="line"><span>│  │                 │                 │                      │ │</span></span>
+<span class="line"><span>│  │  故障检测       │  故障类型       │  故障电阻/电流       │ │</span></span>
+<span class="line"><span>│  │  故障定位       │  分类           │  估计                │ │</span></span>
+<span class="line"><span>│  └─────────────────┴─────────────────┴─────────────────────┘ │</span></span>
+<span class="line"><span>│                                                               │</span></span>
+<span class="line"><span>└──────────────────────────────────────────────────────────────┘</span></span></code></pre>
+<h3 id="22-五个任务">2.2 五个任务</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>任务</th><th>类型</th><th>输出</th></tr></thead><tbody><tr><td>故障检测</td><td>二分类</td><td>有/无故障</td></tr><tr><td>故障定位</td><td>多分类</td><td>故障节点</td></tr><tr><td>故障类型</td><td>多分类</td><td>LG/LL/LLG/LLLG/LLL</td></tr><tr><td>故障电阻</td><td>回归</td><td>电阻值(Ω)</td></tr><tr><td>故障电流</td><td>回归</td><td>电流值(A)</td></tr></tbody></table>
+<h3 id="23-异构性">2.3 异构性</h3>
+<p><strong>异构体现</strong>:</p>
+<ul>
+<li>任务类型异构：分类+回归</li>
+<li>节点类型异构：不同类型的电气设备</li>
+<li>边类型异构：不同类型的连接</li>
+</ul>
+<hr>
+<h2 id="3-核心技术">3. 核心技术</h2>
+<h3 id="31-图结构表示">3.1 图结构表示</h3>
+<p><strong>节点</strong>: 配电系统中的母线
+<strong>边</strong>: 配电线路</p>
+<p><strong>节点特征</strong>:</p>
+<ul>
+<li>电压幅值</li>
+<li>电压相角</li>
+<li>电流测量值</li>
+</ul>
+<p><strong>边特征</strong>:</p>
+<ul>
+<li>线路阻抗</li>
+<li>线路导纳</li>
+<li>调节参数</li>
+</ul>
+<h3 id="32-gnn消息传递">3.2 GNN消息传递</h3>
+<p><strong>聚合公式</strong>:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>h_v^(l+1) = σ(W × AGG({h_u^(l) : u ∈ N(v)}))</span></span></code></pre>
+<h3 id="33-多任务学习">3.3 多任务学习</h3>
+<p><strong>损失函数</strong>:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>L_total = λ_1 × L_detection + λ_2 × L_localization + </span></span>
+<span class="line"><span>          λ_3 × L_classification + λ_4 × L_resistance + </span></span>
+<span class="line"><span>          λ_5 × L_current</span></span></code></pre>
+<p><strong>分类任务</strong>: 交叉熵损失
+<strong>回归任务</strong>: MSE损失</p>
+<hr>
+<h2 id="4-实验">4. 实验</h2>
+<h3 id="41-测试系统">4.1 测试系统</h3>
+<ul>
+<li>IEEE-13母线系统</li>
+<li>IEEE-37母线系统</li>
+<li>IEEE-123母线系统</li>
+</ul>
+<h3 id="42-考虑的实际挑战">4.2 考虑的实际挑战</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>挑战</th><th>处理方式</th></tr></thead><tbody><tr><td>测量误差</td><td>添加噪声训练</td></tr><tr><td>可变故障电阻</td><td>范围内随机采样</td></tr><tr><td>小数据集</td><td>数据增强</td></tr><tr><td>拓扑变化</td><td>多拓扑训练</td></tr><tr><td>稀疏测量</td><td>部分可观测设置</td></tr></tbody></table>
+<h3 id="43-主要结果">4.3 主要结果</h3>
+<p><strong>故障定位准确率</strong>:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>方法</th><th>IEEE-13</th><th>IEEE-37</th><th>IEEE-123</th></tr></thead><tbody><tr><td>MLP</td><td>85.2%</td><td>78.6%</td><td>72.3%</td></tr><tr><td>CNN</td><td>88.5%</td><td>82.1%</td><td>76.8%</td></tr><tr><td>单任务GNN</td><td>92.3%</td><td>88.7%</td><td>84.5%</td></tr><tr><td><strong>MTL-GNN</strong></td><td><strong>96.8%</strong></td><td><strong>94.2%</strong></td><td><strong>91.3%</strong></td></tr></tbody></table>
+<p><strong>故障电阻估计RMSE</strong>:
+MTL-GNN显著优于单任务方法</p>
+<hr>
+<h2 id="5-与aiops的关联">5. 与AIOps的关联</h2>
+<h3 id="51-技术借鉴">5.1 技术借鉴</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>技术</th><th>AIOps应用</th></tr></thead><tbody><tr><td>异构图建模</td><td>异构运维数据融合</td></tr><tr><td>多任务学习</td><td>同时检测定位分类</td></tr><tr><td>图结构</td><td>服务依赖关系</td></tr></tbody></table>
+<h3 id="52-潜在应用">5.2 潜在应用</h3>
+<ul>
+<li><strong>微服务故障诊断</strong>: 类似的多任务框架</li>
+<li><strong>网络故障定位</strong>: 图结构天然适用</li>
+<li><strong>异常根因分析</strong>: 多目标同时优化</li>
+</ul>
+<hr>
+<h2 id="6-结论">6. 结论</h2>
+<p>MTL-GNN通过异构多任务学习有效解决了智能电网故障诊断问题：</p>
+<ol>
+<li>同时处理分类和回归任务</li>
+<li>GNN有效建模电网拓扑</li>
+<li>解决实际部署中的多种挑战</li>
+</ol>
+<p>为基础设施故障诊断提供了通用的技术方案。</p>
+<hr>
+<h2 id="附录关键公式">附录：关键公式</h2>
+<h3 id="多任务损失">多任务损失</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>L = Σ_i λ_i × L_i</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>分类: L_cls = -Σ y_i log(ŷ_i)</span></span>
+<span class="line"><span>回归: L_reg = (1/n) Σ (y_i - ŷ_i)²</span></span></code></pre> </div> </div> </div> </article> <aside class="hidden lg:block" data-astro-cid-7jjqptxk> <div class="gh-card border-default sticky top-16 px-4 py-3" data-astro-cid-7jjqptxk> <div class="text-[12px] font-semibold fg-default" data-astro-cid-7jjqptxk>目录</div> <nav class="mt-2" aria-label="目录" data-astro-cid-7jjqptxk> <ul class="space-y-1 text-[13px]" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#摘要" data-toc-slug="摘要" data-astro-cid-7jjqptxk>摘要</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#1-问题背景" data-toc-slug="1-问题背景" data-astro-cid-7jjqptxk>1. 问题背景</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#11-智能电网故障诊断的重要性" data-toc-slug="11-智能电网故障诊断的重要性" data-astro-cid-7jjqptxk>1.1 智能电网故障诊断的重要性</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#12-故障类型" data-toc-slug="12-故障类型" data-astro-cid-7jjqptxk>1.2 故障类型</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#13-现有方法的局限性" data-toc-slug="13-现有方法的局限性" data-astro-cid-7jjqptxk>1.3 现有方法的局限性</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#2-系统架构" data-toc-slug="2-系统架构" data-astro-cid-7jjqptxk>2. 系统架构</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#21-异构多任务学习框架" data-toc-slug="21-异构多任务学习框架" data-astro-cid-7jjqptxk>2.1 异构多任务学习框架</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#22-五个任务" data-toc-slug="22-五个任务" data-astro-cid-7jjqptxk>2.2 五个任务</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#23-异构性" data-toc-slug="23-异构性" data-astro-cid-7jjqptxk>2.3 异构性</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#3-核心技术" data-toc-slug="3-核心技术" data-astro-cid-7jjqptxk>3. 核心技术</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#31-图结构表示" data-toc-slug="31-图结构表示" data-astro-cid-7jjqptxk>3.1 图结构表示</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#32-gnn消息传递" data-toc-slug="32-gnn消息传递" data-astro-cid-7jjqptxk>3.2 GNN消息传递</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#33-多任务学习" data-toc-slug="33-多任务学习" data-astro-cid-7jjqptxk>3.3 多任务学习</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#4-实验" data-toc-slug="4-实验" data-astro-cid-7jjqptxk>4. 实验</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#41-测试系统" data-toc-slug="41-测试系统" data-astro-cid-7jjqptxk>4.1 测试系统</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#42-考虑的实际挑战" data-toc-slug="42-考虑的实际挑战" data-astro-cid-7jjqptxk>4.2 考虑的实际挑战</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#43-主要结果" data-toc-slug="43-主要结果" data-astro-cid-7jjqptxk>4.3 主要结果</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#5-与aiops的关联" data-toc-slug="5-与aiops的关联" data-astro-cid-7jjqptxk>5. 与AIOps的关联</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#51-技术借鉴" data-toc-slug="51-技术借鉴" data-astro-cid-7jjqptxk>5.1 技术借鉴</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#52-潜在应用" data-toc-slug="52-潜在应用" data-astro-cid-7jjqptxk>5.2 潜在应用</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#6-结论" data-toc-slug="6-结论" data-astro-cid-7jjqptxk>6. 结论</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#附录关键公式" data-toc-slug="附录关键公式" data-astro-cid-7jjqptxk>附录：关键公式</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#多任务损失" data-toc-slug="多任务损失" data-astro-cid-7jjqptxk>多任务损失</a> </li> </ul> </nav> </div> </aside> </div> <button id="backToTop" class="back-to-top" type="button" aria-label="回到顶部" hidden data-astro-cid-7jjqptxk>
+↑
+</button> <script type="module">(function(){const s=document.getElementById("postContent");if(!s)return;const l=Array.from(document.querySelectorAll("a.toc-link")),r=new Map;l.forEach(t=>{const e=t.getAttribute("data-toc-slug");if(!e)return;const n=r.get(e)||[];n.push(t),r.set(e,n)});const c=Array.from(s.querySelectorAll("h2[id], h3[id]"));function a(t){if(l.forEach(n=>n.removeAttribute("aria-current")),!t)return;const e=r.get(t);e&&e.forEach(n=>n.setAttribute("aria-current","true"))}function f(){if(!c.length)return"";const t=120;for(let e=c.length-1;e>=0;e--){const n=c[e];if(n.getBoundingClientRect().top<=t)return n.id||""}return c[0].id||""}let d=!1;function i(){d||(d=!0,window.requestAnimationFrame(()=>{d=!1;const t=(location.hash||"").replace(/^#/,"");if(t&&r.has(t)){a(t);return}a(f())}))}window.addEventListener("scroll",i,{passive:!0}),window.addEventListener("resize",i),window.addEventListener("hashchange",i),l.forEach(t=>t.addEventListener("click",()=>{const e=t.getAttribute("data-toc-slug")||"";a(e)})),i();const u=document.getElementById("backToTop");if(u){const t=()=>{const e=window.scrollY||document.documentElement.scrollTop||0;u.hidden=e<320};window.addEventListener("scroll",t,{passive:!0}),t(),u.addEventListener("click",()=>{window.scrollTo({top:0,behavior:"smooth"})})}s.querySelectorAll("pre > code").forEach(t=>{const e=t.parentElement;if(!e||e.querySelector(".copy-btn"))return;e.style.position="relative";const n=document.createElement("button");n.type="button",n.className="copy-btn",n.textContent="复制",n.addEventListener("click",async()=>{const m=t.textContent||"";try{await navigator.clipboard.writeText(m),n.textContent="已复制",window.setTimeout(()=>n.textContent="复制",900)}catch{const o=document.createElement("textarea");o.value=m,o.style.position="fixed",o.style.opacity="0",document.body.appendChild(o),o.select(),document.execCommand("copy"),document.body.removeChild(o),n.textContent="已复制",window.setTimeout(()=>n.textContent="复制",900)}}),e.appendChild(n)})})();</script>   </main> <footer class="border-t py-6 text-[13px]" style="border-color: var(--border-default); color: var(--fg-muted)"> <div class="gh-container flex items-center justify-between"> <p>© 2026 · Built with Astro</p> <p style="color: var(--fg-muted)">Zhejiang University · CS</p> </div> </footer> </body></html>

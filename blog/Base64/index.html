@@ -1,0 +1,285 @@
+<!DOCTYPE html><html lang="zh-CN" class="h-full"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="generator" content="Astro v5.16.9"><title>Base64 · 个人博客</title><meta name="description" content="Base64是一种将二进制数据编码为64个可打印字符的方法，确保数据在文本协议传输中不被修改。文章通过传真发送图片的比喻解释了其必要性，并简述了编码原理：将二进制数据按3字节分组，转换为6比特单位后查表映射为字符。读者可掌握Base64的核心机制与适用场景，如电子邮件附件和网页资源嵌入，理解其虽非加密工具但能保障数据完整性，同时注意编码会导致数据体积增加约33%。"><meta property="og:title" content="Base64 · 个人博客"><meta property="og:description" content="Base64是一种将二进制数据编码为64个可打印字符的方法，确保数据在文本协议传输中不被修改。文章通过传真发送图片的比喻解释了其必要性，并简述了编码原理：将二进制数据按3字节分组，转换为6比特单位后查表映射为字符。读者可掌握Base64的核心机制与适用场景，如电子邮件附件和网页资源嵌入，理解其虽非加密工具但能保障数据完整性，同时注意编码会导致数据体积增加约33%。"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="stylesheet" href="/_astro/_slug_.1UaX29b_.css">
+<style>.copy-btn[data-astro-cid-7jjqptxk]{position:absolute;top:8px;right:8px;padding:4px 8px;font-size:12px;border-radius:6px;border:1px solid var(--border-default);background:color-mix(in srgb,var(--canvas-default) 80%,var(--canvas-subtle));color:var(--fg-default);cursor:pointer}.copy-btn[data-astro-cid-7jjqptxk]:hover{background:color-mix(in srgb,var(--canvas-default) 65%,var(--canvas-subtle))}.copy-btn[data-astro-cid-7jjqptxk]:focus-visible{outline:2px solid color-mix(in srgb,var(--accent-emphasis) 55%,transparent);outline-offset:2px}a[data-astro-cid-7jjqptxk].toc-link[aria-current=true]{color:var(--fg-default);font-weight:600;text-decoration:none}.back-to-top[data-astro-cid-7jjqptxk]{position:fixed;right:18px;bottom:18px;width:36px;height:36px;border-radius:999px;border:1px solid var(--border-default);background:color-mix(in srgb,var(--canvas-default) 80%,var(--canvas-subtle));color:var(--fg-default);cursor:pointer;z-index:40}.back-to-top[data-astro-cid-7jjqptxk]:hover{background:color-mix(in srgb,var(--canvas-default) 65%,var(--canvas-subtle))}.back-to-top[data-astro-cid-7jjqptxk]:focus-visible{outline:2px solid color-mix(in srgb,var(--accent-emphasis) 55%,transparent);outline-offset:2px}
+</style></head> <body class="min-h-full antialiased"> <header class="sticky top-0 z-50 border-b" style="border-color: var(--border-default); background: var(--canvas-subtle)" data-astro-cid-dmqpwcec> <div class="gh-container flex h-12 items-center justify-between" data-astro-cid-dmqpwcec> <a href="/" class="flex items-center gap-2 text-[13px] font-semibold fg-default" data-astro-cid-dmqpwcec> <span class="inline-flex h-7 items-center rounded-md px-2" style="background: var(--fg-default); color: var(--canvas-default)" data-astro-cid-dmqpwcec>HCY</span> <span class="fg-muted" data-astro-cid-dmqpwcec>Blog</span> </a> <nav class="flex items-center gap-1 text-[13px]" data-astro-cid-dmqpwcec> <a href="/blog/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> 文章 </a><a href="/search/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> 搜索 </a><a href="/projects/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> 项目 </a><a href="/reading/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> Reading </a> <a href="https://github.com/ChenyuHeee" target="_blank" rel="noreferrer" class="ml-1 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec>
+GitHub
+</a> </nav> </div> </header>  <main class="gh-container py-6">  <div class="mx-auto max-w-[1040px] grid gap-6 lg:grid-cols-[1fr_280px]" data-astro-cid-7jjqptxk> <article class="min-w-0" data-astro-cid-7jjqptxk> <div class="gh-card overflow-hidden" style="border-color: var(--border-default)" data-astro-cid-7jjqptxk> <header class="border-b px-4 py-4" style="border-color: var(--border-default)" data-astro-cid-7jjqptxk> <h1 class="text-2xl font-semibold tracking-tight" style="color: var(--fg-default)" data-astro-cid-7jjqptxk>Base64</h1> <div class="mt-2 flex flex-wrap items-center gap-x-4 gap-y-2 text-[12px]" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <time datetime="2026-01-15T09:21:40.554Z" data-astro-cid-7jjqptxk>2026-01-15</time> <div class="flex flex-wrap gap-2" data-astro-cid-7jjqptxk> <span class="gh-pill" data-astro-cid-7jjqptxk>知识积累</span> </div> </div> <p class="mt-2 text-[13px]" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk>Base64是一种将二进制数据编码为64个可打印字符的方法，确保数据在文本协议传输中不被修改。文章通过传真发送图片的比喻解释了其必要性，并简述了编码原理：将二进制数据按3字节分组，转换为6比特单位后查表映射为字符。读者可掌握Base64的核心机制与适用场景，如电子邮件附件和网页资源嵌入，理解其虽非加密工具但能保障数据完整性，同时注意编码会导致数据体积增加约33%。</p> </header> <div class="border-b px-4 py-3 lg:hidden" style="border-color: var(--border-default)" data-astro-cid-7jjqptxk> <details data-astro-cid-7jjqptxk> <summary class="cursor-pointer text-[13px] font-semibold fg-default" data-astro-cid-7jjqptxk>目录</summary> <div class="mt-2" data-astro-cid-7jjqptxk> <nav aria-label="目录" data-astro-cid-7jjqptxk> <ul class="space-y-1 text-[13px]" data-astro-cid-7jjqptxk> <li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#核心概念为什么需要-base64" data-toc-slug="核心概念为什么需要-base64" data-astro-cid-7jjqptxk>核心概念：为什么需要 Base64？</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#工作原理简单版" data-toc-slug="工作原理简单版" data-astro-cid-7jjqptxk>工作原理（简单版）</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#base64-索引表" data-toc-slug="base64-索引表" data-astro-cid-7jjqptxk>Base64 索引表</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#关于填充字符" data-toc-slug="关于填充字符" data-astro-cid-7jjqptxk>关于填充字符 =</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#一个具体的编码示例" data-toc-slug="一个具体的编码示例" data-astro-cid-7jjqptxk>一个具体的编码示例</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#主要特点" data-toc-slug="主要特点" data-astro-cid-7jjqptxk>主要特点</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#常见应用场景" data-toc-slug="常见应用场景" data-astro-cid-7jjqptxk>常见应用场景</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#总结" data-toc-slug="总结" data-astro-cid-7jjqptxk>总结</a> </li> </ul> </nav> </div> </details> </div> <div class="px-4 py-4" data-astro-cid-7jjqptxk> <div class="prose prose-sm max-w-none" id="postContent" data-astro-cid-7jjqptxk> <h1 id="base64">Base64</h1>
+<p><strong>Base64</strong> 是一种用 <strong>64 个可打印字符</strong> 来<strong>表示二进制数据</strong>的编码方法。</p>
+<p>它的核心目的是：<strong>确保二进制数据在传输过程中（特别是通过文本协议）不会被修改。</strong></p>
+<hr>
+<h3 id="核心概念为什么需要-base64">核心概念：为什么需要 Base64？</h3>
+<p>想象一下，你需要通过<strong>传真</strong>（一种只能传文字和简单图形的旧设备）来发送一张图片的原始数据。</p>
+<ol>
+<li><strong>问题</strong>： 图片、音频、文件等都是二进制数据（包含很多不可见的、特殊的控制字符）。而很多传统的传输系统（如早期的电子邮件）是专门为<strong>文本</strong>设计的。这些系统看到二进制数据中的特殊字符时，可能会误解为控制命令（如换行符、结束符），从而导致数据被错误处理或损坏。</li>
+<li><strong>解决方案</strong>： Base64 登场。它充当了一个“翻译官”，将原始的、不可读的二进制数据，“翻译”成完全由普通文本字符（A-Z, a-z, 0-9, +, /）组成的形式。这样，任何只支持文本的系统都能安全地传输这段数据。</li>
+</ol>
+<hr>
+<h3 id="工作原理简单版">工作原理（简单版）</h3>
+<p>Base64 的编码过程可以通俗地理解为：</p>
+<ol>
+<li><strong>将二进制数据“切块”</strong>： 将原始的二进制数据每 <strong>3个字节</strong>（共 24 个比特）分为一组。</li>
+<li><strong>重新“分组”</strong>： 将这 24 个比特重新划分为 <strong>4 组</strong>，每组 <strong>6 个比特</strong>。</li>
+<li><strong>“查表”转换</strong>： 6 个比特能表示的范围是 0-63（2^6=64）。每个 6 比特的值对应一个 Base64 索引表中的一个可打印字符。
+<ul>
+<li><code>0-25</code> 对应大写字母 <code>A-Z</code></li>
+<li><code>26-51</code> 对应小写字母 <code>a-z</code></li>
+<li><code>52-61</code> 对应数字 <code>0-9</code></li>
+<li><code>62</code> 对应 <code>+</code></li>
+<li><code>63</code> 对应 <code>/</code></li>
+<li><code>=</code> 用作填充字符（后面会解释）</li>
+</ul>
+</li>
+</ol>
+<p><strong>一个简单的比喻：</strong>
+把原始数据想象成一种只有本地人能懂的“方言”。Base64 编码就像把这种“方言”翻译成全世界都能看懂的“普通话”（纯文本），以确保它在任何地方都能被正确传递。到达目的地后，再通过 Base64 解码把“普通话”翻译回原来的“方言”。</p>
+<hr>
+<h3 id="base64-索引表">Base64 索引表</h3>
+<p>这是编码和解码的核心依据：</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th align="left">索引</th><th align="left">字符</th><th align="left">索引</th><th align="left">字符</th><th align="left">索引</th><th align="left">字符</th><th align="left">索引</th><th align="left">字符</th></tr></thead><tbody><tr><td align="left">0</td><td align="left">A</td><td align="left">16</td><td align="left">Q</td><td align="left">32</td><td align="left">g</td><td align="left">48</td><td align="left">w</td></tr><tr><td align="left">1</td><td align="left">B</td><td align="left">17</td><td align="left">R</td><td align="left">33</td><td align="left">h</td><td align="left">49</td><td align="left">x</td></tr><tr><td align="left">2</td><td align="left">C</td><td align="left">18</td><td align="left">S</td><td align="left">34</td><td align="left">i</td><td align="left">50</td><td align="left">y</td></tr><tr><td align="left">3</td><td align="left">D</td><td align="left">19</td><td align="left">T</td><td align="left">35</td><td align="left">j</td><td align="left">51</td><td align="left">z</td></tr><tr><td align="left">4</td><td align="left">E</td><td align="left">20</td><td align="left">U</td><td align="left">36</td><td align="left">k</td><td align="left">52</td><td align="left">0</td></tr><tr><td align="left">5</td><td align="left">F</td><td align="left">21</td><td align="left">V</td><td align="left">37</td><td align="left">l</td><td align="left">53</td><td align="left">1</td></tr><tr><td align="left">6</td><td align="left">G</td><td align="left">22</td><td align="left">W</td><td align="left">38</td><td align="left">m</td><td align="left">54</td><td align="left">2</td></tr><tr><td align="left">7</td><td align="left">H</td><td align="left">23</td><td align="left">X</td><td align="left">39</td><td align="left">n</td><td align="left">55</td><td align="left">3</td></tr><tr><td align="left">8</td><td align="left">I</td><td align="left">24</td><td align="left">Y</td><td align="left">40</td><td align="left">o</td><td align="left">56</td><td align="left">4</td></tr><tr><td align="left">9</td><td align="left">J</td><td align="left">25</td><td align="left">Z</td><td align="left">41</td><td align="left">p</td><td align="left">57</td><td align="left">5</td></tr><tr><td align="left">10</td><td align="left">K</td><td align="left">26</td><td align="left">a</td><td align="left">42</td><td align="left">q</td><td align="left">58</td><td align="left">6</td></tr><tr><td align="left">11</td><td align="left">L</td><td align="left">27</td><td align="left">b</td><td align="left">43</td><td align="left">r</td><td align="left">59</td><td align="left">7</td></tr><tr><td align="left">12</td><td align="left">M</td><td align="left">28</td><td align="left">c</td><td align="left">44</td><td align="left">s</td><td align="left">60</td><td align="left">8</td></tr><tr><td align="left">13</td><td align="left">N</td><td align="left">29</td><td align="left">d</td><td align="left">45</td><td align="left">t</td><td align="left">61</td><td align="left">9</td></tr><tr><td align="left">14</td><td align="left">O</td><td align="left">30</td><td align="left">e</td><td align="left">46</td><td align="left">u</td><td align="left">62</td><td align="left">+</td></tr><tr><td align="left">15</td><td align="left">P</td><td align="left">31</td><td align="left">f</td><td align="left">47</td><td align="left">v</td><td align="left">63</td><td align="left">/</td></tr><tr><td align="left"></td><td align="left"></td><td align="left"></td><td align="left"></td><td align="left"></td><td align="left"></td><td align="left">填充</td><td align="left">=</td></tr></tbody></table>
+<hr>
+<h3 id="关于填充字符">关于填充字符 <code>=</code></h3>
+<p>如果原始数据的字节数不是 3 的倍数，编码器会在末尾添加一个或两个 <code>=</code> 作为填充，以确保输出字符串的长度是 4 的倍数。</p>
+<ul>
+<li>如果最后剩 <strong>1</strong> 个字节，会补 <strong>2</strong> 个 <code>=</code></li>
+<li>如果最后剩 <strong>2</strong> 个字节，会补 <strong>1</strong> 个 <code>=</code></li>
+</ul>
+<hr>
+<h3 id="一个具体的编码示例">一个具体的编码示例</h3>
+<p>让我们对单词 <code>"Man"</code> 进行 Base64 编码。</p>
+<ol>
+<li>
+<p><strong>转换为二进制</strong> (ASCII)：</p>
+<ul>
+<li><code>M</code> -> <code>77</code> -> <code>01001101</code></li>
+<li><code>a</code> -> <code>97</code> -> <code>01100001</code></li>
+<li><code>n</code> -> <code>110</code> -> <code>01101110</code></li>
+<li>合并： <code>01001101 01100001 01101110</code></li>
+</ul>
+</li>
+<li>
+<p><strong>重新分组为 6-bit</strong>：</p>
+<ul>
+<li><code>010011</code> -> 19</li>
+<li><code>010110</code> -> 22</li>
+<li><code>000101</code> -> 5</li>
+<li><code>101110</code> -> 46</li>
+</ul>
+</li>
+<li>
+<p><strong>查表</strong>：</p>
+<ul>
+<li>19 -> <code>T</code></li>
+<li>22 -> <code>W</code></li>
+<li>5 -> <code>F</code></li>
+<li>46 -> <code>u</code></li>
+</ul>
+</li>
+</ol>
+<p>所以，<code>"Man"</code> 的 Base64 编码结果是 <code>"TWFu"</code>。</p>
+<hr>
+<h3 id="主要特点">主要特点</h3>
+<ul>
+<li><strong>数据膨胀</strong>： 因为每 3 个字节的二进制数据会变成 4 个字节的文本字符，所以编码后的大小会比原始数据大 about 33%。</li>
+<li><strong>不是加密</strong>： Base64 是一种<strong>编码</strong>，不是<strong>加密</strong>。它没有任何安全性，任何人都可以轻松解码。它的目的是<strong>保证数据的完整性，而非机密性</strong>。</li>
+<li><strong>可读性差</strong>： 编码后的字符串对人类来说是一串无意义的字符。</li>
+</ul>
+<hr>
+<h3 id="常见应用场景">常见应用场景</h3>
+<ol>
+<li><strong>电子邮件</strong>： 这是 Base64 最早的应用场景，用于在纯文本协议中发送附件。</li>
+<li><strong>在网页中嵌入小文件</strong>： 通过 <strong>Data URL</strong>，你可以将图片、字体等小文件直接以 Base64 格式嵌入到 HTML 或 CSS 中，从而减少 HTTP 请求。
+<ul>
+<li>例如： <code>data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==</code></li>
+</ul>
+</li>
+<li><strong>存储二进制数据在文本环境中</strong>： 例如，将复杂的二进制数据存储在 JSON、XML 或数据库的文本字段中。</li>
+<li><strong>简单的数据混淆</strong>： 虽然不安全，但有时用于对数据进行简单的、一眼看不穿的表示。</li>
+</ol>
+<h3 id="总结">总结</h3>
+<p><strong>Base64 是一种将二进制数据“文本化”的编码方案。它通过一套 64 个字符的“密码本”，将不可读的二进制数据转换成纯文本，从而确保数据在只支持文本的通道中能够安全、无误地传输。</strong> 虽然它会导致数据体积变大，但在需要兼容文本系统的场景下，它是一个不可或缺的工具。</p> </div> </div> </div> </article> <aside class="hidden lg:block" data-astro-cid-7jjqptxk> <div class="gh-card border-default sticky top-16 px-4 py-3" data-astro-cid-7jjqptxk> <div class="text-[12px] font-semibold fg-default" data-astro-cid-7jjqptxk>目录</div> <nav class="mt-2" aria-label="目录" data-astro-cid-7jjqptxk> <ul class="space-y-1 text-[13px]" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#核心概念为什么需要-base64" data-toc-slug="核心概念为什么需要-base64" data-astro-cid-7jjqptxk>核心概念：为什么需要 Base64？</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#工作原理简单版" data-toc-slug="工作原理简单版" data-astro-cid-7jjqptxk>工作原理（简单版）</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#base64-索引表" data-toc-slug="base64-索引表" data-astro-cid-7jjqptxk>Base64 索引表</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#关于填充字符" data-toc-slug="关于填充字符" data-astro-cid-7jjqptxk>关于填充字符 =</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#一个具体的编码示例" data-toc-slug="一个具体的编码示例" data-astro-cid-7jjqptxk>一个具体的编码示例</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#主要特点" data-toc-slug="主要特点" data-astro-cid-7jjqptxk>主要特点</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#常见应用场景" data-toc-slug="常见应用场景" data-astro-cid-7jjqptxk>常见应用场景</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#总结" data-toc-slug="总结" data-astro-cid-7jjqptxk>总结</a> </li> </ul> </nav> </div> </aside> </div> <button id="backToTop" class="back-to-top" type="button" aria-label="回到顶部" hidden data-astro-cid-7jjqptxk>
+↑
+</button> <script type="module">(function(){const s=document.getElementById("postContent");if(!s)return;const l=Array.from(document.querySelectorAll("a.toc-link")),r=new Map;l.forEach(t=>{const e=t.getAttribute("data-toc-slug");if(!e)return;const n=r.get(e)||[];n.push(t),r.set(e,n)});const c=Array.from(s.querySelectorAll("h2[id], h3[id]"));function a(t){if(l.forEach(n=>n.removeAttribute("aria-current")),!t)return;const e=r.get(t);e&&e.forEach(n=>n.setAttribute("aria-current","true"))}function f(){if(!c.length)return"";const t=120;for(let e=c.length-1;e>=0;e--){const n=c[e];if(n.getBoundingClientRect().top<=t)return n.id||""}return c[0].id||""}let d=!1;function i(){d||(d=!0,window.requestAnimationFrame(()=>{d=!1;const t=(location.hash||"").replace(/^#/,"");if(t&&r.has(t)){a(t);return}a(f())}))}window.addEventListener("scroll",i,{passive:!0}),window.addEventListener("resize",i),window.addEventListener("hashchange",i),l.forEach(t=>t.addEventListener("click",()=>{const e=t.getAttribute("data-toc-slug")||"";a(e)})),i();const u=document.getElementById("backToTop");if(u){const t=()=>{const e=window.scrollY||document.documentElement.scrollTop||0;u.hidden=e<320};window.addEventListener("scroll",t,{passive:!0}),t(),u.addEventListener("click",()=>{window.scrollTo({top:0,behavior:"smooth"})})}s.querySelectorAll("pre > code").forEach(t=>{const e=t.parentElement;if(!e||e.querySelector(".copy-btn"))return;e.style.position="relative";const n=document.createElement("button");n.type="button",n.className="copy-btn",n.textContent="复制",n.addEventListener("click",async()=>{const m=t.textContent||"";try{await navigator.clipboard.writeText(m),n.textContent="已复制",window.setTimeout(()=>n.textContent="复制",900)}catch{const o=document.createElement("textarea");o.value=m,o.style.position="fixed",o.style.opacity="0",document.body.appendChild(o),o.select(),document.execCommand("copy"),document.body.removeChild(o),n.textContent="已复制",window.setTimeout(()=>n.textContent="复制",900)}}),e.appendChild(n)})})();</script>   </main> <footer class="border-t py-6 text-[13px]" style="border-color: var(--border-default); color: var(--fg-muted)"> <div class="gh-container flex items-center justify-between"> <p>© 2026 · Built with Astro</p> <p style="color: var(--fg-muted)">Zhejiang University · CS</p> </div> </footer> </body></html>

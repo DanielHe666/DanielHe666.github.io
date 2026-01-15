@@ -1,0 +1,29 @@
+<!DOCTYPE html><html lang="zh-CN" class="h-full"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="generator" content="Astro v5.16.9"><title>OhMyGold · 个人博客</title><meta name="description" content="面向黄金交易场景的多智能体研究→交易→风控→结算工作流（AutoGen/DeepSeek），全程结构化输出，并在 CLI 层执行硬风控闸门。"><meta property="og:title" content="OhMyGold · 个人博客"><meta property="og:description" content="面向黄金交易场景的多智能体研究→交易→风控→结算工作流（AutoGen/DeepSeek），全程结构化输出，并在 CLI 层执行硬风控闸门。"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="stylesheet" href="/_astro/_slug_.1UaX29b_.css"></head> <body class="min-h-full antialiased"> <header class="sticky top-0 z-50 border-b" style="border-color: var(--border-default); background: var(--canvas-subtle)" data-astro-cid-dmqpwcec> <div class="gh-container flex h-12 items-center justify-between" data-astro-cid-dmqpwcec> <a href="/" class="flex items-center gap-2 text-[13px] font-semibold fg-default" data-astro-cid-dmqpwcec> <span class="inline-flex h-7 items-center rounded-md px-2" style="background: var(--fg-default); color: var(--canvas-default)" data-astro-cid-dmqpwcec>HCY</span> <span class="fg-muted" data-astro-cid-dmqpwcec>Blog</span> </a> <nav class="flex items-center gap-1 text-[13px]" data-astro-cid-dmqpwcec> <a href="/blog/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> 文章 </a><a href="/search/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> 搜索 </a><a href="/projects/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> 项目 </a><a href="/reading/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> Reading </a> <a href="https://github.com/ChenyuHeee" target="_blank" rel="noreferrer" class="ml-1 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec>
+GitHub
+</a> </nav> </div> </header>  <main class="gh-container py-6">  <div class="mx-auto max-w-[1012px]"> <div class="mb-4 flex items-baseline justify-between gap-4"> <div class="min-w-0"> <p class="text-[12px] fg-muted">项目</p> <h1 class="mt-1 truncate text-xl font-semibold tracking-tight fg-default">OhMyGold</h1> <p class="mt-2 text-[13px] fg-muted">面向黄金交易场景的多智能体研究→交易→风控→结算工作流（AutoGen/DeepSeek），全程结构化输出，并在 CLI 层执行硬风控闸门。</p> </div> <div class="shrink-0 flex gap-2"> <a class="gh-btn" href="/projects/">返回列表</a> <a class="gh-btn-primary" href="https://github.com/ChenyuHeee/OhMyGold" target="_blank" rel="noreferrer">Repo</a> </div> </div> <div class="gh-card px-4 py-3 border-default"> <div class="flex flex-wrap items-center gap-x-4 gap-y-2 text-[12px] fg-muted"> <span>Updated 2025-12-22</span>  </div> <div class="mt-3 flex flex-wrap gap-1.5"> <span class="gh-pill">Python</span><span class="gh-pill">AutoGen</span><span class="gh-pill">DeepSeek</span><span class="gh-pill">Pydantic</span><span class="gh-pill">RAG</span><span class="gh-pill">Chroma</span> </div> </div> <section class="mt-4 gh-card px-4 py-4 border-default"> <div class="prose prose-sm max-w-none"> <h2 id="概览">概览</h2>
+<p>面向黄金交易场景的多智能体 AutoGen 工作流，尽量把“研究→交易→风控→结算”的真实链路拆成可组合的角色与工具，并要求代理输出严格遵守约定的 JSON Schema，便于复盘与审计。</p>
+<h2 id="我做了什么">我做了什么</h2>
+<ul>
+<li>拆解并实现端到端多智能体流水线：研究（技术/宏观/基本面/量化）→定调→纸面交易→风控/合规→结算</li>
+<li>设计结构化输出协议（JSON Schema）与回炉机制：当风控/合规拒绝时可定位原因并驱动方案修订</li>
+<li>建设可扩展工具层：统一行情入口、检索增强（RAG）、量化辅助与组合快照</li>
+</ul>
+<h2 id="技术要点">技术要点</h2>
+<ul>
+<li>工具层路由：将多数据源封装为适配器，带缓存/降级/回退，避免“某个源挂了就全挂”</li>
+<li>风控硬闸：在 CLI 层对仓位、敞口、止损、压力损失、回撤、相关性等指标做硬约束，违规即拒单</li>
+<li>配置与可运维：Pydantic Settings 驱动 <code>.env</code> 参数化，关键链路可独立运行/调试</li>
+</ul>
+<h2 id="亮点">亮点</h2>
+<ul>
+<li>多智能体流水线：Data → Research（技术/宏观/基本面/量化）→ HeadTrader 定调 → PaperTrader 生成方案 → Risk/Compliance 硬闸 → Settlement 收尾。</li>
+<li>行情数据统一入口：通过适配器聚合多数据源，带缓存/降级/回退，降低“数据源挂了就全挂”的风险。</li>
+<li>风控硬闸：在 CLI 层对仓位利用率、单笔敞口、止损覆盖、压力损失、回撤、相关性等指标进行硬约束，违规即拒单并触发回炉。</li>
+<li>检索增强：基于本地持久化索引的 RAG，把宏观案例/交易剧本转成可检索知识。</li>
+</ul>
+<h2 id="使用与运行">使用与运行</h2>
+<p>建议直接看仓库 README 的 TL;DR 与命令列表；这个项目的“可运行性”是设计目标之一。</p>
+<h2 id="链接">链接</h2>
+<ul>
+<li>Repo: <a href="https://github.com/ChenyuHeee/OhMyGold">https://github.com/ChenyuHeee/OhMyGold</a></li>
+</ul> </div> <div class="mt-6 flex flex-wrap gap-3 text-[13px]"> <a class="gh-link" href="https://github.com/ChenyuHeee/OhMyGold" target="_blank" rel="noreferrer">GitHub Repo</a>  </div> </section> </div>  </main> <footer class="border-t py-6 text-[13px]" style="border-color: var(--border-default); color: var(--fg-muted)"> <div class="gh-container flex items-center justify-between"> <p>© 2026 · Built with Astro</p> <p style="color: var(--fg-muted)">Zhejiang University · CS</p> </div> </footer> </body></html>

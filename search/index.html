@@ -1,0 +1,166 @@
+<!DOCTYPE html><html lang="zh-CN" class="h-full"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="generator" content="Astro v5.16.9"><title>搜索 · 个人博客</title><meta name="description" content="搜索文章与项目"><meta property="og:title" content="搜索 · 个人博客"><meta property="og:description" content="搜索文章与项目"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="stylesheet" href="/_astro/_slug_.1UaX29b_.css"></head> <body class="min-h-full antialiased"> <header class="sticky top-0 z-50 border-b" style="border-color: var(--border-default); background: var(--canvas-subtle)" data-astro-cid-dmqpwcec> <div class="gh-container flex h-12 items-center justify-between" data-astro-cid-dmqpwcec> <a href="/" class="flex items-center gap-2 text-[13px] font-semibold fg-default" data-astro-cid-dmqpwcec> <span class="inline-flex h-7 items-center rounded-md px-2" style="background: var(--fg-default); color: var(--canvas-default)" data-astro-cid-dmqpwcec>HCY</span> <span class="fg-muted" data-astro-cid-dmqpwcec>Blog</span> </a> <nav class="flex items-center gap-1 text-[13px]" data-astro-cid-dmqpwcec> <a href="/blog/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> 文章 </a><a href="/search/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> 搜索 </a><a href="/projects/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> 项目 </a><a href="/reading/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> Reading </a> <a href="https://github.com/ChenyuHeee" target="_blank" rel="noreferrer" class="ml-1 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec>
+GitHub
+</a> </nav> </div> </header>  <main class="gh-container py-6">  <section class="mx-auto max-w-[860px]"> <div class="flex flex-col gap-2"> <h1 class="text-xl font-semibold tracking-tight fg-default">搜索</h1> <p class="text-[13px] fg-muted">支持标题/描述/正文关键词（文章 + 精选项目）。</p> <div class="gh-card mt-2 p-3" style="border-color: var(--border-default)"> <label class="text-[12px] fg-muted" for="q">关键词</label> <input id="q" name="q" value data-index-url="/search.json" placeholder="例如：AIOps / 多智能体 / 编译器 / 云起" autocomplete="off" class="mt-1 w-full rounded-md border px-3 py-2 text-[13px]" style="border-color: var(--border-default); background: var(--canvas-default); color: var(--fg-default)"> <p id="hint" class="mt-2 text-[12px] fg-muted"></p> </div> </div> <div class="mt-4"> <div class="flex items-center justify-between"> <h2 class="text-[13px] font-semibold fg-default">结果</h2> <p id="meta" class="text-[12px] fg-muted"></p> </div> <div id="results" class="gh-card mt-2 divide-y divide-[color:var(--border-default)] border-default"></div> </div> </section> <script type="module">
+    import Fuse from 'https://cdn.jsdelivr.net/npm/fuse.js@7.1.0/dist/fuse.mjs';
+
+    const input = /** @type {HTMLInputElement | null} */ (document.getElementById('q'));
+    const resultsEl = document.getElementById('results');
+    const metaEl = document.getElementById('meta');
+    const hintEl = document.getElementById('hint');
+
+    const indexUrl = input?.dataset.indexUrl || '/search.json';
+
+    /** @type {{generatedAt: string, docs: Array<any>} | null} */
+    let payload = null;
+    /** @type {import('https://cdn.jsdelivr.net/npm/fuse.js@7.1.0/dist/fuse.mjs').default<any> | null} */
+    let fuse = null;
+
+    function setHint(text) {
+      if (!hintEl) return;
+      hintEl.textContent = text;
+    }
+
+    function setMeta(text) {
+      if (!metaEl) return;
+      metaEl.textContent = text;
+    }
+
+    function escapeHtml(s) {
+      return s
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    function typeLabel(t) {
+      return t === 'project' ? '项目' : '文章';
+    }
+
+    function renderEmpty() {
+      if (!resultsEl) return;
+      resultsEl.innerHTML = '';
+      setMeta('');
+    }
+
+    function renderResults(items) {
+      if (!resultsEl) return;
+      if (!items.length) {
+        resultsEl.innerHTML = `
+          <div class="px-4 py-4 text-[13px] fg-muted">没有匹配结果</div>
+        `;
+        return;
+      }
+
+      resultsEl.innerHTML = items
+        .map((d) => {
+          const title = escapeHtml(d.title ?? '');
+          const desc = d.description ? escapeHtml(d.description) : '';
+          const url = d.url;
+          const date = d.date ? `<span class="fg-muted">${escapeHtml(d.date)}</span>` : '';
+          const tagBits = Array.isArray(d.tags) && d.tags.length
+            ? d.tags.slice(0, 6).map((t) => `<span class="gh-pill">${escapeHtml(String(t))}</span>`).join('')
+            : '';
+
+          return `
+            <a href="${url}" class="gh-row">
+              <div class="min-w-0">
+                <div class="flex flex-wrap items-center gap-2">
+                  <div class="gh-link truncate text-[13px] font-semibold">${title}</div>
+                  <span class="gh-pill">${typeLabel(d.type)}</span>
+                  ${date}
+                </div>
+                ${desc ? `<p class="mt-0.5 line-clamp-2 text-[13px] fg-muted">${desc}</p>` : ''}
+                ${tagBits ? `<div class="mt-1 flex flex-wrap gap-2">${tagBits}</div>` : ''}
+              </div>
+            </a>
+          `;
+        })
+        .join('');
+    }
+
+    async function ensureIndex() {
+      if (payload && fuse) return;
+      setHint('正在加载索引…');
+      const res = await fetch(indexUrl, { cache: 'no-store' });
+      if (!res.ok) throw new Error(`索引加载失败：${res.status}`);
+      payload = await res.json();
+
+      fuse = new Fuse(payload.docs, {
+        includeScore: true,
+        threshold: 0.35,
+        ignoreLocation: true,
+        minMatchCharLength: 1,
+        keys: [
+          { name: 'title', weight: 4 },
+          { name: 'description', weight: 2 },
+          { name: 'tags', weight: 1 },
+          { name: 'text', weight: 0.5 },
+        ],
+      });
+
+      setHint('');
+    }
+
+    function setQueryToUrl(q) {
+      const url = new URL(location.href);
+      const query = (q ?? '').trim();
+      if (query) url.searchParams.set('q', query);
+      else url.searchParams.delete('q');
+      history.replaceState(null, '', url.toString());
+    }
+
+    async function runSearch(q) {
+      const query = (q ?? '').trim();
+      if (!query) {
+        renderEmpty();
+        setHint('输入关键词开始搜索');
+        setQueryToUrl('');
+        return;
+      }
+
+      setQueryToUrl(query);
+      await ensureIndex();
+
+      const hits = fuse.search(query, { limit: 30 });
+      const docs = hits.map((h) => h.item);
+
+      setMeta(`${docs.length} 条结果`);
+      renderResults(docs);
+    }
+
+    if (input) {
+      let t = 0;
+      let composing = false;
+
+      function schedule() {
+        window.clearTimeout(t);
+        t = window.setTimeout(() => runSearch(input.value), 120);
+      }
+
+      // IME (中文/日文等) 合成输入：compositionend 才是最终文本
+      input.addEventListener('compositionstart', () => {
+        composing = true;
+      });
+      input.addEventListener('compositionend', () => {
+        composing = false;
+        schedule();
+      });
+
+      input.addEventListener('input', () => {
+        if (composing) return;
+        schedule();
+      });
+
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          runSearch(input.value).catch((err) => setHint(`搜索加载失败：${String(err?.message ?? err)}`));
+        }
+      });
+
+      // initial
+      runSearch(input.value).catch((err) => setHint(`搜索加载失败：${String(err?.message ?? err)}`));
+    }
+  </script>  </main> <footer class="border-t py-6 text-[13px]" style="border-color: var(--border-default); color: var(--fg-muted)"> <div class="gh-container flex items-center justify-between"> <p>© 2026 · Built with Astro</p> <p style="color: var(--fg-muted)">Zhejiang University · CS</p> </div> </footer> </body></html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html><html lang="zh-CN" class="h-full"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="generator" content="Astro v5.16.9"><title>深入理解C语言中的赋值与递增运算符 · 个人博客</title><meta name="description" content="本文深入解析C语言中赋值与递增运算符的核心概念，帮助读者区分表达式值与副作用，掌握后置递增与前置递增在赋值操作中的不同执行顺序。通过指针应用实例和实际编程建议，读者能够准确预测代码行为，避免常见错误，提升代码可读性与可靠性。"><meta property="og:title" content="深入理解C语言中的赋值与递增运算符 · 个人博客"><meta property="og:description" content="本文深入解析C语言中赋值与递增运算符的核心概念，帮助读者区分表达式值与副作用，掌握后置递增与前置递增在赋值操作中的不同执行顺序。通过指针应用实例和实际编程建议，读者能够准确预测代码行为，避免常见错误，提升代码可读性与可靠性。"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="stylesheet" href="/_astro/_slug_.1UaX29b_.css">
+<style>.copy-btn[data-astro-cid-7jjqptxk]{position:absolute;top:8px;right:8px;padding:4px 8px;font-size:12px;border-radius:6px;border:1px solid var(--border-default);background:color-mix(in srgb,var(--canvas-default) 80%,var(--canvas-subtle));color:var(--fg-default);cursor:pointer}.copy-btn[data-astro-cid-7jjqptxk]:hover{background:color-mix(in srgb,var(--canvas-default) 65%,var(--canvas-subtle))}.copy-btn[data-astro-cid-7jjqptxk]:focus-visible{outline:2px solid color-mix(in srgb,var(--accent-emphasis) 55%,transparent);outline-offset:2px}a[data-astro-cid-7jjqptxk].toc-link[aria-current=true]{color:var(--fg-default);font-weight:600;text-decoration:none}.back-to-top[data-astro-cid-7jjqptxk]{position:fixed;right:18px;bottom:18px;width:36px;height:36px;border-radius:999px;border:1px solid var(--border-default);background:color-mix(in srgb,var(--canvas-default) 80%,var(--canvas-subtle));color:var(--fg-default);cursor:pointer;z-index:40}.back-to-top[data-astro-cid-7jjqptxk]:hover{background:color-mix(in srgb,var(--canvas-default) 65%,var(--canvas-subtle))}.back-to-top[data-astro-cid-7jjqptxk]:focus-visible{outline:2px solid color-mix(in srgb,var(--accent-emphasis) 55%,transparent);outline-offset:2px}
+</style></head> <body class="min-h-full antialiased"> <header class="sticky top-0 z-50 border-b" style="border-color: var(--border-default); background: var(--canvas-subtle)" data-astro-cid-dmqpwcec> <div class="gh-container flex h-12 items-center justify-between" data-astro-cid-dmqpwcec> <a href="/" class="flex items-center gap-2 text-[13px] font-semibold fg-default" data-astro-cid-dmqpwcec> <span class="inline-flex h-7 items-center rounded-md px-2" style="background: var(--fg-default); color: var(--canvas-default)" data-astro-cid-dmqpwcec>HCY</span> <span class="fg-muted" data-astro-cid-dmqpwcec>Blog</span> </a> <nav class="flex items-center gap-1 text-[13px]" data-astro-cid-dmqpwcec> <a href="/blog/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> 文章 </a><a href="/search/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> 搜索 </a><a href="/projects/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> 项目 </a><a href="/reading/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> Reading </a> <a href="https://github.com/ChenyuHeee" target="_blank" rel="noreferrer" class="ml-1 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec>
+GitHub
+</a> </nav> </div> </header>  <main class="gh-container py-6">  <div class="mx-auto max-w-[1040px] grid gap-6 lg:grid-cols-[1fr_280px]" data-astro-cid-7jjqptxk> <article class="min-w-0" data-astro-cid-7jjqptxk> <div class="gh-card overflow-hidden" style="border-color: var(--border-default)" data-astro-cid-7jjqptxk> <header class="border-b px-4 py-4" style="border-color: var(--border-default)" data-astro-cid-7jjqptxk> <h1 class="text-2xl font-semibold tracking-tight" style="color: var(--fg-default)" data-astro-cid-7jjqptxk>深入理解C语言中的赋值与递增运算符</h1> <div class="mt-2 flex flex-wrap items-center gap-x-4 gap-y-2 text-[12px]" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <time datetime="2026-01-15T09:21:40.556Z" data-astro-cid-7jjqptxk>2026-01-15</time> <div class="flex flex-wrap gap-2" data-astro-cid-7jjqptxk> <span class="gh-pill" data-astro-cid-7jjqptxk>c</span> </div> </div> <p class="mt-2 text-[13px]" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk>本文深入解析C语言中赋值与递增运算符的核心概念，帮助读者区分表达式值与副作用，掌握后置递增与前置递增在赋值操作中的不同执行顺序。通过指针应用实例和实际编程建议，读者能够准确预测代码行为，避免常见错误，提升代码可读性与可靠性。</p> </header> <div class="border-b px-4 py-3 lg:hidden" style="border-color: var(--border-default)" data-astro-cid-7jjqptxk> <details data-astro-cid-7jjqptxk> <summary class="cursor-pointer text-[13px] font-semibold fg-default" data-astro-cid-7jjqptxk>目录</summary> <div class="mt-2" data-astro-cid-7jjqptxk> <nav aria-label="目录" data-astro-cid-7jjqptxk> <ul class="space-y-1 text-[13px]" data-astro-cid-7jjqptxk> <li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#核心概念表达式值与副作用" data-toc-slug="核心概念表达式值与副作用" data-astro-cid-7jjqptxk>核心概念：表达式值与副作用</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#后置递增p与赋值" data-toc-slug="后置递增p与赋值" data-astro-cid-7jjqptxk>后置递增(p++)与赋值</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#前置递增p与赋值" data-toc-slug="前置递增p与赋值" data-astro-cid-7jjqptxk>前置递增(++p)与赋值</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#在指针中的应用" data-toc-slug="在指针中的应用" data-astro-cid-7jjqptxk>在指针中的应用</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#情况1移动指针" data-toc-slug="情况1移动指针" data-astro-cid-7jjqptxk>情况1：移动指针</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#情况2增加指针所指的值" data-toc-slug="情况2增加指针所指的值" data-astro-cid-7jjqptxk>情况2：增加指针所指的值</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#总结表格" data-toc-slug="总结表格" data-astro-cid-7jjqptxk>总结表格</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#关键要点" data-toc-slug="关键要点" data-astro-cid-7jjqptxk>关键要点</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#实际编程建议" data-toc-slug="实际编程建议" data-astro-cid-7jjqptxk>实际编程建议</a> </li> </ul> </nav> </div> </details> </div> <div class="px-4 py-4" data-astro-cid-7jjqptxk> <div class="prose prose-sm max-w-none" id="postContent" data-astro-cid-7jjqptxk> <h1 id="深入理解c语言中的赋值与递增运算符">深入理解C语言中的赋值与递增运算符</h1>
+<p>在C语言编程中，赋值运算符(<code>=</code>)和递增运算符(<code>++</code>)的结合使用经常让初学者感到困惑。本文将深入解析这两者之间的关系，帮助你彻底理解这一重要概念。</p>
+<h2 id="核心概念表达式值与副作用">核心概念：表达式值与副作用</h2>
+<p>理解赋值和递增关系的关键在于区分<strong>表达式的值</strong>和<strong>副作用</strong>：</p>
+<ul>
+<li><strong>表达式的值</strong>：表达式计算结果是什么</li>
+<li><strong>副作用</strong>：表达式执行时改变了什么状态（如变量的值）</li>
+</ul>
+<h2 id="后置递增p与赋值">后置递增(<code>p++</code>)与赋值</h2>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="c"><code><span class="line"><span style="color:#F97583">int</span><span style="color:#E1E4E8"> a </span><span style="color:#F97583">=</span><span style="color:#79B8FF"> 5</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#F97583">int</span><span style="color:#E1E4E8"> b </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> a</span><span style="color:#F97583">++</span><span style="color:#E1E4E8">;</span></span></code></pre>
+<p><strong>执行过程分析：</strong></p>
+<ol>
+<li><strong>表达式的值</strong>：<code>a++</code>这个表达式的值是<code>a</code>的<strong>原始值</strong><code>5</code></li>
+<li><strong>副作用</strong>：表达式执行完毕后，<code>a</code>的值增加<code>1</code>，变成<code>6</code></li>
+<li><strong>赋值</strong>：将表达式的值<code>5</code>赋给<code>b</code></li>
+</ol>
+<p><strong>结果：</strong> <code>b = 5</code>, <code>a = 6</code></p>
+<p><strong>记忆技巧：</strong> <code>a++</code> - <strong>先用后加</strong></p>
+<ul>
+<li><strong>用</strong>的是原始值（作为表达式值）</li>
+<li><strong>加</strong>的是变量本身（副作用）</li>
+</ul>
+<h2 id="前置递增p与赋值">前置递增(<code>++p</code>)与赋值</h2>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="c"><code><span class="line"><span style="color:#F97583">int</span><span style="color:#E1E4E8"> a </span><span style="color:#F97583">=</span><span style="color:#79B8FF"> 5</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#F97583">int</span><span style="color:#E1E4E8"> b </span><span style="color:#F97583">=</span><span style="color:#F97583"> ++</span><span style="color:#E1E4E8">a;</span></span></code></pre>
+<p><strong>执行过程分析：</strong></p>
+<ol>
+<li><strong>副作用</strong>：先执行<code>a</code>增加<code>1</code>，<code>a</code>变成<code>6</code></li>
+<li><strong>表达式的值</strong>：<code>++a</code>这个表达式的值是<code>a</code>的<strong>新值</strong><code>6</code></li>
+<li><strong>赋值</strong>：将表达式的值<code>6</code>赋给<code>b</code></li>
+</ol>
+<p><strong>结果：</strong> <code>b = 6</code>, <code>a = 6</code></p>
+<p><strong>记忆技巧：</strong> <code>++a</code> - <strong>先加后用</strong></p>
+<ul>
+<li><strong>加</strong>的是变量本身（副作用）</li>
+<li><strong>用</strong>的是新值（作为表达式值）</li>
+</ul>
+<h2 id="在指针中的应用">在指针中的应用</h2>
+<p>理解这一概念对于指针操作尤为重要：</p>
+<h3 id="情况1移动指针">情况1：移动指针</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="c"><code><span class="line"><span style="color:#F97583">int</span><span style="color:#E1E4E8"> arr</span><span style="color:#F97583">[]</span><span style="color:#F97583"> =</span><span style="color:#E1E4E8"> {</span><span style="color:#79B8FF">10</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">20</span><span style="color:#E1E4E8">};</span></span>
+<span class="line"><span style="color:#F97583">int</span><span style="color:#F97583"> *</span><span style="color:#E1E4E8">p </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> arr;</span></span>
+<span class="line"><span style="color:#F97583">int</span><span style="color:#E1E4E8"> x </span><span style="color:#F97583">=</span><span style="color:#F97583"> *</span><span style="color:#E1E4E8">p</span><span style="color:#F97583">++</span><span style="color:#E1E4E8">;</span></span></code></pre>
+<p><strong>分解执行：</strong></p>
+<ol>
+<li><code>p++</code>表达式的值：<code>p</code>的原始值（指向<code>arr[0]</code>）</li>
+<li><code>*p++</code> = <code>*(p的原始值)</code> = <code>arr[0]</code> = <code>10</code></li>
+<li><strong>赋值</strong>：<code>x = 10</code></li>
+<li><strong>副作用</strong>：<code>p</code>移动到<code>arr[1]</code></li>
+</ol>
+<h3 id="情况2增加指针所指的值">情况2：增加指针所指的值</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="c"><code><span class="line"><span style="color:#F97583">int</span><span style="color:#E1E4E8"> y </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> (</span><span style="color:#F97583">*</span><span style="color:#E1E4E8">p)</span><span style="color:#F97583">++</span><span style="color:#E1E4E8">;</span></span></code></pre>
+<p><strong>分解执行：</strong></p>
+<ol>
+<li><code>(*p)</code>表达式的值：<code>arr[0]</code>的值<code>10</code></li>
+<li><code>(*p)++</code>表达式的值：<code>arr[0]</code>的原始值<code>10</code></li>
+<li><strong>赋值</strong>：<code>y = 10</code></li>
+<li><strong>副作用</strong>：<code>arr[0]</code>的值从<code>10</code>增加到<code>11</code></li>
+</ol>
+<h2 id="总结表格">总结表格</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>表达式</th><th>表达式的值</th><th>副作用</th></tr></thead><tbody><tr><td><code>a++</code></td><td><code>a</code>的原始值</td><td><code>a</code>增加1</td></tr><tr><td><code>++a</code></td><td><code>a</code>的新值</td><td><code>a</code>增加1</td></tr><tr><td><code>b = a++</code></td><td><code>a</code>的原始值</td><td>① <code>b</code>被赋值<br>② <code>a</code>增加1</td></tr><tr><td><code>b = ++a</code></td><td><code>a</code>的新值</td><td>① <code>a</code>增加1<br>② <code>b</code>被赋值</td></tr></tbody></table>
+<h2 id="关键要点">关键要点</h2>
+<ol>
+<li><strong>赋值(<code>=</code>)</strong> 使用的是<strong>表达式的值</strong></li>
+<li><strong>变量的变化</strong>是<strong>副作用</strong></li>
+<li>两者在时间上是分开的：
+<ul>
+<li>对于后置递增：先使用原始值赋值，再修改变量</li>
+<li>对于前置递增：先修改变量，再使用新值赋值</li>
+</ul>
+</li>
+</ol>
+<h2 id="实际编程建议">实际编程建议</h2>
+<p>在复杂表达式中，为了代码清晰可读，建议：</p>
+<ol>
+<li><strong>使用括号</strong>明确优先级</li>
+<li><strong>拆分复杂表达式</strong>为多行</li>
+<li><strong>避免在同一个表达式中</strong>混合多个有副作用的操作</li>
+</ol>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="c"><code><span class="line"><span style="color:#6A737D">// 不推荐 - 难以理解</span></span>
+<span class="line"><span style="color:#F97583">int</span><span style="color:#E1E4E8"> result </span><span style="color:#F97583">=</span><span style="color:#F97583"> *</span><span style="color:#E1E4E8">p</span><span style="color:#F97583">++</span><span style="color:#F97583"> +</span><span style="color:#E1E4E8"> (</span><span style="color:#F97583">*</span><span style="color:#E1E4E8">q)</span><span style="color:#F97583">++</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">// 推荐 - 清晰明了</span></span>
+<span class="line"><span style="color:#F97583">int</span><span style="color:#E1E4E8"> val1 </span><span style="color:#F97583">=</span><span style="color:#F97583"> *</span><span style="color:#E1E4E8">p;</span></span>
+<span class="line"><span style="color:#E1E4E8">p</span><span style="color:#F97583">++</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#F97583">int</span><span style="color:#E1E4E8"> val2 </span><span style="color:#F97583">=</span><span style="color:#F97583"> *</span><span style="color:#E1E4E8">q;</span></span>
+<span class="line"><span style="color:#E1E4E8">(</span><span style="color:#F97583">*</span><span style="color:#E1E4E8">q)</span><span style="color:#F97583">++</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#F97583">int</span><span style="color:#E1E4E8"> result </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> val1 </span><span style="color:#F97583">+</span><span style="color:#E1E4E8"> val2;</span></span></code></pre>
+<p>通过深入理解赋值与递增的关系，你将能够更准确地预测代码行为，编写出更可靠的C语言程序。</p> </div> </div> </div> </article> <aside class="hidden lg:block" data-astro-cid-7jjqptxk> <div class="gh-card border-default sticky top-16 px-4 py-3" data-astro-cid-7jjqptxk> <div class="text-[12px] font-semibold fg-default" data-astro-cid-7jjqptxk>目录</div> <nav class="mt-2" aria-label="目录" data-astro-cid-7jjqptxk> <ul class="space-y-1 text-[13px]" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#核心概念表达式值与副作用" data-toc-slug="核心概念表达式值与副作用" data-astro-cid-7jjqptxk>核心概念：表达式值与副作用</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#后置递增p与赋值" data-toc-slug="后置递增p与赋值" data-astro-cid-7jjqptxk>后置递增(p++)与赋值</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#前置递增p与赋值" data-toc-slug="前置递增p与赋值" data-astro-cid-7jjqptxk>前置递增(++p)与赋值</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#在指针中的应用" data-toc-slug="在指针中的应用" data-astro-cid-7jjqptxk>在指针中的应用</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#情况1移动指针" data-toc-slug="情况1移动指针" data-astro-cid-7jjqptxk>情况1：移动指针</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#情况2增加指针所指的值" data-toc-slug="情况2增加指针所指的值" data-astro-cid-7jjqptxk>情况2：增加指针所指的值</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#总结表格" data-toc-slug="总结表格" data-astro-cid-7jjqptxk>总结表格</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#关键要点" data-toc-slug="关键要点" data-astro-cid-7jjqptxk>关键要点</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#实际编程建议" data-toc-slug="实际编程建议" data-astro-cid-7jjqptxk>实际编程建议</a> </li> </ul> </nav> </div> </aside> </div> <button id="backToTop" class="back-to-top" type="button" aria-label="回到顶部" hidden data-astro-cid-7jjqptxk>
+↑
+</button> <script type="module">(function(){const s=document.getElementById("postContent");if(!s)return;const l=Array.from(document.querySelectorAll("a.toc-link")),r=new Map;l.forEach(t=>{const e=t.getAttribute("data-toc-slug");if(!e)return;const n=r.get(e)||[];n.push(t),r.set(e,n)});const c=Array.from(s.querySelectorAll("h2[id], h3[id]"));function a(t){if(l.forEach(n=>n.removeAttribute("aria-current")),!t)return;const e=r.get(t);e&&e.forEach(n=>n.setAttribute("aria-current","true"))}function f(){if(!c.length)return"";const t=120;for(let e=c.length-1;e>=0;e--){const n=c[e];if(n.getBoundingClientRect().top<=t)return n.id||""}return c[0].id||""}let d=!1;function i(){d||(d=!0,window.requestAnimationFrame(()=>{d=!1;const t=(location.hash||"").replace(/^#/,"");if(t&&r.has(t)){a(t);return}a(f())}))}window.addEventListener("scroll",i,{passive:!0}),window.addEventListener("resize",i),window.addEventListener("hashchange",i),l.forEach(t=>t.addEventListener("click",()=>{const e=t.getAttribute("data-toc-slug")||"";a(e)})),i();const u=document.getElementById("backToTop");if(u){const t=()=>{const e=window.scrollY||document.documentElement.scrollTop||0;u.hidden=e<320};window.addEventListener("scroll",t,{passive:!0}),t(),u.addEventListener("click",()=>{window.scrollTo({top:0,behavior:"smooth"})})}s.querySelectorAll("pre > code").forEach(t=>{const e=t.parentElement;if(!e||e.querySelector(".copy-btn"))return;e.style.position="relative";const n=document.createElement("button");n.type="button",n.className="copy-btn",n.textContent="复制",n.addEventListener("click",async()=>{const m=t.textContent||"";try{await navigator.clipboard.writeText(m),n.textContent="已复制",window.setTimeout(()=>n.textContent="复制",900)}catch{const o=document.createElement("textarea");o.value=m,o.style.position="fixed",o.style.opacity="0",document.body.appendChild(o),o.select(),document.execCommand("copy"),document.body.removeChild(o),n.textContent="已复制",window.setTimeout(()=>n.textContent="复制",900)}}),e.appendChild(n)})})();</script>   </main> <footer class="border-t py-6 text-[13px]" style="border-color: var(--border-default); color: var(--fg-muted)"> <div class="gh-container flex items-center justify-between"> <p>© 2026 · Built with Astro</p> <p style="color: var(--fg-muted)">Zhejiang University · CS</p> </div> </footer> </body></html>

@@ -1,0 +1,233 @@
+<!DOCTYPE html><html lang="zh-CN" class="h-full"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="generator" content="Astro v5.16.9"><title>RCAgent论文学习笔记 · 个人博客</title><meta name="description" content="RCAgent论文提出了一种基于自主智能体与工具增强大语言模型的云端根因分析方法。其创新架构结合自主决策、轨迹级自一致性及优化的日志检索技术，有效解决了传统方法灵活性不足、生成结果不稳定及隐私安全等问题。"><meta property="og:title" content="RCAgent论文学习笔记 · 个人博客"><meta property="og:description" content="RCAgent论文提出了一种基于自主智能体与工具增强大语言模型的云端根因分析方法。其创新架构结合自主决策、轨迹级自一致性及优化的日志检索技术，有效解决了传统方法灵活性不足、生成结果不稳定及隐私安全等问题。"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="stylesheet" href="/_astro/_slug_.1UaX29b_.css">
+<style>.copy-btn[data-astro-cid-7jjqptxk]{position:absolute;top:8px;right:8px;padding:4px 8px;font-size:12px;border-radius:6px;border:1px solid var(--border-default);background:color-mix(in srgb,var(--canvas-default) 80%,var(--canvas-subtle));color:var(--fg-default);cursor:pointer}.copy-btn[data-astro-cid-7jjqptxk]:hover{background:color-mix(in srgb,var(--canvas-default) 65%,var(--canvas-subtle))}.copy-btn[data-astro-cid-7jjqptxk]:focus-visible{outline:2px solid color-mix(in srgb,var(--accent-emphasis) 55%,transparent);outline-offset:2px}a[data-astro-cid-7jjqptxk].toc-link[aria-current=true]{color:var(--fg-default);font-weight:600;text-decoration:none}.back-to-top[data-astro-cid-7jjqptxk]{position:fixed;right:18px;bottom:18px;width:36px;height:36px;border-radius:999px;border:1px solid var(--border-default);background:color-mix(in srgb,var(--canvas-default) 80%,var(--canvas-subtle));color:var(--fg-default);cursor:pointer;z-index:40}.back-to-top[data-astro-cid-7jjqptxk]:hover{background:color-mix(in srgb,var(--canvas-default) 65%,var(--canvas-subtle))}.back-to-top[data-astro-cid-7jjqptxk]:focus-visible{outline:2px solid color-mix(in srgb,var(--accent-emphasis) 55%,transparent);outline-offset:2px}
+</style></head> <body class="min-h-full antialiased"> <header class="sticky top-0 z-50 border-b" style="border-color: var(--border-default); background: var(--canvas-subtle)" data-astro-cid-dmqpwcec> <div class="gh-container flex h-12 items-center justify-between" data-astro-cid-dmqpwcec> <a href="/" class="flex items-center gap-2 text-[13px] font-semibold fg-default" data-astro-cid-dmqpwcec> <span class="inline-flex h-7 items-center rounded-md px-2" style="background: var(--fg-default); color: var(--canvas-default)" data-astro-cid-dmqpwcec>HCY</span> <span class="fg-muted" data-astro-cid-dmqpwcec>Blog</span> </a> <nav class="flex items-center gap-1 text-[13px]" data-astro-cid-dmqpwcec> <a href="/blog/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> 文章 </a><a href="/search/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> 搜索 </a><a href="/projects/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> 项目 </a><a href="/reading/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> Reading </a> <a href="https://github.com/ChenyuHeee" target="_blank" rel="noreferrer" class="ml-1 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec>
+GitHub
+</a> </nav> </div> </header>  <main class="gh-container py-6">  <div class="mx-auto max-w-[1040px] grid gap-6 lg:grid-cols-[1fr_280px]" data-astro-cid-7jjqptxk> <article class="min-w-0" data-astro-cid-7jjqptxk> <div class="gh-card overflow-hidden" style="border-color: var(--border-default)" data-astro-cid-7jjqptxk> <header class="border-b px-4 py-4" style="border-color: var(--border-default)" data-astro-cid-7jjqptxk> <h1 class="text-2xl font-semibold tracking-tight" style="color: var(--fg-default)" data-astro-cid-7jjqptxk>RCAgent论文学习笔记</h1> <div class="mt-2 flex flex-wrap items-center gap-x-4 gap-y-2 text-[12px]" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <time datetime="2026-01-15T09:21:40.553Z" data-astro-cid-7jjqptxk>2026-01-15</time> <div class="flex flex-wrap gap-2" data-astro-cid-7jjqptxk> <span class="gh-pill" data-astro-cid-7jjqptxk>AIOPS</span><span class="gh-pill" data-astro-cid-7jjqptxk>论文</span><span class="gh-pill" data-astro-cid-7jjqptxk>学习</span> </div> </div> <p class="mt-2 text-[13px]" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk>RCAgent论文提出了一种基于自主智能体与工具增强大语言模型的云端根因分析方法。其创新架构结合自主决策、轨迹级自一致性及优化的日志检索技术，有效解决了传统方法灵活性不足、生成结果不稳定及隐私安全等问题。</p> </header> <div class="border-b px-4 py-3 lg:hidden" style="border-color: var(--border-default)" data-astro-cid-7jjqptxk> <details data-astro-cid-7jjqptxk> <summary class="cursor-pointer text-[13px] font-semibold fg-default" data-astro-cid-7jjqptxk>目录</summary> <div class="mt-2" data-astro-cid-7jjqptxk> <nav aria-label="目录" data-astro-cid-7jjqptxk> <ul class="space-y-1 text-[13px]" data-astro-cid-7jjqptxk> <li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#-核心要点" data-toc-slug="-核心要点" data-astro-cid-7jjqptxk>📌 核心要点</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#1-论文解决的问题" data-toc-slug="1-论文解决的问题" data-astro-cid-7jjqptxk>1. 论文解决的问题</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#2-创新点" data-toc-slug="2-创新点" data-astro-cid-7jjqptxk>2. 创新点</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#️-系统架构" data-toc-slug="️-系统架构" data-astro-cid-7jjqptxk>🏗️ 系统架构</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#controller-agent--expert-agent-架构" data-toc-slug="controller-agent--expert-agent-架构" data-astro-cid-7jjqptxk>Controller Agent + Expert Agent 架构</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#决策循环" data-toc-slug="决策循环" data-astro-cid-7jjqptxk>决策循环</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#-关键技术细节" data-toc-slug="-关键技术细节" data-astro-cid-7jjqptxk>💡 关键技术细节</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#1-代码分析工具---递归搜索" data-toc-slug="1-代码分析工具---递归搜索" data-astro-cid-7jjqptxk>1. 代码分析工具 - 递归搜索</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#2-日志分析工具---智能rag" data-toc-slug="2-日志分析工具---智能rag" data-astro-cid-7jjqptxk>2. 日志分析工具 - 智能RAG</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#3-轨迹级自一致性tsc" data-toc-slug="3-轨迹级自一致性tsc" data-astro-cid-7jjqptxk>3. 轨迹级自一致性（TSC）</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#4-稳定化技术" data-toc-slug="4-稳定化技术" data-astro-cid-7jjqptxk>4. 稳定化技术</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#-实验亮点" data-toc-slug="-实验亮点" data-astro-cid-7jjqptxk>📊 实验亮点</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#关键数据" data-toc-slug="关键数据" data-astro-cid-7jjqptxk>关键数据</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#部署环境" data-toc-slug="部署环境" data-astro-cid-7jjqptxk>部署环境</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#-个人思考" data-toc-slug="-个人思考" data-astro-cid-7jjqptxk>🔍 个人思考</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#优势" data-toc-slug="优势" data-astro-cid-7jjqptxk>优势</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#局限性" data-toc-slug="局限性" data-astro-cid-7jjqptxk>局限性</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#与mabc的对比" data-toc-slug="与mabc的对比" data-astro-cid-7jjqptxk>与mABC的对比</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#可借鉴点" data-toc-slug="可借鉴点" data-astro-cid-7jjqptxk>可借鉴点</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#-相关论文" data-toc-slug="-相关论文" data-astro-cid-7jjqptxk>📚 相关论文</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#-后续学习" data-toc-slug="-后续学习" data-astro-cid-7jjqptxk>💭 后续学习</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#️-关键词" data-toc-slug="️-关键词" data-astro-cid-7jjqptxk>🏷️ 关键词</a> </li> </ul> </nav> </div> </details> </div> <div class="px-4 py-4" data-astro-cid-7jjqptxk> <div class="prose prose-sm max-w-none" id="postContent" data-astro-cid-7jjqptxk> <h1 id="rcagent论文学习笔记">RCAgent论文学习笔记</h1>
+<blockquote>
+<p><strong>论文</strong>: RCAgent: Cloud Root Cause Analysis by Autonomous Agents with Tool-Augmented Large Language Models</p>
+<p><strong>学习日期</strong>: 2025年12月</p>
+</blockquote>
+<hr>
+<h2 id="-核心要点">📌 核心要点</h2>
+<h3 id="1-论文解决的问题">1. 论文解决的问题</h3>
+<p><strong>云端RCA面临的挑战：</strong></p>
+<ol>
+<li><strong>基于规则方法的局限</strong>: 无法处理新场景，需持续人工维护</li>
+<li><strong>固定工作流的限制</strong>: 现有LLM方法使用预定义工作流，缺乏灵活性</li>
+<li><strong>隐私安全问题</strong>: 商业LLM（如GPT）可能泄露敏感数据</li>
+<li><strong>LLM生成不稳定</strong>: 格式错误、幻觉问题影响可靠性</li>
+</ol>
+<h3 id="2-创新点">2. 创新点</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>创新</th><th>描述</th><th>价值</th></tr></thead><tbody><tr><td><strong>自主决策架构</strong></td><td>Controller + Expert Agent</td><td>灵活适应复杂场景</td></tr><tr><td><strong>轨迹级自一致性</strong></td><td>分阶段采样聚合</td><td>提升生成质量+控制成本</td></tr><tr><td><strong>日志RAG优化</strong></td><td>聚类+模糊匹配过滤</td><td>处理长日志+减少幻觉</td></tr><tr><td><strong>生产部署验证</strong></td><td>阿里云实际应用</td><td>证明工业可行性</td></tr></tbody></table>
+<hr>
+<h2 id="️-系统架构">🏗️ 系统架构</h2>
+<h3 id="controller-agent--expert-agent-架构">Controller Agent + Expert Agent 架构</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>                    ┌────────────────────┐</span></span>
+<span class="line"><span>                    │  Controller Agent  │</span></span>
+<span class="line"><span>                    │    (决策中心)       │</span></span>
+<span class="line"><span>                    └─────────┬──────────┘</span></span>
+<span class="line"><span>                              │</span></span>
+<span class="line"><span>              ┌───────────────┼───────────────┐</span></span>
+<span class="line"><span>              ▼               ▼               ▼</span></span>
+<span class="line"><span>        ┌──────────┐   ┌──────────┐   ┌──────────┐</span></span>
+<span class="line"><span>        │数据收集工具│   │代码分析Agent│   │日志分析Agent│</span></span>
+<span class="line"><span>        └──────────┘   └──────────┘   └──────────┘</span></span></code></pre>
+<h3 id="决策循环">决策循环</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>思考(Thought) → 行动(Action) → 观察(Observation) → 思考 → ...</span></span>
+<span class="line"><span>                                                      ↓</span></span>
+<span class="line"><span>                                                 错误检测</span></span>
+<span class="line"><span>                                                      ↓</span></span>
+<span class="line"><span>                                               反馈调整/继续</span></span></code></pre>
+<hr>
+<h2 id="-关键技术细节">💡 关键技术细节</h2>
+<h3 id="1-代码分析工具---递归搜索">1. 代码分析工具 - 递归搜索</h3>
+<p><strong>工作流程</strong>:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>输入: 类名</span></span>
+<span class="line"><span>  ↓</span></span>
+<span class="line"><span>搜索代码仓库 → 找到文件</span></span>
+<span class="line"><span>  ↓</span></span>
+<span class="line"><span>LLM分析代码 → 推荐相关类</span></span>
+<span class="line"><span>  ↓</span></span>
+<span class="line"><span>推荐类加入队列 → 继续分析</span></span>
+<span class="line"><span>  ↓</span></span>
+<span class="line"><span>终止条件: 无推荐 或 全是外部依赖</span></span>
+<span class="line"><span>  ↓</span></span>
+<span class="line"><span>输出: 汇总分析结果</span></span></code></pre>
+<h3 id="2-日志分析工具---智能rag">2. 日志分析工具 - 智能RAG</h3>
+<p><strong>核心算法</strong>:</p>
+<ol>
+<li><strong>语义分割</strong>: 基于嵌入相似度+位置衰减构建图</li>
+<li><strong>社区聚类</strong>: Louvain算法划分语义块</li>
+<li><strong>逐块RAG</strong>: 每块独立分析，保持上下文</li>
+<li><strong>幻觉过滤</strong>: 模糊匹配验证证据真实性</li>
+</ol>
+<p><strong>关键公式</strong>:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>权重 = 余弦相似度 × e^(-位置距离)</span></span></code></pre>
+<p><strong>设计亮点</strong>: 要求LLM直接复制日志内容作为证据，不匹配则丢弃</p>
+<h3 id="3-轨迹级自一致性tsc">3. 轨迹级自一致性（TSC）</h3>
+<p><strong>问题</strong>: 传统SC在Agent轨迹上采样成本高</p>
+<p><strong>解决方案</strong>:</p>
+<ul>
+<li>预备步骤使用贪婪解码（共享）</li>
+<li>仅在结束阶段开始采样（分化）</li>
+<li>共享历史提供隐式few-shot示例</li>
+</ul>
+<p><strong>效果</strong>: 在保持质量的同时大幅降低token消耗</p>
+<h3 id="4-稳定化技术">4. 稳定化技术</h3>
+<p><strong>JSON修复流程</strong>:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>原始输出 → 清理敏感字符 → 解析</span></span>
+<span class="line"><span>              ↓ 失败</span></span>
+<span class="line"><span>         转换为YAML → 重建JSON</span></span>
+<span class="line"><span>              ↓ 失败</span></span>
+<span class="line"><span>         多轮重试</span></span></code></pre>
+<p><strong>错误处理</strong>:</p>
+<ul>
+<li>检测重复无效调用</li>
+<li>识别无意义输入</li>
+<li>阻止过早结束</li>
+</ul>
+<hr>
+<h2 id="-实验亮点">📊 实验亮点</h2>
+<h3 id="关键数据">关键数据</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>指标</th><th>RCAgent</th><th>ReAct</th><th>提升</th></tr></thead><tbody><tr><td>根因准确率</td><td>71.8%</td><td>52.3%</td><td>+37%</td></tr><tr><td>方案质量</td><td>0.58</td><td>0.42</td><td>+38%</td></tr><tr><td>证据准确性</td><td>79.4%</td><td>61.2%</td><td>+30%</td></tr></tbody></table>
+<h3 id="部署环境">部署环境</h3>
+<ul>
+<li><strong>模型</strong>: Vicuna-13B-V1.5-16K（本地部署）</li>
+<li><strong>硬件</strong>: A100 80GB</li>
+<li><strong>场景</strong>: 阿里云Flink实时计算平台</li>
+<li><strong>规模</strong>: 峰值1亿条/秒</li>
+</ul>
+<hr>
+<h2 id="-个人思考">🔍 个人思考</h2>
+<h3 id="优势">优势</h3>
+<ol>
+<li><strong>工业级验证</strong>: 在阿里云实际生产环境部署，非纯实验</li>
+<li><strong>隐私保护</strong>: 使用本地模型，适合企业场景</li>
+<li><strong>成本可控</strong>: TSC设计在质量和成本间取得平衡</li>
+<li><strong>幻觉缓解</strong>: 日志分析的证据验证机制很实用</li>
+</ol>
+<h3 id="局限性">局限性</h3>
+<ol>
+<li><strong>模型依赖</strong>: Vicuna-13B能力有限，复杂场景可能不足</li>
+<li><strong>场景特定</strong>: 主要针对Flink平台，通用性待验证</li>
+<li><strong>无多Agent协作</strong>: 单Controller架构，无跨Agent验证</li>
+</ol>
+<h3 id="与mabc的对比">与mABC的对比</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>维度</th><th>RCAgent</th><th>mABC</th></tr></thead><tbody><tr><td>架构</td><td>Controller+Expert</td><td>7 Agent平等协作</td></tr><tr><td>验证机制</td><td>TSC聚合</td><td>区块链投票</td></tr><tr><td>部署</td><td>本地模型</td><td>需强LLM</td></tr><tr><td>验证</td><td>生产环境</td><td>公开数据集</td></tr></tbody></table>
+<h3 id="可借鉴点">可借鉴点</h3>
+<ol>
+<li><strong>递归代码分析</strong>: 自动发现相关代码的思路很好</li>
+<li><strong>日志聚类+RAG</strong>: 处理长文本的有效方法</li>
+<li><strong>证据验证</strong>: 简单有效的幻觉过滤机制</li>
+<li><strong>TSC策略</strong>: 降本增效的采样方法</li>
+</ol>
+<hr>
+<h2 id="-相关论文">📚 相关论文</h2>
+<ul>
+<li><strong>ReAct</strong>: 基础的思考-行动框架</li>
+<li><strong>Self-Consistency</strong>: 采样聚合提升质量</li>
+<li><strong>Toolformer</strong>: 工具使用的早期探索</li>
+<li><strong>CloudRCA</strong>: 阿里巴巴的早期RCA系统</li>
+</ul>
+<hr>
+<h2 id="-后续学习">💭 后续学习</h2>
+<ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" disabled> 深入理解Louvain社区检测算法</li>
+<li class="task-list-item"><input type="checkbox" disabled> 实践模糊匹配验证的实现</li>
+<li class="task-list-item"><input type="checkbox" disabled> 对比TSC与其他SC变体的效果</li>
+<li class="task-list-item"><input type="checkbox" disabled> 研究如何将RCAgent架构扩展到其他场景</li>
+</ul>
+<hr>
+<h2 id="️-关键词">🏷️ 关键词</h2>
+<p><code>LLM Agent</code> <code>工具增强</code> <code>云端RCA</code> <code>自一致性</code> <code>RAG</code> <code>AIOps</code> <code>阿里云</code></p> </div> </div> </div> </article> <aside class="hidden lg:block" data-astro-cid-7jjqptxk> <div class="gh-card border-default sticky top-16 px-4 py-3" data-astro-cid-7jjqptxk> <div class="text-[12px] font-semibold fg-default" data-astro-cid-7jjqptxk>目录</div> <nav class="mt-2" aria-label="目录" data-astro-cid-7jjqptxk> <ul class="space-y-1 text-[13px]" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#-核心要点" data-toc-slug="-核心要点" data-astro-cid-7jjqptxk>📌 核心要点</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#1-论文解决的问题" data-toc-slug="1-论文解决的问题" data-astro-cid-7jjqptxk>1. 论文解决的问题</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#2-创新点" data-toc-slug="2-创新点" data-astro-cid-7jjqptxk>2. 创新点</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#️-系统架构" data-toc-slug="️-系统架构" data-astro-cid-7jjqptxk>🏗️ 系统架构</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#controller-agent--expert-agent-架构" data-toc-slug="controller-agent--expert-agent-架构" data-astro-cid-7jjqptxk>Controller Agent + Expert Agent 架构</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#决策循环" data-toc-slug="决策循环" data-astro-cid-7jjqptxk>决策循环</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#-关键技术细节" data-toc-slug="-关键技术细节" data-astro-cid-7jjqptxk>💡 关键技术细节</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#1-代码分析工具---递归搜索" data-toc-slug="1-代码分析工具---递归搜索" data-astro-cid-7jjqptxk>1. 代码分析工具 - 递归搜索</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#2-日志分析工具---智能rag" data-toc-slug="2-日志分析工具---智能rag" data-astro-cid-7jjqptxk>2. 日志分析工具 - 智能RAG</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#3-轨迹级自一致性tsc" data-toc-slug="3-轨迹级自一致性tsc" data-astro-cid-7jjqptxk>3. 轨迹级自一致性（TSC）</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#4-稳定化技术" data-toc-slug="4-稳定化技术" data-astro-cid-7jjqptxk>4. 稳定化技术</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#-实验亮点" data-toc-slug="-实验亮点" data-astro-cid-7jjqptxk>📊 实验亮点</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#关键数据" data-toc-slug="关键数据" data-astro-cid-7jjqptxk>关键数据</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#部署环境" data-toc-slug="部署环境" data-astro-cid-7jjqptxk>部署环境</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#-个人思考" data-toc-slug="-个人思考" data-astro-cid-7jjqptxk>🔍 个人思考</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#优势" data-toc-slug="优势" data-astro-cid-7jjqptxk>优势</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#局限性" data-toc-slug="局限性" data-astro-cid-7jjqptxk>局限性</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#与mabc的对比" data-toc-slug="与mabc的对比" data-astro-cid-7jjqptxk>与mABC的对比</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#可借鉴点" data-toc-slug="可借鉴点" data-astro-cid-7jjqptxk>可借鉴点</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#-相关论文" data-toc-slug="-相关论文" data-astro-cid-7jjqptxk>📚 相关论文</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#-后续学习" data-toc-slug="-后续学习" data-astro-cid-7jjqptxk>💭 后续学习</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#️-关键词" data-toc-slug="️-关键词" data-astro-cid-7jjqptxk>🏷️ 关键词</a> </li> </ul> </nav> </div> </aside> </div> <button id="backToTop" class="back-to-top" type="button" aria-label="回到顶部" hidden data-astro-cid-7jjqptxk>
+↑
+</button> <script type="module">(function(){const s=document.getElementById("postContent");if(!s)return;const l=Array.from(document.querySelectorAll("a.toc-link")),r=new Map;l.forEach(t=>{const e=t.getAttribute("data-toc-slug");if(!e)return;const n=r.get(e)||[];n.push(t),r.set(e,n)});const c=Array.from(s.querySelectorAll("h2[id], h3[id]"));function a(t){if(l.forEach(n=>n.removeAttribute("aria-current")),!t)return;const e=r.get(t);e&&e.forEach(n=>n.setAttribute("aria-current","true"))}function f(){if(!c.length)return"";const t=120;for(let e=c.length-1;e>=0;e--){const n=c[e];if(n.getBoundingClientRect().top<=t)return n.id||""}return c[0].id||""}let d=!1;function i(){d||(d=!0,window.requestAnimationFrame(()=>{d=!1;const t=(location.hash||"").replace(/^#/,"");if(t&&r.has(t)){a(t);return}a(f())}))}window.addEventListener("scroll",i,{passive:!0}),window.addEventListener("resize",i),window.addEventListener("hashchange",i),l.forEach(t=>t.addEventListener("click",()=>{const e=t.getAttribute("data-toc-slug")||"";a(e)})),i();const u=document.getElementById("backToTop");if(u){const t=()=>{const e=window.scrollY||document.documentElement.scrollTop||0;u.hidden=e<320};window.addEventListener("scroll",t,{passive:!0}),t(),u.addEventListener("click",()=>{window.scrollTo({top:0,behavior:"smooth"})})}s.querySelectorAll("pre > code").forEach(t=>{const e=t.parentElement;if(!e||e.querySelector(".copy-btn"))return;e.style.position="relative";const n=document.createElement("button");n.type="button",n.className="copy-btn",n.textContent="复制",n.addEventListener("click",async()=>{const m=t.textContent||"";try{await navigator.clipboard.writeText(m),n.textContent="已复制",window.setTimeout(()=>n.textContent="复制",900)}catch{const o=document.createElement("textarea");o.value=m,o.style.position="fixed",o.style.opacity="0",document.body.appendChild(o),o.select(),document.execCommand("copy"),document.body.removeChild(o),n.textContent="已复制",window.setTimeout(()=>n.textContent="复制",900)}}),e.appendChild(n)})})();</script>   </main> <footer class="border-t py-6 text-[13px]" style="border-color: var(--border-default); color: var(--fg-muted)"> <div class="gh-container flex items-center justify-between"> <p>© 2026 · Built with Astro</p> <p style="color: var(--fg-muted)">Zhejiang University · CS</p> </div> </footer> </body></html>

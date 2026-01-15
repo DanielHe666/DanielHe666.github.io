@@ -1,0 +1,380 @@
+<!DOCTYPE html><html lang="zh-CN" class="h-full"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="generator" content="Astro v5.16.9"><title>Flow-of-Action: 基于SOP增强的LLM多智能体根因分析系统 · 个人博客</title><meta name="description" content="清华大学与阿里巴巴团队提出Flow-of-Action系统，通过标准操作流程约束多智能体协作，优化工具编排与搜索空间，显著提升微服务根因分析准确率至64%，为复杂故障诊断提供高效解决方案。"><meta property="og:title" content="Flow-of-Action: 基于SOP增强的LLM多智能体根因分析系统 · 个人博客"><meta property="og:description" content="清华大学与阿里巴巴团队提出Flow-of-Action系统，通过标准操作流程约束多智能体协作，优化工具编排与搜索空间，显著提升微服务根因分析准确率至64%，为复杂故障诊断提供高效解决方案。"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="stylesheet" href="/_astro/_slug_.1UaX29b_.css">
+<style>.copy-btn[data-astro-cid-7jjqptxk]{position:absolute;top:8px;right:8px;padding:4px 8px;font-size:12px;border-radius:6px;border:1px solid var(--border-default);background:color-mix(in srgb,var(--canvas-default) 80%,var(--canvas-subtle));color:var(--fg-default);cursor:pointer}.copy-btn[data-astro-cid-7jjqptxk]:hover{background:color-mix(in srgb,var(--canvas-default) 65%,var(--canvas-subtle))}.copy-btn[data-astro-cid-7jjqptxk]:focus-visible{outline:2px solid color-mix(in srgb,var(--accent-emphasis) 55%,transparent);outline-offset:2px}a[data-astro-cid-7jjqptxk].toc-link[aria-current=true]{color:var(--fg-default);font-weight:600;text-decoration:none}.back-to-top[data-astro-cid-7jjqptxk]{position:fixed;right:18px;bottom:18px;width:36px;height:36px;border-radius:999px;border:1px solid var(--border-default);background:color-mix(in srgb,var(--canvas-default) 80%,var(--canvas-subtle));color:var(--fg-default);cursor:pointer;z-index:40}.back-to-top[data-astro-cid-7jjqptxk]:hover{background:color-mix(in srgb,var(--canvas-default) 65%,var(--canvas-subtle))}.back-to-top[data-astro-cid-7jjqptxk]:focus-visible{outline:2px solid color-mix(in srgb,var(--accent-emphasis) 55%,transparent);outline-offset:2px}
+</style></head> <body class="min-h-full antialiased"> <header class="sticky top-0 z-50 border-b" style="border-color: var(--border-default); background: var(--canvas-subtle)" data-astro-cid-dmqpwcec> <div class="gh-container flex h-12 items-center justify-between" data-astro-cid-dmqpwcec> <a href="/" class="flex items-center gap-2 text-[13px] font-semibold fg-default" data-astro-cid-dmqpwcec> <span class="inline-flex h-7 items-center rounded-md px-2" style="background: var(--fg-default); color: var(--canvas-default)" data-astro-cid-dmqpwcec>HCY</span> <span class="fg-muted" data-astro-cid-dmqpwcec>Blog</span> </a> <nav class="flex items-center gap-1 text-[13px]" data-astro-cid-dmqpwcec> <a href="/blog/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> 文章 </a><a href="/search/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> 搜索 </a><a href="/projects/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> 项目 </a><a href="/reading/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> Reading </a> <a href="https://github.com/ChenyuHeee" target="_blank" rel="noreferrer" class="ml-1 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec>
+GitHub
+</a> </nav> </div> </header>  <main class="gh-container py-6">  <div class="mx-auto max-w-[1040px] grid gap-6 lg:grid-cols-[1fr_280px]" data-astro-cid-7jjqptxk> <article class="min-w-0" data-astro-cid-7jjqptxk> <div class="gh-card overflow-hidden" style="border-color: var(--border-default)" data-astro-cid-7jjqptxk> <header class="border-b px-4 py-4" style="border-color: var(--border-default)" data-astro-cid-7jjqptxk> <h1 class="text-2xl font-semibold tracking-tight" style="color: var(--fg-default)" data-astro-cid-7jjqptxk>Flow-of-Action: 基于SOP增强的LLM多智能体根因分析系统</h1> <div class="mt-2 flex flex-wrap items-center gap-x-4 gap-y-2 text-[12px]" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <time datetime="2026-01-15T09:21:40.552Z" data-astro-cid-7jjqptxk>2026-01-15</time> <div class="flex flex-wrap gap-2" data-astro-cid-7jjqptxk> <span class="gh-pill" data-astro-cid-7jjqptxk>AIOPS</span><span class="gh-pill" data-astro-cid-7jjqptxk>论文</span><span class="gh-pill" data-astro-cid-7jjqptxk>学习</span> </div> </div> <p class="mt-2 text-[13px]" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk>清华大学与阿里巴巴团队提出Flow-of-Action系统，通过标准操作流程约束多智能体协作，优化工具编排与搜索空间，显著提升微服务根因分析准确率至64%，为复杂故障诊断提供高效解决方案。</p> </header> <div class="border-b px-4 py-3 lg:hidden" style="border-color: var(--border-default)" data-astro-cid-7jjqptxk> <details data-astro-cid-7jjqptxk> <summary class="cursor-pointer text-[13px] font-semibold fg-default" data-astro-cid-7jjqptxk>目录</summary> <div class="mt-2" data-astro-cid-7jjqptxk> <nav aria-label="目录" data-astro-cid-7jjqptxk> <ul class="space-y-1 text-[13px]" data-astro-cid-7jjqptxk> <li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#摘要" data-toc-slug="摘要" data-astro-cid-7jjqptxk>摘要</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#1-引言" data-toc-slug="1-引言" data-astro-cid-7jjqptxk>1. 引言</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#11-微服务rca的挑战" data-toc-slug="11-微服务rca的挑战" data-astro-cid-7jjqptxk>1.1 微服务RCA的挑战</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#12-现有方法的局限性" data-toc-slug="12-现有方法的局限性" data-astro-cid-7jjqptxk>1.2 现有方法的局限性</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#13-flow-of-action的创新" data-toc-slug="13-flow-of-action的创新" data-astro-cid-7jjqptxk>1.3 Flow-of-Action的创新</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#2-方法论" data-toc-slug="2-方法论" data-astro-cid-7jjqptxk>2. 方法论</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#21-系统架构" data-toc-slug="21-系统架构" data-astro-cid-7jjqptxk>2.1 系统架构</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#22-工具设计" data-toc-slug="22-工具设计" data-astro-cid-7jjqptxk>2.2 工具设计</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#23-sop-flow详解" data-toc-slug="23-sop-flow详解" data-astro-cid-7jjqptxk>2.3 SOP Flow详解</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#24-action-set机制" data-toc-slug="24-action-set机制" data-astro-cid-7jjqptxk>2.4 Action Set机制</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#3-多智能体设计" data-toc-slug="3-多智能体设计" data-astro-cid-7jjqptxk>3. 多智能体设计</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#31-mainagent主智能体" data-toc-slug="31-mainagent主智能体" data-astro-cid-7jjqptxk>3.1 MainAgent（主智能体）</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#32-actionagent动作智能体" data-toc-slug="32-actionagent动作智能体" data-astro-cid-7jjqptxk>3.2 ActionAgent（动作智能体）</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#33-judgeagent判断智能体" data-toc-slug="33-judgeagent判断智能体" data-astro-cid-7jjqptxk>3.3 JudgeAgent（判断智能体）</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#34-obagent观察智能体" data-toc-slug="34-obagent观察智能体" data-astro-cid-7jjqptxk>3.4 ObAgent（观察智能体）</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#4-实验" data-toc-slug="4-实验" data-astro-cid-7jjqptxk>4. 实验</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#41-数据集" data-toc-slug="41-数据集" data-astro-cid-7jjqptxk>4.1 数据集</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#42-基线方法" data-toc-slug="42-基线方法" data-astro-cid-7jjqptxk>4.2 基线方法</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#43-主要结果" data-toc-slug="43-主要结果" data-astro-cid-7jjqptxk>4.3 主要结果</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#44-消融研究" data-toc-slug="44-消融研究" data-astro-cid-7jjqptxk>4.4 消融研究</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#5-案例分析" data-toc-slug="5-案例分析" data-astro-cid-7jjqptxk>5. 案例分析</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#51-成功案例" data-toc-slug="51-成功案例" data-astro-cid-7jjqptxk>5.1 成功案例</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#52-与基线对比" data-toc-slug="52-与基线对比" data-astro-cid-7jjqptxk>5.2 与基线对比</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#6-结论" data-toc-slug="6-结论" data-astro-cid-7jjqptxk>6. 结论</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#附录关键提示词" data-toc-slug="附录关键提示词" data-astro-cid-7jjqptxk>附录：关键提示词</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#sop-flow-prompt" data-toc-slug="sop-flow-prompt" data-astro-cid-7jjqptxk>SOP Flow Prompt</a> </li> </ul> </nav> </div> </details> </div> <div class="px-4 py-4" data-astro-cid-7jjqptxk> <div class="prose prose-sm max-w-none" id="postContent" data-astro-cid-7jjqptxk> <h1 id="flow-of-action-基于sop增强的llm多智能体根因分析系统">Flow-of-Action: 基于SOP增强的LLM多智能体根因分析系统</h1>
+<blockquote>
+<p><strong>原文标题</strong>: Flow-of-Action: SOP Enhanced LLM-Based Multi-Agent System for Root Cause Analysis</p>
+<p><strong>来源</strong>: WWW’25 Companion (The Web Conference 2025, Industry Track)</p>
+<p><strong>作者</strong>: Changhua Pei 等</p>
+<p><strong>机构</strong>: 清华大学、阿里巴巴等</p>
+</blockquote>
+<hr>
+<h2 id="摘要">摘要</h2>
+<p>微服务架构（MSA）中的根因分析（RCA）是一项复杂且关键的任务，现有方法难以处理多样化且动态变化的故障。尽管基于LLM的智能体展现出潜力，但在微服务RCA中面临挑战：工具编排混乱和搜索空间庞大。</p>
+<p>本文提出<strong>Flow-of-Action</strong>，一个创新框架，引入：</p>
+<ol>
+<li>**SOP（标准操作流程）**来约束LLM多智能体系统</li>
+<li><strong>辅助智能体</strong>过滤噪声、优化搜索空间</li>
+</ol>
+<p>实验表明，Flow-of-Action在RCA准确率上达到<strong>64%</strong>，对比之前最优方法的**35.5%**提升显著。</p>
+<hr>
+<h2 id="1-引言">1. 引言</h2>
+<h3 id="11-微服务rca的挑战">1.1 微服务RCA的挑战</h3>
+<p>微服务架构（MSA）将单体系统分解为服务，这些服务间通过复杂的调用拓扑连接。RCA在维护和确保系统可靠性方面至关重要。</p>
+<p><strong>主要挑战</strong>:</p>
+<ol>
+<li><strong>故障多样性</strong>: 故障类型高度多样化</li>
+<li><strong>数据复杂性</strong>: 日志、指标、追踪数据庞大</li>
+<li><strong>变化频繁</strong>: 新故障类型不断出现</li>
+<li><strong>关联复杂</strong>: 服务间依赖关系复杂</li>
+</ol>
+<h3 id="12-现有方法的局限性">1.2 现有方法的局限性</h3>
+<ol>
+<li><strong>传统ML方法</strong>: 需要大量标注数据，难以适应新故障</li>
+<li><strong>基于LLM的Agent</strong>: 工具编排混乱、搜索空间庞大、精度不足</li>
+</ol>
+<h3 id="13-flow-of-action的创新">1.3 Flow-of-Action的创新</h3>
+<ul>
+<li><strong>SOP约束</strong>: 使用标准操作流程引导Agent决策</li>
+<li><strong>多Agent协作</strong>: MainAgent + ActionAgent + JudgeAgent + ObAgent</li>
+<li><strong>Action Set机制</strong>: 优化动作选择空间</li>
+<li><strong>SOP代码执行</strong>: 将SOP转换为代码精确执行</li>
+</ul>
+<hr>
+<h2 id="2-方法论">2. 方法论</h2>
+<h3 id="21-系统架构">2.1 系统架构</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>                    ┌────────────────────┐</span></span>
+<span class="line"><span>                    │     MainAgent      │</span></span>
+<span class="line"><span>                    │   (主决策Agent)     │</span></span>
+<span class="line"><span>                    └─────────┬──────────┘</span></span>
+<span class="line"><span>                              │</span></span>
+<span class="line"><span>        ┌─────────────────────┼─────────────────────┐</span></span>
+<span class="line"><span>        ▼                     ▼                     ▼</span></span>
+<span class="line"><span>┌──────────────┐     ┌──────────────┐     ┌──────────────┐</span></span>
+<span class="line"><span>│  ActionAgent │     │  JudgeAgent  │     │   ObAgent    │</span></span>
+<span class="line"><span>│ (动作生成)    │     │ (判断评估)    │     │ (观察分析)   │</span></span>
+<span class="line"><span>└──────────────┘     └──────────────┘     └──────────────┘</span></span>
+<span class="line"><span>        │                     │                     │</span></span>
+<span class="line"><span>        └─────────────────────┼─────────────────────┘</span></span>
+<span class="line"><span>                              ▼</span></span>
+<span class="line"><span>                    ┌────────────────────┐</span></span>
+<span class="line"><span>                    │     SOP Flow       │</span></span>
+<span class="line"><span>                    │   (标准流程控制)    │</span></span>
+<span class="line"><span>                    └────────────────────┘</span></span></code></pre>
+<h3 id="22-工具设计">2.2 工具设计</h3>
+<h4 id="221-数据收集工具">2.2.1 数据收集工具</h4>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>工具</th><th>功能</th></tr></thead><tbody><tr><td><code>metric_anomaly_detect</code></td><td>检测指标异常并转换为文本</td></tr><tr><td><code>collect_trace</code></td><td>捕获调用链异常span</td></tr><tr><td><code>kubectl_logs</code></td><td>提取Kubernetes pod日志</td></tr></tbody></table>
+<h4 id="222-sop流程工具">2.2.2 SOP流程工具</h4>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>工具</th><th>功能</th></tr></thead><tbody><tr><td><code>match_sop</code></td><td>匹配相关SOP</td></tr><tr><td><code>generate_sop</code></td><td>生成新SOP</td></tr><tr><td><code>generate_sop_code</code></td><td>将SOP转换为代码</td></tr><tr><td><code>run_sop</code></td><td>执行SOP代码</td></tr><tr><td><code>match_observation</code></td><td>匹配历史观察</td></tr></tbody></table>
+<h4 id="223-分析工具">2.2.3 分析工具</h4>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>工具</th><th>功能</th></tr></thead><tbody><tr><td><code>pod_analyze</code></td><td>分析Pod状态</td></tr><tr><td><code>service_analyze</code></td><td>分析服务状态</td></tr><tr><td><code>Speak</code></td><td>通报根因结果</td></tr></tbody></table>
+<h3 id="23-sop-flow详解">2.3 SOP Flow详解</h3>
+<h4 id="231-故障信息--sop">2.3.1 故障信息 → SOP</h4>
+<p><strong>流程</strong>:</p>
+<ol>
+<li>使用<code>match_sop</code>计算查询与SOP名称的相似度</li>
+<li>选择top-k匹配的SOP</li>
+<li>设置过滤阈值避免无关匹配</li>
+<li>无匹配时触发<code>generate_sop</code></li>
+</ol>
+<p><strong>SOP生成示例</strong>:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>IO Error SOP:</span></span>
+<span class="line"><span>1. 检查磁盘使用率</span></span>
+<span class="line"><span>2. 验证文件系统完整性</span></span>
+<span class="line"><span>3. 检查IO等待时间</span></span>
+<span class="line"><span>4. 分析相关进程</span></span>
+<span class="line"><span>5. 检查硬件状态</span></span></code></pre>
+<h4 id="232-sop--sop-code">2.3.2 SOP → SOP Code</h4>
+<p><strong>为什么要转换为代码</strong>:</p>
+<ol>
+<li><strong>精确性</strong>: 代码执行比文本执行更准确</li>
+<li><strong>原子性</strong>: 确保步骤完整执行</li>
+<li><strong>效率</strong>: 一次调用执行多个操作，节省token</li>
+</ol>
+<p><strong>代码生成示例</strong>:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#F97583">def</span><span style="color:#B392F0"> execute_io_error_sop</span><span style="color:#E1E4E8">():</span></span>
+<span class="line"><span style="color:#E1E4E8">    disk_usage </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> check_disk_usage()</span></span>
+<span class="line"><span style="color:#F97583">    if</span><span style="color:#E1E4E8"> disk_usage </span><span style="color:#F97583">></span><span style="color:#79B8FF"> 90</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#F97583">        return</span><span style="color:#9ECBFF"> "High disk usage detected"</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#E1E4E8">    fs_status </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> verify_filesystem()</span></span>
+<span class="line"><span style="color:#E1E4E8">    io_wait </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> check_io_wait()</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#F97583">    if</span><span style="color:#E1E4E8"> io_wait </span><span style="color:#F97583">></span><span style="color:#E1E4E8"> threshold:</span></span>
+<span class="line"><span style="color:#F97583">        return</span><span style="color:#E1E4E8"> analyze_io_processes()</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#F97583">    return</span><span style="color:#E1E4E8"> check_hardware_status()</span></span></code></pre>
+<h4 id="233-sop-code--observation">2.3.3 SOP Code → Observation</h4>
+<p><strong>执行流程</strong>:</p>
+<ol>
+<li>调用<code>run_sop</code>执行SOP代码</li>
+<li>处理可能的语法错误</li>
+<li>重新匹配参数并重新生成代码</li>
+<li>获取执行结果作为观察</li>
+</ol>
+<h4 id="234-sop-code--故障类型">2.3.4 SOP Code → 故障类型</h4>
+<p><strong>层次化方法</strong>:</p>
+<ul>
+<li>从宏观到微观</li>
+<li>从一般到具体</li>
+<li>例：先定位网络问题 → 再确定网络分区问题</li>
+</ul>
+<p>使用<code>match_observation</code>召回历史相似事件，辅助判断故障类型</p>
+<h3 id="24-action-set机制">2.4 Action Set机制</h3>
+<p><strong>问题</strong>: LLM难以从众多可行动作中即时选择最合理的</p>
+<p><strong>解决方案</strong>: 生成动作集合（Action Set）</p>
+<p><strong>组成</strong>:</p>
+<ol>
+<li><strong>ActionAgent生成</strong>: 基于flow和示例生成候选动作</li>
+<li><strong>JudgeAgent补充</strong>: 基于规则确保动作集完整</li>
+</ol>
+<p><strong>示例</strong>:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>当前观察: 高IO等待</span></span>
+<span class="line"><span>生成的Action Set:</span></span>
+<span class="line"><span>1. check_disk_io - 检查磁盘IO详情</span></span>
+<span class="line"><span>2. analyze_process_io - 分析进程IO</span></span>
+<span class="line"><span>3. check_storage_health - 检查存储健康</span></span>
+<span class="line"><span>4. Speak - 已确定根因时通报</span></span></code></pre>
+<hr>
+<h2 id="3-多智能体设计">3. 多智能体设计</h2>
+<h3 id="31-mainagent主智能体">3.1 MainAgent（主智能体）</h3>
+<p><strong>职责</strong>:</p>
+<ul>
+<li>接收SOP Flow提示</li>
+<li>协调其他Agent</li>
+<li>做出最终决策</li>
+</ul>
+<h3 id="32-actionagent动作智能体">3.2 ActionAgent（动作智能体）</h3>
+<p><strong>职责</strong>:</p>
+<ul>
+<li>基于当前状态生成候选动作</li>
+<li>为每个动作提供理由说明</li>
+<li>整合flow信息和示例</li>
+</ul>
+<h3 id="33-judgeagent判断智能体">3.3 JudgeAgent（判断智能体）</h3>
+<p><strong>职责</strong>:</p>
+<ul>
+<li>评估当前RCA进度</li>
+<li>判断是否已找到根因</li>
+<li>补充遗漏的关键动作</li>
+</ul>
+<h3 id="34-obagent观察智能体">3.4 ObAgent（观察智能体）</h3>
+<p><strong>职责</strong>:</p>
+<ul>
+<li>分析执行结果</li>
+<li>确定潜在故障类型</li>
+<li>提供后续RCA指导</li>
+</ul>
+<hr>
+<h2 id="4-实验">4. 实验</h2>
+<h3 id="41-数据集">4.1 数据集</h3>
+<p>使用开源微服务系统:</p>
+<ul>
+<li>Train-Ticket</li>
+<li>Online Boutique</li>
+<li>Sock Shop</li>
+</ul>
+<p>故障类型：30+种</p>
+<h3 id="42-基线方法">4.2 基线方法</h3>
+<ul>
+<li>ReAct</li>
+<li>AutoGPT</li>
+<li>D-Bot</li>
+<li>mABC</li>
+<li>RCAgent</li>
+</ul>
+<h3 id="43-主要结果">4.3 主要结果</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>方法</th><th>准确率</th></tr></thead><tbody><tr><td>ReAct</td><td>22.3%</td></tr><tr><td>AutoGPT</td><td>28.1%</td></tr><tr><td>D-Bot</td><td>32.5%</td></tr><tr><td>mABC</td><td>35.5%</td></tr><tr><td><strong>Flow-of-Action</strong></td><td><strong>64.0%</strong></td></tr></tbody></table>
+<p><strong>关键发现</strong>:</p>
+<ul>
+<li>相比最优基线提升80%</li>
+<li>SOP约束显著提高决策质量</li>
+<li>多Agent协作有效减少错误</li>
+</ul>
+<h3 id="44-消融研究">4.4 消融研究</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>组件</th><th>移除后准确率下降</th></tr></thead><tbody><tr><td>SOP Flow</td><td>-18.5%</td></tr><tr><td>Action Set</td><td>-12.3%</td></tr><tr><td>ObAgent</td><td>-8.7%</td></tr><tr><td>Code Execution</td><td>-6.2%</td></tr></tbody></table>
+<hr>
+<h2 id="5-案例分析">5. 案例分析</h2>
+<h3 id="51-成功案例">5.1 成功案例</h3>
+<p><strong>场景</strong>: 订单服务响应缓慢</p>
+<p><strong>Flow-of-Action执行过程</strong>:</p>
+<ol>
+<li><code>match_sop</code> → 匹配”服务延迟SOP”</li>
+<li><code>generate_sop_code</code> → 生成诊断代码</li>
+<li><code>run_sop</code> → 执行诊断</li>
+<li>观察：数据库连接池耗尽</li>
+<li><code>match_observation</code> → 确认故障类型</li>
+<li><code>Speak</code> → 输出根因</li>
+</ol>
+<p><strong>结果</strong>: 准确定位到数据库连接池问题</p>
+<h3 id="52-与基线对比">5.2 与基线对比</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>方面</th><th>ReAct</th><th>Flow-of-Action</th></tr></thead><tbody><tr><td>步骤数</td><td>15+</td><td>6</td></tr><tr><td>无效调用</td><td>多</td><td>少</td></tr><tr><td>最终结果</td><td>模糊</td><td>精确</td></tr></tbody></table>
+<hr>
+<h2 id="6-结论">6. 结论</h2>
+<p>Flow-of-Action通过引入SOP约束和多Agent协作，有效解决了微服务RCA中的工具编排混乱和搜索空间庞大问题。实验证明，该方法在准确率上显著优于现有方法，为实际运维场景提供了可行的解决方案。</p>
+<hr>
+<h2 id="附录关键提示词">附录：关键提示词</h2>
+<h3 id="sop-flow-prompt">SOP Flow Prompt</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>你是一个专业的SRE，正在执行根因分析。</span></span>
+<span class="line"><span>请遵循以下SOP流程：</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>1. 首先匹配相关SOP (match_sop)</span></span>
+<span class="line"><span>2. 如无匹配，生成新SOP (generate_sop)</span></span>
+<span class="line"><span>3. 将SOP转换为代码 (generate_sop_code)</span></span>
+<span class="line"><span>4. 执行SOP代码 (run_sop)</span></span>
+<span class="line"><span>5. 分析执行结果</span></span>
+<span class="line"><span>6. 确定故障类型或继续深入分析</span></span>
+<span class="line"><span>7. 找到根因后通报 (Speak)</span></span></code></pre> </div> </div> </div> </article> <aside class="hidden lg:block" data-astro-cid-7jjqptxk> <div class="gh-card border-default sticky top-16 px-4 py-3" data-astro-cid-7jjqptxk> <div class="text-[12px] font-semibold fg-default" data-astro-cid-7jjqptxk>目录</div> <nav class="mt-2" aria-label="目录" data-astro-cid-7jjqptxk> <ul class="space-y-1 text-[13px]" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#摘要" data-toc-slug="摘要" data-astro-cid-7jjqptxk>摘要</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#1-引言" data-toc-slug="1-引言" data-astro-cid-7jjqptxk>1. 引言</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#11-微服务rca的挑战" data-toc-slug="11-微服务rca的挑战" data-astro-cid-7jjqptxk>1.1 微服务RCA的挑战</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#12-现有方法的局限性" data-toc-slug="12-现有方法的局限性" data-astro-cid-7jjqptxk>1.2 现有方法的局限性</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#13-flow-of-action的创新" data-toc-slug="13-flow-of-action的创新" data-astro-cid-7jjqptxk>1.3 Flow-of-Action的创新</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#2-方法论" data-toc-slug="2-方法论" data-astro-cid-7jjqptxk>2. 方法论</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#21-系统架构" data-toc-slug="21-系统架构" data-astro-cid-7jjqptxk>2.1 系统架构</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#22-工具设计" data-toc-slug="22-工具设计" data-astro-cid-7jjqptxk>2.2 工具设计</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#23-sop-flow详解" data-toc-slug="23-sop-flow详解" data-astro-cid-7jjqptxk>2.3 SOP Flow详解</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#24-action-set机制" data-toc-slug="24-action-set机制" data-astro-cid-7jjqptxk>2.4 Action Set机制</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#3-多智能体设计" data-toc-slug="3-多智能体设计" data-astro-cid-7jjqptxk>3. 多智能体设计</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#31-mainagent主智能体" data-toc-slug="31-mainagent主智能体" data-astro-cid-7jjqptxk>3.1 MainAgent（主智能体）</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#32-actionagent动作智能体" data-toc-slug="32-actionagent动作智能体" data-astro-cid-7jjqptxk>3.2 ActionAgent（动作智能体）</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#33-judgeagent判断智能体" data-toc-slug="33-judgeagent判断智能体" data-astro-cid-7jjqptxk>3.3 JudgeAgent（判断智能体）</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#34-obagent观察智能体" data-toc-slug="34-obagent观察智能体" data-astro-cid-7jjqptxk>3.4 ObAgent（观察智能体）</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#4-实验" data-toc-slug="4-实验" data-astro-cid-7jjqptxk>4. 实验</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#41-数据集" data-toc-slug="41-数据集" data-astro-cid-7jjqptxk>4.1 数据集</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#42-基线方法" data-toc-slug="42-基线方法" data-astro-cid-7jjqptxk>4.2 基线方法</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#43-主要结果" data-toc-slug="43-主要结果" data-astro-cid-7jjqptxk>4.3 主要结果</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#44-消融研究" data-toc-slug="44-消融研究" data-astro-cid-7jjqptxk>4.4 消融研究</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#5-案例分析" data-toc-slug="5-案例分析" data-astro-cid-7jjqptxk>5. 案例分析</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#51-成功案例" data-toc-slug="51-成功案例" data-astro-cid-7jjqptxk>5.1 成功案例</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#52-与基线对比" data-toc-slug="52-与基线对比" data-astro-cid-7jjqptxk>5.2 与基线对比</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#6-结论" data-toc-slug="6-结论" data-astro-cid-7jjqptxk>6. 结论</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#附录关键提示词" data-toc-slug="附录关键提示词" data-astro-cid-7jjqptxk>附录：关键提示词</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#sop-flow-prompt" data-toc-slug="sop-flow-prompt" data-astro-cid-7jjqptxk>SOP Flow Prompt</a> </li> </ul> </nav> </div> </aside> </div> <button id="backToTop" class="back-to-top" type="button" aria-label="回到顶部" hidden data-astro-cid-7jjqptxk>
+↑
+</button> <script type="module">(function(){const s=document.getElementById("postContent");if(!s)return;const l=Array.from(document.querySelectorAll("a.toc-link")),r=new Map;l.forEach(t=>{const e=t.getAttribute("data-toc-slug");if(!e)return;const n=r.get(e)||[];n.push(t),r.set(e,n)});const c=Array.from(s.querySelectorAll("h2[id], h3[id]"));function a(t){if(l.forEach(n=>n.removeAttribute("aria-current")),!t)return;const e=r.get(t);e&&e.forEach(n=>n.setAttribute("aria-current","true"))}function f(){if(!c.length)return"";const t=120;for(let e=c.length-1;e>=0;e--){const n=c[e];if(n.getBoundingClientRect().top<=t)return n.id||""}return c[0].id||""}let d=!1;function i(){d||(d=!0,window.requestAnimationFrame(()=>{d=!1;const t=(location.hash||"").replace(/^#/,"");if(t&&r.has(t)){a(t);return}a(f())}))}window.addEventListener("scroll",i,{passive:!0}),window.addEventListener("resize",i),window.addEventListener("hashchange",i),l.forEach(t=>t.addEventListener("click",()=>{const e=t.getAttribute("data-toc-slug")||"";a(e)})),i();const u=document.getElementById("backToTop");if(u){const t=()=>{const e=window.scrollY||document.documentElement.scrollTop||0;u.hidden=e<320};window.addEventListener("scroll",t,{passive:!0}),t(),u.addEventListener("click",()=>{window.scrollTo({top:0,behavior:"smooth"})})}s.querySelectorAll("pre > code").forEach(t=>{const e=t.parentElement;if(!e||e.querySelector(".copy-btn"))return;e.style.position="relative";const n=document.createElement("button");n.type="button",n.className="copy-btn",n.textContent="复制",n.addEventListener("click",async()=>{const m=t.textContent||"";try{await navigator.clipboard.writeText(m),n.textContent="已复制",window.setTimeout(()=>n.textContent="复制",900)}catch{const o=document.createElement("textarea");o.value=m,o.style.position="fixed",o.style.opacity="0",document.body.appendChild(o),o.select(),document.execCommand("copy"),document.body.removeChild(o),n.textContent="已复制",window.setTimeout(()=>n.textContent="复制",900)}}),e.appendChild(n)})})();</script>   </main> <footer class="border-t py-6 text-[13px]" style="border-color: var(--border-default); color: var(--fg-muted)"> <div class="gh-container flex items-center justify-between"> <p>© 2026 · Built with Astro</p> <p style="color: var(--fg-muted)">Zhejiang University · CS</p> </div> </footer> </body></html>

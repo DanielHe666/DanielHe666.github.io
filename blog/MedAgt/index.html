@@ -1,0 +1,87 @@
+<!DOCTYPE html><html lang="zh-CN" class="h-full"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="generator" content="Astro v5.16.9"><title>MedAgt 开发流程 · 个人博客</title><meta name="description" content="本文介绍了MedAgt医疗辅助系统的完整开发流程，涵盖从预备知识到部署运维的七个阶段。读者可学习如何结合FastAPI与Next.js构建多Agent推理应用，并掌握医疗数据检索与可视化实现方法。亮点包括基于DeepSeek的智能分诊决策链设计、PubMed/NICE证据整合机制，以及具备进度追踪与追问锁定的交互式前端界面，为开发医疗AI系统提供全链路实践参考。"><meta property="og:title" content="MedAgt 开发流程 · 个人博客"><meta property="og:description" content="本文介绍了MedAgt医疗辅助系统的完整开发流程，涵盖从预备知识到部署运维的七个阶段。读者可学习如何结合FastAPI与Next.js构建多Agent推理应用，并掌握医疗数据检索与可视化实现方法。亮点包括基于DeepSeek的智能分诊决策链设计、PubMed/NICE证据整合机制，以及具备进度追踪与追问锁定的交互式前端界面，为开发医疗AI系统提供全链路实践参考。"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="stylesheet" href="/_astro/_slug_.1UaX29b_.css">
+<style>.copy-btn[data-astro-cid-7jjqptxk]{position:absolute;top:8px;right:8px;padding:4px 8px;font-size:12px;border-radius:6px;border:1px solid var(--border-default);background:color-mix(in srgb,var(--canvas-default) 80%,var(--canvas-subtle));color:var(--fg-default);cursor:pointer}.copy-btn[data-astro-cid-7jjqptxk]:hover{background:color-mix(in srgb,var(--canvas-default) 65%,var(--canvas-subtle))}.copy-btn[data-astro-cid-7jjqptxk]:focus-visible{outline:2px solid color-mix(in srgb,var(--accent-emphasis) 55%,transparent);outline-offset:2px}a[data-astro-cid-7jjqptxk].toc-link[aria-current=true]{color:var(--fg-default);font-weight:600;text-decoration:none}.back-to-top[data-astro-cid-7jjqptxk]{position:fixed;right:18px;bottom:18px;width:36px;height:36px;border-radius:999px;border:1px solid var(--border-default);background:color-mix(in srgb,var(--canvas-default) 80%,var(--canvas-subtle));color:var(--fg-default);cursor:pointer;z-index:40}.back-to-top[data-astro-cid-7jjqptxk]:hover{background:color-mix(in srgb,var(--canvas-default) 65%,var(--canvas-subtle))}.back-to-top[data-astro-cid-7jjqptxk]:focus-visible{outline:2px solid color-mix(in srgb,var(--accent-emphasis) 55%,transparent);outline-offset:2px}
+</style></head> <body class="min-h-full antialiased"> <header class="sticky top-0 z-50 border-b" style="border-color: var(--border-default); background: var(--canvas-subtle)" data-astro-cid-dmqpwcec> <div class="gh-container flex h-12 items-center justify-between" data-astro-cid-dmqpwcec> <a href="/" class="flex items-center gap-2 text-[13px] font-semibold fg-default" data-astro-cid-dmqpwcec> <span class="inline-flex h-7 items-center rounded-md px-2" style="background: var(--fg-default); color: var(--canvas-default)" data-astro-cid-dmqpwcec>HCY</span> <span class="fg-muted" data-astro-cid-dmqpwcec>Blog</span> </a> <nav class="flex items-center gap-1 text-[13px]" data-astro-cid-dmqpwcec> <a href="/blog/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> 文章 </a><a href="/search/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> 搜索 </a><a href="/projects/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> 项目 </a><a href="/reading/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> Reading </a> <a href="https://github.com/ChenyuHeee" target="_blank" rel="noreferrer" class="ml-1 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec>
+GitHub
+</a> </nav> </div> </header>  <main class="gh-container py-6">  <div class="mx-auto max-w-[1040px] grid gap-6 lg:grid-cols-[1fr_280px]" data-astro-cid-7jjqptxk> <article class="min-w-0" data-astro-cid-7jjqptxk> <div class="gh-card overflow-hidden" style="border-color: var(--border-default)" data-astro-cid-7jjqptxk> <header class="border-b px-4 py-4" style="border-color: var(--border-default)" data-astro-cid-7jjqptxk> <h1 class="text-2xl font-semibold tracking-tight" style="color: var(--fg-default)" data-astro-cid-7jjqptxk>MedAgt 开发流程</h1> <div class="mt-2 flex flex-wrap items-center gap-x-4 gap-y-2 text-[12px]" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <time datetime="2026-01-15T09:21:40.554Z" data-astro-cid-7jjqptxk>2026-01-15</time>  </div> <p class="mt-2 text-[13px]" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk>本文介绍了MedAgt医疗辅助系统的完整开发流程，涵盖从预备知识到部署运维的七个阶段。读者可学习如何结合FastAPI与Next.js构建多Agent推理应用，并掌握医疗数据检索与可视化实现方法。亮点包括基于DeepSeek的智能分诊决策链设计、PubMed/NICE证据整合机制，以及具备进度追踪与追问锁定的交互式前端界面，为开发医疗AI系统提供全链路实践参考。</p> </header> <div class="border-b px-4 py-3 lg:hidden" style="border-color: var(--border-default)" data-astro-cid-7jjqptxk> <details data-astro-cid-7jjqptxk> <summary class="cursor-pointer text-[13px] font-semibold fg-default" data-astro-cid-7jjqptxk>目录</summary> <div class="mt-2" data-astro-cid-7jjqptxk> <nav aria-label="目录" data-astro-cid-7jjqptxk> <ul class="space-y-1 text-[13px]" data-astro-cid-7jjqptxk> <li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#阶段-0预备知识与环境" data-toc-slug="阶段-0预备知识与环境" data-astro-cid-7jjqptxk>阶段 0：预备知识与环境</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#阶段-1后端骨架" data-toc-slug="阶段-1后端骨架" data-astro-cid-7jjqptxk>阶段 1：后端骨架</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#阶段-2知识检索服务" data-toc-slug="阶段-2知识检索服务" data-astro-cid-7jjqptxk>阶段 2：知识检索服务</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#阶段-3多-agent-推理链" data-toc-slug="阶段-3多-agent-推理链" data-astro-cid-7jjqptxk>阶段 3：多 Agent 推理链</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#阶段-4前端界面" data-toc-slug="阶段-4前端界面" data-astro-cid-7jjqptxk>阶段 4：前端界面</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#阶段-5联调与错误处理" data-toc-slug="阶段-5联调与错误处理" data-astro-cid-7jjqptxk>阶段 5：联调与错误处理</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#阶段-6部署与运维" data-toc-slug="阶段-6部署与运维" data-astro-cid-7jjqptxk>阶段 6：部署与运维</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#阶段-7迭代与学习" data-toc-slug="阶段-7迭代与学习" data-astro-cid-7jjqptxk>阶段 7：迭代与学习</a> </li> </ul> </nav> </div> </details> </div> <div class="px-4 py-4" data-astro-cid-7jjqptxk> <div class="prose prose-sm max-w-none" id="postContent" data-astro-cid-7jjqptxk> <h1 id="medagt-开发流程">MedAgt 开发流程</h1>
+<h2 id="阶段-0预备知识与环境">阶段 0：预备知识与环境</h2>
+<ul>
+<li>学习 FastAPI 基础（路由、依赖注入、Pydantic 模型、异步 IO）。</li>
+<li>熟悉 Next.js App Router、React hooks、TypeScript 类型推导与 CSS Modules。</li>
+<li>阅读 DeepSeek API 文档，了解 Chat Completion/JSON schema 约束写法。</li>
+<li>了解 PubMed E-utilities（esearch、esummary、efetch）以及 NICE 指南公开接口。</li>
+<li>准备开发环境：Python 3.11、Node.js 20、阿里云 ECS/Ubuntu 24.04，安装 <code>uv</code> 或 <code>pip</code>, <code>npm</code>, <code>git</code>。</li>
+</ul>
+<h2 id="阶段-1后端骨架">阶段 1：后端骨架</h2>
+<ul>
+<li>使用 <code>fastapi</code> + <code>uvicorn</code> 初始化应用，配置 CORS。</li>
+<li>编写 <code>app/models.py</code> 定义 <code>SymptomRequest</code>、<code>AnalysisResponse</code>、<code>EvidenceItem</code>、<code>ChartDatum</code>。</li>
+<li>写 <code>app/config.py</code> 读取环境变量（DeepSeek Key、禁用外部抓取开关等）。</li>
+<li>搭建 <code>/health</code> 与 <code>/api/v1/analyze</code> 基础接口，返回占位数据确保前端能打通。</li>
+<li>引入 <code>deploy.sh</code> 的 Python 安装部分，方便后续一键部署。</li>
+</ul>
+<h2 id="阶段-2知识检索服务">阶段 2：知识检索服务</h2>
+<ul>
+<li>在 <code>app/services/knowledge.py</code> 中实现 PubMed/NICE 抓取：
+<ul>
+<li>拼装查询语句、请求 <code>esearch</code> 获取 PMID 列表。</li>
+<li>调用 <code>esummary</code>/<code>efetch</code> 获取摘要、年份、期刊信息。</li>
+<li>对年龄段、性别、动物研究等添加过滤逻辑；合并 NICE 指南。</li>
+<li>输出 <code>EvidenceItem</code> 列表与 <code>visualizations</code>（年份分布、来源分布）。</li>
+</ul>
+</li>
+<li>为 PubMed 附带摘要/全文下载接口 <code>download_pubmed_asset</code>。</li>
+<li>实现 <code>_build_visualizations</code> 返回 <code>ChartDatum</code> 数据供前端绘图。</li>
+</ul>
+<h2 id="阶段-3多-agent-推理链">阶段 3：多 Agent 推理链</h2>
+<ul>
+<li>在 <code>app/services/analyzer.py</code> 中接入 DeepSeek：
+<ul>
+<li>搜索计划 Agent：根据症状生成查询关键词、过滤项。</li>
+<li>证据排序：对检索结果做词频/新近度/研究类型打分，附加 LLM 校准。</li>
+<li>临床规划 Agent：产出 triage、建议、后续行动并引用证据。</li>
+<li>追问 Agent：生成追问列表、临时诊断与治疗计划。</li>
+<li>翻译 Agent：输出中文标签、置信度描述。</li>
+</ul>
+</li>
+<li>管理进度：<code>ProgressTracker</code> 记录阶段状态，暴露 <code>/api/v1/progress/{token}</code>。</li>
+<li>设计 fallback：当 LLM 输出为空或证据不足时，返回保底方案。</li>
+</ul>
+<h2 id="阶段-4前端界面">阶段 4：前端界面</h2>
+<ul>
+<li>使用 <code>create-next-app</code> 创建 <code>frontend</code>，迁移到 App Router + TypeScript。</li>
+<li>在 <code>page.tsx</code> 实现：
+<ul>
+<li>病例标签页、多症状录入、患者元数据、补充说明。</li>
+<li>本地持久化：将病例、分析结果、历史追问写入 <code>localStorage</code>。</li>
+<li>追问锁定：当 <code>requires_followup</code> 为真时，只显示追问列表，阻止重复提交。</li>
+<li>进度轮询：定时请求 <code>/api/v1/progress/{token}</code>，更新五步进度条。</li>
+<li>证据可视化：根据 <code>ChartDatum</code> 渲染年份柱状图与来源占比圆图。</li>
+<li>证据下载：跳转 <code>/api/v1/evidence/:pmid/abstract|fulltext</code>。</li>
+</ul>
+</li>
+<li>编写 <code>page.module.css</code> 控制高密度布局、响应式、玻璃拟态视觉。</li>
+</ul>
+<h2 id="阶段-5联调与错误处理">阶段 5：联调与错误处理</h2>
+<ul>
+<li>在前端对接真实 API，处理加载态、错误提示、空结果 fallback。</li>
+<li>添加追问历史折叠面板、病例折叠显示与重新编辑入口。</li>
+<li>调整按钮与表单禁用逻辑，防止重复提交。</li>
+<li>在后端增加日志、<code>agent_traces</code> 字段，便于观察 Agent 输出。</li>
+</ul>
+<h2 id="阶段-6部署与运维">阶段 6：部署与运维</h2>
+<ul>
+<li>准备阿里云 ECS：安装 Nginx、Python、Node.js；开放 80/443 端口。</li>
+<li>使用 systemd 编写 <code>medagt-api.service</code>、<code>medagt-web.service</code>，让 FastAPI/Next.js 常驻运行。</li>
+<li>配置 Nginx 反向代理：<code>/</code> → Next.js、<code>/api/</code> → FastAPI。</li>
+<li>本地执行 <code>deploy.sh</code>：根据 git diff 同步代码、安装依赖、重启服务。</li>
+<li>后续优化：申请 HTTPS 证书、添加监控报警、加上 API 限流与缓存。</li>
+</ul>
+<h2 id="阶段-7迭代与学习">阶段 7：迭代与学习</h2>
+<ul>
+<li>与医学合作者确认 triage 文案与建议是否合规，规划人工审核面板。</li>
+<li>为 PubMed 调用增加缓存/限流；评估是否需要引入异步队列或数据库。</li>
+<li>继续学习：医疗合规知识、CQL/FHIR 标准、LLM 安全提示工程、Next.js Server Actions。</li>
+<li>制定测试计划：编写后端 pytest 覆盖 Agent fallback，前端使用 Playwright/React Testing Library 覆盖关键交互。</li>
+</ul> </div> </div> </div> </article> <aside class="hidden lg:block" data-astro-cid-7jjqptxk> <div class="gh-card border-default sticky top-16 px-4 py-3" data-astro-cid-7jjqptxk> <div class="text-[12px] font-semibold fg-default" data-astro-cid-7jjqptxk>目录</div> <nav class="mt-2" aria-label="目录" data-astro-cid-7jjqptxk> <ul class="space-y-1 text-[13px]" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#阶段-0预备知识与环境" data-toc-slug="阶段-0预备知识与环境" data-astro-cid-7jjqptxk>阶段 0：预备知识与环境</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#阶段-1后端骨架" data-toc-slug="阶段-1后端骨架" data-astro-cid-7jjqptxk>阶段 1：后端骨架</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#阶段-2知识检索服务" data-toc-slug="阶段-2知识检索服务" data-astro-cid-7jjqptxk>阶段 2：知识检索服务</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#阶段-3多-agent-推理链" data-toc-slug="阶段-3多-agent-推理链" data-astro-cid-7jjqptxk>阶段 3：多 Agent 推理链</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#阶段-4前端界面" data-toc-slug="阶段-4前端界面" data-astro-cid-7jjqptxk>阶段 4：前端界面</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#阶段-5联调与错误处理" data-toc-slug="阶段-5联调与错误处理" data-astro-cid-7jjqptxk>阶段 5：联调与错误处理</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#阶段-6部署与运维" data-toc-slug="阶段-6部署与运维" data-astro-cid-7jjqptxk>阶段 6：部署与运维</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#阶段-7迭代与学习" data-toc-slug="阶段-7迭代与学习" data-astro-cid-7jjqptxk>阶段 7：迭代与学习</a> </li> </ul> </nav> </div> </aside> </div> <button id="backToTop" class="back-to-top" type="button" aria-label="回到顶部" hidden data-astro-cid-7jjqptxk>
+↑
+</button> <script type="module">(function(){const s=document.getElementById("postContent");if(!s)return;const l=Array.from(document.querySelectorAll("a.toc-link")),r=new Map;l.forEach(t=>{const e=t.getAttribute("data-toc-slug");if(!e)return;const n=r.get(e)||[];n.push(t),r.set(e,n)});const c=Array.from(s.querySelectorAll("h2[id], h3[id]"));function a(t){if(l.forEach(n=>n.removeAttribute("aria-current")),!t)return;const e=r.get(t);e&&e.forEach(n=>n.setAttribute("aria-current","true"))}function f(){if(!c.length)return"";const t=120;for(let e=c.length-1;e>=0;e--){const n=c[e];if(n.getBoundingClientRect().top<=t)return n.id||""}return c[0].id||""}let d=!1;function i(){d||(d=!0,window.requestAnimationFrame(()=>{d=!1;const t=(location.hash||"").replace(/^#/,"");if(t&&r.has(t)){a(t);return}a(f())}))}window.addEventListener("scroll",i,{passive:!0}),window.addEventListener("resize",i),window.addEventListener("hashchange",i),l.forEach(t=>t.addEventListener("click",()=>{const e=t.getAttribute("data-toc-slug")||"";a(e)})),i();const u=document.getElementById("backToTop");if(u){const t=()=>{const e=window.scrollY||document.documentElement.scrollTop||0;u.hidden=e<320};window.addEventListener("scroll",t,{passive:!0}),t(),u.addEventListener("click",()=>{window.scrollTo({top:0,behavior:"smooth"})})}s.querySelectorAll("pre > code").forEach(t=>{const e=t.parentElement;if(!e||e.querySelector(".copy-btn"))return;e.style.position="relative";const n=document.createElement("button");n.type="button",n.className="copy-btn",n.textContent="复制",n.addEventListener("click",async()=>{const m=t.textContent||"";try{await navigator.clipboard.writeText(m),n.textContent="已复制",window.setTimeout(()=>n.textContent="复制",900)}catch{const o=document.createElement("textarea");o.value=m,o.style.position="fixed",o.style.opacity="0",document.body.appendChild(o),o.select(),document.execCommand("copy"),document.body.removeChild(o),n.textContent="已复制",window.setTimeout(()=>n.textContent="复制",900)}}),e.appendChild(n)})})();</script>   </main> <footer class="border-t py-6 text-[13px]" style="border-color: var(--border-default); color: var(--fg-muted)"> <div class="gh-container flex items-center justify-between"> <p>© 2026 · Built with Astro</p> <p style="color: var(--fg-muted)">Zhejiang University · CS</p> </div> </footer> </body></html>

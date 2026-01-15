@@ -1,0 +1,312 @@
+<!DOCTYPE html><html lang="zh-CN" class="h-full"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="generator" content="Astro v5.16.9"><title>技术知识点 · 个人博客</title><meta name="description" content="本文介绍了在线C语言编译器的核心实现技术，重点解析了Monaco Editor的集成、智能缩进算法与浏览器持久化策略。读者可学习如何通过CDN直接引入编辑器、实现自适应布局与主题切换，掌握基于状态机的代码格式化方法，以及利用localStorage进行数据存储的技巧。"><meta property="og:title" content="技术知识点 · 个人博客"><meta property="og:description" content="本文介绍了在线C语言编译器的核心实现技术，重点解析了Monaco Editor的集成、智能缩进算法与浏览器持久化策略。读者可学习如何通过CDN直接引入编辑器、实现自适应布局与主题切换，掌握基于状态机的代码格式化方法，以及利用localStorage进行数据存储的技巧。"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="stylesheet" href="/_astro/_slug_.1UaX29b_.css">
+<style>.copy-btn[data-astro-cid-7jjqptxk]{position:absolute;top:8px;right:8px;padding:4px 8px;font-size:12px;border-radius:6px;border:1px solid var(--border-default);background:color-mix(in srgb,var(--canvas-default) 80%,var(--canvas-subtle));color:var(--fg-default);cursor:pointer}.copy-btn[data-astro-cid-7jjqptxk]:hover{background:color-mix(in srgb,var(--canvas-default) 65%,var(--canvas-subtle))}.copy-btn[data-astro-cid-7jjqptxk]:focus-visible{outline:2px solid color-mix(in srgb,var(--accent-emphasis) 55%,transparent);outline-offset:2px}a[data-astro-cid-7jjqptxk].toc-link[aria-current=true]{color:var(--fg-default);font-weight:600;text-decoration:none}.back-to-top[data-astro-cid-7jjqptxk]{position:fixed;right:18px;bottom:18px;width:36px;height:36px;border-radius:999px;border:1px solid var(--border-default);background:color-mix(in srgb,var(--canvas-default) 80%,var(--canvas-subtle));color:var(--fg-default);cursor:pointer;z-index:40}.back-to-top[data-astro-cid-7jjqptxk]:hover{background:color-mix(in srgb,var(--canvas-default) 65%,var(--canvas-subtle))}.back-to-top[data-astro-cid-7jjqptxk]:focus-visible{outline:2px solid color-mix(in srgb,var(--accent-emphasis) 55%,transparent);outline-offset:2px}
+</style></head> <body class="min-h-full antialiased"> <header class="sticky top-0 z-50 border-b" style="border-color: var(--border-default); background: var(--canvas-subtle)" data-astro-cid-dmqpwcec> <div class="gh-container flex h-12 items-center justify-between" data-astro-cid-dmqpwcec> <a href="/" class="flex items-center gap-2 text-[13px] font-semibold fg-default" data-astro-cid-dmqpwcec> <span class="inline-flex h-7 items-center rounded-md px-2" style="background: var(--fg-default); color: var(--canvas-default)" data-astro-cid-dmqpwcec>HCY</span> <span class="fg-muted" data-astro-cid-dmqpwcec>Blog</span> </a> <nav class="flex items-center gap-1 text-[13px]" data-astro-cid-dmqpwcec> <a href="/blog/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> 文章 </a><a href="/search/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> 搜索 </a><a href="/projects/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> 项目 </a><a href="/reading/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> Reading </a> <a href="https://github.com/ChenyuHeee" target="_blank" rel="noreferrer" class="ml-1 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec>
+GitHub
+</a> </nav> </div> </header>  <main class="gh-container py-6">  <div class="mx-auto max-w-[1040px] grid gap-6 lg:grid-cols-[1fr_280px]" data-astro-cid-7jjqptxk> <article class="min-w-0" data-astro-cid-7jjqptxk> <div class="gh-card overflow-hidden" style="border-color: var(--border-default)" data-astro-cid-7jjqptxk> <header class="border-b px-4 py-4" style="border-color: var(--border-default)" data-astro-cid-7jjqptxk> <h1 class="text-2xl font-semibold tracking-tight" style="color: var(--fg-default)" data-astro-cid-7jjqptxk>技术知识点</h1> <div class="mt-2 flex flex-wrap items-center gap-x-4 gap-y-2 text-[12px]" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <time datetime="2026-01-15T09:21:40.555Z" data-astro-cid-7jjqptxk>2026-01-15</time>  </div> <p class="mt-2 text-[13px]" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk>本文介绍了在线C语言编译器的核心实现技术，重点解析了Monaco Editor的集成、智能缩进算法与浏览器持久化策略。读者可学习如何通过CDN直接引入编辑器、实现自适应布局与主题切换，掌握基于状态机的代码格式化方法，以及利用localStorage进行数据存储的技巧。</p> </header> <div class="border-b px-4 py-3 lg:hidden" style="border-color: var(--border-default)" data-astro-cid-7jjqptxk> <details data-astro-cid-7jjqptxk> <summary class="cursor-pointer text-[13px] font-semibold fg-default" data-astro-cid-7jjqptxk>目录</summary> <div class="mt-2" data-astro-cid-7jjqptxk> <nav aria-label="目录" data-astro-cid-7jjqptxk> <ul class="space-y-1 text-[13px]" data-astro-cid-7jjqptxk> <li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#在线-c-语言编译器" data-toc-slug="在线-c-语言编译器" data-astro-cid-7jjqptxk>在线 C 语言编译器</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#ai-医学辅助诊断系统" data-toc-slug="ai-医学辅助诊断系统" data-astro-cid-7jjqptxk>AI 医学辅助诊断系统</a> </li> </ul> </nav> </div> </details> </div> <div class="px-4 py-4" data-astro-cid-7jjqptxk> <div class="prose prose-sm max-w-none" id="postContent" data-astro-cid-7jjqptxk> <h1 id="技术知识点">技术知识点</h1>
+<h2 id="在线-c-语言编译器">在线 C 语言编译器</h2>
+<ul>
+<li>Monaco Editor 集成
+<ul>
+<li>项目未使用打包工具，直接通过 CDN 提供的 AMD loader 引入 Monaco：</li>
+</ul>
+</li>
+</ul>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="js"><code><span class="line"><span style="color:#E1E4E8">require.</span><span style="color:#B392F0">config</span><span style="color:#E1E4E8">({ paths: { vs: </span><span style="color:#9ECBFF">'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.33.0/min/vs'</span><span style="color:#E1E4E8"> } });</span></span>
+<span class="line"><span style="color:#B392F0">require</span><span style="color:#E1E4E8">([</span><span style="color:#9ECBFF">'vs/editor/editor.main'</span><span style="color:#E1E4E8">], () </span><span style="color:#F97583">=></span><span style="color:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#E1E4E8">  window.editor </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> monaco.editor.</span><span style="color:#B392F0">create</span><span style="color:#E1E4E8">(document.</span><span style="color:#B392F0">getElementById</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">'editor'</span><span style="color:#E1E4E8">), {</span></span>
+<span class="line"><span style="color:#E1E4E8">    value: </span><span style="color:#79B8FF">DEFAULT_CODE</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E1E4E8">    language: </span><span style="color:#9ECBFF">'c'</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E1E4E8">    theme: localStorage.</span><span style="color:#B392F0">getItem</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">'editorTheme'</span><span style="color:#E1E4E8">) </span><span style="color:#F97583">===</span><span style="color:#9ECBFF"> 'light'</span><span style="color:#F97583"> ?</span><span style="color:#9ECBFF"> 'vs-light'</span><span style="color:#F97583"> :</span><span style="color:#9ECBFF"> 'vs-dark'</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E1E4E8">    automaticLayout: </span><span style="color:#79B8FF">true</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E1E4E8">    minimap: { enabled: </span><span style="color:#79B8FF">false</span><span style="color:#E1E4E8"> },</span></span>
+<span class="line"><span style="color:#E1E4E8">    fontSize: </span><span style="color:#79B8FF">13</span></span>
+<span class="line"><span style="color:#E1E4E8">  });</span></span>
+<span class="line"><span style="color:#E1E4E8">});</span></span></code></pre>
+<ul>
+<li>
+<p>重点：使用 <code>automaticLayout</code> 保障窗口缩放时不需要手动 <code>layout</code>；使用 <code>window.editor.trigger</code> 绑定撤销/重做、注释切换等命令；通过 CSS 控制整体暗/明主题。</p>
+</li>
+<li>
+<p>面试补充：相比 <code>textarea</code>，Monaco 自带语法折叠、多光标、命令面板，提升在线编译器体验；项目中测试过 Chrome/Safari/Edge 的中文输入法，未出现光标漂移。</p>
+</li>
+<li>
+<p>智能缩进 / 格式化</p>
+<ul>
+<li>采用自定义的 <code>smartCIndent</code> 函数，对每行代码建立状态机，核心规则：
+<ol>
+<li>维护块栈统计 <code>{}</code> 层级；</li>
+<li>为 <code>case/default</code>、<code>do...while</code> 设置专属分支避免误缩；</li>
+<li>遍历时跳过字符串、注释，保证内部花括号不干扰。</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="js"><code><span class="line"><span style="color:#F97583">function</span><span style="color:#B392F0"> smartCIndent</span><span style="color:#E1E4E8">(</span><span style="color:#FFAB70">code</span><span style="color:#E1E4E8">, </span><span style="color:#FFAB70">tabSize</span><span style="color:#F97583"> =</span><span style="color:#79B8FF"> 4</span><span style="color:#E1E4E8">) {</span></span>
+<span class="line"><span style="color:#F97583">  const</span><span style="color:#79B8FF"> lines</span><span style="color:#F97583"> =</span><span style="color:#E1E4E8"> code.</span><span style="color:#B392F0">split</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">/</span><span style="color:#79B8FF">\r</span><span style="color:#F97583">?</span><span style="color:#79B8FF">\n</span><span style="color:#9ECBFF">/</span><span style="color:#E1E4E8">);</span></span>
+<span class="line"><span style="color:#F97583">  let</span><span style="color:#E1E4E8"> indent </span><span style="color:#F97583">=</span><span style="color:#79B8FF"> 0</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#F97583">  let</span><span style="color:#E1E4E8"> inBlockComment </span><span style="color:#F97583">=</span><span style="color:#79B8FF"> false</span><span style="color:#E1E4E8">, inString </span><span style="color:#F97583">=</span><span style="color:#79B8FF"> false</span><span style="color:#E1E4E8">, stringChar </span><span style="color:#F97583">=</span><span style="color:#9ECBFF"> ''</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#F97583">  return</span><span style="color:#E1E4E8"> lines.</span><span style="color:#B392F0">map</span><span style="color:#E1E4E8">((</span><span style="color:#FFAB70">line</span><span style="color:#E1E4E8">) </span><span style="color:#F97583">=></span><span style="color:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#F97583">    const</span><span style="color:#79B8FF"> trimmed</span><span style="color:#F97583"> =</span><span style="color:#E1E4E8"> line.</span><span style="color:#B392F0">trim</span><span style="color:#E1E4E8">();</span></span>
+<span class="line"><span style="color:#F97583">    if</span><span style="color:#E1E4E8"> (trimmed.</span><span style="color:#B392F0">startsWith</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">'}'</span><span style="color:#E1E4E8">)) indent </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> Math.</span><span style="color:#B392F0">max</span><span style="color:#E1E4E8">(</span><span style="color:#79B8FF">0</span><span style="color:#E1E4E8">, indent </span><span style="color:#F97583">-</span><span style="color:#79B8FF"> 1</span><span style="color:#E1E4E8">);</span></span>
+<span class="line"><span style="color:#F97583">    const</span><span style="color:#79B8FF"> formatted</span><span style="color:#F97583"> =</span><span style="color:#9ECBFF"> ' '</span><span style="color:#E1E4E8">.</span><span style="color:#B392F0">repeat</span><span style="color:#E1E4E8">(tabSize </span><span style="color:#F97583">*</span><span style="color:#E1E4E8"> indent) </span><span style="color:#F97583">+</span><span style="color:#E1E4E8"> trimmed;</span></span>
+<span class="line"><span style="color:#6A737D">    // ...扫描字符更新 indent / 状态...</span></span>
+<span class="line"><span style="color:#F97583">    if</span><span style="color:#E1E4E8"> (trimmed.</span><span style="color:#B392F0">endsWith</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">'{'</span><span style="color:#E1E4E8">)) indent </span><span style="color:#F97583">+=</span><span style="color:#79B8FF"> 1</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#F97583">    return</span><span style="color:#E1E4E8"> formatted;</span></span>
+<span class="line"><span style="color:#E1E4E8">  }).</span><span style="color:#B392F0">join</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">'</span><span style="color:#79B8FF">\n</span><span style="color:#9ECBFF">'</span><span style="color:#E1E4E8">);</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span></code></pre>
+<ul>
+<li>
+<p>面试补充：若老师问为何不用 AST，可以说明 AST 解析器体积大且需要完整 C 标准库；纯栈 + 状态机已经覆盖主流语法结构，成本更低。</p>
+</li>
+<li>
+<p>浏览器持久化策略</p>
+<ul>
+<li>使用多个 localStorage Key 分别记录代码、主题、测试用例：</li>
+</ul>
+</li>
+</ul>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="js"><code><span class="line"><span style="color:#E1E4E8">localStorage.</span><span style="color:#B392F0">setItem</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">'deepseek_saved_c'</span><span style="color:#E1E4E8">, window.editor.</span><span style="color:#B392F0">getValue</span><span style="color:#E1E4E8">());</span></span>
+<span class="line"><span style="color:#E1E4E8">localStorage.</span><span style="color:#B392F0">setItem</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">'editorTheme'</span><span style="color:#E1E4E8">, isDark </span><span style="color:#F97583">?</span><span style="color:#9ECBFF"> 'dark'</span><span style="color:#F97583"> :</span><span style="color:#9ECBFF"> 'light'</span><span style="color:#E1E4E8">);</span></span>
+<span class="line"><span style="color:#E1E4E8">localStorage.</span><span style="color:#B392F0">setItem</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">'test_cases_v1'</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">JSON</span><span style="color:#E1E4E8">.</span><span style="color:#B392F0">stringify</span><span style="color:#E1E4E8">(cases));</span></span></code></pre>
+<ul>
+<li>
+<p>页面加载时先读取存档，fallback 到默认模板；在 <code>beforeunload</code> 事件中追加自动保存，减少意外丢失。</p>
+</li>
+<li>
+<p>面试补充：Safari 隐私模式会抛出 <code>QuotaExceededError</code>，因此所有写操作都包裹 <code>try...catch</code> 并在 UI 提醒用户。</p>
+</li>
+<li>
+<p>Wandbox API 调用</p>
+<ul>
+<li>运行按钮触发 <code>tryWandboxCompile</code>，内部实现：</li>
+</ul>
+</li>
+</ul>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="js"><code><span class="line"><span style="color:#F97583">const</span><span style="color:#79B8FF"> wandboxUrl</span><span style="color:#F97583"> =</span><span style="color:#9ECBFF"> 'https://wandbox.org/api/compile.json'</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#F97583">const</span><span style="color:#79B8FF"> resp</span><span style="color:#F97583"> =</span><span style="color:#F97583"> await</span><span style="color:#B392F0"> fetch</span><span style="color:#E1E4E8">(wandboxUrl, {</span></span>
+<span class="line"><span style="color:#E1E4E8">  method: </span><span style="color:#9ECBFF">'POST'</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E1E4E8">  headers: { </span><span style="color:#9ECBFF">'Content-Type'</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">'application/json'</span><span style="color:#E1E4E8"> },</span></span>
+<span class="line"><span style="color:#E1E4E8">  body: </span><span style="color:#79B8FF">JSON</span><span style="color:#E1E4E8">.</span><span style="color:#B392F0">stringify</span><span style="color:#E1E4E8">({ code, compiler: </span><span style="color:#9ECBFF">'gcc-head'</span><span style="color:#E1E4E8">, stdin })</span></span>
+<span class="line"><span style="color:#E1E4E8">});</span></span>
+<span class="line"><span style="color:#F97583">const</span><span style="color:#79B8FF"> json</span><span style="color:#F97583"> =</span><span style="color:#F97583"> await</span><span style="color:#E1E4E8"> resp.</span><span style="color:#B392F0">json</span><span style="color:#E1E4E8">();</span></span>
+<span class="line"><span style="color:#F97583">const</span><span style="color:#79B8FF"> out</span><span style="color:#F97583"> =</span><span style="color:#E1E4E8"> (json.program_output </span><span style="color:#F97583">||</span><span style="color:#9ECBFF"> ''</span><span style="color:#E1E4E8">) </span><span style="color:#F97583">+</span><span style="color:#E1E4E8"> (json.program_error </span><span style="color:#F97583">?</span><span style="color:#9ECBFF"> `</span><span style="color:#79B8FF">\n</span><span style="color:#9ECBFF">[stderr]</span><span style="color:#79B8FF">\n</span><span style="color:#9ECBFF">${</span><span style="color:#E1E4E8">json</span><span style="color:#9ECBFF">.</span><span style="color:#E1E4E8">program_error</span><span style="color:#9ECBFF">}`</span><span style="color:#F97583"> :</span><span style="color:#9ECBFF"> ''</span><span style="color:#E1E4E8">);</span></span>
+<span class="line"><span style="color:#E1E4E8">stdoutEl.textContent </span><span style="color:#F97583">=</span><span style="color:#9ECBFF"> `${</span><span style="color:#E1E4E8">out</span><span style="color:#9ECBFF">}</span><span style="color:#79B8FF">\n</span><span style="color:#9ECBFF">[exit code] ${</span><span style="color:#E1E4E8">json</span><span style="color:#9ECBFF">.</span><span style="color:#E1E4E8">status</span><span style="color:#F97583"> ??</span><span style="color:#79B8FF"> 0</span><span style="color:#9ECBFF">}`</span><span style="color:#E1E4E8">;</span></span></code></pre>
+<ul>
+<li>
+<p>若请求失败（超时 / 网络 / HTTP 错误），直接在输出面板显示真实错误信息并写入控制台，无本地 WASM 回退，用真实情况教育用户。</p>
+</li>
+<li>
+<p>面试补充：通过 <code>Promise.race</code> + 手动超时避免长时间等待；在测试用例批量运行里沿用同一 API，统一错误处理经验。</p>
+</li>
+<li>
+<p>URL hash 分享</p>
+<ul>
+<li>分享弹窗会把数据打包成 JSON 再 Base64：</li>
+</ul>
+</li>
+</ul>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="js"><code><span class="line"><span style="color:#F97583">function</span><span style="color:#B392F0"> buildShareUrl</span><span style="color:#E1E4E8">(</span><span style="color:#FFAB70">opts</span><span style="color:#E1E4E8">) {</span></span>
+<span class="line"><span style="color:#F97583">  const</span><span style="color:#79B8FF"> payload</span><span style="color:#F97583"> =</span><span style="color:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#E1E4E8">    code: window.editor.</span><span style="color:#B392F0">getValue</span><span style="color:#E1E4E8">(),</span></span>
+<span class="line"><span style="color:#E1E4E8">    stdin: opts.stdin </span><span style="color:#F97583">?</span><span style="color:#E1E4E8"> stdinEl.value </span><span style="color:#F97583">:</span><span style="color:#79B8FF"> undefined</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E1E4E8">    cases: opts.cases </span><span style="color:#F97583">?</span><span style="color:#E1E4E8"> cases </span><span style="color:#F97583">:</span><span style="color:#79B8FF"> undefined</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E1E4E8">    name: currentFilename</span></span>
+<span class="line"><span style="color:#E1E4E8">  };</span></span>
+<span class="line"><span style="color:#F97583">  const</span><span style="color:#79B8FF"> b64</span><span style="color:#F97583"> =</span><span style="color:#B392F0"> btoa</span><span style="color:#E1E4E8">(</span><span style="color:#B392F0">unescape</span><span style="color:#E1E4E8">(</span><span style="color:#B392F0">encodeURIComponent</span><span style="color:#E1E4E8">(</span><span style="color:#79B8FF">JSON</span><span style="color:#E1E4E8">.</span><span style="color:#B392F0">stringify</span><span style="color:#E1E4E8">(payload))));</span></span>
+<span class="line"><span style="color:#F97583">  return</span><span style="color:#9ECBFF"> `${</span><span style="color:#E1E4E8">location</span><span style="color:#9ECBFF">.</span><span style="color:#E1E4E8">origin</span><span style="color:#9ECBFF">}${</span><span style="color:#E1E4E8">location</span><span style="color:#9ECBFF">.</span><span style="color:#E1E4E8">pathname</span><span style="color:#9ECBFF">}#share=${</span><span style="color:#E1E4E8">b64</span><span style="color:#9ECBFF">}`</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span></code></pre>
+<ul>
+<li>
+<p>页面加载检查 <code>location.hash</code>，若识别到 <code>#share=</code> 前缀就解码恢复编辑器、stdin 和测试用例。</p>
+</li>
+<li>
+<p>面试补充：Base64 长度比原文短一截，但仍受浏览器 URL 长度限制；所以 UI 中提示“过长建议下载文件”。</p>
+</li>
+<li>
+<p>Service Worker / PWA</p>
+<ul>
+<li>手写 <code>sw.js</code> 维护固定版本号，核心策略是 precache + cache-first：</li>
+</ul>
+</li>
+</ul>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="js"><code><span class="line"><span style="color:#F97583">const</span><span style="color:#79B8FF"> CACHE_NAME</span><span style="color:#F97583"> =</span><span style="color:#9ECBFF"> `c-compiler-${</span><span style="color:#79B8FF">VERSION</span><span style="color:#9ECBFF">}`</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#E1E4E8">self.</span><span style="color:#B392F0">addEventListener</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">'fetch'</span><span style="color:#E1E4E8">, (</span><span style="color:#FFAB70">event</span><span style="color:#E1E4E8">) </span><span style="color:#F97583">=></span><span style="color:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#F97583">  if</span><span style="color:#E1E4E8"> (event.request.method </span><span style="color:#F97583">!==</span><span style="color:#9ECBFF"> 'GET'</span><span style="color:#E1E4E8">) </span><span style="color:#F97583">return</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#E1E4E8">  event.</span><span style="color:#B392F0">respondWith</span><span style="color:#E1E4E8">(</span></span>
+<span class="line"><span style="color:#E1E4E8">    caches.</span><span style="color:#B392F0">match</span><span style="color:#E1E4E8">(event.request).</span><span style="color:#B392F0">then</span><span style="color:#E1E4E8">((</span><span style="color:#FFAB70">cached</span><span style="color:#E1E4E8">) </span><span style="color:#F97583">=></span><span style="color:#E1E4E8"> cached </span><span style="color:#F97583">||</span><span style="color:#B392F0"> fetch</span><span style="color:#E1E4E8">(event.request).</span><span style="color:#B392F0">then</span><span style="color:#E1E4E8">((</span><span style="color:#FFAB70">resp</span><span style="color:#E1E4E8">) </span><span style="color:#F97583">=></span><span style="color:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#F97583">      if</span><span style="color:#E1E4E8"> (resp.status </span><span style="color:#F97583">===</span><span style="color:#79B8FF"> 200</span><span style="color:#E1E4E8">) caches.</span><span style="color:#B392F0">open</span><span style="color:#E1E4E8">(</span><span style="color:#79B8FF">CACHE_NAME</span><span style="color:#E1E4E8">).</span><span style="color:#B392F0">then</span><span style="color:#E1E4E8">((</span><span style="color:#FFAB70">cache</span><span style="color:#E1E4E8">) </span><span style="color:#F97583">=></span><span style="color:#E1E4E8"> cache.</span><span style="color:#B392F0">put</span><span style="color:#E1E4E8">(event.request, resp.</span><span style="color:#B392F0">clone</span><span style="color:#E1E4E8">()));</span></span>
+<span class="line"><span style="color:#F97583">      return</span><span style="color:#E1E4E8"> resp;</span></span>
+<span class="line"><span style="color:#E1E4E8">    }).</span><span style="color:#B392F0">catch</span><span style="color:#E1E4E8">(() </span><span style="color:#F97583">=></span><span style="color:#E1E4E8"> caches.</span><span style="color:#B392F0">match</span><span style="color:#E1E4E8">(event.request)))</span></span>
+<span class="line"><span style="color:#E1E4E8">  );</span></span>
+<span class="line"><span style="color:#E1E4E8">});</span></span></code></pre>
+<ul>
+<li>
+<p>安装阶段缓存首页、Manifest、图片；激活时清理旧版本缓存，并在离线时返回友好文本提示。</p>
+</li>
+<li>
+<p>面试补充：没有借助 Workbox，便于完全掌控缓存逻辑；通过 <code>scripts/version.js</code> 的版本号手动触发缓存刷新。</p>
+</li>
+<li>
+<p>GitHub Pages 发布</p>
+<ul>
+<li>项目无构建链路，直接把静态资源放在主分支根目录，GitHub Pages 自动部署。若要更新，只需 <code>git push</code> 主分支。</li>
+<li>面试补充：若老师问自动化，可说明未来计划增加轻量工作流生成压缩版资源；目前重点是快速迭代前端功能。</li>
+</ul>
+</li>
+</ul>
+<h2 id="ai-医学辅助诊断系统">AI 医学辅助诊断系统</h2>
+<ul>
+<li>多 Agent 协同流程
+<ul>
+<li><code>SymptomAnalyzer</code> 将一次分析拆成搜索计划、证据检索、证据排序、临床规划、追问、中文翻译六个阶段，每个阶段都用 DeepSeek Agent + JSON Schema 约束输出结构。</li>
+</ul>
+</li>
+</ul>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#E1E4E8">result, raw </span><span style="color:#F97583">=</span><span style="color:#F97583"> await</span><span style="color:#79B8FF"> self</span><span style="color:#E1E4E8">._run_agent(</span></span>
+<span class="line"><span style="color:#FFAB70">    agent_name</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">"ClinicalPlannerAgent"</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#FFAB70">    system_prompt</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">"You design safe, evidence-aware triage plans for telemedicine workflows."</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#FFAB70">    instructions</span><span style="color:#F97583">=</span><span style="color:#E1E4E8">instructions,</span></span>
+<span class="line"><span style="color:#FFAB70">    schema</span><span style="color:#F97583">=</span><span style="color:#E1E4E8">schema,</span></span>
+<span class="line"><span style="color:#FFAB70">    context</span><span style="color:#F97583">=</span><span style="color:#E1E4E8">context,</span></span>
+<span class="line"><span style="color:#FFAB70">    temperature</span><span style="color:#F97583">=</span><span style="color:#79B8FF">0.2</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E1E4E8">)</span></span></code></pre>
+<ul>
+<li>
+<p>每个 Agent 的原始输出与结构化结果都会记录在 <code>agent_traces</code>，方便面试时解释“如何保证可追溯性”。当 LLM 返回空值或证据不足时，代码回退到预置安全方案，确保 API 不会直接返回空响应。</p>
+</li>
+<li>
+<p>PubMed/NICE 抓取与过滤</p>
+<ul>
+<li><code>knowledge.py</code> 直接调用 NCBI E-utilities（<code>esearch</code>/<code>esummary</code>/<code>efetch</code>），并对返回文献做人口、物种和研究类型过滤：
+<ul>
+<li>年龄段：根据患者年龄组构建包含/排除词，例如成人病例会自动排除 <code>neonatal</code>、<code>pediatric</code>。</li>
+<li>物种：串联 <code>HUMAN_ONLY_FILTER</code>、<code>VETERINARY_FILTER</code> 和关键词黑名单（<code>canine</code>、<code>vet journal</code> 等）。</li>
+<li>研究类型：优先保留指南、系统综述等高质量文献，检索不到时再回退到病例报告。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#F97583">if</span><span style="color:#E1E4E8"> item.category </span><span style="color:#F97583">and</span><span style="color:#9ECBFF"> "guideline"</span><span style="color:#F97583"> in</span><span style="color:#E1E4E8"> item.category.lower():</span></span>
+<span class="line"><span style="color:#E1E4E8">    category_bonus </span><span style="color:#F97583">=</span><span style="color:#79B8FF"> 0.25</span></span>
+<span class="line"><span style="color:#E1E4E8">    guideline_priority </span><span style="color:#F97583">=</span><span style="color:#79B8FF"> True</span></span></code></pre>
+<ul>
+<li>
+<p>同时抓取 NICE 官方指南 HTML，提取标题、摘要和 PDF 链接，与 PubMed 结果合并后统一排序。</p>
+</li>
+<li>
+<p>证据打分与可视化</p>
+<ul>
+<li><code>_rank_evidence</code> 使用词覆盖度、证据新鲜度、研究类型、实验室指标匹配等特征打分，并给指南附加优先级；最终分数写回 <code>EvidenceItem.score</code>。</li>
+<li><code>_build_visualizations</code> 将文献按年份聚合生成 <code>ChartDatum</code> 列表，前端据此渲染“年份柱状图 + 来源占比圆图”。这部分是手写 CSS 图表，面试时可强调“无第三方图表库，也能快速实现轻量可视化”。</li>
+</ul>
+</li>
+<li>
+<p>前端状态编排</p>
+<ul>
+<li>主页面 <code>page.tsx</code> 使用 React hooks 管理病例列表、追问草稿、分析结果、折叠状态，并通过 <code>localStorage</code> 在刷新后恢复：</li>
+</ul>
+</li>
+</ul>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="ts"><code><span class="line"><span style="color:#F97583">const</span><span style="color:#79B8FF"> payload</span><span style="color:#F97583"> =</span><span style="color:#E1E4E8"> { cases, caseCounter, activeCaseIndex, analyses: caseAnalyses, followupHistory, collapsedCases };</span></span>
+<span class="line"><span style="color:#E1E4E8">localStorage.</span><span style="color:#B392F0">setItem</span><span style="color:#E1E4E8">(</span><span style="color:#79B8FF">CASE_STORAGE_KEY</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">JSON</span><span style="color:#E1E4E8">.</span><span style="color:#B392F0">stringify</span><span style="color:#E1E4E8">(payload));</span></span></code></pre>
+<ul>
+<li>
+<p>一旦收到 <code>analysis.requires_followup=true</code>，界面会锁定结果区，展示追问列表并记录历史追问轮次；补充回答后再调用 <code>/api/v1/analyze</code> 生成最终方案。</p>
+</li>
+<li>
+<p>进度追踪与下载接口</p>
+<ul>
+<li>每次请求在后台注册进度令牌，前端通过 <code>setInterval</code> 调用 <code>/api/v1/progress/:token</code> 显示实时进度条。</li>
+<li><code>download_pubmed_asset</code> 根据 PMID 调用 PubMed API 获取摘要或全文 PDF URL，封装成二进制响应返回前端，支持一键下载文献。</li>
+</ul>
+</li>
+<li>
+<p>部署与调试</p>
+<ul>
+<li>项目提供 <code>deploy.sh</code>，根据 git diff 判断本次需要同步的模块，并通过 systemd 重启 <code>medagt-api</code>（FastAPI）和 <code>medagt-web</code>（Next.js）。</li>
+<li>日志分散在前端浏览器控制台与后端 <code>logging</code> 输出，调试 Agent 行为时可以直接查看 <code>agent_traces</code>，定位是检索、排序还是规划阶段出现偏差。
+说明：这种结构化格式方便后端做校验，例如检查 <code>severity</code> 是否在 <code>mild/moderate/severe</code> 范围内。老师如果问到多语言输入（中文症状如何转换成英文），可以说会结合自建词典或调用医学术语标准（如 SNOMED CT）将自然语言对应到统一编码。</li>
+</ul>
+</li>
+<li>
+<p>大模型安全策略</p>
+<ul>
+<li>提示模板中要求“必须引用检索证据编号”，并在返回后校验。如果模型输出未引用证据或涉及药物剂量等高风险内容，规则引擎会重写为“建议线下就医”。</li>
+</ul>
+</li>
+</ul>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#F97583">if</span><span style="color:#F97583"> not</span><span style="color:#E1E4E8"> has_reference(advice):</span></span>
+<span class="line"><span style="color:#E1E4E8">  advice </span><span style="color:#F97583">=</span><span style="color:#9ECBFF"> "当前证据不足，请建议患者尽快线下就医。"</span></span></code></pre>
+<p>说明：这个检查函数会解析模型输出中是否包含像 <code>[1]</code> 或 <code>(PMID:xxxxxx)</code> 之类的引文标注。老师若问到如何防止模型推荐违规药品，可以说会在规则引擎里增加黑名单词汇，发现敏感词就自动改写成“需要医生评估”。</p>
+<ul>
+<li>人工校准闭环
+<ul>
+<li>审核界面展示模型建议、引用文献、置信度。医生点击“通过/修改/驳回”后，将最终意见写入审核日志表，为后续模型调优提供数据。</li>
+</ul>
+</li>
+</ul>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="sql"><code><span class="line"><span style="color:#F97583">INSERT INTO</span><span style="color:#E1E4E8"> review_logs(case_id, reviewer, final_decision, confidence)</span></span>
+<span class="line"><span style="color:#F97583">VALUES</span><span style="color:#E1E4E8"> (:case_id, :reviewer, :decision, :confidence);</span></span></code></pre>
+<p>说明：人工校准记录可以追踪每条建议的责任人，符合医疗合规要求。老师如果问“人手不够怎么办”，可以说会根据置信度分类，只有低置信度结果才必须人工审核，高置信度结果标注“未经人工复核”让医生快速浏览。</p>
+<ul>
+<li>API 设计范例
+<ul>
+<li>前端提交病例数据到 <code>/api/cases</code>, 后端返回 triage 信息和建议。接口遵循 REST 风格，返回的 JSON 包含决策解释和证据链。</li>
+</ul>
+</li>
+</ul>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="http"><code><span class="line"><span style="color:#F97583">POST</span><span style="color:#E1E4E8"> /api/cases</span></span>
+<span class="line"><span style="color:#E1E4E8">{</span></span>
+<span class="line"><span style="color:#79B8FF">  "case_id"</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">"CASE-001"</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#79B8FF">  "symptoms"</span><span style="color:#E1E4E8">: [ </span><span style="color:#FDAEB7;font-style:italic">...</span><span style="color:#E1E4E8"> ]</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">HTTP/</span><span style="color:#79B8FF">1.1</span><span style="color:#79B8FF"> 200</span><span style="color:#E1E4E8"> OK</span></span>
+<span class="line"><span style="color:#E1E4E8">{</span></span>
+<span class="line"><span style="color:#79B8FF">  "triage"</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">"Level 3"</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#79B8FF">  "recommendation"</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">"建议 24 小时内就诊"</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#79B8FF">  "references"</span><span style="color:#E1E4E8">: [ { </span><span style="color:#79B8FF">"id"</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">"PMID:123456"</span><span style="color:#E1E4E8"> } ]</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span></code></pre>
+<p>说明：接口返回的 <code>Level 3</code> 对应院内急诊分级标准，老师可能会问“这个等级从哪里来”，可以回答参考了国际常用的 ESI (Emergency Severity Index)，并请医学顾问调整到本土标准。如果需要图像输入，也可以在 <code>symptoms</code> 中增加附件 URL，后端再连接影像识别服务。</p>
+<ul>
+<li>部署与安全要点
+<ul>
+<li>后端部署在阿里云 ECS，预计接入 HTTPS 证书。为演示模式提供“本地存储”选项，把病例数据仅保留在浏览器，降低隐私风险。</li>
+</ul>
+</li>
+</ul>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#B392F0">sudo</span><span style="color:#9ECBFF"> certbot</span><span style="color:#79B8FF"> --nginx</span><span style="color:#79B8FF"> -d</span><span style="color:#9ECBFF"> medagt.example.com</span></span></code></pre>
+<p>说明：医疗项目对安全要求高，老师若问还有哪些安全措施，可以补充：部署时会打开阿里云 WAF，并将敏感日志透过 KMS 加密后储存。对于演示账号，会限制只能使用匿名病例，并在登入页加上告警提示。</p>
+<ul>
+<li>向量数据库维护
+<ul>
+<li>Milvus 定期导入最新文献摘要，使用定时任务重建索引。对低置信度检索结果进行人工标注并回填，提高后续检索准确率。</li>
+</ul>
+</li>
+</ul>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#B392F0">python</span><span style="color:#9ECBFF"> scripts/update_embeddings.py</span><span style="color:#79B8FF"> --source</span><span style="color:#9ECBFF"> pubmed.csv</span><span style="color:#79B8FF"> --collection</span><span style="color:#9ECBFF"> med_papers</span></span></code></pre>
+<p>说明：这个脚本会重新计算向量并写入 Milvus。老师如果问到“如何确保同步过程不影响线上服务”，可以回答会使用灰度方案：先写入新集合，待检查完毕后再切换索引别名。若源数据格式变动，会先在测试环境演练。</p>
+<ul>
+<li>DeepSeek LLM 集成
+<ul>
+<li>通过 HTTP API 发送用户请求，设置温度较低（如 0.2）保证回答稳定可控。预留本地部署接口，以便未来在院内环境运行。</li>
+</ul>
+</li>
+</ul>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#E1E4E8">response </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> requests.post(</span></span>
+<span class="line"><span style="color:#9ECBFF">  'https://api.deepseek.com/v1/chat/completions'</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#FFAB70">  headers</span><span style="color:#F97583">=</span><span style="color:#E1E4E8">{</span><span style="color:#9ECBFF">'Authorization'</span><span style="color:#E1E4E8">: </span><span style="color:#F97583">f</span><span style="color:#9ECBFF">'Bearer </span><span style="color:#79B8FF">{DEEPSEEK_KEY}</span><span style="color:#9ECBFF">'</span><span style="color:#E1E4E8">},</span></span>
+<span class="line"><span style="color:#FFAB70">  json</span><span style="color:#F97583">=</span><span style="color:#E1E4E8">{</span></span>
+<span class="line"><span style="color:#9ECBFF">    'model'</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">'deepseek-medical'</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#9ECBFF">    'messages'</span><span style="color:#E1E4E8">: [</span></span>
+<span class="line"><span style="color:#E1E4E8">      { </span><span style="color:#9ECBFF">'role'</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">'system'</span><span style="color:#E1E4E8">, </span><span style="color:#9ECBFF">'content'</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">'你是医学问诊助手，必须引用证据。'</span><span style="color:#E1E4E8"> },</span></span>
+<span class="line"><span style="color:#E1E4E8">      { </span><span style="color:#9ECBFF">'role'</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">'user'</span><span style="color:#E1E4E8">, </span><span style="color:#9ECBFF">'content'</span><span style="color:#E1E4E8">: prompt }</span></span>
+<span class="line"><span style="color:#E1E4E8">    ],</span></span>
+<span class="line"><span style="color:#9ECBFF">    'temperature'</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">0.2</span></span>
+<span class="line"><span style="color:#E1E4E8">  }</span></span>
+<span class="line"><span style="color:#E1E4E8">)</span></span></code></pre>
+<p>说明：温度设为 0.2 可以让回答更稳定。若老师问到“如果 API 失效怎么办”，可以说会设定重试机制与后备模型（例如本地部署版），并在监控面板透过 Prometheus + Grafana 跟踪请求成功率。一旦失败率升高，会自动切换到备援模式。</p> </div> </div> </div> </article> <aside class="hidden lg:block" data-astro-cid-7jjqptxk> <div class="gh-card border-default sticky top-16 px-4 py-3" data-astro-cid-7jjqptxk> <div class="text-[12px] font-semibold fg-default" data-astro-cid-7jjqptxk>目录</div> <nav class="mt-2" aria-label="目录" data-astro-cid-7jjqptxk> <ul class="space-y-1 text-[13px]" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#在线-c-语言编译器" data-toc-slug="在线-c-语言编译器" data-astro-cid-7jjqptxk>在线 C 语言编译器</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#ai-医学辅助诊断系统" data-toc-slug="ai-医学辅助诊断系统" data-astro-cid-7jjqptxk>AI 医学辅助诊断系统</a> </li> </ul> </nav> </div> </aside> </div> <button id="backToTop" class="back-to-top" type="button" aria-label="回到顶部" hidden data-astro-cid-7jjqptxk>
+↑
+</button> <script type="module">(function(){const s=document.getElementById("postContent");if(!s)return;const l=Array.from(document.querySelectorAll("a.toc-link")),r=new Map;l.forEach(t=>{const e=t.getAttribute("data-toc-slug");if(!e)return;const n=r.get(e)||[];n.push(t),r.set(e,n)});const c=Array.from(s.querySelectorAll("h2[id], h3[id]"));function a(t){if(l.forEach(n=>n.removeAttribute("aria-current")),!t)return;const e=r.get(t);e&&e.forEach(n=>n.setAttribute("aria-current","true"))}function f(){if(!c.length)return"";const t=120;for(let e=c.length-1;e>=0;e--){const n=c[e];if(n.getBoundingClientRect().top<=t)return n.id||""}return c[0].id||""}let d=!1;function i(){d||(d=!0,window.requestAnimationFrame(()=>{d=!1;const t=(location.hash||"").replace(/^#/,"");if(t&&r.has(t)){a(t);return}a(f())}))}window.addEventListener("scroll",i,{passive:!0}),window.addEventListener("resize",i),window.addEventListener("hashchange",i),l.forEach(t=>t.addEventListener("click",()=>{const e=t.getAttribute("data-toc-slug")||"";a(e)})),i();const u=document.getElementById("backToTop");if(u){const t=()=>{const e=window.scrollY||document.documentElement.scrollTop||0;u.hidden=e<320};window.addEventListener("scroll",t,{passive:!0}),t(),u.addEventListener("click",()=>{window.scrollTo({top:0,behavior:"smooth"})})}s.querySelectorAll("pre > code").forEach(t=>{const e=t.parentElement;if(!e||e.querySelector(".copy-btn"))return;e.style.position="relative";const n=document.createElement("button");n.type="button",n.className="copy-btn",n.textContent="复制",n.addEventListener("click",async()=>{const m=t.textContent||"";try{await navigator.clipboard.writeText(m),n.textContent="已复制",window.setTimeout(()=>n.textContent="复制",900)}catch{const o=document.createElement("textarea");o.value=m,o.style.position="fixed",o.style.opacity="0",document.body.appendChild(o),o.select(),document.execCommand("copy"),document.body.removeChild(o),n.textContent="已复制",window.setTimeout(()=>n.textContent="复制",900)}}),e.appendChild(n)})})();</script>   </main> <footer class="border-t py-6 text-[13px]" style="border-color: var(--border-default); color: var(--fg-muted)"> <div class="gh-container flex items-center justify-between"> <p>© 2026 · Built with Astro</p> <p style="color: var(--fg-muted)">Zhejiang University · CS</p> </div> </footer> </body></html>

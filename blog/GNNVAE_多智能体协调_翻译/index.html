@@ -1,0 +1,154 @@
+<!DOCTYPE html><html lang="zh-CN" class="h-full"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="generator" content="Astro v5.16.9"><title>GNN-VAE: 基于图神经网络的多智能体协调 · 个人博客</title><meta name="description" content="本文提出基于图神经网络与变分自编码器的GNN-VAE框架，用于解决多智能体协调中的约束优化问题。该模型通过图结构捕捉智能体交互，并生成满足无环与密度约束的可行解，在保证接近最优解质量的同时，显著提升了计算效率，可扩展至250个机器人的大规模…"><meta property="og:title" content="GNN-VAE: 基于图神经网络的多智能体协调 · 个人博客"><meta property="og:description" content="本文提出基于图神经网络与变分自编码器的GNN-VAE框架，用于解决多智能体协调中的约束优化问题。该模型通过图结构捕捉智能体交互，并生成满足无环与密度约束的可行解，在保证接近最优解质量的同时，显著提升了计算效率，可扩展至250个机器人的大规模…"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="stylesheet" href="/_astro/_slug_.1UaX29b_.css">
+<style>.copy-btn[data-astro-cid-7jjqptxk]{position:absolute;top:8px;right:8px;padding:4px 8px;font-size:12px;border-radius:6px;border:1px solid var(--border-default);background:color-mix(in srgb,var(--canvas-default) 80%,var(--canvas-subtle));color:var(--fg-default);cursor:pointer}.copy-btn[data-astro-cid-7jjqptxk]:hover{background:color-mix(in srgb,var(--canvas-default) 65%,var(--canvas-subtle))}.copy-btn[data-astro-cid-7jjqptxk]:focus-visible{outline:2px solid color-mix(in srgb,var(--accent-emphasis) 55%,transparent);outline-offset:2px}a[data-astro-cid-7jjqptxk].toc-link[aria-current=true]{color:var(--fg-default);font-weight:600;text-decoration:none}.back-to-top[data-astro-cid-7jjqptxk]{position:fixed;right:18px;bottom:18px;width:36px;height:36px;border-radius:999px;border:1px solid var(--border-default);background:color-mix(in srgb,var(--canvas-default) 80%,var(--canvas-subtle));color:var(--fg-default);cursor:pointer;z-index:40}.back-to-top[data-astro-cid-7jjqptxk]:hover{background:color-mix(in srgb,var(--canvas-default) 65%,var(--canvas-subtle))}.back-to-top[data-astro-cid-7jjqptxk]:focus-visible{outline:2px solid color-mix(in srgb,var(--accent-emphasis) 55%,transparent);outline-offset:2px}
+</style></head> <body class="min-h-full antialiased"> <header class="sticky top-0 z-50 border-b" style="border-color: var(--border-default); background: var(--canvas-subtle)" data-astro-cid-dmqpwcec> <div class="gh-container flex h-12 items-center justify-between" data-astro-cid-dmqpwcec> <a href="/" class="flex items-center gap-2 text-[13px] font-semibold fg-default" data-astro-cid-dmqpwcec> <span class="inline-flex h-7 items-center rounded-md px-2" style="background: var(--fg-default); color: var(--canvas-default)" data-astro-cid-dmqpwcec>HCY</span> <span class="fg-muted" data-astro-cid-dmqpwcec>Blog</span> </a> <nav class="flex items-center gap-1 text-[13px]" data-astro-cid-dmqpwcec> <a href="/blog/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> 文章 </a><a href="/search/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> 搜索 </a><a href="/projects/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> 项目 </a><a href="/reading/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> Reading </a> <a href="https://github.com/ChenyuHeee" target="_blank" rel="noreferrer" class="ml-1 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec>
+GitHub
+</a> </nav> </div> </header>  <main class="gh-container py-6">  <div class="mx-auto max-w-[1040px] grid gap-6 lg:grid-cols-[1fr_280px]" data-astro-cid-7jjqptxk> <article class="min-w-0" data-astro-cid-7jjqptxk> <div class="gh-card overflow-hidden" style="border-color: var(--border-default)" data-astro-cid-7jjqptxk> <header class="border-b px-4 py-4" style="border-color: var(--border-default)" data-astro-cid-7jjqptxk> <h1 class="text-2xl font-semibold tracking-tight" style="color: var(--fg-default)" data-astro-cid-7jjqptxk>GNN-VAE: 基于图神经网络的多智能体协调</h1> <div class="mt-2 flex flex-wrap items-center gap-x-4 gap-y-2 text-[12px]" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <time datetime="2026-01-15T09:21:40.552Z" data-astro-cid-7jjqptxk>2026-01-15</time> <div class="flex flex-wrap gap-2" data-astro-cid-7jjqptxk> <span class="gh-pill" data-astro-cid-7jjqptxk>AIOPS</span><span class="gh-pill" data-astro-cid-7jjqptxk>论文</span><span class="gh-pill" data-astro-cid-7jjqptxk>学习</span> </div> </div> <p class="mt-2 text-[13px]" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk>本文提出基于图神经网络与变分自编码器的GNN-VAE框架，用于解决多智能体协调中的约束优化问题。该模型通过图结构捕捉智能体交互，并生成满足无环与密度约束的可行解，在保证接近最优解质量的同时，显著提升了计算效率，可扩展至250个机器人的大规模…</p> </header> <div class="border-b px-4 py-3 lg:hidden" style="border-color: var(--border-default)" data-astro-cid-7jjqptxk> <details data-astro-cid-7jjqptxk> <summary class="cursor-pointer text-[13px] font-semibold fg-default" data-astro-cid-7jjqptxk>目录</summary> <div class="mt-2" data-astro-cid-7jjqptxk> <nav aria-label="目录" data-astro-cid-7jjqptxk> <ul class="space-y-1 text-[13px]" data-astro-cid-7jjqptxk> <li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#摘要" data-toc-slug="摘要" data-astro-cid-7jjqptxk>摘要</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#1-问题设定" data-toc-slug="1-问题设定" data-astro-cid-7jjqptxk>1. 问题设定</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#11-多智能体导航协调" data-toc-slug="11-多智能体导航协调" data-astro-cid-7jjqptxk>1.1 多智能体导航协调</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#12-协调图" data-toc-slug="12-协调图" data-astro-cid-7jjqptxk>1.2 协调图</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#13-约束" data-toc-slug="13-约束" data-astro-cid-7jjqptxk>1.3 约束</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#2-gnn-vae框架" data-toc-slug="2-gnn-vae框架" data-astro-cid-7jjqptxk>2. GNN-VAE框架</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#21-整体架构" data-toc-slug="21-整体架构" data-astro-cid-7jjqptxk>2.1 整体架构</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#22-双分支预测" data-toc-slug="22-双分支预测" data-astro-cid-7jjqptxk>2.2 双分支预测</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#3-实验" data-toc-slug="3-实验" data-astro-cid-7jjqptxk>3. 实验</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#31-基线方法" data-toc-slug="31-基线方法" data-astro-cid-7jjqptxk>3.1 基线方法</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#32-扩展性测试" data-toc-slug="32-扩展性测试" data-astro-cid-7jjqptxk>3.2 扩展性测试</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#33-解质量" data-toc-slug="33-解质量" data-astro-cid-7jjqptxk>3.3 解质量</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#4-与aiops的关联" data-toc-slug="4-与aiops的关联" data-astro-cid-7jjqptxk>4. 与AIOps的关联</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#结论" data-toc-slug="结论" data-astro-cid-7jjqptxk>结论</a> </li> </ul> </nav> </div> </details> </div> <div class="px-4 py-4" data-astro-cid-7jjqptxk> <div class="prose prose-sm max-w-none" id="postContent" data-astro-cid-7jjqptxk> <h1 id="gnn-vae-基于图神经网络的多智能体协调">GNN-VAE: 基于图神经网络的多智能体协调</h1>
+<blockquote>
+<p><strong>原文标题</strong>: Reliable and Efficient Multi-Agent Coordination via Graph Neural Networks</p>
+<p><strong>来源</strong>: arXiv 2503.02954 (2025)</p>
+<p><strong>关键词</strong>: GNN-VAE、多机器人协调、约束满足、生成模型</p>
+</blockquote>
+<hr>
+<h2 id="摘要">摘要</h2>
+<p>多智能体协调问题面临最优性和计算复杂度之间的权衡。本文提出基于<strong>GNN-VAE</strong>（图神经网络-变分自编码器）的框架，学习高质量解的分布：</p>
+<ol>
+<li><strong>GNN</strong>: 捕获智能体间的复杂交互</li>
+<li><strong>VAE</strong>: 生成多个候选解，处理问题的不确定性</li>
+<li><strong>约束保证</strong>: 通过结构设计确保解的可行性</li>
+</ol>
+<p>实验表明可扩展到250个机器人的协调问题。</p>
+<hr>
+<h2 id="1-问题设定">1. 问题设定</h2>
+<h3 id="11-多智能体导航协调">1.1 多智能体导航协调</h3>
+<p><strong>场景</strong>: N个机器人在共享空间中导航</p>
+<ul>
+<li>避免碰撞</li>
+<li>优化总行程时间</li>
+<li>满足资源约束</li>
+</ul>
+<h3 id="12-协调图">1.2 协调图</h3>
+<p><strong>图结构 G = (V, P, A)</strong>:</p>
+<ul>
+<li><strong>V</strong>: 节点（干涉区间）</li>
+<li><strong>P</strong>: 有向边（先后顺序）</li>
+<li><strong>A</strong>: 无向边（联合动作）</li>
+</ul>
+<p><strong>决策变量</strong>:</p>
+<ul>
+<li><code>→</code> / <code>←</code>: 排他性通过</li>
+<li><code>≻</code> / <code>≺</code>: 跟随通过</li>
+</ul>
+<h3 id="13-约束">1.3 约束</h3>
+<ol>
+<li><strong>无环约束</strong>: 避免死锁</li>
+<li><strong>密度约束</strong>: 限制同时通过的机器人数</li>
+</ol>
+<hr>
+<h2 id="2-gnn-vae框架">2. GNN-VAE框架</h2>
+<h3 id="21-整体架构">2.1 整体架构</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>┌────────────────────────────────────────────┐</span></span>
+<span class="line"><span>│            GNN-VAE Framework               │</span></span>
+<span class="line"><span>├────────────────────────────────────────────┤</span></span>
+<span class="line"><span>│                                            │</span></span>
+<span class="line"><span>│  输入: 协调图 G                             │</span></span>
+<span class="line"><span>│         ↓                                  │</span></span>
+<span class="line"><span>│  ┌─────────────────────────────────────┐  │</span></span>
+<span class="line"><span>│  │  GNN Encoder                         │  │</span></span>
+<span class="line"><span>│  │  节点特征 → 潜在空间 z               │  │</span></span>
+<span class="line"><span>│  └─────────────────────────────────────┘  │</span></span>
+<span class="line"><span>│         ↓                                  │</span></span>
+<span class="line"><span>│  ┌─────────────────────────────────────┐  │</span></span>
+<span class="line"><span>│  │  VAE Sampling                        │  │</span></span>
+<span class="line"><span>│  │  z ~ N(μ, σ²)                        │  │</span></span>
+<span class="line"><span>│  └─────────────────────────────────────┘  │</span></span>
+<span class="line"><span>│         ↓                                  │</span></span>
+<span class="line"><span>│  ┌─────────────────────────────────────┐  │</span></span>
+<span class="line"><span>│  │  GNN Decoder                         │  │</span></span>
+<span class="line"><span>│  │  z → 节点排名 + 边模式               │  │</span></span>
+<span class="line"><span>│  └─────────────────────────────────────┘  │</span></span>
+<span class="line"><span>│         ↓                                  │</span></span>
+<span class="line"><span>│  输出: 可行解（保证约束满足）              │</span></span>
+<span class="line"><span>│                                            │</span></span>
+<span class="line"><span>└────────────────────────────────────────────┘</span></span></code></pre>
+<h3 id="22-双分支预测">2.2 双分支预测</h3>
+<p><strong>分支1: 节点排名</strong></p>
+<ul>
+<li>预测节点的优先级顺序</li>
+<li>用于确定通过顺序</li>
+</ul>
+<p><strong>分支2: 边模式</strong></p>
+<ul>
+<li>预测排他性 vs 跟随</li>
+<li>决定通过方式</li>
+</ul>
+<p><strong>约束保证</strong>: 通过结构设计确保无环和密度约束</p>
+<hr>
+<h2 id="3-实验">3. 实验</h2>
+<h3 id="31-基线方法">3.1 基线方法</h3>
+<ul>
+<li>MILP精确求解</li>
+<li>启发式方法</li>
+<li>采样方法</li>
+</ul>
+<h3 id="32-扩展性测试">3.2 扩展性测试</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>机器人数量</th><th>GNN-VAE时间</th><th>MILP时间</th></tr></thead><tbody><tr><td>50</td><td>0.2s</td><td>15s</td></tr><tr><td>100</td><td>0.5s</td><td>120s</td></tr><tr><td>250</td><td>2s</td><td>超时</td></tr></tbody></table>
+<h3 id="33-解质量">3.3 解质量</h3>
+<ul>
+<li>接近MILP最优解（差距&#x3C;5%）</li>
+<li>显著优于启发式方法</li>
+</ul>
+<hr>
+<h2 id="4-与aiops的关联">4. 与AIOps的关联</h2>
+<p>虽然本文针对机器人协调，但技术有潜在应用：</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>技术</th><th>AIOps应用</th></tr></thead><tbody><tr><td>图结构建模</td><td>服务依赖图</td></tr><tr><td>生成模型</td><td>故障场景生成</td></tr><tr><td>约束满足</td><td>资源分配优化</td></tr></tbody></table>
+<hr>
+<h2 id="结论">结论</h2>
+<p>GNN-VAE为复杂约束优化问题提供了可扩展的学习方案，结合了深度学习的效率和约束满足的可靠性。</p> </div> </div> </div> </article> <aside class="hidden lg:block" data-astro-cid-7jjqptxk> <div class="gh-card border-default sticky top-16 px-4 py-3" data-astro-cid-7jjqptxk> <div class="text-[12px] font-semibold fg-default" data-astro-cid-7jjqptxk>目录</div> <nav class="mt-2" aria-label="目录" data-astro-cid-7jjqptxk> <ul class="space-y-1 text-[13px]" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#摘要" data-toc-slug="摘要" data-astro-cid-7jjqptxk>摘要</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#1-问题设定" data-toc-slug="1-问题设定" data-astro-cid-7jjqptxk>1. 问题设定</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#11-多智能体导航协调" data-toc-slug="11-多智能体导航协调" data-astro-cid-7jjqptxk>1.1 多智能体导航协调</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#12-协调图" data-toc-slug="12-协调图" data-astro-cid-7jjqptxk>1.2 协调图</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#13-约束" data-toc-slug="13-约束" data-astro-cid-7jjqptxk>1.3 约束</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#2-gnn-vae框架" data-toc-slug="2-gnn-vae框架" data-astro-cid-7jjqptxk>2. GNN-VAE框架</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#21-整体架构" data-toc-slug="21-整体架构" data-astro-cid-7jjqptxk>2.1 整体架构</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#22-双分支预测" data-toc-slug="22-双分支预测" data-astro-cid-7jjqptxk>2.2 双分支预测</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#3-实验" data-toc-slug="3-实验" data-astro-cid-7jjqptxk>3. 实验</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#31-基线方法" data-toc-slug="31-基线方法" data-astro-cid-7jjqptxk>3.1 基线方法</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#32-扩展性测试" data-toc-slug="32-扩展性测试" data-astro-cid-7jjqptxk>3.2 扩展性测试</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#33-解质量" data-toc-slug="33-解质量" data-astro-cid-7jjqptxk>3.3 解质量</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#4-与aiops的关联" data-toc-slug="4-与aiops的关联" data-astro-cid-7jjqptxk>4. 与AIOps的关联</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#结论" data-toc-slug="结论" data-astro-cid-7jjqptxk>结论</a> </li> </ul> </nav> </div> </aside> </div> <button id="backToTop" class="back-to-top" type="button" aria-label="回到顶部" hidden data-astro-cid-7jjqptxk>
+↑
+</button> <script type="module">(function(){const s=document.getElementById("postContent");if(!s)return;const l=Array.from(document.querySelectorAll("a.toc-link")),r=new Map;l.forEach(t=>{const e=t.getAttribute("data-toc-slug");if(!e)return;const n=r.get(e)||[];n.push(t),r.set(e,n)});const c=Array.from(s.querySelectorAll("h2[id], h3[id]"));function a(t){if(l.forEach(n=>n.removeAttribute("aria-current")),!t)return;const e=r.get(t);e&&e.forEach(n=>n.setAttribute("aria-current","true"))}function f(){if(!c.length)return"";const t=120;for(let e=c.length-1;e>=0;e--){const n=c[e];if(n.getBoundingClientRect().top<=t)return n.id||""}return c[0].id||""}let d=!1;function i(){d||(d=!0,window.requestAnimationFrame(()=>{d=!1;const t=(location.hash||"").replace(/^#/,"");if(t&&r.has(t)){a(t);return}a(f())}))}window.addEventListener("scroll",i,{passive:!0}),window.addEventListener("resize",i),window.addEventListener("hashchange",i),l.forEach(t=>t.addEventListener("click",()=>{const e=t.getAttribute("data-toc-slug")||"";a(e)})),i();const u=document.getElementById("backToTop");if(u){const t=()=>{const e=window.scrollY||document.documentElement.scrollTop||0;u.hidden=e<320};window.addEventListener("scroll",t,{passive:!0}),t(),u.addEventListener("click",()=>{window.scrollTo({top:0,behavior:"smooth"})})}s.querySelectorAll("pre > code").forEach(t=>{const e=t.parentElement;if(!e||e.querySelector(".copy-btn"))return;e.style.position="relative";const n=document.createElement("button");n.type="button",n.className="copy-btn",n.textContent="复制",n.addEventListener("click",async()=>{const m=t.textContent||"";try{await navigator.clipboard.writeText(m),n.textContent="已复制",window.setTimeout(()=>n.textContent="复制",900)}catch{const o=document.createElement("textarea");o.value=m,o.style.position="fixed",o.style.opacity="0",document.body.appendChild(o),o.select(),document.execCommand("copy"),document.body.removeChild(o),n.textContent="已复制",window.setTimeout(()=>n.textContent="复制",900)}}),e.appendChild(n)})})();</script>   </main> <footer class="border-t py-6 text-[13px]" style="border-color: var(--border-default); color: var(--fg-muted)"> <div class="gh-container flex items-center justify-between"> <p>© 2026 · Built with Astro</p> <p style="color: var(--fg-muted)">Zhejiang University · CS</p> </div> </footer> </body></html>

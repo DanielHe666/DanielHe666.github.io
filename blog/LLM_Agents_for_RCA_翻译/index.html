@@ -1,0 +1,333 @@
+<!DOCTYPE html><html lang="zh-CN" class="h-full"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="generator" content="Astro v5.16.9"><title>探索基于LLM的智能体用于根因分析 · 个人博客</title><meta name="description" content="本研究探索基于大语言模型的智能体用于云服务根因分析，采用ReAct框架在微软生产数据集上进行评估。结果表明，该方法在分布外事件中仍能提供有竞争力的根因预测性能，显著提升事实准确性，且历史讨论评论可进一步改善检索效果。"><meta property="og:title" content="探索基于LLM的智能体用于根因分析 · 个人博客"><meta property="og:description" content="本研究探索基于大语言模型的智能体用于云服务根因分析，采用ReAct框架在微软生产数据集上进行评估。结果表明，该方法在分布外事件中仍能提供有竞争力的根因预测性能，显著提升事实准确性，且历史讨论评论可进一步改善检索效果。"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="stylesheet" href="/_astro/_slug_.1UaX29b_.css">
+<style>.copy-btn[data-astro-cid-7jjqptxk]{position:absolute;top:8px;right:8px;padding:4px 8px;font-size:12px;border-radius:6px;border:1px solid var(--border-default);background:color-mix(in srgb,var(--canvas-default) 80%,var(--canvas-subtle));color:var(--fg-default);cursor:pointer}.copy-btn[data-astro-cid-7jjqptxk]:hover{background:color-mix(in srgb,var(--canvas-default) 65%,var(--canvas-subtle))}.copy-btn[data-astro-cid-7jjqptxk]:focus-visible{outline:2px solid color-mix(in srgb,var(--accent-emphasis) 55%,transparent);outline-offset:2px}a[data-astro-cid-7jjqptxk].toc-link[aria-current=true]{color:var(--fg-default);font-weight:600;text-decoration:none}.back-to-top[data-astro-cid-7jjqptxk]{position:fixed;right:18px;bottom:18px;width:36px;height:36px;border-radius:999px;border:1px solid var(--border-default);background:color-mix(in srgb,var(--canvas-default) 80%,var(--canvas-subtle));color:var(--fg-default);cursor:pointer;z-index:40}.back-to-top[data-astro-cid-7jjqptxk]:hover{background:color-mix(in srgb,var(--canvas-default) 65%,var(--canvas-subtle))}.back-to-top[data-astro-cid-7jjqptxk]:focus-visible{outline:2px solid color-mix(in srgb,var(--accent-emphasis) 55%,transparent);outline-offset:2px}
+</style></head> <body class="min-h-full antialiased"> <header class="sticky top-0 z-50 border-b" style="border-color: var(--border-default); background: var(--canvas-subtle)" data-astro-cid-dmqpwcec> <div class="gh-container flex h-12 items-center justify-between" data-astro-cid-dmqpwcec> <a href="/" class="flex items-center gap-2 text-[13px] font-semibold fg-default" data-astro-cid-dmqpwcec> <span class="inline-flex h-7 items-center rounded-md px-2" style="background: var(--fg-default); color: var(--canvas-default)" data-astro-cid-dmqpwcec>HCY</span> <span class="fg-muted" data-astro-cid-dmqpwcec>Blog</span> </a> <nav class="flex items-center gap-1 text-[13px]" data-astro-cid-dmqpwcec> <a href="/blog/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> 文章 </a><a href="/search/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> 搜索 </a><a href="/projects/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> 项目 </a><a href="/reading/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> Reading </a> <a href="https://github.com/ChenyuHeee" target="_blank" rel="noreferrer" class="ml-1 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec>
+GitHub
+</a> </nav> </div> </header>  <main class="gh-container py-6">  <div class="mx-auto max-w-[1040px] grid gap-6 lg:grid-cols-[1fr_280px]" data-astro-cid-7jjqptxk> <article class="min-w-0" data-astro-cid-7jjqptxk> <div class="gh-card overflow-hidden" style="border-color: var(--border-default)" data-astro-cid-7jjqptxk> <header class="border-b px-4 py-4" style="border-color: var(--border-default)" data-astro-cid-7jjqptxk> <h1 class="text-2xl font-semibold tracking-tight" style="color: var(--fg-default)" data-astro-cid-7jjqptxk>探索基于LLM的智能体用于根因分析</h1> <div class="mt-2 flex flex-wrap items-center gap-x-4 gap-y-2 text-[12px]" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <time datetime="2026-01-15T09:21:40.552Z" data-astro-cid-7jjqptxk>2026-01-15</time> <div class="flex flex-wrap gap-2" data-astro-cid-7jjqptxk> <span class="gh-pill" data-astro-cid-7jjqptxk>AIOPS</span><span class="gh-pill" data-astro-cid-7jjqptxk>论文</span><span class="gh-pill" data-astro-cid-7jjqptxk>学习</span> </div> </div> <p class="mt-2 text-[13px]" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk>本研究探索基于大语言模型的智能体用于云服务根因分析，采用ReAct框架在微软生产数据集上进行评估。结果表明，该方法在分布外事件中仍能提供有竞争力的根因预测性能，显著提升事实准确性，且历史讨论评论可进一步改善检索效果。</p> </header> <div class="border-b px-4 py-3 lg:hidden" style="border-color: var(--border-default)" data-astro-cid-7jjqptxk> <details data-astro-cid-7jjqptxk> <summary class="cursor-pointer text-[13px] font-semibold fg-default" data-astro-cid-7jjqptxk>目录</summary> <div class="mt-2" data-astro-cid-7jjqptxk> <nav aria-label="目录" data-astro-cid-7jjqptxk> <ul class="space-y-1 text-[13px]" data-astro-cid-7jjqptxk> <li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#摘要" data-toc-slug="摘要" data-astro-cid-7jjqptxk>摘要</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#1-引言" data-toc-slug="1-引言" data-astro-cid-7jjqptxk>1. 引言</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#11-背景" data-toc-slug="11-背景" data-astro-cid-7jjqptxk>1.1 背景</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#12-现有方法的局限性" data-toc-slug="12-现有方法的局限性" data-astro-cid-7jjqptxk>1.2 现有方法的局限性</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#13-本研究的贡献" data-toc-slug="13-本研究的贡献" data-astro-cid-7jjqptxk>1.3 本研究的贡献</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#2-相关工作" data-toc-slug="2-相关工作" data-astro-cid-7jjqptxk>2. 相关工作</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#21-事件检测" data-toc-slug="21-事件检测" data-astro-cid-7jjqptxk>2.1 事件检测</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#22-事件分流" data-toc-slug="22-事件分流" data-astro-cid-7jjqptxk>2.2 事件分流</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#23-根因分析" data-toc-slug="23-根因分析" data-astro-cid-7jjqptxk>2.3 根因分析</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#24-增强语言模型alms" data-toc-slug="24-增强语言模型alms" data-astro-cid-7jjqptxk>2.4 增强语言模型（ALMs）</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#3-基于llm的智能体用于rca" data-toc-slug="3-基于llm的智能体用于rca" data-astro-cid-7jjqptxk>3. 基于LLM的智能体用于RCA</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#31-react框架选择理由" data-toc-slug="31-react框架选择理由" data-astro-cid-7jjqptxk>3.1 ReAct框架选择理由</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#32-智能体工作流" data-toc-slug="32-智能体工作流" data-astro-cid-7jjqptxk>3.2 智能体工作流</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#33-零样本提示" data-toc-slug="33-零样本提示" data-astro-cid-7jjqptxk>3.3 零样本提示</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#34-工具设计" data-toc-slug="34-工具设计" data-astro-cid-7jjqptxk>3.4 工具设计</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#4-研究问题" data-toc-slug="4-研究问题" data-astro-cid-7jjqptxk>4. 研究问题</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#rq1-通用工具包的有效性" data-toc-slug="rq1-通用工具包的有效性" data-astro-cid-7jjqptxk>RQ1: 通用工具包的有效性</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#rq2-讨论评论的价值" data-toc-slug="rq2-讨论评论的价值" data-astro-cid-7jjqptxk>RQ2: 讨论评论的价值</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#rq3-实际部署的考虑" data-toc-slug="rq3-实际部署的考虑" data-astro-cid-7jjqptxk>RQ3: 实际部署的考虑</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#5-实验设置" data-toc-slug="5-实验设置" data-astro-cid-7jjqptxk>5. 实验设置</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#51-数据集" data-toc-slug="51-数据集" data-astro-cid-7jjqptxk>5.1 数据集</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#52-基线方法" data-toc-slug="52-基线方法" data-astro-cid-7jjqptxk>5.2 基线方法</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#53-评估指标" data-toc-slug="53-评估指标" data-astro-cid-7jjqptxk>5.3 评估指标</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#6-实验结果" data-toc-slug="6-实验结果" data-astro-cid-7jjqptxk>6. 实验结果</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#61-rq1-通用工具包性能" data-toc-slug="61-rq1-通用工具包性能" data-astro-cid-7jjqptxk>6.1 RQ1: 通用工具包性能</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#62-rq2-讨论评论的影响" data-toc-slug="62-rq2-讨论评论的影响" data-astro-cid-7jjqptxk>6.2 RQ2: 讨论评论的影响</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#63-事实准确性分析" data-toc-slug="63-事实准确性分析" data-astro-cid-7jjqptxk>6.3 事实准确性分析</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#7-案例研究" data-toc-slug="7-案例研究" data-astro-cid-7jjqptxk>7. 案例研究</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#71-原型部署" data-toc-slug="71-原型部署" data-astro-cid-7jjqptxk>7.1 原型部署</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#72-示例轨迹" data-toc-slug="72-示例轨迹" data-astro-cid-7jjqptxk>7.2 示例轨迹</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#73-发现" data-toc-slug="73-发现" data-astro-cid-7jjqptxk>7.3 发现</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#8-讨论与局限" data-toc-slug="8-讨论与局限" data-astro-cid-7jjqptxk>8. 讨论与局限</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#81-评估环境的挑战" data-toc-slug="81-评估环境的挑战" data-astro-cid-7jjqptxk>8.1 评估环境的挑战</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#82-实际部署考虑" data-toc-slug="82-实际部署考虑" data-astro-cid-7jjqptxk>8.2 实际部署考虑</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#9-结论" data-toc-slug="9-结论" data-astro-cid-7jjqptxk>9. 结论</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#附录关键工具设计" data-toc-slug="附录关键工具设计" data-astro-cid-7jjqptxk>附录：关键工具设计</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#事件详情工具" data-toc-slug="事件详情工具" data-astro-cid-7jjqptxk>事件详情工具</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#历史事件检索工具" data-toc-slug="历史事件检索工具" data-astro-cid-7jjqptxk>历史事件检索工具</a> </li> </ul> </nav> </div> </details> </div> <div class="px-4 py-4" data-astro-cid-7jjqptxk> <div class="prose prose-sm max-w-none" id="postContent" data-astro-cid-7jjqptxk> <h1 id="探索基于llm的智能体用于根因分析">探索基于LLM的智能体用于根因分析</h1>
+<blockquote>
+<p><strong>原文标题</strong>: Exploring LLM-based Agents for Root Cause Analysis</p>
+<p><strong>来源</strong>: FSE 2024 (ACM SIGSOFT International Symposium on the Foundations of Software Engineering)</p>
+<p><strong>作者</strong>: Devjeet Roy, Xuchao Zhang, Rashi Bhave, Chetan Bansal, Pedro Las-Casas, Rodrigo Fonseca, Saravan Rajmohan</p>
+<p><strong>机构</strong>: Microsoft Research</p>
+</blockquote>
+<hr>
+<h2 id="摘要">摘要</h2>
+<p>在云服务运维中，根因分析（RCA）需要值班工程师（OCEs）快速诊断事件并确定底层根本原因。尽管现有方法在特定场景下表现良好，但它们需要大量领域特定数据和专家知识来开发，且难以应对新的分布外事件。</p>
+<p>本研究探索基于LLM的智能体方法用于RCA，重点关注<strong>ReAct框架</strong>。我们在包含多种根因类别的Microsoft生产事件数据集上进行评估，发现：</p>
+<ol>
+<li>即使在分布外设置下，ReAct智能体在根因预测方面也能提供有竞争力的性能</li>
+<li>与非智能体基线相比，智能体方法能显著提高事实准确性</li>
+<li>历史事件的讨论评论可以进一步改善检索效果</li>
+</ol>
+<p>我们还通过案例研究展示了ReAct智能体在与团队协作中原型部署的实际效果。</p>
+<hr>
+<h2 id="1-引言">1. 引言</h2>
+<h3 id="11-背景">1.1 背景</h3>
+<p>微软等云服务提供商使用复杂的分布式系统，当发生故障时会向OCEs生成事件报告。事件报告包含：</p>
+<ul>
+<li>生成服务</li>
+<li>事件标题</li>
+<li>详细描述（可能包含日志和堆栈跟踪）</li>
+</ul>
+<p>传统上，OCEs需要：</p>
+<ol>
+<li>分析报告</li>
+<li>排除可能原因</li>
+<li>应用各种诊断工具</li>
+<li>最终确定根因和解决方案</li>
+</ol>
+<h3 id="12-现有方法的局限性">1.2 现有方法的局限性</h3>
+<ol>
+<li><strong>机器学习方法</strong>: 需要大量领域特定数据和专家知识</li>
+<li><strong>RCACopilot</strong>: 需要预定义的处理器，无法动态适应</li>
+<li><strong>知识库方法</strong>: 难以应对分布外的新场景</li>
+</ol>
+<h3 id="13-本研究的贡献">1.3 本研究的贡献</h3>
+<ul>
+<li>首次系统评估基于LLM智能体的RCA方法</li>
+<li>在微软生产数据集上的全面实验</li>
+<li>实际部署的案例研究</li>
+</ul>
+<hr>
+<h2 id="2-相关工作">2. 相关工作</h2>
+<h3 id="21-事件检测">2.1 事件检测</h3>
+<ul>
+<li>监控服务检测异常</li>
+<li>生成事件报告通知OCEs</li>
+</ul>
+<h3 id="22-事件分流">2.2 事件分流</h3>
+<ul>
+<li>自动路由事件到适当团队</li>
+<li>基于特征的分类方法</li>
+</ul>
+<h3 id="23-根因分析">2.3 根因分析</h3>
+<ul>
+<li>预定义规则方法</li>
+<li>机器学习分类方法</li>
+<li>RCACopilot等LLM辅助方法</li>
+</ul>
+<h3 id="24-增强语言模型alms">2.4 增强语言模型（ALMs）</h3>
+<ul>
+<li>工具增强LLM</li>
+<li>检索增强生成（RAG）</li>
+<li>推理和规划能力</li>
+</ul>
+<hr>
+<h2 id="3-基于llm的智能体用于rca">3. 基于LLM的智能体用于RCA</h2>
+<h3 id="31-react框架选择理由">3.1 ReAct框架选择理由</h3>
+<p>ReAct框架适合RCA任务的原因：</p>
+<ol>
+<li>
+<p><strong>双重特性匹配</strong>:</p>
+<ul>
+<li>顺序决策（选择排查步骤）</li>
+<li>知识密集型问答（评估诊断信息）</li>
+</ul>
+</li>
+<li>
+<p><strong>快速适应</strong>: 交替推理、规划和环境反馈，而非长期规划</p>
+</li>
+<li>
+<p><strong>可扩展性</strong>: 易于添加反思和外部记忆机制</p>
+</li>
+</ol>
+<h3 id="32-智能体工作流">3.2 智能体工作流</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>┌────────────────────────────────────────┐</span></span>
+<span class="line"><span>│              ReAct循环                  │</span></span>
+<span class="line"><span>│                                        │</span></span>
+<span class="line"><span>│  思考(Thought) → 推理步骤              │</span></span>
+<span class="line"><span>│        ↓                               │</span></span>
+<span class="line"><span>│  行动(Action) → 选择工具和输入         │</span></span>
+<span class="line"><span>│        ↓                               │</span></span>
+<span class="line"><span>│  观察(Observation) → 工具执行结果      │</span></span>
+<span class="line"><span>│        ↓                               │</span></span>
+<span class="line"><span>│  重复直到任务完成或达到最大迭代次数    │</span></span>
+<span class="line"><span>└────────────────────────────────────────┘</span></span></code></pre>
+<p><strong>最大迭代次数</strong>: 20次（时间和资源限制）</p>
+<h3 id="33-零样本提示">3.3 零样本提示</h3>
+<p><strong>挑战</strong>: 难以为分布外事件构建有效的few-shot示例</p>
+<p><strong>解决方案</strong>: 使用更具挑战性的零样本设置</p>
+<h3 id="34-工具设计">3.4 工具设计</h3>
+<h4 id="工具1-事件详情incident-details">工具1: 事件详情（Incident Details）</h4>
+<ul>
+<li><strong>功能</strong>: 对原始事件描述进行问答</li>
+<li><strong>用途</strong>: 回答关于事件的特定问题</li>
+<li><strong>优势</strong>: 避免摘要时丢失信息</li>
+</ul>
+<h4 id="工具2-历史事件检索historical-incidents">工具2: 历史事件检索（Historical Incidents）</h4>
+<p><strong>变体1 - ReAct BR（基础检索）</strong>:</p>
+<ul>
+<li>使用事件标题和描述+智能体查询进行检索</li>
+<li>直接返回检索文档作为观察</li>
+</ul>
+<p><strong>变体2 - 两步检索</strong>:</p>
+<ol>
+<li>智能体生成检索查询</li>
+<li>对检索结果进行问答</li>
+</ol>
+<ul>
+<li>优势：分离检索查询和目标事件，处理长文档</li>
+</ul>
+<p><strong>检索参数</strong>: k=3，总预算10个文档</p>
+<hr>
+<h2 id="4-研究问题">4. 研究问题</h2>
+<h3 id="rq1-通用工具包的有效性">RQ1: 通用工具包的有效性</h3>
+<blockquote>
+<p>在分布外设置下，给定通用工具包，LLM智能体在RCA中的表现如何？</p>
+</blockquote>
+<h3 id="rq2-讨论评论的价值">RQ2: 讨论评论的价值</h3>
+<blockquote>
+<p>事件报告中的讨论评论是否能改善LLM方法的RCA性能？</p>
+</blockquote>
+<h3 id="rq3-实际部署的考虑">RQ3: 实际部署的考虑</h3>
+<blockquote>
+<p>智能体在实际环境中的优势和局限性是什么？</p>
+</blockquote>
+<hr>
+<h2 id="5-实验设置">5. 实验设置</h2>
+<h3 id="51-数据集">5.1 数据集</h3>
+<p><strong>微软生产事件数据集</strong>:</p>
+<ul>
+<li>1000+事件</li>
+<li>来自多个服务团队</li>
+<li>包含11个根因类别</li>
+</ul>
+<h3 id="52-基线方法">5.2 基线方法</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>方法类型</th><th>方法名称</th></tr></thead><tbody><tr><td>非检索</td><td>ChatGPT, GPT-4</td></tr><tr><td>检索增强</td><td>RAG, ICL</td></tr><tr><td>智能体</td><td>ReAct, ReAct BR</td></tr></tbody></table>
+<h3 id="53-评估指标">5.3 评估指标</h3>
+<ul>
+<li><strong>Top-1/3/5 准确率</strong>: 预测根因在前k个中</li>
+<li><strong>事实准确性</strong>: 人工评估生成内容的准确性</li>
+<li><strong>推理质量</strong>: 推理链的合理性</li>
+</ul>
+<hr>
+<h2 id="6-实验结果">6. 实验结果</h2>
+<h3 id="61-rq1-通用工具包性能">6.1 RQ1: 通用工具包性能</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>方法</th><th>Top-1</th><th>Top-3</th><th>Top-5</th></tr></thead><tbody><tr><td>ChatGPT</td><td>21.3%</td><td>45.2%</td><td>58.1%</td></tr><tr><td>GPT-4</td><td>28.5%</td><td>52.3%</td><td>64.7%</td></tr><tr><td>RAG</td><td>31.2%</td><td>55.8%</td><td>67.3%</td></tr><tr><td><strong>ReAct</strong></td><td><strong>35.6%</strong></td><td><strong>59.4%</strong></td><td><strong>71.2%</strong></td></tr></tbody></table>
+<p><strong>关键发现</strong>:</p>
+<ul>
+<li>ReAct在所有指标上优于基线</li>
+<li>智能体方法显著提高事实准确性</li>
+<li>动态检索比静态检索更有效</li>
+</ul>
+<h3 id="62-rq2-讨论评论的影响">6.2 RQ2: 讨论评论的影响</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>设置</th><th>RAG提升</th><th>ReAct提升</th></tr></thead><tbody><tr><td>加入讨论评论</td><td>+3.2%</td><td>+4.8%</td></tr></tbody></table>
+<p><strong>结论</strong>: 讨论评论对所有方法都有帮助，对智能体方法帮助更大</p>
+<h3 id="63-事实准确性分析">6.3 事实准确性分析</h3>
+<ul>
+<li><strong>ReAct</strong>: 79% 事实准确</li>
+<li><strong>GPT-4</strong>: 62% 事实准确</li>
+<li><strong>ChatGPT</strong>: 54% 事实准确</li>
+</ul>
+<p>智能体方法通过检索历史事件显著减少幻觉</p>
+<hr>
+<h2 id="7-案例研究">7. 案例研究</h2>
+<h3 id="71-原型部署">7.1 原型部署</h3>
+<p>与微软某团队合作部署ReAct智能体原型：</p>
+<p><strong>配置</strong>:</p>
+<ul>
+<li>额外工具：团队特定的诊断服务API</li>
+<li>检索库：团队历史事件</li>
+</ul>
+<h3 id="72-示例轨迹">7.2 示例轨迹</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>事件: "Service X 响应时间增加"</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>Thought 1: 需要检查Service X的依赖服务</span></span>
+<span class="line"><span>Action 1: 调用依赖图查询工具</span></span>
+<span class="line"><span>Observation 1: Service X依赖Service Y和Z</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>Thought 2: 检查Service Y和Z的健康状态</span></span>
+<span class="line"><span>Action 2: 调用健康检查API</span></span>
+<span class="line"><span>Observation 2: Service Y状态正常，Service Z有高延迟</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>Thought 3: 深入分析Service Z</span></span>
+<span class="line"><span>Action 3: 查询Service Z的最近变更</span></span>
+<span class="line"><span>Observation 3: 昨天部署了新版本</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>Final Answer: 根因是Service Z的新部署引入了性能问题</span></span></code></pre>
+<h3 id="73-发现">7.3 发现</h3>
+<p><strong>优势</strong>:</p>
+<ol>
+<li>能够自主执行多步骤诊断</li>
+<li>动态适应事件特点</li>
+<li>提供可解释的推理过程</li>
+</ol>
+<p><strong>局限性</strong>:</p>
+<ol>
+<li>对工具设计质量敏感</li>
+<li>复杂事件可能需要更多迭代</li>
+<li>需要访问适当的诊断服务</li>
+</ol>
+<hr>
+<h2 id="8-讨论与局限">8. 讨论与局限</h2>
+<h3 id="81-评估环境的挑战">8.1 评估环境的挑战</h3>
+<ul>
+<li>缺乏标准化的模拟环境</li>
+<li>难以重现所有可能的诊断轨迹</li>
+<li>团队间工具差异大</li>
+</ul>
+<h3 id="82-实际部署考虑">8.2 实际部署考虑</h3>
+<ol>
+<li><strong>工具设计</strong>: 需要与团队协作设计有效工具</li>
+<li><strong>安全性</strong>: 确保智能体不执行危险操作</li>
+<li><strong>可解释性</strong>: 需要清晰的推理轨迹</li>
+<li><strong>回退机制</strong>: 智能体失败时的人工介入</li>
+</ol>
+<hr>
+<h2 id="9-结论">9. 结论</h2>
+<p>本研究首次系统评估了基于LLM的智能体方法用于云服务RCA：</p>
+<ol>
+<li>ReAct框架在分布外设置下表现出竞争力</li>
+<li>智能体方法显著提高事实准确性</li>
+<li>历史讨论评论能进一步改善性能</li>
+<li>案例研究展示了实际部署的可行性和挑战</li>
+</ol>
+<hr>
+<h2 id="附录关键工具设计">附录：关键工具设计</h2>
+<h3 id="事件详情工具">事件详情工具</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#F97583">def</span><span style="color:#B392F0"> incident_details_tool</span><span style="color:#E1E4E8">(question: </span><span style="color:#79B8FF">str</span><span style="color:#E1E4E8">) -> </span><span style="color:#79B8FF">str</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#9ECBFF">    """</span></span>
+<span class="line"><span style="color:#9ECBFF">    回答关于当前事件的特定问题</span></span>
+<span class="line"><span style="color:#9ECBFF">    使用LLM对原始描述进行问答</span></span>
+<span class="line"><span style="color:#9ECBFF">    """</span></span>
+<span class="line"><span style="color:#F97583">    return</span><span style="color:#E1E4E8"> llm_qa(incident_description, question)</span></span></code></pre>
+<h3 id="历史事件检索工具">历史事件检索工具</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#F97583">def</span><span style="color:#B392F0"> historical_incidents_tool</span><span style="color:#E1E4E8">(query: </span><span style="color:#79B8FF">str</span><span style="color:#E1E4E8">) -> </span><span style="color:#79B8FF">str</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#9ECBFF">    """</span></span>
+<span class="line"><span style="color:#9ECBFF">    检索相关历史事件</span></span>
+<span class="line"><span style="color:#9ECBFF">    两步过程：检索 + 问答</span></span>
+<span class="line"><span style="color:#9ECBFF">    """</span></span>
+<span class="line"><span style="color:#E1E4E8">    docs </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> retriever.search(query, </span><span style="color:#FFAB70">k</span><span style="color:#F97583">=</span><span style="color:#79B8FF">3</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#F97583">    return</span><span style="color:#E1E4E8"> llm_qa_over_docs(docs, query)</span></span></code></pre> </div> </div> </div> </article> <aside class="hidden lg:block" data-astro-cid-7jjqptxk> <div class="gh-card border-default sticky top-16 px-4 py-3" data-astro-cid-7jjqptxk> <div class="text-[12px] font-semibold fg-default" data-astro-cid-7jjqptxk>目录</div> <nav class="mt-2" aria-label="目录" data-astro-cid-7jjqptxk> <ul class="space-y-1 text-[13px]" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#摘要" data-toc-slug="摘要" data-astro-cid-7jjqptxk>摘要</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#1-引言" data-toc-slug="1-引言" data-astro-cid-7jjqptxk>1. 引言</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#11-背景" data-toc-slug="11-背景" data-astro-cid-7jjqptxk>1.1 背景</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#12-现有方法的局限性" data-toc-slug="12-现有方法的局限性" data-astro-cid-7jjqptxk>1.2 现有方法的局限性</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#13-本研究的贡献" data-toc-slug="13-本研究的贡献" data-astro-cid-7jjqptxk>1.3 本研究的贡献</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#2-相关工作" data-toc-slug="2-相关工作" data-astro-cid-7jjqptxk>2. 相关工作</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#21-事件检测" data-toc-slug="21-事件检测" data-astro-cid-7jjqptxk>2.1 事件检测</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#22-事件分流" data-toc-slug="22-事件分流" data-astro-cid-7jjqptxk>2.2 事件分流</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#23-根因分析" data-toc-slug="23-根因分析" data-astro-cid-7jjqptxk>2.3 根因分析</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#24-增强语言模型alms" data-toc-slug="24-增强语言模型alms" data-astro-cid-7jjqptxk>2.4 增强语言模型（ALMs）</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#3-基于llm的智能体用于rca" data-toc-slug="3-基于llm的智能体用于rca" data-astro-cid-7jjqptxk>3. 基于LLM的智能体用于RCA</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#31-react框架选择理由" data-toc-slug="31-react框架选择理由" data-astro-cid-7jjqptxk>3.1 ReAct框架选择理由</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#32-智能体工作流" data-toc-slug="32-智能体工作流" data-astro-cid-7jjqptxk>3.2 智能体工作流</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#33-零样本提示" data-toc-slug="33-零样本提示" data-astro-cid-7jjqptxk>3.3 零样本提示</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#34-工具设计" data-toc-slug="34-工具设计" data-astro-cid-7jjqptxk>3.4 工具设计</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#4-研究问题" data-toc-slug="4-研究问题" data-astro-cid-7jjqptxk>4. 研究问题</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#rq1-通用工具包的有效性" data-toc-slug="rq1-通用工具包的有效性" data-astro-cid-7jjqptxk>RQ1: 通用工具包的有效性</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#rq2-讨论评论的价值" data-toc-slug="rq2-讨论评论的价值" data-astro-cid-7jjqptxk>RQ2: 讨论评论的价值</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#rq3-实际部署的考虑" data-toc-slug="rq3-实际部署的考虑" data-astro-cid-7jjqptxk>RQ3: 实际部署的考虑</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#5-实验设置" data-toc-slug="5-实验设置" data-astro-cid-7jjqptxk>5. 实验设置</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#51-数据集" data-toc-slug="51-数据集" data-astro-cid-7jjqptxk>5.1 数据集</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#52-基线方法" data-toc-slug="52-基线方法" data-astro-cid-7jjqptxk>5.2 基线方法</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#53-评估指标" data-toc-slug="53-评估指标" data-astro-cid-7jjqptxk>5.3 评估指标</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#6-实验结果" data-toc-slug="6-实验结果" data-astro-cid-7jjqptxk>6. 实验结果</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#61-rq1-通用工具包性能" data-toc-slug="61-rq1-通用工具包性能" data-astro-cid-7jjqptxk>6.1 RQ1: 通用工具包性能</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#62-rq2-讨论评论的影响" data-toc-slug="62-rq2-讨论评论的影响" data-astro-cid-7jjqptxk>6.2 RQ2: 讨论评论的影响</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#63-事实准确性分析" data-toc-slug="63-事实准确性分析" data-astro-cid-7jjqptxk>6.3 事实准确性分析</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#7-案例研究" data-toc-slug="7-案例研究" data-astro-cid-7jjqptxk>7. 案例研究</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#71-原型部署" data-toc-slug="71-原型部署" data-astro-cid-7jjqptxk>7.1 原型部署</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#72-示例轨迹" data-toc-slug="72-示例轨迹" data-astro-cid-7jjqptxk>7.2 示例轨迹</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#73-发现" data-toc-slug="73-发现" data-astro-cid-7jjqptxk>7.3 发现</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#8-讨论与局限" data-toc-slug="8-讨论与局限" data-astro-cid-7jjqptxk>8. 讨论与局限</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#81-评估环境的挑战" data-toc-slug="81-评估环境的挑战" data-astro-cid-7jjqptxk>8.1 评估环境的挑战</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#82-实际部署考虑" data-toc-slug="82-实际部署考虑" data-astro-cid-7jjqptxk>8.2 实际部署考虑</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#9-结论" data-toc-slug="9-结论" data-astro-cid-7jjqptxk>9. 结论</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#附录关键工具设计" data-toc-slug="附录关键工具设计" data-astro-cid-7jjqptxk>附录：关键工具设计</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#事件详情工具" data-toc-slug="事件详情工具" data-astro-cid-7jjqptxk>事件详情工具</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#历史事件检索工具" data-toc-slug="历史事件检索工具" data-astro-cid-7jjqptxk>历史事件检索工具</a> </li> </ul> </nav> </div> </aside> </div> <button id="backToTop" class="back-to-top" type="button" aria-label="回到顶部" hidden data-astro-cid-7jjqptxk>
+↑
+</button> <script type="module">(function(){const s=document.getElementById("postContent");if(!s)return;const l=Array.from(document.querySelectorAll("a.toc-link")),r=new Map;l.forEach(t=>{const e=t.getAttribute("data-toc-slug");if(!e)return;const n=r.get(e)||[];n.push(t),r.set(e,n)});const c=Array.from(s.querySelectorAll("h2[id], h3[id]"));function a(t){if(l.forEach(n=>n.removeAttribute("aria-current")),!t)return;const e=r.get(t);e&&e.forEach(n=>n.setAttribute("aria-current","true"))}function f(){if(!c.length)return"";const t=120;for(let e=c.length-1;e>=0;e--){const n=c[e];if(n.getBoundingClientRect().top<=t)return n.id||""}return c[0].id||""}let d=!1;function i(){d||(d=!0,window.requestAnimationFrame(()=>{d=!1;const t=(location.hash||"").replace(/^#/,"");if(t&&r.has(t)){a(t);return}a(f())}))}window.addEventListener("scroll",i,{passive:!0}),window.addEventListener("resize",i),window.addEventListener("hashchange",i),l.forEach(t=>t.addEventListener("click",()=>{const e=t.getAttribute("data-toc-slug")||"";a(e)})),i();const u=document.getElementById("backToTop");if(u){const t=()=>{const e=window.scrollY||document.documentElement.scrollTop||0;u.hidden=e<320};window.addEventListener("scroll",t,{passive:!0}),t(),u.addEventListener("click",()=>{window.scrollTo({top:0,behavior:"smooth"})})}s.querySelectorAll("pre > code").forEach(t=>{const e=t.parentElement;if(!e||e.querySelector(".copy-btn"))return;e.style.position="relative";const n=document.createElement("button");n.type="button",n.className="copy-btn",n.textContent="复制",n.addEventListener("click",async()=>{const m=t.textContent||"";try{await navigator.clipboard.writeText(m),n.textContent="已复制",window.setTimeout(()=>n.textContent="复制",900)}catch{const o=document.createElement("textarea");o.value=m,o.style.position="fixed",o.style.opacity="0",document.body.appendChild(o),o.select(),document.execCommand("copy"),document.body.removeChild(o),n.textContent="已复制",window.setTimeout(()=>n.textContent="复制",900)}}),e.appendChild(n)})})();</script>   </main> <footer class="border-t py-6 text-[13px]" style="border-color: var(--border-default); color: var(--fg-muted)"> <div class="gh-container flex items-center justify-between"> <p>© 2026 · Built with Astro</p> <p style="color: var(--fg-muted)">Zhejiang University · CS</p> </div> </footer> </body></html>

@@ -1,0 +1,221 @@
+<!DOCTYPE html><html lang="zh-CN" class="h-full"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="generator" content="Astro v5.16.9"><title>排序算法学习 · 个人博客</title><meta name="description" content="本文介绍了C语言中常用的排序算法，包括内置库函数qsort()、简单排序算法如冒泡排序、选择排序和插入排序，以及高效排序算法如快速排序、归并排序和堆排序，还提及了线性时间排序方法如计数排序和基数排序。读者可以了解各类算法的实现原理、时间与空间复杂度及适用场景，从而根据实际需求选择合适算法，提升编程效率与代码性能。文章亮点在于详细对比了不同算法的优缺点，并提供了实用建议，帮助开发者优化排序操作。"><meta property="og:title" content="排序算法学习 · 个人博客"><meta property="og:description" content="本文介绍了C语言中常用的排序算法，包括内置库函数qsort()、简单排序算法如冒泡排序、选择排序和插入排序，以及高效排序算法如快速排序、归并排序和堆排序，还提及了线性时间排序方法如计数排序和基数排序。读者可以了解各类算法的实现原理、时间与空间复杂度及适用场景，从而根据实际需求选择合适算法，提升编程效率与代码性能。文章亮点在于详细对比了不同算法的优缺点，并提供了实用建议，帮助开发者优化排序操作。"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="stylesheet" href="/_astro/_slug_.1UaX29b_.css">
+<style>.copy-btn[data-astro-cid-7jjqptxk]{position:absolute;top:8px;right:8px;padding:4px 8px;font-size:12px;border-radius:6px;border:1px solid var(--border-default);background:color-mix(in srgb,var(--canvas-default) 80%,var(--canvas-subtle));color:var(--fg-default);cursor:pointer}.copy-btn[data-astro-cid-7jjqptxk]:hover{background:color-mix(in srgb,var(--canvas-default) 65%,var(--canvas-subtle))}.copy-btn[data-astro-cid-7jjqptxk]:focus-visible{outline:2px solid color-mix(in srgb,var(--accent-emphasis) 55%,transparent);outline-offset:2px}a[data-astro-cid-7jjqptxk].toc-link[aria-current=true]{color:var(--fg-default);font-weight:600;text-decoration:none}.back-to-top[data-astro-cid-7jjqptxk]{position:fixed;right:18px;bottom:18px;width:36px;height:36px;border-radius:999px;border:1px solid var(--border-default);background:color-mix(in srgb,var(--canvas-default) 80%,var(--canvas-subtle));color:var(--fg-default);cursor:pointer;z-index:40}.back-to-top[data-astro-cid-7jjqptxk]:hover{background:color-mix(in srgb,var(--canvas-default) 65%,var(--canvas-subtle))}.back-to-top[data-astro-cid-7jjqptxk]:focus-visible{outline:2px solid color-mix(in srgb,var(--accent-emphasis) 55%,transparent);outline-offset:2px}
+</style></head> <body class="min-h-full antialiased"> <header class="sticky top-0 z-50 border-b" style="border-color: var(--border-default); background: var(--canvas-subtle)" data-astro-cid-dmqpwcec> <div class="gh-container flex h-12 items-center justify-between" data-astro-cid-dmqpwcec> <a href="/" class="flex items-center gap-2 text-[13px] font-semibold fg-default" data-astro-cid-dmqpwcec> <span class="inline-flex h-7 items-center rounded-md px-2" style="background: var(--fg-default); color: var(--canvas-default)" data-astro-cid-dmqpwcec>HCY</span> <span class="fg-muted" data-astro-cid-dmqpwcec>Blog</span> </a> <nav class="flex items-center gap-1 text-[13px]" data-astro-cid-dmqpwcec> <a href="/blog/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> 文章 </a><a href="/search/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> 搜索 </a><a href="/projects/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> 项目 </a><a href="/reading/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> Reading </a> <a href="https://github.com/ChenyuHeee" target="_blank" rel="noreferrer" class="ml-1 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec>
+GitHub
+</a> </nav> </div> </header>  <main class="gh-container py-6">  <div class="mx-auto max-w-[1040px] grid gap-6 lg:grid-cols-[1fr_280px]" data-astro-cid-7jjqptxk> <article class="min-w-0" data-astro-cid-7jjqptxk> <div class="gh-card overflow-hidden" style="border-color: var(--border-default)" data-astro-cid-7jjqptxk> <header class="border-b px-4 py-4" style="border-color: var(--border-default)" data-astro-cid-7jjqptxk> <h1 class="text-2xl font-semibold tracking-tight" style="color: var(--fg-default)" data-astro-cid-7jjqptxk>排序算法学习</h1> <div class="mt-2 flex flex-wrap items-center gap-x-4 gap-y-2 text-[12px]" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <time datetime="2026-01-15T09:21:40.555Z" data-astro-cid-7jjqptxk>2026-01-15</time> <div class="flex flex-wrap gap-2" data-astro-cid-7jjqptxk> <span class="gh-pill" data-astro-cid-7jjqptxk>c</span><span class="gh-pill" data-astro-cid-7jjqptxk>算法</span> </div> </div> <p class="mt-2 text-[13px]" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk>本文介绍了C语言中常用的排序算法，包括内置库函数qsort()、简单排序算法如冒泡排序、选择排序和插入排序，以及高效排序算法如快速排序、归并排序和堆排序，还提及了线性时间排序方法如计数排序和基数排序。读者可以了解各类算法的实现原理、时间与空间复杂度及适用场景，从而根据实际需求选择合适算法，提升编程效率与代码性能。文章亮点在于详细对比了不同算法的优缺点，并提供了实用建议，帮助开发者优化排序操作。</p> </header> <div class="border-b px-4 py-3 lg:hidden" style="border-color: var(--border-default)" data-astro-cid-7jjqptxk> <details data-astro-cid-7jjqptxk> <summary class="cursor-pointer text-[13px] font-semibold fg-default" data-astro-cid-7jjqptxk>目录</summary> <div class="mt-2" data-astro-cid-7jjqptxk> <nav aria-label="目录" data-astro-cid-7jjqptxk> <ul class="space-y-1 text-[13px]" data-astro-cid-7jjqptxk> <li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#1-内置库函数" data-toc-slug="1-内置库函数" data-astro-cid-7jjqptxk>1. 内置库函数</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#qsort-函数" data-toc-slug="qsort-函数" data-astro-cid-7jjqptxk>qsort() 函数</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#2-简单排序算法" data-toc-slug="2-简单排序算法" data-astro-cid-7jjqptxk>2. 简单排序算法</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#冒泡排序-bubble-sort" data-toc-slug="冒泡排序-bubble-sort" data-astro-cid-7jjqptxk>冒泡排序 (Bubble Sort)</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#选择排序-selection-sort" data-toc-slug="选择排序-selection-sort" data-astro-cid-7jjqptxk>选择排序 (Selection Sort)</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#插入排序-insertion-sort" data-toc-slug="插入排序-insertion-sort" data-astro-cid-7jjqptxk>插入排序 (Insertion Sort)</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#3-高效排序算法" data-toc-slug="3-高效排序算法" data-astro-cid-7jjqptxk>3. 高效排序算法</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#快速排序-quick-sort" data-toc-slug="快速排序-quick-sort" data-astro-cid-7jjqptxk>快速排序 (Quick Sort)</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#归并排序-merge-sort" data-toc-slug="归并排序-merge-sort" data-astro-cid-7jjqptxk>归并排序 (Merge Sort)</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#堆排序-heap-sort" data-toc-slug="堆排序-heap-sort" data-astro-cid-7jjqptxk>堆排序 (Heap Sort)</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#4-线性时间排序特定条件下" data-toc-slug="4-线性时间排序特定条件下" data-astro-cid-7jjqptxk>4. 线性时间排序（特定条件下）</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#计数排序-counting-sort" data-toc-slug="计数排序-counting-sort" data-astro-cid-7jjqptxk>计数排序 (Counting Sort)</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#基数排序-radix-sort" data-toc-slug="基数排序-radix-sort" data-astro-cid-7jjqptxk>基数排序 (Radix Sort)</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#总结对比" data-toc-slug="总结对比" data-astro-cid-7jjqptxk>总结对比</a> </li> </ul> </nav> </div> </details> </div> <div class="px-4 py-4" data-astro-cid-7jjqptxk> <div class="prose prose-sm max-w-none" id="postContent" data-astro-cid-7jjqptxk> <p>在C语言中，对数组进行排序有多种方式，主要可以分为以下几类：</p>
+<h2 id="1-内置库函数">1. 内置库函数</h2>
+<h3 id="qsort-函数">qsort() 函数</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="c"><code><span class="line"><span style="color:#F97583">#include</span><span style="color:#9ECBFF"> &#x3C;stdlib.h></span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">int</span><span style="color:#B392F0"> compare</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">const</span><span style="color:#F97583"> void</span><span style="color:#F97583"> *</span><span style="color:#FFAB70">a</span><span style="color:#E1E4E8">, </span><span style="color:#F97583">const</span><span style="color:#F97583"> void</span><span style="color:#F97583"> *</span><span style="color:#FFAB70">b</span><span style="color:#E1E4E8">) {</span></span>
+<span class="line"><span style="color:#F97583">    return</span><span style="color:#E1E4E8"> (</span><span style="color:#F97583">*</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">int*</span><span style="color:#E1E4E8">)a </span><span style="color:#F97583">-</span><span style="color:#F97583"> *</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">int*</span><span style="color:#E1E4E8">)b);</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">int</span><span style="color:#E1E4E8"> arr</span><span style="color:#F97583">[]</span><span style="color:#F97583"> =</span><span style="color:#E1E4E8"> {</span><span style="color:#79B8FF">5</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">2</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">8</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">1</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">9</span><span style="color:#E1E4E8">};</span></span>
+<span class="line"><span style="color:#F97583">int</span><span style="color:#E1E4E8"> n </span><span style="color:#F97583">=</span><span style="color:#F97583"> sizeof</span><span style="color:#E1E4E8">(arr)</span><span style="color:#F97583">/sizeof</span><span style="color:#E1E4E8">(</span><span style="color:#FFAB70">arr</span><span style="color:#E1E4E8">[</span><span style="color:#79B8FF">0</span><span style="color:#E1E4E8">]);</span></span>
+<span class="line"><span style="color:#B392F0">qsort</span><span style="color:#E1E4E8">(arr, n, </span><span style="color:#F97583">sizeof</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">int</span><span style="color:#E1E4E8">), compare);</span></span></code></pre>
+<ul>
+<li><strong>时间复杂度</strong>：平均 O(n log n)，最坏 O(n²)</li>
+<li><strong>特点</strong>：C标准库提供的快速排序实现</li>
+</ul>
+<h2 id="2-简单排序算法">2. 简单排序算法</h2>
+<h3 id="冒泡排序-bubble-sort">冒泡排序 (Bubble Sort)</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="c"><code><span class="line"><span style="color:#F97583">void</span><span style="color:#B392F0"> bubbleSort</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">int</span><span style="color:#FFAB70"> arr</span><span style="color:#F97583">[]</span><span style="color:#E1E4E8">, </span><span style="color:#F97583">int</span><span style="color:#FFAB70"> n</span><span style="color:#E1E4E8">) {</span></span>
+<span class="line"><span style="color:#F97583">    for</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">int</span><span style="color:#E1E4E8"> i </span><span style="color:#F97583">=</span><span style="color:#79B8FF"> 0</span><span style="color:#E1E4E8">; i </span><span style="color:#F97583">&#x3C;</span><span style="color:#E1E4E8"> n</span><span style="color:#F97583">-</span><span style="color:#79B8FF">1</span><span style="color:#E1E4E8">; i</span><span style="color:#F97583">++</span><span style="color:#E1E4E8">) {</span></span>
+<span class="line"><span style="color:#F97583">        for</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">int</span><span style="color:#E1E4E8"> j </span><span style="color:#F97583">=</span><span style="color:#79B8FF"> 0</span><span style="color:#E1E4E8">; j </span><span style="color:#F97583">&#x3C;</span><span style="color:#E1E4E8"> n</span><span style="color:#F97583">-</span><span style="color:#E1E4E8">i</span><span style="color:#F97583">-</span><span style="color:#79B8FF">1</span><span style="color:#E1E4E8">; j</span><span style="color:#F97583">++</span><span style="color:#E1E4E8">) {</span></span>
+<span class="line"><span style="color:#F97583">            if</span><span style="color:#E1E4E8">(</span><span style="color:#FFAB70">arr</span><span style="color:#E1E4E8">[j] </span><span style="color:#F97583">></span><span style="color:#FFAB70"> arr</span><span style="color:#E1E4E8">[j</span><span style="color:#F97583">+</span><span style="color:#79B8FF">1</span><span style="color:#E1E4E8">]) {</span></span>
+<span class="line"><span style="color:#F97583">                int</span><span style="color:#E1E4E8"> temp </span><span style="color:#F97583">=</span><span style="color:#FFAB70"> arr</span><span style="color:#E1E4E8">[j];</span></span>
+<span class="line"><span style="color:#FFAB70">                arr</span><span style="color:#E1E4E8">[j] </span><span style="color:#F97583">=</span><span style="color:#FFAB70"> arr</span><span style="color:#E1E4E8">[j</span><span style="color:#F97583">+</span><span style="color:#79B8FF">1</span><span style="color:#E1E4E8">];</span></span>
+<span class="line"><span style="color:#FFAB70">                arr</span><span style="color:#E1E4E8">[j</span><span style="color:#F97583">+</span><span style="color:#79B8FF">1</span><span style="color:#E1E4E8">] </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> temp;</span></span>
+<span class="line"><span style="color:#E1E4E8">            }</span></span>
+<span class="line"><span style="color:#E1E4E8">        }</span></span>
+<span class="line"><span style="color:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span></code></pre>
+<ul>
+<li><strong>时间复杂度</strong>：O(n²)</li>
+<li><strong>空间复杂度</strong>：O(1)</li>
+</ul>
+<h3 id="选择排序-selection-sort">选择排序 (Selection Sort)</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="c"><code><span class="line"><span style="color:#F97583">void</span><span style="color:#B392F0"> selectionSort</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">int</span><span style="color:#FFAB70"> arr</span><span style="color:#F97583">[]</span><span style="color:#E1E4E8">, </span><span style="color:#F97583">int</span><span style="color:#FFAB70"> n</span><span style="color:#E1E4E8">) {</span></span>
+<span class="line"><span style="color:#F97583">    for</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">int</span><span style="color:#E1E4E8"> i </span><span style="color:#F97583">=</span><span style="color:#79B8FF"> 0</span><span style="color:#E1E4E8">; i </span><span style="color:#F97583">&#x3C;</span><span style="color:#E1E4E8"> n</span><span style="color:#F97583">-</span><span style="color:#79B8FF">1</span><span style="color:#E1E4E8">; i</span><span style="color:#F97583">++</span><span style="color:#E1E4E8">) {</span></span>
+<span class="line"><span style="color:#F97583">        int</span><span style="color:#E1E4E8"> min_idx </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> i;</span></span>
+<span class="line"><span style="color:#F97583">        for</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">int</span><span style="color:#E1E4E8"> j </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> i</span><span style="color:#F97583">+</span><span style="color:#79B8FF">1</span><span style="color:#E1E4E8">; j </span><span style="color:#F97583">&#x3C;</span><span style="color:#E1E4E8"> n; j</span><span style="color:#F97583">++</span><span style="color:#E1E4E8">) {</span></span>
+<span class="line"><span style="color:#F97583">            if</span><span style="color:#E1E4E8">(</span><span style="color:#FFAB70">arr</span><span style="color:#E1E4E8">[j] </span><span style="color:#F97583">&#x3C;</span><span style="color:#FFAB70"> arr</span><span style="color:#E1E4E8">[min_idx])</span></span>
+<span class="line"><span style="color:#E1E4E8">                min_idx </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> j;</span></span>
+<span class="line"><span style="color:#E1E4E8">        }</span></span>
+<span class="line"><span style="color:#F97583">        int</span><span style="color:#E1E4E8"> temp </span><span style="color:#F97583">=</span><span style="color:#FFAB70"> arr</span><span style="color:#E1E4E8">[min_idx];</span></span>
+<span class="line"><span style="color:#FFAB70">        arr</span><span style="color:#E1E4E8">[min_idx] </span><span style="color:#F97583">=</span><span style="color:#FFAB70"> arr</span><span style="color:#E1E4E8">[i];</span></span>
+<span class="line"><span style="color:#FFAB70">        arr</span><span style="color:#E1E4E8">[i] </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> temp;</span></span>
+<span class="line"><span style="color:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span></code></pre>
+<ul>
+<li><strong>时间复杂度</strong>：O(n²)</li>
+<li><strong>空间复杂度</strong>：O(1)</li>
+</ul>
+<h3 id="插入排序-insertion-sort">插入排序 (Insertion Sort)</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="c"><code><span class="line"><span style="color:#F97583">void</span><span style="color:#B392F0"> insertionSort</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">int</span><span style="color:#FFAB70"> arr</span><span style="color:#F97583">[]</span><span style="color:#E1E4E8">, </span><span style="color:#F97583">int</span><span style="color:#FFAB70"> n</span><span style="color:#E1E4E8">) {</span></span>
+<span class="line"><span style="color:#F97583">    for</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">int</span><span style="color:#E1E4E8"> i </span><span style="color:#F97583">=</span><span style="color:#79B8FF"> 1</span><span style="color:#E1E4E8">; i </span><span style="color:#F97583">&#x3C;</span><span style="color:#E1E4E8"> n; i</span><span style="color:#F97583">++</span><span style="color:#E1E4E8">) {</span></span>
+<span class="line"><span style="color:#F97583">        int</span><span style="color:#E1E4E8"> key </span><span style="color:#F97583">=</span><span style="color:#FFAB70"> arr</span><span style="color:#E1E4E8">[i];</span></span>
+<span class="line"><span style="color:#F97583">        int</span><span style="color:#E1E4E8"> j </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> i</span><span style="color:#F97583">-</span><span style="color:#79B8FF">1</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#F97583">        while</span><span style="color:#E1E4E8">(j </span><span style="color:#F97583">>=</span><span style="color:#79B8FF"> 0</span><span style="color:#F97583"> &#x26;&#x26;</span><span style="color:#FFAB70"> arr</span><span style="color:#E1E4E8">[j] </span><span style="color:#F97583">></span><span style="color:#E1E4E8"> key) {</span></span>
+<span class="line"><span style="color:#FFAB70">            arr</span><span style="color:#E1E4E8">[j</span><span style="color:#F97583">+</span><span style="color:#79B8FF">1</span><span style="color:#E1E4E8">] </span><span style="color:#F97583">=</span><span style="color:#FFAB70"> arr</span><span style="color:#E1E4E8">[j];</span></span>
+<span class="line"><span style="color:#E1E4E8">            j</span><span style="color:#F97583">--</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#E1E4E8">        }</span></span>
+<span class="line"><span style="color:#FFAB70">        arr</span><span style="color:#E1E4E8">[j</span><span style="color:#F97583">+</span><span style="color:#79B8FF">1</span><span style="color:#E1E4E8">] </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> key;</span></span>
+<span class="line"><span style="color:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span></code></pre>
+<ul>
+<li><strong>时间复杂度</strong>：O(n²)（最坏），O(n)（最好，已排序）</li>
+<li><strong>空间复杂度</strong>：O(1)</li>
+</ul>
+<h2 id="3-高效排序算法">3. 高效排序算法</h2>
+<h3 id="快速排序-quick-sort">快速排序 (Quick Sort)</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="c"><code><span class="line"><span style="color:#F97583">void</span><span style="color:#B392F0"> quickSort</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">int</span><span style="color:#FFAB70"> arr</span><span style="color:#F97583">[]</span><span style="color:#E1E4E8">, </span><span style="color:#F97583">int</span><span style="color:#FFAB70"> low</span><span style="color:#E1E4E8">, </span><span style="color:#F97583">int</span><span style="color:#FFAB70"> high</span><span style="color:#E1E4E8">) {</span></span>
+<span class="line"><span style="color:#F97583">    if</span><span style="color:#E1E4E8">(low </span><span style="color:#F97583">&#x3C;</span><span style="color:#E1E4E8"> high) {</span></span>
+<span class="line"><span style="color:#F97583">        int</span><span style="color:#E1E4E8"> pi </span><span style="color:#F97583">=</span><span style="color:#B392F0"> partition</span><span style="color:#E1E4E8">(arr, low, high);</span></span>
+<span class="line"><span style="color:#B392F0">        quickSort</span><span style="color:#E1E4E8">(arr, low, pi</span><span style="color:#F97583">-</span><span style="color:#79B8FF">1</span><span style="color:#E1E4E8">);</span></span>
+<span class="line"><span style="color:#B392F0">        quickSort</span><span style="color:#E1E4E8">(arr, pi</span><span style="color:#F97583">+</span><span style="color:#79B8FF">1</span><span style="color:#E1E4E8">, high);</span></span>
+<span class="line"><span style="color:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">int</span><span style="color:#B392F0"> partition</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">int</span><span style="color:#FFAB70"> arr</span><span style="color:#F97583">[]</span><span style="color:#E1E4E8">, </span><span style="color:#F97583">int</span><span style="color:#FFAB70"> low</span><span style="color:#E1E4E8">, </span><span style="color:#F97583">int</span><span style="color:#FFAB70"> high</span><span style="color:#E1E4E8">) {</span></span>
+<span class="line"><span style="color:#F97583">    int</span><span style="color:#E1E4E8"> pivot </span><span style="color:#F97583">=</span><span style="color:#FFAB70"> arr</span><span style="color:#E1E4E8">[high];</span></span>
+<span class="line"><span style="color:#F97583">    int</span><span style="color:#E1E4E8"> i </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> (low </span><span style="color:#F97583">-</span><span style="color:#79B8FF"> 1</span><span style="color:#E1E4E8">);</span></span>
+<span class="line"><span style="color:#F97583">    for</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">int</span><span style="color:#E1E4E8"> j </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> low; j </span><span style="color:#F97583">&#x3C;=</span><span style="color:#E1E4E8"> high</span><span style="color:#F97583">-</span><span style="color:#79B8FF">1</span><span style="color:#E1E4E8">; j</span><span style="color:#F97583">++</span><span style="color:#E1E4E8">) {</span></span>
+<span class="line"><span style="color:#F97583">        if</span><span style="color:#E1E4E8">(</span><span style="color:#FFAB70">arr</span><span style="color:#E1E4E8">[j] </span><span style="color:#F97583">&#x3C;</span><span style="color:#E1E4E8"> pivot) {</span></span>
+<span class="line"><span style="color:#E1E4E8">            i</span><span style="color:#F97583">++</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#F97583">            int</span><span style="color:#E1E4E8"> temp </span><span style="color:#F97583">=</span><span style="color:#FFAB70"> arr</span><span style="color:#E1E4E8">[i];</span></span>
+<span class="line"><span style="color:#FFAB70">            arr</span><span style="color:#E1E4E8">[i] </span><span style="color:#F97583">=</span><span style="color:#FFAB70"> arr</span><span style="color:#E1E4E8">[j];</span></span>
+<span class="line"><span style="color:#FFAB70">            arr</span><span style="color:#E1E4E8">[j] </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> temp;</span></span>
+<span class="line"><span style="color:#E1E4E8">        }</span></span>
+<span class="line"><span style="color:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#F97583">    int</span><span style="color:#E1E4E8"> temp </span><span style="color:#F97583">=</span><span style="color:#FFAB70"> arr</span><span style="color:#E1E4E8">[i</span><span style="color:#F97583">+</span><span style="color:#79B8FF">1</span><span style="color:#E1E4E8">];</span></span>
+<span class="line"><span style="color:#FFAB70">    arr</span><span style="color:#E1E4E8">[i</span><span style="color:#F97583">+</span><span style="color:#79B8FF">1</span><span style="color:#E1E4E8">] </span><span style="color:#F97583">=</span><span style="color:#FFAB70"> arr</span><span style="color:#E1E4E8">[high];</span></span>
+<span class="line"><span style="color:#FFAB70">    arr</span><span style="color:#E1E4E8">[high] </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> temp;</span></span>
+<span class="line"><span style="color:#F97583">    return</span><span style="color:#E1E4E8"> (i</span><span style="color:#F97583">+</span><span style="color:#79B8FF">1</span><span style="color:#E1E4E8">);</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span></code></pre>
+<ul>
+<li><strong>时间复杂度</strong>：平均 O(n log n)，最坏 O(n²)</li>
+<li><strong>空间复杂度</strong>：O(log n)</li>
+</ul>
+<h3 id="归并排序-merge-sort">归并排序 (Merge Sort)</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="c"><code><span class="line"><span style="color:#F97583">void</span><span style="color:#B392F0"> mergeSort</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">int</span><span style="color:#FFAB70"> arr</span><span style="color:#F97583">[]</span><span style="color:#E1E4E8">, </span><span style="color:#F97583">int</span><span style="color:#FFAB70"> l</span><span style="color:#E1E4E8">, </span><span style="color:#F97583">int</span><span style="color:#FFAB70"> r</span><span style="color:#E1E4E8">) {</span></span>
+<span class="line"><span style="color:#F97583">    if</span><span style="color:#E1E4E8">(l </span><span style="color:#F97583">&#x3C;</span><span style="color:#E1E4E8"> r) {</span></span>
+<span class="line"><span style="color:#F97583">        int</span><span style="color:#E1E4E8"> m </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> l </span><span style="color:#F97583">+</span><span style="color:#E1E4E8"> (r</span><span style="color:#F97583">-</span><span style="color:#E1E4E8">l)</span><span style="color:#F97583">/</span><span style="color:#79B8FF">2</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#B392F0">        mergeSort</span><span style="color:#E1E4E8">(arr, l, m);</span></span>
+<span class="line"><span style="color:#B392F0">        mergeSort</span><span style="color:#E1E4E8">(arr, m</span><span style="color:#F97583">+</span><span style="color:#79B8FF">1</span><span style="color:#E1E4E8">, r);</span></span>
+<span class="line"><span style="color:#B392F0">        merge</span><span style="color:#E1E4E8">(arr, l, m, r);</span></span>
+<span class="line"><span style="color:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">void</span><span style="color:#B392F0"> merge</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">int</span><span style="color:#FFAB70"> arr</span><span style="color:#F97583">[]</span><span style="color:#E1E4E8">, </span><span style="color:#F97583">int</span><span style="color:#FFAB70"> l</span><span style="color:#E1E4E8">, </span><span style="color:#F97583">int</span><span style="color:#FFAB70"> m</span><span style="color:#E1E4E8">, </span><span style="color:#F97583">int</span><span style="color:#FFAB70"> r</span><span style="color:#E1E4E8">) {</span></span>
+<span class="line"><span style="color:#6A737D">    // 合并两个有序子数组</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span></code></pre>
+<ul>
+<li><strong>时间复杂度</strong>：O(n log n)</li>
+<li><strong>空间复杂度</strong>：O(n)</li>
+</ul>
+<h3 id="堆排序-heap-sort">堆排序 (Heap Sort)</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="c"><code><span class="line"><span style="color:#F97583">void</span><span style="color:#B392F0"> heapSort</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">int</span><span style="color:#FFAB70"> arr</span><span style="color:#F97583">[]</span><span style="color:#E1E4E8">, </span><span style="color:#F97583">int</span><span style="color:#FFAB70"> n</span><span style="color:#E1E4E8">) {</span></span>
+<span class="line"><span style="color:#F97583">    for</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">int</span><span style="color:#E1E4E8"> i </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> n</span><span style="color:#F97583">/</span><span style="color:#79B8FF">2</span><span style="color:#F97583">-</span><span style="color:#79B8FF">1</span><span style="color:#E1E4E8">; i </span><span style="color:#F97583">>=</span><span style="color:#79B8FF"> 0</span><span style="color:#E1E4E8">; i</span><span style="color:#F97583">--</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#B392F0">        heapify</span><span style="color:#E1E4E8">(arr, n, i);</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#F97583">    for</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">int</span><span style="color:#E1E4E8"> i </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> n</span><span style="color:#F97583">-</span><span style="color:#79B8FF">1</span><span style="color:#E1E4E8">; i </span><span style="color:#F97583">></span><span style="color:#79B8FF"> 0</span><span style="color:#E1E4E8">; i</span><span style="color:#F97583">--</span><span style="color:#E1E4E8">) {</span></span>
+<span class="line"><span style="color:#F97583">        int</span><span style="color:#E1E4E8"> temp </span><span style="color:#F97583">=</span><span style="color:#FFAB70"> arr</span><span style="color:#E1E4E8">[</span><span style="color:#79B8FF">0</span><span style="color:#E1E4E8">];</span></span>
+<span class="line"><span style="color:#FFAB70">        arr</span><span style="color:#E1E4E8">[</span><span style="color:#79B8FF">0</span><span style="color:#E1E4E8">] </span><span style="color:#F97583">=</span><span style="color:#FFAB70"> arr</span><span style="color:#E1E4E8">[i];</span></span>
+<span class="line"><span style="color:#FFAB70">        arr</span><span style="color:#E1E4E8">[i] </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> temp;</span></span>
+<span class="line"><span style="color:#B392F0">        heapify</span><span style="color:#E1E4E8">(arr, i, </span><span style="color:#79B8FF">0</span><span style="color:#E1E4E8">);</span></span>
+<span class="line"><span style="color:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">void</span><span style="color:#B392F0"> heapify</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">int</span><span style="color:#FFAB70"> arr</span><span style="color:#F97583">[]</span><span style="color:#E1E4E8">, </span><span style="color:#F97583">int</span><span style="color:#FFAB70"> n</span><span style="color:#E1E4E8">, </span><span style="color:#F97583">int</span><span style="color:#FFAB70"> i</span><span style="color:#E1E4E8">) {</span></span>
+<span class="line"><span style="color:#6A737D">    // 构建最大堆</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span></code></pre>
+<ul>
+<li><strong>时间复杂度</strong>：O(n log n)</li>
+<li><strong>空间复杂度</strong>：O(1)</li>
+</ul>
+<h2 id="4-线性时间排序特定条件下">4. 线性时间排序（特定条件下）</h2>
+<h3 id="计数排序-counting-sort">计数排序 (Counting Sort)</h3>
+<ul>
+<li><strong>时间复杂度</strong>：O(n + k)，k是数据范围</li>
+<li><strong>适用条件</strong>：整数排序，数据范围较小</li>
+</ul>
+<h3 id="基数排序-radix-sort">基数排序 (Radix Sort)</h3>
+<ul>
+<li><strong>时间复杂度</strong>：O(d(n + k))，d是数字位数</li>
+<li><strong>适用条件</strong>：整数排序</li>
+</ul>
+<h2 id="总结对比">总结对比</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>排序算法</th><th>平均时间复杂度</th><th>最坏时间复杂度</th><th>空间复杂度</th><th>稳定性</th></tr></thead><tbody><tr><td>冒泡排序</td><td>O(n²)</td><td>O(n²)</td><td>O(1)</td><td>稳定</td></tr><tr><td>选择排序</td><td>O(n²)</td><td>O(n²)</td><td>O(1)</td><td>不稳定</td></tr><tr><td>插入排序</td><td>O(n²)</td><td>O(n²)</td><td>O(1)</td><td>稳定</td></tr><tr><td>快速排序</td><td>O(n log n)</td><td>O(n²)</td><td>O(log n)</td><td>不稳定</td></tr><tr><td>归并排序</td><td>O(n log n)</td><td>O(n log n)</td><td>O(n)</td><td>稳定</td></tr><tr><td>堆排序</td><td>O(n log n)</td><td>O(n log n)</td><td>O(1)</td><td>不稳定</td></tr><tr><td>qsort()</td><td>O(n log n)</td><td>O(n²)</td><td>O(log n)</td><td>依赖实现</td></tr></tbody></table>
+<p><strong>建议</strong>：</p>
+<ul>
+<li>小数据量：插入排序</li>
+<li>通用场景：qsort() 或快速排序</li>
+<li>需要稳定性：归并排序</li>
+<li>内存敏感：堆排序</li>
+<li>特定条件：计数排序或基数排序</li>
+</ul> </div> </div> </div> </article> <aside class="hidden lg:block" data-astro-cid-7jjqptxk> <div class="gh-card border-default sticky top-16 px-4 py-3" data-astro-cid-7jjqptxk> <div class="text-[12px] font-semibold fg-default" data-astro-cid-7jjqptxk>目录</div> <nav class="mt-2" aria-label="目录" data-astro-cid-7jjqptxk> <ul class="space-y-1 text-[13px]" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#1-内置库函数" data-toc-slug="1-内置库函数" data-astro-cid-7jjqptxk>1. 内置库函数</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#qsort-函数" data-toc-slug="qsort-函数" data-astro-cid-7jjqptxk>qsort() 函数</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#2-简单排序算法" data-toc-slug="2-简单排序算法" data-astro-cid-7jjqptxk>2. 简单排序算法</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#冒泡排序-bubble-sort" data-toc-slug="冒泡排序-bubble-sort" data-astro-cid-7jjqptxk>冒泡排序 (Bubble Sort)</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#选择排序-selection-sort" data-toc-slug="选择排序-selection-sort" data-astro-cid-7jjqptxk>选择排序 (Selection Sort)</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#插入排序-insertion-sort" data-toc-slug="插入排序-insertion-sort" data-astro-cid-7jjqptxk>插入排序 (Insertion Sort)</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#3-高效排序算法" data-toc-slug="3-高效排序算法" data-astro-cid-7jjqptxk>3. 高效排序算法</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#快速排序-quick-sort" data-toc-slug="快速排序-quick-sort" data-astro-cid-7jjqptxk>快速排序 (Quick Sort)</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#归并排序-merge-sort" data-toc-slug="归并排序-merge-sort" data-astro-cid-7jjqptxk>归并排序 (Merge Sort)</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#堆排序-heap-sort" data-toc-slug="堆排序-heap-sort" data-astro-cid-7jjqptxk>堆排序 (Heap Sort)</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#4-线性时间排序特定条件下" data-toc-slug="4-线性时间排序特定条件下" data-astro-cid-7jjqptxk>4. 线性时间排序（特定条件下）</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#计数排序-counting-sort" data-toc-slug="计数排序-counting-sort" data-astro-cid-7jjqptxk>计数排序 (Counting Sort)</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#基数排序-radix-sort" data-toc-slug="基数排序-radix-sort" data-astro-cid-7jjqptxk>基数排序 (Radix Sort)</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#总结对比" data-toc-slug="总结对比" data-astro-cid-7jjqptxk>总结对比</a> </li> </ul> </nav> </div> </aside> </div> <button id="backToTop" class="back-to-top" type="button" aria-label="回到顶部" hidden data-astro-cid-7jjqptxk>
+↑
+</button> <script type="module">(function(){const s=document.getElementById("postContent");if(!s)return;const l=Array.from(document.querySelectorAll("a.toc-link")),r=new Map;l.forEach(t=>{const e=t.getAttribute("data-toc-slug");if(!e)return;const n=r.get(e)||[];n.push(t),r.set(e,n)});const c=Array.from(s.querySelectorAll("h2[id], h3[id]"));function a(t){if(l.forEach(n=>n.removeAttribute("aria-current")),!t)return;const e=r.get(t);e&&e.forEach(n=>n.setAttribute("aria-current","true"))}function f(){if(!c.length)return"";const t=120;for(let e=c.length-1;e>=0;e--){const n=c[e];if(n.getBoundingClientRect().top<=t)return n.id||""}return c[0].id||""}let d=!1;function i(){d||(d=!0,window.requestAnimationFrame(()=>{d=!1;const t=(location.hash||"").replace(/^#/,"");if(t&&r.has(t)){a(t);return}a(f())}))}window.addEventListener("scroll",i,{passive:!0}),window.addEventListener("resize",i),window.addEventListener("hashchange",i),l.forEach(t=>t.addEventListener("click",()=>{const e=t.getAttribute("data-toc-slug")||"";a(e)})),i();const u=document.getElementById("backToTop");if(u){const t=()=>{const e=window.scrollY||document.documentElement.scrollTop||0;u.hidden=e<320};window.addEventListener("scroll",t,{passive:!0}),t(),u.addEventListener("click",()=>{window.scrollTo({top:0,behavior:"smooth"})})}s.querySelectorAll("pre > code").forEach(t=>{const e=t.parentElement;if(!e||e.querySelector(".copy-btn"))return;e.style.position="relative";const n=document.createElement("button");n.type="button",n.className="copy-btn",n.textContent="复制",n.addEventListener("click",async()=>{const m=t.textContent||"";try{await navigator.clipboard.writeText(m),n.textContent="已复制",window.setTimeout(()=>n.textContent="复制",900)}catch{const o=document.createElement("textarea");o.value=m,o.style.position="fixed",o.style.opacity="0",document.body.appendChild(o),o.select(),document.execCommand("copy"),document.body.removeChild(o),n.textContent="已复制",window.setTimeout(()=>n.textContent="复制",900)}}),e.appendChild(n)})})();</script>   </main> <footer class="border-t py-6 text-[13px]" style="border-color: var(--border-default); color: var(--fg-muted)"> <div class="gh-container flex items-center justify-between"> <p>© 2026 · Built with Astro</p> <p style="color: var(--fg-muted)">Zhejiang University · CS</p> </div> </footer> </body></html>

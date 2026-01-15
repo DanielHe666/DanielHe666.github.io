@@ -1,0 +1,1049 @@
+<!DOCTYPE html><html lang="zh-CN" class="h-full"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="generator" content="Astro v5.16.9"><title>AIOpsLab：用于评估AI代理实现自主云的整体框架 · 个人博客</title><meta name="description" content="本文提出AIOpsLab框架，旨在评估AI代理在实现自主云运维（AgentOps）中的能力。该框架通过部署云环境、注入故障、生成工作负载并协调组件，为代理提供交互接口，以支持复杂运维任务的端到端自动化测试。"><meta property="og:title" content="AIOpsLab：用于评估AI代理实现自主云的整体框架 · 个人博客"><meta property="og:description" content="本文提出AIOpsLab框架，旨在评估AI代理在实现自主云运维（AgentOps）中的能力。该框架通过部署云环境、注入故障、生成工作负载并协调组件，为代理提供交互接口，以支持复杂运维任务的端到端自动化测试。"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="stylesheet" href="/_astro/_slug_.1UaX29b_.css">
+<style>.copy-btn[data-astro-cid-7jjqptxk]{position:absolute;top:8px;right:8px;padding:4px 8px;font-size:12px;border-radius:6px;border:1px solid var(--border-default);background:color-mix(in srgb,var(--canvas-default) 80%,var(--canvas-subtle));color:var(--fg-default);cursor:pointer}.copy-btn[data-astro-cid-7jjqptxk]:hover{background:color-mix(in srgb,var(--canvas-default) 65%,var(--canvas-subtle))}.copy-btn[data-astro-cid-7jjqptxk]:focus-visible{outline:2px solid color-mix(in srgb,var(--accent-emphasis) 55%,transparent);outline-offset:2px}a[data-astro-cid-7jjqptxk].toc-link[aria-current=true]{color:var(--fg-default);font-weight:600;text-decoration:none}.back-to-top[data-astro-cid-7jjqptxk]{position:fixed;right:18px;bottom:18px;width:36px;height:36px;border-radius:999px;border:1px solid var(--border-default);background:color-mix(in srgb,var(--canvas-default) 80%,var(--canvas-subtle));color:var(--fg-default);cursor:pointer;z-index:40}.back-to-top[data-astro-cid-7jjqptxk]:hover{background:color-mix(in srgb,var(--canvas-default) 65%,var(--canvas-subtle))}.back-to-top[data-astro-cid-7jjqptxk]:focus-visible{outline:2px solid color-mix(in srgb,var(--accent-emphasis) 55%,transparent);outline-offset:2px}
+</style></head> <body class="min-h-full antialiased"> <header class="sticky top-0 z-50 border-b" style="border-color: var(--border-default); background: var(--canvas-subtle)" data-astro-cid-dmqpwcec> <div class="gh-container flex h-12 items-center justify-between" data-astro-cid-dmqpwcec> <a href="/" class="flex items-center gap-2 text-[13px] font-semibold fg-default" data-astro-cid-dmqpwcec> <span class="inline-flex h-7 items-center rounded-md px-2" style="background: var(--fg-default); color: var(--canvas-default)" data-astro-cid-dmqpwcec>HCY</span> <span class="fg-muted" data-astro-cid-dmqpwcec>Blog</span> </a> <nav class="flex items-center gap-1 text-[13px]" data-astro-cid-dmqpwcec> <a href="/blog/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> 文章 </a><a href="/search/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> 搜索 </a><a href="/projects/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> 项目 </a><a href="/reading/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> Reading </a> <a href="https://github.com/ChenyuHeee" target="_blank" rel="noreferrer" class="ml-1 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec>
+GitHub
+</a> </nav> </div> </header>  <main class="gh-container py-6">  <div class="mx-auto max-w-[1040px] grid gap-6 lg:grid-cols-[1fr_280px]" data-astro-cid-7jjqptxk> <article class="min-w-0" data-astro-cid-7jjqptxk> <div class="gh-card overflow-hidden" style="border-color: var(--border-default)" data-astro-cid-7jjqptxk> <header class="border-b px-4 py-4" style="border-color: var(--border-default)" data-astro-cid-7jjqptxk> <h1 class="text-2xl font-semibold tracking-tight" style="color: var(--fg-default)" data-astro-cid-7jjqptxk>AIOpsLab：用于评估AI代理实现自主云的整体框架</h1> <div class="mt-2 flex flex-wrap items-center gap-x-4 gap-y-2 text-[12px]" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <time datetime="2026-01-15T09:21:40.551Z" data-astro-cid-7jjqptxk>2026-01-15</time>  </div> <p class="mt-2 text-[13px]" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk>本文提出AIOpsLab框架，旨在评估AI代理在实现自主云运维（AgentOps）中的能力。该框架通过部署云环境、注入故障、生成工作负载并协调组件，为代理提供交互接口，以支持复杂运维任务的端到端自动化测试。</p> </header> <div class="border-b px-4 py-3 lg:hidden" style="border-color: var(--border-default)" data-astro-cid-7jjqptxk> <details data-astro-cid-7jjqptxk> <summary class="cursor-pointer text-[13px] font-semibold fg-default" data-astro-cid-7jjqptxk>目录</summary> <div class="mt-2" data-astro-cid-7jjqptxk> <nav aria-label="目录" data-astro-cid-7jjqptxk> <ul class="space-y-1 text-[13px]" data-astro-cid-7jjqptxk> <li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#专业中文翻译" data-toc-slug="专业中文翻译" data-astro-cid-7jjqptxk>专业中文翻译</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#摘要-abstract" data-toc-slug="摘要-abstract" data-astro-cid-7jjqptxk>摘要 (Abstract)</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#1-引言-introduction" data-toc-slug="1-引言-introduction" data-astro-cid-7jjqptxk>1 引言 (Introduction)</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#11-研究背景" data-toc-slug="11-研究背景" data-astro-cid-7jjqptxk>1.1 研究背景</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#12-agentops新范式的提出" data-toc-slug="12-agentops新范式的提出" data-astro-cid-7jjqptxk>1.2 AgentOps：新范式的提出</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#13-挑战与贡献" data-toc-slug="13-挑战与贡献" data-astro-cid-7jjqptxk>1.3 挑战与贡献</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#2-aiopslab" data-toc-slug="2-aiopslab" data-astro-cid-7jjqptxk>2 AIOpsLab</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#21-问题定义-problem-definition" data-toc-slug="21-问题定义-problem-definition" data-astro-cid-7jjqptxk>2.1 问题定义 (Problem Definition)</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#22-协调器-orchestrator" data-toc-slug="22-协调器-orchestrator" data-astro-cid-7jjqptxk>2.2 协调器 (Orchestrator)</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#23-云服务-cloud-services" data-toc-slug="23-云服务-cloud-services" data-astro-cid-7jjqptxk>2.3 云服务 (Cloud Services)</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#24-面向任务的故障库-task-oriented-fault-library" data-toc-slug="24-面向任务的故障库-task-oriented-fault-library" data-astro-cid-7jjqptxk>2.4 面向任务的故障库 (Task-oriented Fault Library)</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#25-可观测性-observability" data-toc-slug="25-可观测性-observability" data-astro-cid-7jjqptxk>2.5 可观测性 (Observability)</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#3-评估-evaluation" data-toc-slug="3-评估-evaluation" data-astro-cid-7jjqptxk>3 评估 (Evaluation)</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#31-评估设置-evaluation-setup" data-toc-slug="31-评估设置-evaluation-setup" data-astro-cid-7jjqptxk>3.1 评估设置 (Evaluation Setup)</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#32-指标-metrics" data-toc-slug="32-指标-metrics" data-astro-cid-7jjqptxk>3.2 指标 (Metrics)</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#33-aiopslab基准的问题池-problem-pool" data-toc-slug="33-aiopslab基准的问题池-problem-pool" data-astro-cid-7jjqptxk>3.3 AIOpsLab基准的问题池 (Problem Pool)</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#34-性能结果-performance-results" data-toc-slug="34-性能结果-performance-results" data-astro-cid-7jjqptxk>3.4 性能结果 (Performance Results)</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#35-步骤限制的影响-influence-of-the-step-limit" data-toc-slug="35-步骤限制的影响-influence-of-the-step-limit" data-astro-cid-7jjqptxk>3.5 步骤限制的影响 (Influence of the Step Limit)</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#36-代理行为好的坏的和差距-agent-behavior-the-good-the-bad-and-the-gaps" data-toc-slug="36-代理行为好的坏的和差距-agent-behavior-the-good-the-bad-and-the-gaps" data-astro-cid-7jjqptxk>3.6 代理行为：好的、坏的和差距 (Agent Behavior: The Good, the Bad and the Gaps)</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#缩写术语对照表-abbreviations-glossary" data-toc-slug="缩写术语对照表-abbreviations-glossary" data-astro-cid-7jjqptxk>缩写术语对照表 (Abbreviations Glossary)</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#核心技术术语" data-toc-slug="核心技术术语" data-astro-cid-7jjqptxk>核心技术术语</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#任务与评估相关" data-toc-slug="任务与评估相关" data-astro-cid-7jjqptxk>任务与评估相关</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#云原生与容器技术" data-toc-slug="云原生与容器技术" data-astro-cid-7jjqptxk>云原生与容器技术</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#可观测性相关" data-toc-slug="可观测性相关" data-astro-cid-7jjqptxk>可观测性相关</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#代理框架与方法" data-toc-slug="代理框架与方法" data-astro-cid-7jjqptxk>代理框架与方法</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#工具与平台" data-toc-slug="工具与平台" data-astro-cid-7jjqptxk>工具与平台</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#微服务应用" data-toc-slug="微服务应用" data-astro-cid-7jjqptxk>微服务应用</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#学术术语" data-toc-slug="学术术语" data-astro-cid-7jjqptxk>学术术语</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#相关工作与参考文献" data-toc-slug="相关工作与参考文献" data-astro-cid-7jjqptxk>相关工作与参考文献</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#主要引用论文" data-toc-slug="主要引用论文" data-astro-cid-7jjqptxk>主要引用论文</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#相关会议与期刊" data-toc-slug="相关会议与期刊" data-astro-cid-7jjqptxk>相关会议与期刊</a> </li> </ul> </nav> </div> </details> </div> <div class="px-4 py-4" data-astro-cid-7jjqptxk> <div class="prose prose-sm max-w-none" id="postContent" data-astro-cid-7jjqptxk> <h1 id="aiopslab用于评估ai代理实现自主云的整体框架">AIOpsLab：用于评估AI代理实现自主云的整体框架</h1>
+<h2 id="专业中文翻译">专业中文翻译</h2>
+<blockquote>
+<p><strong>原论文</strong>: AIOpsLab: A Holistic Framework to Evaluate AI Agents for Enabling Autonomous Clouds</p>
+<p><strong>作者</strong>: Yinfang Chen¹, Manish Shetty², Gagan Somashekar³, Minghua Ma³, Yogesh Simmhan⁴, Jonathan Mace³, Chetan Bansal³, Rujia Wang³, Saravan Rajmohan³</p>
+<p><strong>单位</strong>: ¹伊利诺伊大学厄巴纳-香槟分校 (UIUC), ²加州大学伯克利分校, ³微软研究院, ⁴印度科学研究所</p>
+<p><strong>发表</strong>: arXiv:2501.07606, 2025年1月</p>
+</blockquote>
+<hr>
+<h2 id="摘要-abstract">摘要 (Abstract)</h2>
+<p><strong>原文翻译：</strong></p>
+<p>AI运维（AIOps，AI for IT Operations）旨在自动化复杂的运维任务，如故障定位和根因分析，以减少人工工作量并最小化对客户的影响。传统的DevOps工具和AIOps算法通常专注于解决孤立的运维任务，而大型语言模型（LLM，Large Language Model）和AI代理的最新进展正在通过实现端到端和多任务自动化来革新AIOps。本文展望了一个未来，在这个未来中，AI代理自主管理整个事件生命周期中的运维任务，从而实现自愈云系统——我们将这种范式称为<strong>AgentOps（代理运维）</strong>。</p>
+<p>实现这一愿景需要一个全面的框架来指导这些代理的设计、开发和评估。为此，我们提出了<strong>AIOpsLab</strong>，这是一个不仅能够部署微服务云环境、注入故障、生成工作负载和导出遥测数据的框架，而且还能协调这些组件并提供与代理交互和评估的接口。我们讨论了这种整体框架的关键需求，并展示了AIOpsLab如何促进下一代AIOps代理的评估。通过在AIOpsLab创建的基准测试中评估最先进的LLM代理，我们提供了关于它们在处理云环境中复杂运维任务方面的能力和局限性的深入见解。</p>
+<hr>
+<h2 id="1-引言-introduction">1 引言 (Introduction)</h2>
+<h3 id="11-研究背景">1.1 研究背景</h3>
+<p>IT应用和服务的快速演进导致企业越来越依赖于超大规模的云基础系统。这些系统通常是分布式的，采用微服务（Microservices）和无服务器计算（Serverless Computing）等架构，在实现可扩展性的同时也增加了复杂性并带来了新的运维挑战。在这样的云环境中，问题可能会级联成大规模中断。例如，亚马逊的一次宕机仅在一小时内就可能导致1亿美元的损失。</p>
+<p>为了应对这种复杂基础设施中事件管理的挑战，业界正在朝着采用<strong>AIOps（人工智能运维）<strong>的方向发展，这是在</strong>DevOps（开发与运维）<strong>背景下进行的。AIOps的最终目标是创建</strong>自主自愈云</strong>，其中AI驱动的方法可以在最少人工干预的情况下检测、定位和缓解故障。尽管这一概念已经存在十多年，但AIOps和大型语言模型（LLM）代理的最新进展使这一愿景更加接近现实。</p>
+<p>LLM代理集成了外部工具，能够动态地与环境交互，使它们能够自主管理整个事件生命周期，如图1所示。</p>
+<h3 id="12-agentops新范式的提出">1.2 AgentOps：新范式的提出</h3>
+<p>为了实现这种自主自愈云的愿景，我们提出了一个名为**AgentOps（代理运维，Agent for Operations）**的新范式。在这个范式中，代理方法不限于孤立的运维任务，而是能够无缝管理跨整个运维栈的多个跨层任务。AgentOps代表了一种演进，其中自主代理可以做出实时决策和端到端操作以确保系统可靠性。这与AI的最新进展相一致，正如一篇文章所强调的：</p>
+<blockquote>
+<p>“最先进的AI结果越来越多地由具有多个组件的复合系统获得，而不仅仅是单体模型…复合AI系统很可能是未来最大化AI结果的最佳方式” ——《从模型到复合AI系统的转变》（Zaharia等人，2024）</p>
+</blockquote>
+<p>AI驱动的工具和基准测试，如WebArena、R2E、HumanEval、LiveCodeBench和SWE-bench，通过加速软件开发显著推进了DevOps的”开发”（Dev）方面。然而，AI在”运维”（Ops）方面的进展，特别是AgentOps，仍然有限，这是由于缺乏多样化、真实场景的高质量基准测试。解决这一差距需要一个能够在交互式环境中帮助AIOps代理设计、开发和评估的框架，这是本文的关键贡献。</p>
+<h3 id="13-挑战与贡献">1.3 挑战与贡献</h3>
+<p><strong>挑战：</strong> 构建一个能够让代理与云动态交互的整体基准框架面临多个挑战：</p>
+<ol>
+<li>
+<p><strong>管理评估流程</strong>：需要一个普遍适用于不同代理和云的评估流程，足够强大以通过复杂和真实的运维任务评估代理，并有价值以提供不同的反馈或可观测性，同时具有可扩展性以适应用户的新任务和代理。</p>
+</li>
+<li>
+<p><strong>缺乏统一工具</strong>：现有工具虽然解决了AIOps评估的个别组件，如可观测性、应用套件和混沌工程，但缺乏支持统一AIOps评估所需的集成。</p>
+</li>
+<li>
+<p><strong>缺乏真实评估场景</strong>：现有方法通常依赖静态数据集或固定的问答格式，无法捕捉真实云环境的动态、不可预测和演变的特性。</p>
+</li>
+<li>
+<p><strong>专有服务和数据集</strong>：最近的AgentOps工作使用专有服务和数据集，限制了可重复性。</p>
+</li>
+</ol>
+<p><strong>我们的贡献：</strong></p>
+<ul>
+<li>
+<p><strong>揭示需求和挑战</strong>：阐明了支持自主AIOps代理设计、开发和评估的整体框架所需的需求和挑战。</p>
+</li>
+<li>
+<p><strong>开发AIOpsLab框架</strong>：不仅能够部署微服务云环境、注入故障、生成工作负载和导出遥测数据，还能协调这些组件并提供代理-云交互接口（Agent-Cloud Interface, ACI）。</p>
+</li>
+<li>
+<p><strong>构建基准测试套件</strong>：利用AIOpsLab框架构建了包含48个问题的基准测试套件，涵盖不同的AIOps任务。</p>
+</li>
+<li>
+<p><strong>详细的性能分析</strong>：通过在AIOpsLab上评估代理，提供了关于代理性能和局限性的详细分析。</p>
+</li>
+<li>
+<p><strong>开源承诺</strong>：将公开发布AIOpsLab。</p>
+</li>
+</ul>
+<hr>
+<h2 id="2-aiopslab">2 AIOpsLab</h2>
+<p>本节讨论AIOpsLab及其组件的设计和实现，如图2所示。</p>
+<h3 id="21-问题定义-problem-definition">2.1 问题定义 (Problem Definition)</h3>
+<p>为了支持广泛的评估场景（称为<strong>问题</strong>），这些场景在微服务系统中复制真实的事件，我们首先将AIOps问题<strong>P</strong>形式化为一个元组：</p>
+<p><strong>P = ⟨T, C, S⟩</strong></p>
+<p>其中：</p>
+<ul>
+<li><strong>T（Task，任务）</strong>：代表任务</li>
+<li><strong>C（Context，上下文）</strong>：代表上下文</li>
+<li><strong>S（Solution，解决方案）</strong>：代表预期解决方案（oracle）</li>
+</ul>
+<p><strong>任务T</strong> 定义要执行的具体AIOps操作，分为四类：检测、定位、（根因）分析和缓解。我们在表1中定义了这些任务。每种任务类型都与成功标准和评估指标相关联。例如，检测任务使用**检测时间（TTD, Time-to-Detect）**来衡量检测故障所需的时间。</p>
+<p><strong>上下文C</strong> 可以进一步形式化为元组：<strong>C = ⟨E, I⟩</strong></p>
+<p>其中：</p>
+<ul>
+<li><strong>E（Environment，环境）</strong>：是问题发生的操作环境</li>
+<li><strong>I（Information，信息）</strong>：是用于向代理描述问题的问题信息</li>
+</ul>
+<p>操作环境包括用于生成问题的云服务、故障模型和工作负载模型，这些不与代理共享。问题信息包括服务描述、任务描述和可用API文档等信息，直接与代理共享。它还包括代理在运行时可查询的间接信息（包括在操作环境中观察到的日志、指标和追踪）。</p>
+<p><strong>解决方案S</strong> 是任务的预期结果，用于评估代理的性能。解决方案通常是针对问题和任务特定的，并经过精心设计用于评估。注意，某些问题（如缓解任务）可以通过多种方式解决。在这种情况下，AIOpsLab评估整个系统的一般状态（例如，检查所有服务是否正常运行），而不仅仅是注入故障的目标资源，因为在缓解过程中可能无意中影响了其他服务或资源。</p>
+<p><strong>示例2.1</strong> 考虑在社交网络应用中定位Kubernetes目标端口错误配置的问题。AIOpsLab通过扩展<code>LocalizationTask</code>只需几行代码就可以轻松定义这个问题：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#F97583">from</span><span style="color:#E1E4E8"> aiopslab </span><span style="color:#F97583">import</span><span style="color:#E1E4E8"> LocalizationTask,</span></span>
+<span class="line"><span style="color:#E1E4E8">    SocialNetwork, Wrk, VirtFaultInjector</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">class</span><span style="color:#B392F0"> K8STargetPortMisconfig</span><span style="color:#E1E4E8">(</span><span style="color:#B392F0">LocalizationTask</span><span style="color:#E1E4E8">):</span></span>
+<span class="line"><span style="color:#F97583">    def</span><span style="color:#79B8FF"> __init__</span><span style="color:#E1E4E8">(self):</span></span>
+<span class="line"><span style="color:#79B8FF">        self</span><span style="color:#E1E4E8">.app </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> SocialNetwork()</span></span>
+<span class="line"><span style="color:#79B8FF">        self</span><span style="color:#E1E4E8">.ans </span><span style="color:#F97583">=</span><span style="color:#9ECBFF"> "user-service"</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#F97583">    def</span><span style="color:#B392F0"> start_workload</span><span style="color:#E1E4E8">(self):</span></span>
+<span class="line"><span style="color:#E1E4E8">        wrk </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> Wrk(</span><span style="color:#FFAB70">rate</span><span style="color:#F97583">=</span><span style="color:#79B8FF">100</span><span style="color:#E1E4E8">, </span><span style="color:#FFAB70">duration</span><span style="color:#F97583">=</span><span style="color:#79B8FF">10</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">        wrk.start_workload(</span><span style="color:#FFAB70">url</span><span style="color:#F97583">=</span><span style="color:#79B8FF">self</span><span style="color:#E1E4E8">.app.frontend_url)</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#F97583">    def</span><span style="color:#B392F0"> inject_fault</span><span style="color:#E1E4E8">(self):</span></span>
+<span class="line"><span style="color:#E1E4E8">        inj </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> VirtFaultInjector(</span><span style="color:#79B8FF">self</span><span style="color:#E1E4E8">.app.ns)</span></span>
+<span class="line"><span style="color:#E1E4E8">        inj.inject([</span><span style="color:#79B8FF">self</span><span style="color:#E1E4E8">.ans], </span><span style="color:#9ECBFF">"misconfig_k8s"</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#F97583">    def</span><span style="color:#79B8FF"> eval</span><span style="color:#E1E4E8">(self, soln, trace, duration):</span></span>
+<span class="line"><span style="color:#E1E4E8">        res[</span><span style="color:#9ECBFF">"TTL"</span><span style="color:#E1E4E8">] </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> duration</span></span>
+<span class="line"><span style="color:#E1E4E8">        res[</span><span style="color:#9ECBFF">"success"</span><span style="color:#E1E4E8">] </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> is_exact_match(soln, </span><span style="color:#79B8FF">self</span><span style="color:#E1E4E8">.ans)</span></span>
+<span class="line"><span style="color:#F97583">        return</span><span style="color:#E1E4E8"> res</span></span></code></pre>
+<p>这里，任务T是故障定位，解决方案S是名为”user-service”的微服务，这也是故障注入目标。上下文C包括社交网络应用、来自AIOpsLab故障库的错误配置故障，以及使用wrk工具的标准工作负载。</p>
+<h3 id="22-协调器-orchestrator">2.2 协调器 (Orchestrator)</h3>
+<p>AIOpsLab的<strong>协调器</strong>严格强制代理和服务之间的关注点分离，使用一个定义明确的中心组件——协调器。它提供了一套强大的接口，允许无缝集成和扩展各种系统组件。</p>
+<h4 id="221-代理-云接口-agent-cloud-interface-aci">2.2.1 代理-云接口 (Agent Cloud Interface, ACI)</h4>
+<p>协调器的一个关键职责是为代理与云环境交互提供一个定义明确的接口。通常，开发人员使用各种编程（如API、CLI）和用户界面（事件门户、仪表板等）操作云和服务。然而，现有的云接口并非为LLM和代理设计。例如，人类可以可靠地忽略不相关的信息，而这可能会分散代理的注意力并影响性能。</p>
+<p><strong>ACI指定：</strong></p>
+<ol>
+<li>代理可用的有效操作集</li>
+<li>服务状态如何作为代理操作的观察反馈给代理</li>
+</ol>
+<p>这样，ACI抽象了云环境的复杂性，简化了代理的决策过程。ACI设计为直观且易于使用，具有简洁的API列表，每个都有文档说明，以确保代理能够朝着目标取得有意义的进展。</p>
+<p><strong>AIOpsLab默认提供的一些API包括：</strong></p>
+<ul>
+<li><code>get_logs</code>：获取日志</li>
+<li><code>get_metrics</code>：获取指标</li>
+<li><code>get_traces</code>：获取追踪</li>
+<li><code>exec_shell</code>：执行shell命令（应用安全策略过滤后）</li>
+</ul>
+<p><strong>示例2.2</strong> 此示例说明了ACI在AIOpsLab中如何定义为代理可使用的API：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#F97583">class</span><span style="color:#B392F0"> TaskActions</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#F97583">    def</span><span style="color:#B392F0"> get_traces</span><span style="color:#E1E4E8">(ns: </span><span style="color:#79B8FF">str</span><span style="color:#E1E4E8">, duration: </span><span style="color:#79B8FF">int</span><span style="color:#F97583"> =</span><span style="color:#79B8FF"> 5</span><span style="color:#E1E4E8">) -> </span><span style="color:#79B8FF">str</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#9ECBFF">        """</span></span>
+<span class="line"><span style="color:#9ECBFF">        从Jaeger收集服务的追踪数据。</span></span>
+<span class="line"><span style="color:#9ECBFF">        Args:</span></span>
+<span class="line"><span style="color:#9ECBFF">            ns (str): K8S命名空间。</span></span>
+<span class="line"><span style="color:#9ECBFF">            duration (int): 收集追踪的持续时间。</span></span>
+<span class="line"><span style="color:#9ECBFF">        Returns:</span></span>
+<span class="line"><span style="color:#9ECBFF">            str: 追踪保存目录的路径。</span></span>
+<span class="line"><span style="color:#9ECBFF">        """</span></span>
+<span class="line"><span style="color:#E1E4E8">        trace_api </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> TraceAPI(ns)</span></span>
+<span class="line"><span style="color:#E1E4E8">        end_t </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> datetime.now()</span></span>
+<span class="line"><span style="color:#E1E4E8">        start_t </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> end_t </span><span style="color:#F97583">-</span><span style="color:#E1E4E8"> timedelta(duration)</span></span>
+<span class="line"><span style="color:#E1E4E8">        traces </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> trace_api.extract_traces(start_t, end_t)</span></span>
+<span class="line"><span style="color:#F97583">        return</span><span style="color:#E1E4E8"> trace_api.save_traces(traces)</span></span></code></pre>
+<p>如图所示，ACI将复杂操作封装在简单的API（如<code>get_traces</code>）后面。在初始化问题时，协调器自动从这些API中提取文档，作为上下文C提供给代理。在运行时，代理可以通过协调器的特权访问指定对服务的广泛操作（如扩展、重新部署、打补丁）。最后，协调器在每次操作后向代理传达服务状态，包括输出、错误消息和回溯等高质量反馈。</p>
+<h4 id="222-会话接口-session-interface">2.2.2 会话接口 (Session Interface)</h4>
+<p>协调器的另一个关键职责是管理代理和服务的生命周期。我们将协调器实现为一个基于会话的系统，其中为每个代理解决问题的实例创建一个<strong>会话（Session）</strong>。代理注册到协调器，会话通过传递唯一问题标识符的简单API调用开始。AIOpsLab的设计高度灵活，与不断增长的LLM和代理框架空间集成。</p>
+<p>我们唯一的要求是代理必须实现一个<code>get_action</code>方法，签名如下：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#F97583">async</span><span style="color:#F97583"> def</span><span style="color:#B392F0"> get_action</span><span style="color:#E1E4E8">(state: </span><span style="color:#79B8FF">str</span><span style="color:#E1E4E8">) -> </span><span style="color:#79B8FF">str</span></span></code></pre>
+<p>它接受来自协调器的服务状态作为输入，并返回代理想要执行的下一个操作。注意，这可以是任何现有代理框架的简单包装函数。</p>
+<p><strong>示例2.3</strong> 在这个简化示例中，我们说明了如何将代理载入AIOpsLab：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#F97583">from</span><span style="color:#E1E4E8"> aiopslab </span><span style="color:#F97583">import</span><span style="color:#E1E4E8"> Orchestrator</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">class</span><span style="color:#B392F0"> Agent</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#F97583">    def</span><span style="color:#79B8FF"> __init__</span><span style="color:#E1E4E8">(self, prob, instructs, apis):</span></span>
+<span class="line"><span style="color:#79B8FF">        self</span><span style="color:#E1E4E8">.prompt </span><span style="color:#F97583">=</span><span style="color:#79B8FF"> self</span><span style="color:#E1E4E8">.set_prompt(prob, instructs, apis)</span></span>
+<span class="line"><span style="color:#79B8FF">        self</span><span style="color:#E1E4E8">.llm </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> GPT4()</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#F97583">    async</span><span style="color:#F97583"> def</span><span style="color:#B392F0"> get_action</span><span style="color:#E1E4E8">(self, state: </span><span style="color:#79B8FF">str</span><span style="color:#E1E4E8">) -> </span><span style="color:#79B8FF">str</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#F97583">        return</span><span style="color:#79B8FF"> self</span><span style="color:#E1E4E8">.llm.generate(</span><span style="color:#79B8FF">self</span><span style="color:#E1E4E8">.prompt </span><span style="color:#F97583">+</span><span style="color:#E1E4E8"> state)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># 初始化协调器</span></span>
+<span class="line"><span style="color:#E1E4E8">orch </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> Orchestrator()</span></span>
+<span class="line"><span style="color:#E1E4E8">pid </span><span style="color:#F97583">=</span><span style="color:#9ECBFF"> "misconfig_app_hotel_res-mitigation-1"</span></span>
+<span class="line"><span style="color:#E1E4E8">prob_desc, instructs, apis </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> orch.init_problem(pid)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># 注册并评估代理</span></span>
+<span class="line"><span style="color:#E1E4E8">agent </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> Agent(prob_desc, instructs, apis)</span></span>
+<span class="line"><span style="color:#E1E4E8">orch.register_agent(agent, </span><span style="color:#FFAB70">name</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">"myAgent"</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">asyncio.run(orch.start_problem(</span><span style="color:#FFAB70">max_steps</span><span style="color:#F97583">=</span><span style="color:#79B8FF">10</span><span style="color:#E1E4E8">))</span></span></code></pre>
+<p>如图所示，在初始化问题时，协调器共享代理解决问题所需的上下文。然后通过<code>get_action</code>轮询代理的下一个操作。</p>
+<h4 id="223-其他接口">2.2.3 其他接口</h4>
+<p><strong>问题初始化器：</strong> 如第2.1节所述，每个问题都定义了包含其操作环境的上下文C。这个环境是问题发生的服务、故障和工作负载条件。这里，协调器部署服务，并使用Helm等基础设施即代码工具为每个问题部署所需的云服务。</p>
+<p>为了创建真实的基准场景，协调器与两个实体接口：</p>
+<ol>
+<li><strong>工作负载生成器</strong>：AIOpsLab目前使用wrk2工具，支持多种工作负载策略，也可以重放行业工作负载。</li>
+<li><strong>故障生成器</strong>：AIOpsLab使用自定义故障库，在系统栈的不同层次（如应用和虚拟化）实例化故障。</li>
+</ol>
+<p><strong>问题评估器：</strong> 最后，协调器在评估代理在问题上的性能方面发挥关键作用。它将代理的解决方案与每个任务特定的预定义成功标准和评估指标进行比较。AIOpsLab支持每个任务的多个默认和通用指标（如检测的检测时间、采取的步骤数以及LLM驱动代理发送给AIOpsLab的token数）。此外，AIOpsLab提供使用LLMs-as-Judges对代理轨迹进行可选的定性评估。除此之外，还运行所有特定于问题的用户定义评估指标。</p>
+<h3 id="23-云服务-cloud-services">2.3 云服务 (Cloud Services)</h3>
+<p>AIOpsLab部署实时微服务应用作为云环境。AIOpsLab目前集成了来自<strong>DeathStarBench</strong>的<strong>HotelReservation</strong>和<strong>SocialNetwork</strong>应用。</p>
+<ul>
+<li><strong>SocialNetwork应用</strong>：有28个微服务，包括Memcached、MongoDB和Redis，共同实现了现实世界社交网络应用的多个功能。</li>
+<li><strong>HotelReservation应用</strong>：使用Go和gRPC实现，支持酒店推荐和预订等服务。</li>
+</ul>
+<h3 id="24-面向任务的故障库-task-oriented-fault-library">2.4 面向任务的故障库 (Task-oriented Fault Library)</h3>
+<h4 id="241-任务分类体系-task-taxonomy">2.4.1 任务分类体系 (Task Taxonomy)</h4>
+<p>我们提出了一个任务级分类体系（表1），根据事件管理生命周期的不同阶段，按复杂性递增的方式对AIOps代理应完成的任务进行分类。在表1中，级别越高表示任务越难且更有影响力。</p>
+<p><strong>表1：AIOps代理评估的任务分类</strong></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>级别</th><th>任务</th><th>评估重点</th></tr></thead><tbody><tr><td>Level 1</td><td><strong>检测 (Detection)</strong></td><td>该方法能否准确检测异常或偏差？</td></tr><tr><td>Level 2</td><td><strong>定位 (Localization)</strong></td><td>该方法能否精确定位故障的确切来源（如微服务）？</td></tr><tr><td>Level 3</td><td><strong>根因分析 (Root Cause Analysis, RCA)</strong></td><td>该方法能否确定故障的根本原因？</td></tr><tr><td>Level 4</td><td><strong>缓解 (Mitigation)</strong></td><td>该方法能否提供有效的解决方案来恢复环境？</td></tr></tbody></table>
+<ul>
+<li><strong>Level 1</strong>：专注于系统中异常行为的初步识别，例如检测微服务的Kubernetes pod故障。用户也可以定义更复杂的任务或创建子任务。根因分析任务包含系统级别和故障类型预测两个子任务需要解决。</li>
+</ul>
+<p>为了在不同任务级别实例化问题，我们使用故障注入将故障注入系统，并为AIOpsLab构建问题池。我们将它们分为两种主要类型：<strong>症状性故障</strong>和<strong>功能性故障</strong>，如图3所示。</p>
+<h4 id="242-症状性故障-symptomatic-faults">2.4.2 症状性故障 (Symptomatic Faults)</h4>
+<p>症状性故障（如性能下降和崩溃故障）表现为可观察的症状，如延迟增加、资源耗尽或服务中断。这些故障通常帮助构建分类体系中的Level 1和Level 2任务，可以创建评估AIOps方法检测和定位能力的问题。这些故障提供了潜在问题的概览，但不一定揭示更深层的根本原因（因为它们没有根本原因）。AIOpsLab集成了故障注入工具<strong>Chaos-Mesh</strong>来向微服务应用注入症状性故障。</p>
+<h4 id="243-功能性故障-functional-faults">2.4.3 功能性故障 (Functional Faults)</h4>
+<p>虽然有许多用于测试云系统弹性的故障注入工具，但它们大多只专注于注入系统症状。这些粗粒度的故障只能破坏而不能模拟底层的细粒度根本原因（如错误配置或软件bug），因此无法评估AIOps代理诊断和缓解根本原因的能力。</p>
+<p>评估AIOps代理跨任务的失败场景必须超越简单的性能或崩溃故障，反映挑战代理的真实案例，这就是功能性故障发挥作用的地方。<strong>功能性故障</strong>要求方法不仅检测（Level 1）和定位（Level 2）故障，还要诊断根本原因（Level 3）（如不正确的部署或操作），并应用正确的缓解策略（Level 4）。</p>
+<p>例如，图4中的故障撤销了地理微服务（Mongodb-geo）的MongoDB数据库的管理员身份验证。由于Geo服务依赖其后端数据库，在调用期间会出现错误。</p>
+<p><strong>示例2.4</strong> 在以下示例中，我们说明了AIOpsLab中撤销身份验证故障的应用级故障注入器结构及其使用示例：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#F97583">from</span><span style="color:#E1E4E8"> aiopslab.generators.fault.base </span><span style="color:#F97583">import</span><span style="color:#E1E4E8"> FaultInjector</span></span>
+<span class="line"><span style="color:#F97583">from</span><span style="color:#E1E4E8"> aiopslab.service.apps.hotelres </span><span style="color:#F97583">import</span><span style="color:#E1E4E8"> HotelReservation</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">class</span><span style="color:#B392F0"> ApplicationFaultInjector</span><span style="color:#E1E4E8">(</span><span style="color:#B392F0">FaultInjector</span><span style="color:#E1E4E8">):</span></span>
+<span class="line"><span style="color:#F97583">    def</span><span style="color:#B392F0"> inject_revoke_auth</span><span style="color:#E1E4E8">(self, microservices: list[</span><span style="color:#79B8FF">str</span><span style="color:#E1E4E8">]):</span></span>
+<span class="line"><span style="color:#9ECBFF">        """撤销MongoDB管理员权限。"""</span></span>
+<span class="line"><span style="color:#79B8FF">        ...</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#F97583">    def</span><span style="color:#B392F0"> recover_revoke_auth</span><span style="color:#E1E4E8">(self, microservices: list[</span><span style="color:#79B8FF">str</span><span style="color:#E1E4E8">]):</span></span>
+<span class="line"><span style="color:#9ECBFF">        """恢复撤销管理员权限故障。"""</span></span>
+<span class="line"><span style="color:#79B8FF">        ...</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># 使用示例</span></span>
+<span class="line"><span style="color:#F97583">class</span><span style="color:#B392F0"> MongoDBRevokeAuth</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#F97583">    def</span><span style="color:#79B8FF"> __init__</span><span style="color:#E1E4E8">(self):</span></span>
+<span class="line"><span style="color:#79B8FF">        self</span><span style="color:#E1E4E8">.app </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> HotelReservation()</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#F97583">    def</span><span style="color:#B392F0"> inject_fault</span><span style="color:#E1E4E8">(self):</span></span>
+<span class="line"><span style="color:#E1E4E8">        injector </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> ApplicationFaultInjector(ns)</span></span>
+<span class="line"><span style="color:#E1E4E8">        injector._inject([</span><span style="color:#9ECBFF">"mongodb-geo"</span><span style="color:#E1E4E8">], </span><span style="color:#9ECBFF">"revoke_auth"</span><span style="color:#E1E4E8">)</span></span></code></pre>
+<p>用户可以使用现有的故障库定义问题。例如，用户可以指定不同的故障服务，甚至构建同时向多个服务注入多个故障的任务。用户也可以自定义故障以生成各种问题。AIOpsLab为其关联的故障场景提供注入功能，并提供相应的缓解机制以从错误状态恢复系统。</p>
+<p><strong>表2：用于在AIOpsLab中实例化评估问题的选定故障</strong></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>编号</th><th>名称</th><th>应用</th><th>任务级别</th><th>类别</th><th>问题数</th><th>描述</th></tr></thead><tbody><tr><td>1</td><td>AuthenticationMissing</td><td>HotelReservation</td><td>1,2,3,4</td><td>功能性/虚拟化</td><td>4</td><td>缺少身份验证凭据导致MongoDB访问被拒绝</td></tr><tr><td>2</td><td>TargetPortMisconfig</td><td>SocialNetwork</td><td>1,2,3,4</td><td>功能性/虚拟化</td><td>12</td><td>由于错误配置，服务无法连接到指定端口</td></tr><tr><td>3</td><td>RevokeAuth</td><td>HotelReservation</td><td>1,2,3,4</td><td>功能性/应用</td><td>8</td><td>撤销的身份验证导致数据库连接失败</td></tr><tr><td>4</td><td>UserUnregistered</td><td>HotelReservation</td><td>1,2,3,4</td><td>功能性/应用</td><td>8</td><td>用户注销后数据库服务访问失败</td></tr><tr><td>5</td><td>BuggyAppImage</td><td>HotelReservation</td><td>1,2,3,4</td><td>功能性/应用</td><td>4</td><td>应用镜像中的连接代码bug导致访问问题</td></tr><tr><td>6</td><td>ScalePod</td><td>SocialNetwork</td><td>1,2,3,4</td><td>功能性/虚拟化</td><td>4</td><td>错误的扩展操作使服务的pod数量变为零</td></tr><tr><td>7</td><td>AssignNonExistentNode</td><td>SocialNetwork</td><td>1,2,3,4</td><td>功能性/虚拟化</td><td>4</td><td>由于错误分配到不存在的节点，Pod处于挂起失败状态</td></tr><tr><td>8</td><td>NetworkLoss</td><td>HotelReservation</td><td>1,2</td><td>症状性</td><td>2</td><td>网络丢失导致特定服务的通信故障</td></tr><tr><td>9</td><td>PodFailure</td><td>HotelReservation</td><td>1,2</td><td>症状性</td><td>2</td><td>由于pod故障导致服务中断</td></tr><tr><td>10</td><td>Noop</td><td>HotelReservation/SocialNetwork</td><td>1</td><td>-</td><td>2</td><td>系统中未注入故障</td></tr></tbody></table>
+<h3 id="25-可观测性-observability">2.5 可观测性 (Observability)</h3>
+<p>AIOpsLab配备了<strong>可扩展的可观测性层</strong>，提供全面的监控能力。AIOpsLab通过其遥测收集器收集广泛的遥测数据，包括：</p>
+<ol>
+<li><strong>追踪 (Traces)</strong>：来自Jaeger的追踪，详细描述请求通过分布式系统的端到端路径</li>
+<li><strong>日志 (Logs)</strong>：通过Kubectl检索的应用日志，或由Filebeat和Logstash格式化和记录的日志</li>
+<li><strong>指标 (Metrics)</strong>：由Prometheus监控的系统指标</li>
+</ol>
+<p>AIOpsLab不仅支持在与LLM代理交互期间收集数据，还可以离线导出数据以便于评估其他传统AIOps方法。此外，AIOpsLab设计为从其他维度（如代码库、配置和集群信息）捕获信息。开发人员还可以使用AIOpsLab的接口设计和向代理公开低级系统信息（如系统调用日志）。</p>
+<hr>
+<h2 id="3-评估-evaluation">3 评估 (Evaluation)</h2>
+<p>本节首先概述了AIOpsLab中使用的评估设置和指标。然后深入研究表2中列出的选定故障，这些故障作为AIOpsLab内的多样化评估场景。接下来，我们评估AIOps代理解决这些问题的性能，然后分析代理的成本。我们还深入探讨性能差异背后的原因，以了解挑战和潜在的代理改进。</p>
+<p>注意，所有结果都由问题评估器自动收集和记录（第2.2.3节）。</p>
+<h3 id="31-评估设置-evaluation-setup">3.1 评估设置 (Evaluation Setup)</h3>
+<p>我们使用AIOpsLab评估了四个基于LLM的代理。注意，为了公平比较，我们在AIOpsLab中注册朴素代理，没有任何微调或修改。</p>
+<ol>
+<li><strong>GPT-4-W-SHELL / GPT-3.5-W-SHELL</strong>：使用GPT-4-TURBO和GPT-3.5-TURBO作为基线，只能访问安全shell</li>
+<li><strong>ReAct</strong>：扩展链式思维推理，以交错方式集成推理和行动</li>
+<li><strong>FLASH</strong>：云运维专用代理，采用工作流自动化系统，监控执行状态并将复杂指令分解为可管理的条件片段，结合事后生成从过去交互中学习</li>
+</ol>
+<p>为了与特定任务类型的其他AIOps方法进行比较，我们在AIOpsLab上评估了三种最先进的非LLM AIOps算法，使用（多模态）遥测数据作为输入：</p>
+<ul>
+<li><strong>MKSMC</strong>：用于检测</li>
+<li><strong>RMLAD</strong>和<strong>PDiagnose</strong>：用于定位</li>
+</ul>
+<h3 id="32-指标-metrics">3.2 指标 (Metrics)</h3>
+<p><strong>正确性 (Correctness)：</strong> 该指标衡量代理对问题响应的准确性。它评估代理是否按预期成功检测、定位、分析和解决问题。</p>
+<p><strong>时间/步骤 (Time/Steps)：</strong> 这些指标评估AIOps代理在每种任务类型上的效率。例如，**检测时间（TTD, Time-to-Detect）**是从故障发生到检测的时间，**缓解时间（TTM, Time-to-Mitigate）**是从检测到完成故障缓解的时间。还记录解决问题所采取的步骤或操作数量。注意，这是代理与AIOpsLab交互的次数，而不是发送到后端LLM的请求数。</p>
+<p><strong>成本 (Cost)：</strong> 我们使用代理/环境生成的token数量（包括输入token和输出token）作为成本指标。</p>
+<h3 id="33-aiopslab基准的问题池-problem-pool">3.3 AIOpsLab基准的问题池 (Problem Pool)</h3>
+<p>目前，AIOpsLab基准在其问题池中包含<strong>48个问题</strong>。使用六个代理，我们总共评估了<strong>288个案例</strong>。表2列出了用于实例化问题的故障。</p>
+<p>如表2所示，所有功能性故障（包括故障1-7）用于在所有四个任务级别创建问题；而症状性故障（包括故障8-9）只能用于在检测和定位级别（Level 1和Level 2）创建问题。</p>
+<ul>
+<li>
+<p><strong>检测级别任务</strong>：代理必须实时识别故障的存在。这是一个二元分类任务，代理必须响应”是”（如果存在故障）或”否”（相反）。检测任务（Level 1）可以变得更复杂，例如要求代理标记异常遥测数据；但我们在这里保持简单，将复杂任务留给其他级别。</p>
+</li>
+<li>
+<p><strong>定位任务（Level 2）</strong>：要求代理指定故障的确切位置，通常是Kubernetes中的服务或pod名称。</p>
+</li>
+<li>
+<p><strong>RCA任务（Level 3）</strong>：要求代理识别(1)故障影响的系统层和(2)故障类型（如错误配置或操作错误）。</p>
+</li>
+<li>
+<p><strong>缓解任务（Level 4）</strong>：要求代理与环境交互，通过一系列操作修复故障，如更新配置或回滚到先前版本等。</p>
+</li>
+</ul>
+<p>大多数故障使用户能够通过将故障注入其他目标（如服务）轻松扩展和创建新问题。例如，AIOpsLab中的故障2可以通过简单配置注入目标注入到10个服务中。</p>
+<h3 id="34-性能结果-performance-results">3.4 性能结果 (Performance Results)</h3>
+<p>代理的整体性能总结在表3中，任务特定结果在表4中。如表3所示，<strong>FLASH在所有代理中达到最高准确率</strong>。虽然GPT-3.5-TURBO完成任务最快，但其准确率最低，仅为15.25%。</p>
+<p><strong>表3：不同代理的整体性能</strong></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>代理</th><th>代码行数</th><th>时间(s)</th><th>步骤数</th><th>Tokens</th><th>准确率</th></tr></thead><tbody><tr><td>GPT-4-W-SHELL</td><td>41</td><td>28.61</td><td>6.44</td><td>6,394.5</td><td>49.15%</td></tr><tr><td>GPT-3.5-W-SHELL</td><td>41</td><td>12.44</td><td>14.70</td><td>2,557.95</td><td>15.25%</td></tr><tr><td>ReAct</td><td>49</td><td>43.79</td><td>11.50</td><td>16,941.46</td><td>55.93%</td></tr><tr><td>FLASH</td><td>60</td><td>99.64</td><td>8.48</td><td>6,484.25</td><td>59.32%</td></tr></tbody></table>
+<p><strong>表4：各任务的代理性能</strong></p>
+<p><strong>(a) 检测任务</strong></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>代理</th><th>准确率</th><th>时间(s)</th><th>步骤数</th><th>输入</th><th>输出</th></tr></thead><tbody><tr><td>GPT-4-W-SHELL</td><td>69.23%</td><td>7.08</td><td>3.85</td><td>5,492</td><td>132</td></tr><tr><td>GPT-3.5-W-SHELL</td><td>23.07%</td><td>11.05</td><td>13.60</td><td>1,940.44</td><td>385.56</td></tr><tr><td>ReAct</td><td>76.92%</td><td>39.00</td><td>11.46</td><td>15,608.08</td><td>933.15</td></tr><tr><td>FLASH</td><td><strong>100%</strong></td><td>78.27</td><td>6.77</td><td>12,869.08</td><td>125.69</td></tr><tr><td>MKSMC</td><td>15.38%</td><td>1.00</td><td>N/A</td><td>N/A</td><td>N/A</td></tr></tbody></table>
+<p><strong>(b) 定位任务</strong></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>代理</th><th>Acc.@3</th><th>Acc.@1</th><th>时间(s)</th><th>步骤数</th></tr></thead><tbody><tr><td>GPT-4-W-SHELL</td><td>61.54%</td><td>61.54%</td><td>7.04</td><td>4.23</td></tr><tr><td>GPT-3.5-W-SHELL</td><td>30.77%</td><td>30.77%</td><td>6.26</td><td>11.92</td></tr><tr><td>ReAct</td><td><strong>69.23%</strong></td><td>53.85%↓</td><td>38.65</td><td>11.08</td></tr><tr><td>FLASH</td><td>61.54%</td><td>46.15%↓</td><td>56.60</td><td>5.77</td></tr><tr><td>PDiagnose</td><td>15.38%</td><td>15.38%</td><td>1.02</td><td>N/A</td></tr><tr><td>RMLAD</td><td>7.69%</td><td>7.69%</td><td>1.98</td><td>N/A</td></tr></tbody></table>
+<p><strong>(c) 根因分析任务</strong></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>代理</th><th>准确率</th><th>时间(s)</th><th>步骤数</th></tr></thead><tbody><tr><td>GPT-4-W-SHELL</td><td>40.90%</td><td>8.68</td><td>4.81</td></tr><tr><td>GPT-3.5-W-SHELL</td><td>9.09%</td><td>10.06</td><td>14.00</td></tr><tr><td>ReAct</td><td><strong>45.45%</strong></td><td>32.16</td><td>8.00</td></tr><tr><td>FLASH</td><td>36.36%</td><td>59.00</td><td>6.09</td></tr></tbody></table>
+<p><strong>(d) 缓解任务</strong></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>代理</th><th>准确率</th><th>时间(s)</th><th>步骤数</th></tr></thead><tbody><tr><td>GPT-4-W-SHELL</td><td>27.27%</td><td>99.47</td><td>13.72</td></tr><tr><td>GPT-3.5-W-SHELL</td><td>0%</td><td>23.78</td><td>20.00</td></tr><tr><td>ReAct</td><td>36.36%</td><td>67.18</td><td>15.54</td></tr><tr><td>FLASH</td><td><strong>54.55%</strong></td><td>216.41</td><td>16.09</td></tr></tbody></table>
+<p><strong>关键发现：</strong></p>
+<ul>
+<li>
+<p><strong>检测任务</strong>：作为二选一问题，应该是最简单的任务，也是AIOps代理执行的第一步。然而，只有FLASH正确回答了所有检测问题。</p>
+</li>
+<li>
+<p><strong>定位任务</strong>：代理可以给出潜在故障服务列表作为答案。ReAct在使用前3个答案评估时表现最好，但当只考虑前1个答案时准确率下降。</p>
+</li>
+<li>
+<p><strong>RCA和缓解任务</strong>：对代理来说是最具挑战性的。GPT-3.5-W-SHELL在缓解尝试中未能恢复任何故障。</p>
+</li>
+</ul>
+<p><strong>问题难度因任务级别而异。</strong> 尽管在处理真实运维任务方面显示出前景，但没有代理在AIOpsLab基准的四个任务类别中始终达到高问题解决准确率。即使是表现最好的代理（如FLASH）也表现出局限性，特别是在处理更复杂的任务（如缓解）时。</p>
+<h3 id="35-步骤限制的影响-influence-of-the-step-limit">3.5 步骤限制的影响 (Influence of the Step Limit)</h3>
+<p>我们检查了允许的最大步骤数对代理性能的影响（图5）。步骤限制显著影响某些代理的性能：</p>
+<ul>
+<li><strong>ReAct和FLASH</strong>：随着步骤增加显示出改进的准确率，FLASH在步骤限制设置为20时达到最高准确率59.32%。</li>
+<li><strong>GPT-3.5-TURBO</strong>：将步骤限制增加到5以上不会产生更好的性能，只会增加token消耗。</li>
+</ul>
+<p>值得注意的是，在一定步骤数后准确率趋于平稳，表明对于AIOps问题，带有环境反馈的自我修复可以很快饱和。相反，在开发任务（如代码生成）中，通过各种组合工具（如linter、类型检查器和测试用例）的反馈帮助代理持续改进。</p>
+<p>这表明需要：</p>
+<ol>
+<li>使用规划对AIOps问题进行更好的任务分解</li>
+<li>改进中间步骤的反馈机制</li>
+<li>超越环境反馈和自我修复的解决方案</li>
+</ol>
+<h3 id="36-代理行为好的坏的和差距-agent-behavior-the-good-the-bad-and-the-gaps">3.6 代理行为：好的、坏的和差距 (Agent Behavior: The Good, the Bad and the Gaps)</h3>
+<p>我们现在深入研究代理的行为，分析好的方面、挑战和改进机会。</p>
+<p><strong>好的方面：</strong></p>
+<ul>
+<li>在表4中，我们看到所有代理在检测和定位任务的问题上都比传统非LLM AIOps方法表现更好。</li>
+<li><code>get_logs</code> API是所有代理中使用最频繁的API，其次是<code>get_metrics</code>和<code>get_traces</code>。然而，代理在API使用模式上也有所不同。例如，FLASH根本不使用<code>get_traces</code> API。</li>
+</ul>
+<p><strong>代理失败的原因和模式分析：</strong></p>
+<ol>
+<li>
+<p><strong>在不必要的操作上浪费步骤</strong></p>
+<ul>
+<li>重复调用同一API</li>
+<li>生成不存在的API</li>
+<li>在多代理通信中花费过多步骤</li>
+</ul>
+</li>
+<li>
+<p><strong>数据消费时的信息过载</strong></p>
+<ul>
+<li>代理有时使用<code>cat</code>直接消费收集的数据作为其下一步。由于数据通常很大，这会溢出LLM的输入上下文窗口并损害其性能。</li>
+<li>代理需要更好地处理大量遥测数据，因为直接消费会损害效率和性能。</li>
+<li>获取指标也很棘手，因为代理会收到大量数字，难以直接解释。</li>
+</ul>
+</li>
+<li>
+<p><strong>无效的API使用</strong></p>
+<ul>
+<li>GPT-3.5-W-SHELL经常生成格式错误的命令并重复错误</li>
+<li>ReAct能通过推理纠正错误，表现出更好的自我修复能力</li>
+</ul>
+</li>
+<li>
+<p><strong>假阳性检测问题</strong></p>
+<ul>
+<li>只有GPT-4-W-SHELL能正确识别正常系统执行</li>
+<li>其他代理将正常活动误报为故障</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="缩写术语对照表-abbreviations-glossary">缩写术语对照表 (Abbreviations Glossary)</h2>
+<p>以下是论文中出现的重要缩写及其中文解释：</p>
+<h3 id="核心技术术语">核心技术术语</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>缩写</th><th>英文全称</th><th>中文翻译</th><th>详细解释</th></tr></thead><tbody><tr><td><strong>AIOps</strong></td><td>Artificial Intelligence for IT Operations</td><td>智能运维/AI运维</td><td>将人工智能技术应用于IT运维领域，自动化复杂的运维任务</td></tr><tr><td><strong>DevOps</strong></td><td>Development and Operations</td><td>开发与运维</td><td>一种软件开发方法，强调开发团队和运维团队之间的沟通与协作</td></tr><tr><td><strong>AgentOps</strong></td><td>Agent for Operations</td><td>代理运维</td><td>本文提出的新范式，使用AI代理自主管理运维任务</td></tr><tr><td><strong>LLM</strong></td><td>Large Language Model</td><td>大型语言模型</td><td>基于深度学习的自然语言处理模型，如GPT-4</td></tr><tr><td><strong>ACI</strong></td><td>Agent-Cloud Interface</td><td>代理-云接口</td><td>AIOpsLab中代理与云环境交互的统一接口</td></tr><tr><td><strong>RCA</strong></td><td>Root Cause Analysis</td><td>根因分析</td><td>确定问题根本原因的分析方法</td></tr></tbody></table>
+<h3 id="任务与评估相关">任务与评估相关</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>缩写</th><th>英文全称</th><th>中文翻译</th><th>详细解释</th></tr></thead><tbody><tr><td><strong>TTD</strong></td><td>Time-to-Detect</td><td>检测时间</td><td>从故障发生到被检测的时间</td></tr><tr><td><strong>TTM</strong></td><td>Time-to-Mitigate</td><td>缓解时间</td><td>从检测到完成故障缓解的时间</td></tr><tr><td><strong>TTL</strong></td><td>Time-to-Localize</td><td>定位时间</td><td>定位故障所需的时间</td></tr><tr><td><strong>LoC</strong></td><td>Lines of Code</td><td>代码行数</td><td>程序代码的行数，用于衡量代码复杂度</td></tr></tbody></table>
+<h3 id="云原生与容器技术">云原生与容器技术</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>缩写</th><th>英文全称</th><th>中文翻译</th><th>详细解释</th></tr></thead><tbody><tr><td><strong>K8S</strong></td><td>Kubernetes</td><td>Kubernetes</td><td>开源的容器编排平台，用于自动化部署、扩展和管理容器化应用</td></tr><tr><td><strong>Pod</strong></td><td>Pod</td><td>Pod（容器组）</td><td>Kubernetes中可部署的最小计算单元，包含一个或多个容器</td></tr><tr><td><strong>API</strong></td><td>Application Programming Interface</td><td>应用程序编程接口</td><td>软件组件之间交互的接口定义</td></tr><tr><td><strong>CLI</strong></td><td>Command-Line Interface</td><td>命令行界面</td><td>通过文本命令与计算机程序交互的界面</td></tr><tr><td><strong>TLS</strong></td><td>Transport Layer Security</td><td>传输层安全协议</td><td>用于在网络通信中提供安全性的加密协议</td></tr></tbody></table>
+<h3 id="可观测性相关">可观测性相关</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>缩写</th><th>英文全称</th><th>中文翻译</th><th>详细解释</th></tr></thead><tbody><tr><td><strong>Traces</strong></td><td>Traces</td><td>追踪/链路追踪</td><td>分布式系统中请求的端到端路径记录</td></tr><tr><td><strong>Logs</strong></td><td>Logs</td><td>日志</td><td>系统运行过程中产生的事件记录</td></tr><tr><td><strong>Metrics</strong></td><td>Metrics</td><td>指标</td><td>可量化的系统性能测量数据</td></tr><tr><td><strong>KPI</strong></td><td>Key Performance Indicator</td><td>关键性能指标</td><td>用于评估目标达成程度的量化指标</td></tr></tbody></table>
+<h3 id="代理框架与方法">代理框架与方法</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>缩写</th><th>英文全称</th><th>中文翻译</th><th>详细解释</th></tr></thead><tbody><tr><td><strong>ReAct</strong></td><td>Reasoning + Acting</td><td>推理与行动</td><td>一种将推理和行动以交错方式结合的代理框架</td></tr><tr><td><strong>CoT</strong></td><td>Chain-of-Thought</td><td>链式思维</td><td>让LLM展示推理过程的提示技术</td></tr><tr><td><strong>FLASH</strong></td><td>-</td><td>FLASH</td><td>微软开发的工作流自动化代理，用于诊断重复事件</td></tr><tr><td><strong>RAG</strong></td><td>Retrieval-Augmented Generation</td><td>检索增强生成</td><td>结合检索和生成的AI技术</td></tr></tbody></table>
+<h3 id="工具与平台">工具与平台</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>名称</th><th>中文翻译</th><th>详细解释</th></tr></thead><tbody><tr><td><strong>Jaeger</strong></td><td>耶格</td><td>开源的端到端分布式追踪系统</td></tr><tr><td><strong>Prometheus</strong></td><td>普罗米修斯</td><td>开源的系统监控和警报工具</td></tr><tr><td><strong>Chaos-Mesh</strong></td><td>混沌网格</td><td>Kubernetes原生的混沌工程平台</td></tr><tr><td><strong>Helm</strong></td><td>Helm</td><td>Kubernetes的包管理器</td></tr><tr><td><strong>Filebeat</strong></td><td>Filebeat</td><td>轻量级日志收集器</td></tr><tr><td><strong>Logstash</strong></td><td>Logstash</td><td>服务器端数据处理管道</td></tr><tr><td><strong>gRPC</strong></td><td>gRPC</td><td>高性能、开源的远程过程调用框架</td></tr><tr><td><strong>MongoDB</strong></td><td>MongoDB</td><td>面向文档的NoSQL数据库</td></tr><tr><td><strong>Memcached</strong></td><td>Memcached</td><td>分布式内存对象缓存系统</td></tr><tr><td><strong>Redis</strong></td><td>Redis</td><td>开源的内存数据结构存储系统</td></tr></tbody></table>
+<h3 id="微服务应用">微服务应用</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>名称</th><th>中文翻译</th><th>详细解释</th></tr></thead><tbody><tr><td><strong>DeathStarBench</strong></td><td>死星基准测试套件</td><td>用于微服务研究的开源基准测试套件</td></tr><tr><td><strong>SocialNetwork</strong></td><td>社交网络</td><td>DeathStarBench中的社交网络应用，有28个微服务</td></tr><tr><td><strong>HotelReservation</strong></td><td>酒店预订</td><td>DeathStarBench中的酒店预订应用</td></tr></tbody></table>
+<h3 id="学术术语">学术术语</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>缩写</th><th>英文全称</th><th>中文翻译</th><th>详细解释</th></tr></thead><tbody><tr><td><strong>SOTA</strong></td><td>State-of-the-Art</td><td>最先进的</td><td>指某领域当前最先进的技术或方法</td></tr><tr><td><strong>N/A</strong></td><td>Not Applicable</td><td>不适用</td><td>表示某项数据或指标不适用于当前情况</td></tr><tr><td><strong>Acc.</strong></td><td>Accuracy</td><td>准确率</td><td>正确预测数占总预测数的比例</td></tr></tbody></table>
+<hr>
+<h2 id="相关工作与参考文献">相关工作与参考文献</h2>
+<h3 id="主要引用论文">主要引用论文</h3>
+<ol>
+<li><strong>ReAct</strong> (Yao et al., 2023): “ReAct: Synergizing Reasoning and Acting in Language Models” - ICLR 2023</li>
+<li><strong>Chain-of-Thought</strong> (Wei et al., 2022): “Chain of thought prompting elicits reasoning in large language models” - NeurIPS 2022</li>
+<li><strong>SWE-bench</strong> (Jimenez et al., 2024): 用于评估LLM解决实际GitHub问题的基准</li>
+<li><strong>RCAgent</strong> (Wang et al., 2023): 使用工具增强LLM进行云根因分析的自主代理</li>
+<li><strong>FLASH</strong> (Zhang et al., 2024b): 用于诊断重复事件的工作流自动化代理</li>
+</ol>
+<h3 id="相关会议与期刊">相关会议与期刊</h3>
+<ul>
+<li><strong>ICLR</strong>: International Conference on Learning Representations（国际学习表征会议）</li>
+<li><strong>NeurIPS</strong>: Neural Information Processing Systems（神经信息处理系统）</li>
+<li><strong>OSDI</strong>: USENIX Symposium on Operating Systems Design and Implementation（操作系统设计与实现研讨会）</li>
+<li><strong>SIGKDD</strong>: ACM SIGKDD Conference on Knowledge Discovery and Data Mining（知识发现与数据挖掘会议）</li>
+<li><strong>FSE</strong>: ACM SIGSOFT International Symposium on Foundations of Software Engineering（软件工程基础国际研讨会）</li>
+</ul>
+<hr>
+<p><em>本翻译文档由学习助手整理，供学术研究和学习参考使用</em></p>
+<p><em>最后更新时间：2025年12月</em></p> </div> </div> </div> </article> <aside class="hidden lg:block" data-astro-cid-7jjqptxk> <div class="gh-card border-default sticky top-16 px-4 py-3" data-astro-cid-7jjqptxk> <div class="text-[12px] font-semibold fg-default" data-astro-cid-7jjqptxk>目录</div> <nav class="mt-2" aria-label="目录" data-astro-cid-7jjqptxk> <ul class="space-y-1 text-[13px]" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#专业中文翻译" data-toc-slug="专业中文翻译" data-astro-cid-7jjqptxk>专业中文翻译</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#摘要-abstract" data-toc-slug="摘要-abstract" data-astro-cid-7jjqptxk>摘要 (Abstract)</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#1-引言-introduction" data-toc-slug="1-引言-introduction" data-astro-cid-7jjqptxk>1 引言 (Introduction)</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#11-研究背景" data-toc-slug="11-研究背景" data-astro-cid-7jjqptxk>1.1 研究背景</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#12-agentops新范式的提出" data-toc-slug="12-agentops新范式的提出" data-astro-cid-7jjqptxk>1.2 AgentOps：新范式的提出</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#13-挑战与贡献" data-toc-slug="13-挑战与贡献" data-astro-cid-7jjqptxk>1.3 挑战与贡献</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#2-aiopslab" data-toc-slug="2-aiopslab" data-astro-cid-7jjqptxk>2 AIOpsLab</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#21-问题定义-problem-definition" data-toc-slug="21-问题定义-problem-definition" data-astro-cid-7jjqptxk>2.1 问题定义 (Problem Definition)</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#22-协调器-orchestrator" data-toc-slug="22-协调器-orchestrator" data-astro-cid-7jjqptxk>2.2 协调器 (Orchestrator)</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#23-云服务-cloud-services" data-toc-slug="23-云服务-cloud-services" data-astro-cid-7jjqptxk>2.3 云服务 (Cloud Services)</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#24-面向任务的故障库-task-oriented-fault-library" data-toc-slug="24-面向任务的故障库-task-oriented-fault-library" data-astro-cid-7jjqptxk>2.4 面向任务的故障库 (Task-oriented Fault Library)</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#25-可观测性-observability" data-toc-slug="25-可观测性-observability" data-astro-cid-7jjqptxk>2.5 可观测性 (Observability)</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#3-评估-evaluation" data-toc-slug="3-评估-evaluation" data-astro-cid-7jjqptxk>3 评估 (Evaluation)</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#31-评估设置-evaluation-setup" data-toc-slug="31-评估设置-evaluation-setup" data-astro-cid-7jjqptxk>3.1 评估设置 (Evaluation Setup)</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#32-指标-metrics" data-toc-slug="32-指标-metrics" data-astro-cid-7jjqptxk>3.2 指标 (Metrics)</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#33-aiopslab基准的问题池-problem-pool" data-toc-slug="33-aiopslab基准的问题池-problem-pool" data-astro-cid-7jjqptxk>3.3 AIOpsLab基准的问题池 (Problem Pool)</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#34-性能结果-performance-results" data-toc-slug="34-性能结果-performance-results" data-astro-cid-7jjqptxk>3.4 性能结果 (Performance Results)</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#35-步骤限制的影响-influence-of-the-step-limit" data-toc-slug="35-步骤限制的影响-influence-of-the-step-limit" data-astro-cid-7jjqptxk>3.5 步骤限制的影响 (Influence of the Step Limit)</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#36-代理行为好的坏的和差距-agent-behavior-the-good-the-bad-and-the-gaps" data-toc-slug="36-代理行为好的坏的和差距-agent-behavior-the-good-the-bad-and-the-gaps" data-astro-cid-7jjqptxk>3.6 代理行为：好的、坏的和差距 (Agent Behavior: The Good, the Bad and the Gaps)</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#缩写术语对照表-abbreviations-glossary" data-toc-slug="缩写术语对照表-abbreviations-glossary" data-astro-cid-7jjqptxk>缩写术语对照表 (Abbreviations Glossary)</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#核心技术术语" data-toc-slug="核心技术术语" data-astro-cid-7jjqptxk>核心技术术语</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#任务与评估相关" data-toc-slug="任务与评估相关" data-astro-cid-7jjqptxk>任务与评估相关</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#云原生与容器技术" data-toc-slug="云原生与容器技术" data-astro-cid-7jjqptxk>云原生与容器技术</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#可观测性相关" data-toc-slug="可观测性相关" data-astro-cid-7jjqptxk>可观测性相关</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#代理框架与方法" data-toc-slug="代理框架与方法" data-astro-cid-7jjqptxk>代理框架与方法</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#工具与平台" data-toc-slug="工具与平台" data-astro-cid-7jjqptxk>工具与平台</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#微服务应用" data-toc-slug="微服务应用" data-astro-cid-7jjqptxk>微服务应用</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#学术术语" data-toc-slug="学术术语" data-astro-cid-7jjqptxk>学术术语</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#相关工作与参考文献" data-toc-slug="相关工作与参考文献" data-astro-cid-7jjqptxk>相关工作与参考文献</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#主要引用论文" data-toc-slug="主要引用论文" data-astro-cid-7jjqptxk>主要引用论文</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#相关会议与期刊" data-toc-slug="相关会议与期刊" data-astro-cid-7jjqptxk>相关会议与期刊</a> </li> </ul> </nav> </div> </aside> </div> <button id="backToTop" class="back-to-top" type="button" aria-label="回到顶部" hidden data-astro-cid-7jjqptxk>
+↑
+</button> <script type="module">(function(){const s=document.getElementById("postContent");if(!s)return;const l=Array.from(document.querySelectorAll("a.toc-link")),r=new Map;l.forEach(t=>{const e=t.getAttribute("data-toc-slug");if(!e)return;const n=r.get(e)||[];n.push(t),r.set(e,n)});const c=Array.from(s.querySelectorAll("h2[id], h3[id]"));function a(t){if(l.forEach(n=>n.removeAttribute("aria-current")),!t)return;const e=r.get(t);e&&e.forEach(n=>n.setAttribute("aria-current","true"))}function f(){if(!c.length)return"";const t=120;for(let e=c.length-1;e>=0;e--){const n=c[e];if(n.getBoundingClientRect().top<=t)return n.id||""}return c[0].id||""}let d=!1;function i(){d||(d=!0,window.requestAnimationFrame(()=>{d=!1;const t=(location.hash||"").replace(/^#/,"");if(t&&r.has(t)){a(t);return}a(f())}))}window.addEventListener("scroll",i,{passive:!0}),window.addEventListener("resize",i),window.addEventListener("hashchange",i),l.forEach(t=>t.addEventListener("click",()=>{const e=t.getAttribute("data-toc-slug")||"";a(e)})),i();const u=document.getElementById("backToTop");if(u){const t=()=>{const e=window.scrollY||document.documentElement.scrollTop||0;u.hidden=e<320};window.addEventListener("scroll",t,{passive:!0}),t(),u.addEventListener("click",()=>{window.scrollTo({top:0,behavior:"smooth"})})}s.querySelectorAll("pre > code").forEach(t=>{const e=t.parentElement;if(!e||e.querySelector(".copy-btn"))return;e.style.position="relative";const n=document.createElement("button");n.type="button",n.className="copy-btn",n.textContent="复制",n.addEventListener("click",async()=>{const m=t.textContent||"";try{await navigator.clipboard.writeText(m),n.textContent="已复制",window.setTimeout(()=>n.textContent="复制",900)}catch{const o=document.createElement("textarea");o.value=m,o.style.position="fixed",o.style.opacity="0",document.body.appendChild(o),o.select(),document.execCommand("copy"),document.body.removeChild(o),n.textContent="已复制",window.setTimeout(()=>n.textContent="复制",900)}}),e.appendChild(n)})})();</script>   </main> <footer class="border-t py-6 text-[13px]" style="border-color: var(--border-default); color: var(--fg-muted)"> <div class="gh-container flex items-center justify-between"> <p>© 2026 · Built with Astro</p> <p style="color: var(--fg-muted)">Zhejiang University · CS</p> </div> </footer> </body></html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html><html lang="zh-CN" class="h-full"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="generator" content="Astro v5.16.9"><title>代码高尔夫平台开发路线 · 个人博客</title><meta name="description" content="本文详细介绍了在6至8周内从零开发代码高尔夫平台的完整路线，涵盖需求拆解、环境搭建、前后端实现、评测系统集成及部署运维等关键环节。读者可学习全栈项目规划与敏捷开发方法，掌握Docker容器化部署、多服务通信及生产环境监控等实用技能。亮点包括基于RabbitMQ的异步判题架构、AI助教集成、安全隔离设计，以及从开发到上云的端到端实践指南，为构建高可用编程竞赛平台提供完整参考。"><meta property="og:title" content="代码高尔夫平台开发路线 · 个人博客"><meta property="og:description" content="本文详细介绍了在6至8周内从零开发代码高尔夫平台的完整路线，涵盖需求拆解、环境搭建、前后端实现、评测系统集成及部署运维等关键环节。读者可学习全栈项目规划与敏捷开发方法，掌握Docker容器化部署、多服务通信及生产环境监控等实用技能。亮点包括基于RabbitMQ的异步判题架构、AI助教集成、安全隔离设计，以及从开发到上云的端到端实践指南，为构建高可用编程竞赛平台提供完整参考。"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="stylesheet" href="/_astro/_slug_.1UaX29b_.css">
+<style>.copy-btn[data-astro-cid-7jjqptxk]{position:absolute;top:8px;right:8px;padding:4px 8px;font-size:12px;border-radius:6px;border:1px solid var(--border-default);background:color-mix(in srgb,var(--canvas-default) 80%,var(--canvas-subtle));color:var(--fg-default);cursor:pointer}.copy-btn[data-astro-cid-7jjqptxk]:hover{background:color-mix(in srgb,var(--canvas-default) 65%,var(--canvas-subtle))}.copy-btn[data-astro-cid-7jjqptxk]:focus-visible{outline:2px solid color-mix(in srgb,var(--accent-emphasis) 55%,transparent);outline-offset:2px}a[data-astro-cid-7jjqptxk].toc-link[aria-current=true]{color:var(--fg-default);font-weight:600;text-decoration:none}.back-to-top[data-astro-cid-7jjqptxk]{position:fixed;right:18px;bottom:18px;width:36px;height:36px;border-radius:999px;border:1px solid var(--border-default);background:color-mix(in srgb,var(--canvas-default) 80%,var(--canvas-subtle));color:var(--fg-default);cursor:pointer;z-index:40}.back-to-top[data-astro-cid-7jjqptxk]:hover{background:color-mix(in srgb,var(--canvas-default) 65%,var(--canvas-subtle))}.back-to-top[data-astro-cid-7jjqptxk]:focus-visible{outline:2px solid color-mix(in srgb,var(--accent-emphasis) 55%,transparent);outline-offset:2px}
+</style></head> <body class="min-h-full antialiased"> <header class="sticky top-0 z-50 border-b" style="border-color: var(--border-default); background: var(--canvas-subtle)" data-astro-cid-dmqpwcec> <div class="gh-container flex h-12 items-center justify-between" data-astro-cid-dmqpwcec> <a href="/" class="flex items-center gap-2 text-[13px] font-semibold fg-default" data-astro-cid-dmqpwcec> <span class="inline-flex h-7 items-center rounded-md px-2" style="background: var(--fg-default); color: var(--canvas-default)" data-astro-cid-dmqpwcec>HCY</span> <span class="fg-muted" data-astro-cid-dmqpwcec>Blog</span> </a> <nav class="flex items-center gap-1 text-[13px]" data-astro-cid-dmqpwcec> <a href="/blog/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> 文章 </a><a href="/search/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> 搜索 </a><a href="/projects/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> 项目 </a><a href="/reading/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> Reading </a> <a href="https://github.com/ChenyuHeee" target="_blank" rel="noreferrer" class="ml-1 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec>
+GitHub
+</a> </nav> </div> </header>  <main class="gh-container py-6">  <div class="mx-auto max-w-[1040px] grid gap-6 lg:grid-cols-[1fr_280px]" data-astro-cid-7jjqptxk> <article class="min-w-0" data-astro-cid-7jjqptxk> <div class="gh-card overflow-hidden" style="border-color: var(--border-default)" data-astro-cid-7jjqptxk> <header class="border-b px-4 py-4" style="border-color: var(--border-default)" data-astro-cid-7jjqptxk> <h1 class="text-2xl font-semibold tracking-tight" style="color: var(--fg-default)" data-astro-cid-7jjqptxk>代码高尔夫平台开发路线</h1> <div class="mt-2 flex flex-wrap items-center gap-x-4 gap-y-2 text-[12px]" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <time datetime="2026-01-15T09:21:40.555Z" data-astro-cid-7jjqptxk>2026-01-15</time>  </div> <p class="mt-2 text-[13px]" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk>本文详细介绍了在6至8周内从零开发代码高尔夫平台的完整路线，涵盖需求拆解、环境搭建、前后端实现、评测系统集成及部署运维等关键环节。读者可学习全栈项目规划与敏捷开发方法，掌握Docker容器化部署、多服务通信及生产环境监控等实用技能。亮点包括基于RabbitMQ的异步判题架构、AI助教集成、安全隔离设计，以及从开发到上云的端到端实践指南，为构建高可用编程竞赛平台提供完整参考。</p> </header> <div class="border-b px-4 py-3 lg:hidden" style="border-color: var(--border-default)" data-astro-cid-7jjqptxk> <details data-astro-cid-7jjqptxk> <summary class="cursor-pointer text-[13px] font-semibold fg-default" data-astro-cid-7jjqptxk>目录</summary> <div class="mt-2" data-astro-cid-7jjqptxk> <nav aria-label="目录" data-astro-cid-7jjqptxk> <ul class="space-y-1 text-[13px]" data-astro-cid-7jjqptxk> <li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#1-需求澄清与里程碑拆解" data-toc-slug="1-需求澄清与里程碑拆解" data-astro-cid-7jjqptxk>1. 需求澄清与里程碑拆解</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#2-环境搭建与基础设施" data-toc-slug="2-环境搭建与基础设施" data-astro-cid-7jjqptxk>2. 环境搭建与基础设施</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#3-后端-apiapi" data-toc-slug="3-后端-apiapi" data-astro-cid-7jjqptxk>3. 后端 API（api/）</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#4-判题-runnerrunner" data-toc-slug="4-判题-runnerrunner" data-astro-cid-7jjqptxk>4. 判题 Runner（runner/）</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#5-前端应用web" data-toc-slug="5-前端应用web" data-astro-cid-7jjqptxk>5. 前端应用（web/）</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#6-联调与端到端验证" data-toc-slug="6-联调与端到端验证" data-astro-cid-7jjqptxk>6. 联调与端到端验证</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#7-部署与运维" data-toc-slug="7-部署与运维" data-astro-cid-7jjqptxk>7. 部署与运维</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#8-后续演进路线" data-toc-slug="8-后续演进路线" data-astro-cid-7jjqptxk>8. 后续演进路线</a> </li> </ul> </nav> </div> </details> </div> <div class="px-4 py-4" data-astro-cid-7jjqptxk> <div class="prose prose-sm max-w-none" id="postContent" data-astro-cid-7jjqptxk> <h1 id="代码高尔夫平台开发路线">代码高尔夫平台开发路线</h1>
+<blockquote>
+<p>目标：从零起步，在 6~8 周内搭建一套可用的代码高尔夫平台，覆盖题库、提交评测、积分榜、文章/论坛和 AI 助教，最终通过 Docker Compose 部署到阿里云 ECS。</p>
+</blockquote>
+<h2 id="1-需求澄清与里程碑拆解">1. 需求澄清与里程碑拆解</h2>
+<ul>
+<li>明确功能范围：MVP 至少包含注册登录、题库浏览、提交评测、榜单、题目投稿、文章/论坛、站内信、邮件验证与管理员后台。</li>
+<li>拆分里程碑：
+<ol>
+<li>M1（第 1~2 周）：设计数据模型、API 契约，打通本地判题闭环。</li>
+<li>M2（第 3~4 周）：完善站内功能（投稿、文章、论坛、邮件验证），前端接入全部页面。</li>
+<li>M3（第 5~6 周）：AI 助教、运营工具、部署脚本与监控补全。</li>
+</ol>
+</li>
+<li>准备文档：<code>网站架构规划.md</code>、数据表设计、接口规范、运维手册草案。</li>
+</ul>
+<p>需要掌握：产品需求拆解、工作量评估、使用甘特表或看板管理任务（GitHub Projects / Linear / Notion）。</p>
+<h2 id="2-环境搭建与基础设施">2. 环境搭建与基础设施</h2>
+<ul>
+<li>本地安装：Node.js 20、pnpm 或 npm、Docker Desktop（含 Compose）、PostgreSQL 客户端、RabbitMQ 管理插件（可选）。</li>
+<li>初始化仓库结构：<code>api/</code>、<code>runner/</code>、<code>web/</code>、<code>infra/</code>、<code>deploy.sh</code>、<code>ProjIntro/</code>。</li>
+<li>撰写 <code>.env.example</code>，列出核心变量：<code>DATABASE_URL</code>、<code>RABBITMQ_URL</code>、<code>JWT_SECRET</code>、<code>RUNNER_API_TOKEN</code>、<code>DEEPSEEK_API_KEY</code>、<code>SMTP_*</code>。</li>
+<li>在 <code>infra/docker-compose.yml</code> 中配置 PostgreSQL 15、Redis 7（预留）、RabbitMQ、API、Runner、Web、Nginx，做好卷挂载与资源限制。</li>
+</ul>
+<p>需要掌握：Docker 基础命令、Compose 编排、环境变量管理、Linux 基础运维（开放端口、查看日志）。</p>
+<h2 id="3-后端-apiapi">3. 后端 API（api/）</h2>
+<ul>
+<li>技术栈：TypeScript + Express，使用 <code>zod</code> 做请求体验证，<code>pg</code> 访问 PostgreSQL，<code>jsonwebtoken</code>/<code>bcryptjs</code> 处理认证。</li>
+<li>数据模型：
+<ul>
+<li>用户、邮箱验证、角色权限。</li>
+<li>题库：题目、样例、测试数据（私有）、标签。</li>
+<li>提交：源码、判题状态、测试用例结果 <code>submission_tests</code>、最佳记录 <code>best_records</code>、积分榜 <code>leaderboards</code>。</li>
+<li>内容：文章、论坛线程、回复、站内信。</li>
+</ul>
+</li>
+<li>判题流程：提交接口写库 + 发布任务到 RabbitMQ（<code>publishSubmissionJob</code>）。</li>
+<li>内部接口：Runner 回调 <code>POST /api/v1/internal/submissions/:id/report</code>，更新状态与积分。</li>
+<li>其他：邮件发送 <code>nodemailer</code>、AI 助教 <code>POST /api/v1/submissions/:id/ai-help</code>、中间件（速率限制、日志、错误处理）。</li>
+<li>编写种子脚本 <code>seed.ts</code> 生成初始用户与题目。</li>
+</ul>
+<p>需要掌握：TypeScript 高级用法、Express 中间件、REST 设计、数据库事务、JWT 鉴权、RabbitMQ 基础、邮件与第三方 API 调用。</p>
+<h2 id="4-判题-runnerrunner">4. 判题 Runner（runner/）</h2>
+<ul>
+<li>语言：Node.js（保持全栈一致）。</li>
+<li>核心流程：连接 RabbitMQ → 消费任务 → 写入临时代码 → <code>gcc -std=c17 -O2 -pipe -s</code> 编译 → 逐测试点执行 → 统计时间、内存、输出 → 调用 API 回写结果 → 清理临时目录。</li>
+<li>配置：支持 <code>RUNNER_MAX_PARALLEL</code>、<code>RUNNER_QUEUE_PREFETCH</code>、编译/运行超时时间、日志截断长度。</li>
+<li>安全：容器环境隔离、限制 CPU/内存、清理文件、错误重试。结合 TODO 清单逐步加入 rootless、seccomp、禁网。</li>
+</ul>
+<p>需要掌握：Node.js 子进程、文件系统 API、RabbitMQ 消费模式、资源限制、C 编译优化（<code>-O2/-Os/-s</code>）。</p>
+<h2 id="5-前端应用web">5. 前端应用（web/）</h2>
+<ul>
+<li>技术栈：React 18 + Vite + TypeScript + TailwindCSS + React Router。</li>
+<li>公共组件：导航、卡片、榜单、Markdown 渲染（Marked + DOMPurify + highlight.js）、Monaco 编辑器（@monaco-editor/react）。</li>
+<li>页面：
+<ul>
+<li>题库、题目详情（含 Monaco 编辑器、提交历史、AI 助教按钮）。</li>
+<li>排行榜、投稿中心、文章与论坛、站内信、个人中心。</li>
+<li>管理后台：题目/投稿审核、用户管理、提交列表。</li>
+</ul>
+</li>
+<li>数据访问：统一 <code>api.ts</code>，支持自动附带 JWT、错误提示、重试策略。</li>
+<li>状态管理：Hooks（<code>useAuth</code>、<code>useTheme</code> 等），localStorage 缓存编辑器代码与主题。</li>
+<li>UI 细节：暗色模式、自适应布局、加载/错误状态、调试信息提示。</li>
+</ul>
+<p>需要掌握：React Hooks、路由与懒加载、表单与校验、Monaco 二次开发、Tailwind 主题配置、Markdown 安全渲染。</p>
+<h2 id="6-联调与端到端验证">6. 联调与端到端验证</h2>
+<ul>
+<li>本地启动 <code>docker compose up</code>，确保 API、Runner、Web、RabbitMQ、PostgreSQL 互通。</li>
+<li>编写 Smoke Test：注册 → 邮箱验证（可手动查看日志）→ 登录 → 题库浏览 → 提交样例题 → Runner 判题 → 榜单刷新。</li>
+<li>验证：投稿/审核流程、文章创建与评论、AI 助教返回、站内信与邮件、管理员权限控制。</li>
+<li>自动化：添加 <code>npm run typecheck</code> / <code>npm run build</code> / 基础单元测试；可借助 Postman / Thunder Client 保存接口集合。</li>
+</ul>
+<p>需要掌握：调试技巧（<code>docker compose logs</code>, <code>psql</code>, <code>rabbitmqctl</code>）、API 测试、前后端错误定位、事务回滚和数据修复方法。</p>
+<h2 id="7-部署与运维">7. 部署与运维</h2>
+<ul>
+<li>服务器：阿里云 ECS（Ubuntu），安装 Docker、Docker Compose、Nginx（如需单独反代）。</li>
+<li>拉取代码：使用 GitHub + <code>deploy.sh</code> 构建并重启服务；保持 <code>.env</code> 与卷目录同步。</li>
+<li>日志：通过 <code>docker compose logs -f api</code> / <code>runner</code> / <code>nginx</code> 查看，必要时输出到 <code>../logs</code>。</li>
+<li>监控与告警：
+<ul>
+<li>指标：提交成功率、Runner 失败率、MQ 队列堆积、API 错误率。</li>
+<li>观测方案：短期内使用 Docker logs + 手动巡检，长期引入 Prometheus + Loki + Grafana。</li>
+</ul>
+</li>
+<li>备份：定期 <code>pg_dump</code> 导出 PostgreSQL，备份 <code>../data/postgres</code>、<code>../data/rabbitmq</code>。</li>
+<li>域名与 HTTPS：备案完成后配置 DNS，使用 Nginx + Certbot 或阿里云证书中心。</li>
+</ul>
+<p>需要掌握：Linux 运维、Docker Compose 生产实践、Nginx 配置、备份恢复、监控告警基础。</p>
+<h2 id="8-后续演进路线">8. 后续演进路线</h2>
+<ul>
+<li>功能：多语言支持（Python/Go/Rust）、比赛模式、题解排行、题库标签系统高级筛选、官方竞赛模板。</li>
+<li>技术：Redis 热路径（排行榜/会话）、任务调度服务拆分、Runner 集群、seccomp/gVisor、OpenTelemetry。</li>
+<li>运营：题库审核流程优化、AI 提示质量评估、用户行为分析看板、举报/风控体系。</li>
+<li>文档：补充《数据字典》《接口契约》《运维手册》《安全基线》、面向用户的帮助中心。</li>
+</ul>
+<p>需要掌握：分布式队列扩展、缓存一致性、云原生安全、观测性建设、产品运营分析。</p>
+<hr>
+<blockquote>
+<p>小贴士：每完成一个里程碑，记得写复盘（成功点、问题、下一步计划），持续更新 <code>ProjIntro/技术知识点.md</code> 与 <code>ProjIntro/模拟问答.md</code>，确保面试和分享时素材充足。</p>
+</blockquote> </div> </div> </div> </article> <aside class="hidden lg:block" data-astro-cid-7jjqptxk> <div class="gh-card border-default sticky top-16 px-4 py-3" data-astro-cid-7jjqptxk> <div class="text-[12px] font-semibold fg-default" data-astro-cid-7jjqptxk>目录</div> <nav class="mt-2" aria-label="目录" data-astro-cid-7jjqptxk> <ul class="space-y-1 text-[13px]" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#1-需求澄清与里程碑拆解" data-toc-slug="1-需求澄清与里程碑拆解" data-astro-cid-7jjqptxk>1. 需求澄清与里程碑拆解</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#2-环境搭建与基础设施" data-toc-slug="2-环境搭建与基础设施" data-astro-cid-7jjqptxk>2. 环境搭建与基础设施</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#3-后端-apiapi" data-toc-slug="3-后端-apiapi" data-astro-cid-7jjqptxk>3. 后端 API（api/）</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#4-判题-runnerrunner" data-toc-slug="4-判题-runnerrunner" data-astro-cid-7jjqptxk>4. 判题 Runner（runner/）</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#5-前端应用web" data-toc-slug="5-前端应用web" data-astro-cid-7jjqptxk>5. 前端应用（web/）</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#6-联调与端到端验证" data-toc-slug="6-联调与端到端验证" data-astro-cid-7jjqptxk>6. 联调与端到端验证</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#7-部署与运维" data-toc-slug="7-部署与运维" data-astro-cid-7jjqptxk>7. 部署与运维</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#8-后续演进路线" data-toc-slug="8-后续演进路线" data-astro-cid-7jjqptxk>8. 后续演进路线</a> </li> </ul> </nav> </div> </aside> </div> <button id="backToTop" class="back-to-top" type="button" aria-label="回到顶部" hidden data-astro-cid-7jjqptxk>
+↑
+</button> <script type="module">(function(){const s=document.getElementById("postContent");if(!s)return;const l=Array.from(document.querySelectorAll("a.toc-link")),r=new Map;l.forEach(t=>{const e=t.getAttribute("data-toc-slug");if(!e)return;const n=r.get(e)||[];n.push(t),r.set(e,n)});const c=Array.from(s.querySelectorAll("h2[id], h3[id]"));function a(t){if(l.forEach(n=>n.removeAttribute("aria-current")),!t)return;const e=r.get(t);e&&e.forEach(n=>n.setAttribute("aria-current","true"))}function f(){if(!c.length)return"";const t=120;for(let e=c.length-1;e>=0;e--){const n=c[e];if(n.getBoundingClientRect().top<=t)return n.id||""}return c[0].id||""}let d=!1;function i(){d||(d=!0,window.requestAnimationFrame(()=>{d=!1;const t=(location.hash||"").replace(/^#/,"");if(t&&r.has(t)){a(t);return}a(f())}))}window.addEventListener("scroll",i,{passive:!0}),window.addEventListener("resize",i),window.addEventListener("hashchange",i),l.forEach(t=>t.addEventListener("click",()=>{const e=t.getAttribute("data-toc-slug")||"";a(e)})),i();const u=document.getElementById("backToTop");if(u){const t=()=>{const e=window.scrollY||document.documentElement.scrollTop||0;u.hidden=e<320};window.addEventListener("scroll",t,{passive:!0}),t(),u.addEventListener("click",()=>{window.scrollTo({top:0,behavior:"smooth"})})}s.querySelectorAll("pre > code").forEach(t=>{const e=t.parentElement;if(!e||e.querySelector(".copy-btn"))return;e.style.position="relative";const n=document.createElement("button");n.type="button",n.className="copy-btn",n.textContent="复制",n.addEventListener("click",async()=>{const m=t.textContent||"";try{await navigator.clipboard.writeText(m),n.textContent="已复制",window.setTimeout(()=>n.textContent="复制",900)}catch{const o=document.createElement("textarea");o.value=m,o.style.position="fixed",o.style.opacity="0",document.body.appendChild(o),o.select(),document.execCommand("copy"),document.body.removeChild(o),n.textContent="已复制",window.setTimeout(()=>n.textContent="复制",900)}}),e.appendChild(n)})})();</script>   </main> <footer class="border-t py-6 text-[13px]" style="border-color: var(--border-default); color: var(--fg-muted)"> <div class="gh-container flex items-center justify-between"> <p>© 2026 · Built with Astro</p> <p style="color: var(--fg-muted)">Zhejiang University · CS</p> </div> </footer> </body></html>

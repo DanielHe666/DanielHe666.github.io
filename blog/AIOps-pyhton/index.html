@@ -1,0 +1,262 @@
+<!DOCTYPE html><html lang="zh-CN" class="h-full"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="generator" content="Astro v5.16.9"><title>AIOps的Python实战学习 · 个人博客</title><meta name="description" content="根据实际项目对python知识补漏的学习笔记"><meta property="og:title" content="AIOps的Python实战学习 · 个人博客"><meta property="og:description" content="根据实际项目对python知识补漏的学习笔记"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="stylesheet" href="/_astro/_slug_.1UaX29b_.css">
+<style>.copy-btn[data-astro-cid-7jjqptxk]{position:absolute;top:8px;right:8px;padding:4px 8px;font-size:12px;border-radius:6px;border:1px solid var(--border-default);background:color-mix(in srgb,var(--canvas-default) 80%,var(--canvas-subtle));color:var(--fg-default);cursor:pointer}.copy-btn[data-astro-cid-7jjqptxk]:hover{background:color-mix(in srgb,var(--canvas-default) 65%,var(--canvas-subtle))}.copy-btn[data-astro-cid-7jjqptxk]:focus-visible{outline:2px solid color-mix(in srgb,var(--accent-emphasis) 55%,transparent);outline-offset:2px}a[data-astro-cid-7jjqptxk].toc-link[aria-current=true]{color:var(--fg-default);font-weight:600;text-decoration:none}.back-to-top[data-astro-cid-7jjqptxk]{position:fixed;right:18px;bottom:18px;width:36px;height:36px;border-radius:999px;border:1px solid var(--border-default);background:color-mix(in srgb,var(--canvas-default) 80%,var(--canvas-subtle));color:var(--fg-default);cursor:pointer;z-index:40}.back-to-top[data-astro-cid-7jjqptxk]:hover{background:color-mix(in srgb,var(--canvas-default) 65%,var(--canvas-subtle))}.back-to-top[data-astro-cid-7jjqptxk]:focus-visible{outline:2px solid color-mix(in srgb,var(--accent-emphasis) 55%,transparent);outline-offset:2px}
+</style></head> <body class="min-h-full antialiased"> <header class="sticky top-0 z-50 border-b" style="border-color: var(--border-default); background: var(--canvas-subtle)" data-astro-cid-dmqpwcec> <div class="gh-container flex h-12 items-center justify-between" data-astro-cid-dmqpwcec> <a href="/" class="flex items-center gap-2 text-[13px] font-semibold fg-default" data-astro-cid-dmqpwcec> <span class="inline-flex h-7 items-center rounded-md px-2" style="background: var(--fg-default); color: var(--canvas-default)" data-astro-cid-dmqpwcec>HCY</span> <span class="fg-muted" data-astro-cid-dmqpwcec>Blog</span> </a> <nav class="flex items-center gap-1 text-[13px]" data-astro-cid-dmqpwcec> <a href="/blog/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> 文章 </a><a href="/search/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> 搜索 </a><a href="/projects/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> 项目 </a><a href="/reading/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> Reading </a> <a href="https://github.com/ChenyuHeee" target="_blank" rel="noreferrer" class="ml-1 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec>
+GitHub
+</a> </nav> </div> </header>  <main class="gh-container py-6">  <div class="mx-auto max-w-[1040px] grid gap-6 lg:grid-cols-[1fr_280px]" data-astro-cid-7jjqptxk> <article class="min-w-0" data-astro-cid-7jjqptxk> <div class="gh-card overflow-hidden" style="border-color: var(--border-default)" data-astro-cid-7jjqptxk> <header class="border-b px-4 py-4" style="border-color: var(--border-default)" data-astro-cid-7jjqptxk> <h1 class="text-2xl font-semibold tracking-tight" style="color: var(--fg-default)" data-astro-cid-7jjqptxk>AIOps的Python实战学习</h1> <div class="mt-2 flex flex-wrap items-center gap-x-4 gap-y-2 text-[12px]" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <time datetime="2026-01-15T09:21:40.554Z" data-astro-cid-7jjqptxk>2026-01-15</time> <div class="flex flex-wrap gap-2" data-astro-cid-7jjqptxk> <span class="gh-pill" data-astro-cid-7jjqptxk>Python</span><span class="gh-pill" data-astro-cid-7jjqptxk>学习</span> </div> </div> <p class="mt-2 text-[13px]" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk>根据实际项目对python知识补漏的学习笔记</p> </header> <div class="border-b px-4 py-3 lg:hidden" style="border-color: var(--border-default)" data-astro-cid-7jjqptxk> <details data-astro-cid-7jjqptxk> <summary class="cursor-pointer text-[13px] font-semibold fg-default" data-astro-cid-7jjqptxk>目录</summary> <div class="mt-2" data-astro-cid-7jjqptxk> <nav aria-label="目录" data-astro-cid-7jjqptxk> <ul class="space-y-1 text-[13px]" data-astro-cid-7jjqptxk> <li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#mainpy" data-toc-slug="mainpy" data-astro-cid-7jjqptxk>main.py</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#list-1" data-toc-slug="list-1" data-astro-cid-7jjqptxk>List 1</a> </li> </ul> </nav> </div> </details> </div> <div class="px-4 py-4" data-astro-cid-7jjqptxk> <div class="prose prose-sm max-w-none" id="postContent" data-astro-cid-7jjqptxk> <h1 id="aiops-python实战学习">AIOps Python实战学习</h1>
+<h2 id="mainpy">main.py</h2>
+<ol>
+<li>导入 &#x26; 项目根目录</li>
+</ol>
+<p><code>pandas</code>用来读csv；</p>
+<p><code>OrderedDict</code>（来自 typing，不过更常用的是 <code>collections.OrderedDict</code>）用来构造有序字典；</p>
+<p><code>project_root</code> 获取当前文件所在目录，用于拼接 <code>input/</code> 和 <code>output/</code> 的路径。</p>
+<p><strong>掌握点：</strong></p>
+<ul>
+<li>模块导入：<code>import ...</code>,<code>from ... import ...</code></li>
+<li><code>os.path</code>用法（dirname,abspath,join)</li>
+</ul>
+<ol start="2">
+<li>终止条件</li>
+</ol>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#E1E4E8">max_messages_termination </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> MaxMessageTermination(</span><span style="color:#FFAB70">max_messages</span><span style="color:#F97583">=</span><span style="color:#79B8FF">20</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">termination </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> max_messages_termination</span></span></code></pre>
+<p>这两行是为 GraphFlow / GroupChat 设置一个终止条件：</p>
+<p>对话最多 20 条消息，超过就停。</p>
+<ol start="3">
+<li>主函数 main()（异步）</li>
+</ol>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#F97583">async</span><span style="color:#F97583"> def</span><span style="color:#B392F0"> main</span><span style="color:#E1E4E8">():</span></span>
+<span class="line"><span style="color:#E1E4E8">    input_path </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> os.path.join(project_root, </span><span style="color:#9ECBFF">'input'</span><span style="color:#E1E4E8">, </span><span style="color:#9ECBFF">'input_timestamp.csv'</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">    df_input_timestamp </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> pd.read_csv(input_path, </span><span style="color:#FFAB70">encoding</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">'utf-8'</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#F97583">    for</span><span style="color:#E1E4E8"> index, row </span><span style="color:#F97583">in</span><span style="color:#E1E4E8"> df_input_timestamp.iterrows():</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">        if</span><span style="color:#E1E4E8"> index </span><span style="color:#F97583">&#x3C;</span><span style="color:#79B8FF"> 32</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#F97583">            continue</span></span></code></pre>
+<p>这是一个 <code>async def</code>，说明里面会有 <code>await</code> 调用（例如调用 LLM 的异步接口）；
+<code>pd.read_csv</code> 把 CSV 读成一个 <code>DataFrame</code>；
+<code>df_input_timestamp.iterrows()</code> 逐行遍历：
+index 是行号；
+row 是这一行的数据（Series）。
+<code>if index &#x3C; 32: continue</code>：跳过前 32 行，只处理后面的 case。</p>
+<p><strong>掌握点:</strong></p>
+<ul>
+<li><code>for index, row in df.iterrows()</code> 的用法；</li>
+<li><code>continue</code> 的含义（跳过本次循环剩余部分）。</li>
+</ul>
+<ol start="4">
+<li>从每一行取字段</li>
+</ol>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#79B8FF">        print</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">">>"</span><span style="color:#F97583"> *</span><span style="color:#79B8FF"> 100</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#79B8FF">        print</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">f</span><span style="color:#9ECBFF">"index: </span><span style="color:#79B8FF">{</span><span style="color:#E1E4E8">index</span><span style="color:#79B8FF">}</span><span style="color:#9ECBFF">"</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">        start_timestamp </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> row[</span><span style="color:#9ECBFF">'start_timestamp'</span><span style="color:#E1E4E8">]</span></span>
+<span class="line"><span style="color:#E1E4E8">        end_timestamp </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> row[</span><span style="color:#9ECBFF">'end_timestamp'</span><span style="color:#E1E4E8">]</span></span>
+<span class="line"><span style="color:#E1E4E8">        start_time_hour </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> row[</span><span style="color:#9ECBFF">'start_time_hour'</span><span style="color:#E1E4E8">]</span></span>
+<span class="line"><span style="color:#E1E4E8">        uuid </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> row[</span><span style="color:#9ECBFF">'uuid'</span><span style="color:#E1E4E8">]</span></span></code></pre>
+<ul>
+<li>使用 <code>row['列名']</code> 取出这一行的几个关键字段；</li>
+<li><code>f"index: {index}"</code> 是 <code>f-string</code>，格式化输出。</li>
+</ul>
+<ol start="5">
+<li>日志 refinement + 日志 LLM 提炼</li>
+</ol>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#E1E4E8">        refined_logs </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> log_refinement(start_time_hour, start_timestamp, end_timestamp)</span></span>
+<span class="line"><span style="color:#F97583">        if</span><span style="color:#E1E4E8"> refined_logs </span><span style="color:#F97583">is</span><span style="color:#F97583"> not</span><span style="color:#79B8FF"> None</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#79B8FF">            print</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">'//'</span><span style="color:#F97583"> *</span><span style="color:#79B8FF"> 20</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">            refined_logs </span><span style="color:#F97583">=</span><span style="color:#F97583"> await</span><span style="color:#E1E4E8"> logs_agent.run(</span><span style="color:#FFAB70">task</span><span style="color:#F97583">=</span><span style="color:#F97583">f</span><span style="color:#9ECBFF">"请提炼出以下日志中对故障诊断最关键、最有价值的日志：</span><span style="color:#79B8FF">\n{</span><span style="color:#E1E4E8">refined_logs</span><span style="color:#79B8FF">}</span><span style="color:#9ECBFF">"</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">            refined_logs </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> refined_logs.messages[</span><span style="color:#F97583">-</span><span style="color:#79B8FF">1</span><span style="color:#E1E4E8">].content</span></span>
+<span class="line"><span style="color:#F97583">        else</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#E1E4E8">            refined_logs </span><span style="color:#F97583">=</span><span style="color:#79B8FF"> None</span></span>
+<span class="line"><span style="color:#79B8FF">        print</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">'logs refinement completed!'</span><span style="color:#E1E4E8">)</span></span></code></pre>
+<ul>
+<li><code>log_refinement(...)</code> 返回某个时间窗口的日志内容（已经过预筛）；</li>
+</ul>
+<p>如果不是 None：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>使用 `logs_agent.run(task=...)` 让日志 Agent 调用 LLM，拿到一个对话结果对象（里面有 messages 列表）。</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>`refined_logs.messages[-1].content` 取最后一条消息（LLM 的最终回答）的文本内容。</span></span></code></pre>
+<p>否则就保持 None。</p>
+<p><strong>掌握点</strong></p>
+<ul>
+<li>await 的含义（协程调用）；</li>
+<li>对象属性访问：foo.bar.baz；</li>
+<li>列表索引 [-1] 表示最后一个元素。</li>
+</ul>
+<ol start="6">
+<li>trace refinement + Agent 提炼</li>
+</ol>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#E1E4E8">        refined_traces, trace_unique_dict, status_combinations_csv </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> trace_refinement(start_time_hour, start_timestamp, end_timestamp)</span></span>
+<span class="line"><span style="color:#F97583">        if</span><span style="color:#E1E4E8"> refined_traces </span><span style="color:#F97583">is</span><span style="color:#F97583"> not</span><span style="color:#79B8FF"> None</span><span style="color:#F97583"> or</span><span style="color:#E1E4E8"> status_combinations_csv </span><span style="color:#F97583">is</span><span style="color:#F97583"> not</span><span style="color:#79B8FF"> None</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#79B8FF">            print</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">'//'</span><span style="color:#F97583"> *</span><span style="color:#79B8FF"> 20</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">            refined_traces </span><span style="color:#F97583">=</span><span style="color:#F97583"> await</span><span style="color:#E1E4E8"> traces_agent.run(</span><span style="color:#FFAB70">task</span><span style="color:#F97583">=</span><span style="color:#F97583">f</span><span style="color:#9ECBFF">"请提炼出以下trace中对故障诊断最关键、最有价值的traces：</span><span style="color:#79B8FF">\n{</span><span style="color:#E1E4E8">refined_traces</span><span style="color:#79B8FF">}\n{</span><span style="color:#E1E4E8">status_combinations_csv</span><span style="color:#79B8FF">}</span><span style="color:#9ECBFF">"</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">            refined_traces </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> refined_traces.messages[</span><span style="color:#F97583">-</span><span style="color:#79B8FF">1</span><span style="color:#E1E4E8">].content</span></span>
+<span class="line"><span style="color:#F97583">        else</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#E1E4E8">            refined_traces </span><span style="color:#F97583">=</span><span style="color:#79B8FF"> None</span></span>
+<span class="line"><span style="color:#79B8FF">        print</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">'traces refinement completed!'</span><span style="color:#E1E4E8">)</span></span></code></pre>
+<p>这里 <code>trace_refinement</code> 返回三个东西：</p>
+<ul>
+<li><code>refined_traces</code>：预处理后的 trace；</li>
+<li><code>trace_unique_dict</code>：可能是去重后的 trace 信息（这里没再用）；</li>
+<li><code>status_combinations_csv</code>：某些状态组合的信息（转成文本？）。
+如果两者之一不为空，就拼接起来扔给 <code>traces_agent</code> 处理。</li>
+</ul>
+<ol start="7">
+<li>metrics refinement + Agent 提炼</li>
+</ol>
+<p>略</p>
+<ol start="8">
+<li>构造多模态分析 prompt</li>
+</ol>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#E1E4E8">        multimodal_prompt </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> get_multimodal_analysis_prompt(</span></span>
+<span class="line"><span style="color:#FFAB70">            log_data</span><span style="color:#F97583">=</span><span style="color:#E1E4E8">refined_logs ,</span></span>
+<span class="line"><span style="color:#FFAB70">            trace_data</span><span style="color:#F97583">=</span><span style="color:#E1E4E8">refined_traces ,</span></span>
+<span class="line"><span style="color:#FFAB70">            metric_data</span><span style="color:#F97583">=</span><span style="color:#E1E4E8">refined_metrics</span></span>
+<span class="line"><span style="color:#E1E4E8">        )</span></span></code></pre>
+<p>这个函数应该是把三个模态的信息按照某个模板组合成一个大的任务描述，给 <code>orchestrator agent</code>用。</p>
+<ol start="9">
+<li>构建 Agent 对话图（Graph）</li>
+</ol>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#E1E4E8">        builder </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> DiGraphBuilder()</span></span>
+<span class="line"><span style="color:#E1E4E8">        builder.add_node(orchestration_agent)</span></span>
+<span class="line"><span style="color:#E1E4E8">        builder.add_node(ad_agent).add_node(ft_agent).add_node(rcl_agent)</span></span>
+<span class="line"><span style="color:#E1E4E8">        builder.add_node(reflection_agent).add_node(summarization_agent)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">        builder.add_edge(orchestration_agent, ad_agent)</span></span>
+<span class="line"><span style="color:#E1E4E8">        builder.add_edge(orchestration_agent, ft_agent).add_edge(ad_agent, ft_agent)</span></span>
+<span class="line"><span style="color:#E1E4E8">        builder.add_edge(orchestration_agent, rcl_agent).add_edge(ft_agent, rcl_agent)</span></span>
+<span class="line"><span style="color:#E1E4E8">        builder.add_edge(ad_agent, reflection_agent).add_edge(ft_agent, reflection_agent).add_edge(rcl_agent, reflection_agent)</span></span>
+<span class="line"><span style="color:#E1E4E8">        builder.add_edge(reflection_agent, orchestration_agent, </span><span style="color:#FFAB70">condition</span><span style="color:#F97583">=lambda</span><span style="color:#E1E4E8"> msg: </span><span style="color:#9ECBFF">"APPROVE"</span><span style="color:#F97583"> not</span><span style="color:#F97583"> in</span><span style="color:#E1E4E8"> msg.to_model_text())</span></span>
+<span class="line"><span style="color:#E1E4E8">        builder.add_edge(reflection_agent, summarization_agent, </span><span style="color:#FFAB70">condition</span><span style="color:#F97583">=lambda</span><span style="color:#E1E4E8"> msg: </span><span style="color:#9ECBFF">"APPROVE"</span><span style="color:#F97583"> in</span><span style="color:#E1E4E8"> msg.to_model_text())</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">        builder.set_entry_point(orchestration_agent)</span></span>
+<span class="line"><span style="color:#E1E4E8">        graph </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> builder.build()</span></span></code></pre>
+<p>这里使用 <code>DiGraphBuilder</code> 构造一个有向图：</p>
+<ul>
+<li>节点是不同的 <code>agent</code>；</li>
+<li>边表示“谁把消息发给谁”；</li>
+<li>最后两条边用 <code>condition</code> 决定从 <code>reflection</code> 分流到 <code>orchestration</code> 或 <code>summarization</code>：
+<ul>
+<li>如果消息里不含 <code>"APPROVE"</code>：回到 <code>orchestrator</code> 继续迭代；</li>
+<li>如果含 <code>"APPROVE"</code>：进入 <code>summarization</code>，总结最终答案。</li>
+</ul>
+</li>
+</ul>
+<p><strong>掌握点</strong></p>
+<ul>
+<li>lambda 表达式 <code>lambda msg: ...</code>；</li>
+<li>链式调用 <code>builder.add_edge(...).add_edge(...)</code> 是什么含义（返回 <code>builder</code> 自己）。</li>
+</ul>
+<ol start="10">
+<li>创建 GraphFlow 团队并运行</li>
+</ol>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#E1E4E8">        team </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> GraphFlow(</span></span>
+<span class="line"><span style="color:#FFAB70">            participants</span><span style="color:#F97583"> =</span><span style="color:#E1E4E8"> [orchestration_agent, ad_agent, ft_agent, rcl_agent, reflection_agent, summarization_agent],</span></span>
+<span class="line"><span style="color:#FFAB70">            graph</span><span style="color:#F97583"> =</span><span style="color:#E1E4E8"> graph,</span></span>
+<span class="line"><span style="color:#FFAB70">            termination_condition</span><span style="color:#F97583">=</span><span style="color:#E1E4E8">termination,</span></span>
+<span class="line"><span style="color:#E1E4E8">        )</span></span>
+<span class="line"><span style="color:#F97583">        await</span><span style="color:#E1E4E8"> team.reset()</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">        # await Console(team.run_stream(task=f"{multimodal_prompt}"))</span></span>
+<span class="line"><span style="color:#E1E4E8">        respose </span><span style="color:#F97583">=</span><span style="color:#F97583"> await</span><span style="color:#E1E4E8"> team.run(</span><span style="color:#FFAB70">task</span><span style="color:#F97583">=</span><span style="color:#F97583">f</span><span style="color:#9ECBFF">"</span><span style="color:#79B8FF">{</span><span style="color:#E1E4E8">multimodal_prompt</span><span style="color:#79B8FF">}</span><span style="color:#9ECBFF">"</span><span style="color:#E1E4E8">)</span></span></code></pre>
+<ul>
+<li><code>GraphFlow</code> 用刚才的图 + <code>agent</code> 列表构建一个团队；</li>
+<li><code>await team.reset()</code> 重置对话状态；</li>
+<li><code>team.run(task=...)</code> 运行任务一次，并得到一个包含消息历史的结果对象。
+（注：respose 这个变量名有点小拼写错误，正常应该是 response，但不影响运行。）</li>
+</ul>
+<ol start="11">
+<li>从结果里抓 JSON，解析并写文件</li>
+</ol>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#E1E4E8">        result </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> re.search(</span><span style="color:#F97583">r</span><span style="color:#9ECBFF">'</span><span style="color:#79B8FF">(</span><span style="color:#85E89D;font-weight:bold">\{</span><span style="color:#79B8FF">.</span><span style="color:#F97583">*</span><span style="color:#85E89D;font-weight:bold">\}</span><span style="color:#79B8FF">)</span><span style="color:#9ECBFF">'</span><span style="color:#E1E4E8">, respose.messages[</span><span style="color:#F97583">-</span><span style="color:#79B8FF">1</span><span style="color:#E1E4E8">].content, re.</span><span style="color:#79B8FF">DOTALL</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#F97583">        if</span><span style="color:#E1E4E8"> result:</span></span>
+<span class="line"><span style="color:#E1E4E8">            result </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> result.group(</span><span style="color:#79B8FF">1</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#F97583">        else</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#E1E4E8">            result </span><span style="color:#F97583">=</span><span style="color:#79B8FF"> None</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#E1E4E8">        json_result </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> json.loads(result)</span></span>
+<span class="line"><span style="color:#E1E4E8">        result_data </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> OrderedDict()</span></span>
+<span class="line"><span style="color:#E1E4E8">        result_data[</span><span style="color:#9ECBFF">"component"</span><span style="color:#E1E4E8">] </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> json_result.get(</span><span style="color:#9ECBFF">"component"</span><span style="color:#E1E4E8">, </span><span style="color:#9ECBFF">""</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">        result_data[</span><span style="color:#9ECBFF">"uuid"</span><span style="color:#E1E4E8">] </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> uuid</span></span>
+<span class="line"><span style="color:#E1E4E8">        result_data[</span><span style="color:#9ECBFF">"reason"</span><span style="color:#E1E4E8">] </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> json_result.get(</span><span style="color:#9ECBFF">"reason"</span><span style="color:#E1E4E8">, </span><span style="color:#9ECBFF">""</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">        result_data[</span><span style="color:#9ECBFF">"reasoning_trace"</span><span style="color:#E1E4E8">] </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> json_result.get(</span><span style="color:#9ECBFF">"reasoning_trace"</span><span style="color:#E1E4E8">, [])</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">        result_list_path </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> os.path.join(project_root, </span><span style="color:#9ECBFF">'output'</span><span style="color:#E1E4E8">, </span><span style="color:#9ECBFF">'results_list.json'</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#F97583">        with</span><span style="color:#79B8FF"> open</span><span style="color:#E1E4E8">(result_list_path, </span><span style="color:#9ECBFF">'a'</span><span style="color:#E1E4E8">, </span><span style="color:#FFAB70">encoding</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">'utf-8'</span><span style="color:#E1E4E8">) </span><span style="color:#F97583">as</span><span style="color:#E1E4E8"> f:</span></span>
+<span class="line"><span style="color:#E1E4E8">            json.dump(result_data, f)   </span></span>
+<span class="line"><span style="color:#E1E4E8">            f.write(</span><span style="color:#9ECBFF">'</span><span style="color:#79B8FF">\n</span><span style="color:#9ECBFF">'</span><span style="color:#E1E4E8">)   </span></span>
+<span class="line"><span style="color:#79B8FF">        print</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">f</span><span style="color:#9ECBFF">"第</span><span style="color:#79B8FF">{</span><span style="color:#E1E4E8">index</span><span style="color:#F97583">+</span><span style="color:#79B8FF">1}</span><span style="color:#9ECBFF">条数据处理完成"</span><span style="color:#E1E4E8">)</span></span></code></pre>
+<ul>
+<li><code>respose.messages[-1].content</code>：取最后一条消息文本；</li>
+<li><code>re.search(r'(\{.*\})', ..., re.DOTALL)</code>：
+<ul>
+<li>用正则在这段文本里找一个“从第一个 { 到最后一个 } 的大块字符串”；</li>
+<li><code>re.DOTALL</code> 让 . 能匹配换行符。</li>
+</ul>
+</li>
+<li><code>json.loads(result)</code>：把 JSON 字符串变成 Python 字典；</li>
+<li><code>OrderedDict()</code>：按顺序插入字段；</li>
+<li>写入文件时用 ‘a’ 模式，表示“追加写入”，每一行写一个 JSON + 换行。</li>
+</ul>
+<p><strong>掌握点</strong></p>
+<ul>
+<li>正则表达式 re.search 的基本用法；</li>
+<li>json.loads / json.dump；</li>
+<li>with open(…) as f: 的上下文管理器语法。</li>
+</ul>
+<ol start="12">
+<li>程序入口</li>
+</ol>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>if __name__ == "__main__":</span></span>
+<span class="line"><span>    asyncio.run(main())</span></span></code></pre>
+<p>这段是 Python 脚本的常见写法：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>- 只有当这个文件被“直接运行”时才会执行 `main()`；</span></span>
+<span class="line"><span>- 如果被别的文件 `import` 时，这一块不会执行。</span></span></code></pre>
+<p><code>asyncio.run(main())</code> 负责跑异步的主函数。</p>
+<h2 id="list-1">List 1</h2>
+<ol>
+<li>基本语法与数据结构</li>
+</ol>
+<ul>
+<li>for 循环：特别是 for index, row in df.iterrows():</li>
+<li>if/else + continue</li>
+<li>列表索引、字典取值（dict.get()）</li>
+</ul>
+<ol start="2">
+<li>文件与路径操作</li>
+</ol>
+<ul>
+<li>os.path.join, os.path.dirname, os.path.abspath</li>
+<li>with open(path, ‘a’, encoding=‘utf-8’) as f: 写文件</li>
+</ul>
+<ol start="3">
+<li>pandas</li>
+</ol>
+<ul>
+<li>pd.read_csv 读表</li>
+<li>df.iterrows() 遍历</li>
+<li>用 row[‘col’] 访问字段</li>
+</ul>
+<ol start="4">
+<li>异步与协程（了解用法即可，不必深挖原理）</li>
+</ol>
+<ul>
+<li>async def / await</li>
+<li>asyncio.run(main())</li>
+</ul>
+<ol start="5">
+<li>JSON 与正则</li>
+</ol>
+<ul>
+<li>json.loads / json.dump 基本用法</li>
+<li>re.search(pattern, text, flags)：找出匹配结果，用 .group(1) 取括号里的子串</li>
+</ul>
+<ol start="6">
+<li>面向对象的简单用法（通过 Agent 对象理解）</li>
+</ol>
+<ul>
+<li>对象的方法调用：logs_agent.run(…)</li>
+<li>对象属性：respose.messages[-1].content</li>
+</ul> </div> </div> </div> </article> <aside class="hidden lg:block" data-astro-cid-7jjqptxk> <div class="gh-card border-default sticky top-16 px-4 py-3" data-astro-cid-7jjqptxk> <div class="text-[12px] font-semibold fg-default" data-astro-cid-7jjqptxk>目录</div> <nav class="mt-2" aria-label="目录" data-astro-cid-7jjqptxk> <ul class="space-y-1 text-[13px]" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#mainpy" data-toc-slug="mainpy" data-astro-cid-7jjqptxk>main.py</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#list-1" data-toc-slug="list-1" data-astro-cid-7jjqptxk>List 1</a> </li> </ul> </nav> </div> </aside> </div> <button id="backToTop" class="back-to-top" type="button" aria-label="回到顶部" hidden data-astro-cid-7jjqptxk>
+↑
+</button> <script type="module">(function(){const s=document.getElementById("postContent");if(!s)return;const l=Array.from(document.querySelectorAll("a.toc-link")),r=new Map;l.forEach(t=>{const e=t.getAttribute("data-toc-slug");if(!e)return;const n=r.get(e)||[];n.push(t),r.set(e,n)});const c=Array.from(s.querySelectorAll("h2[id], h3[id]"));function a(t){if(l.forEach(n=>n.removeAttribute("aria-current")),!t)return;const e=r.get(t);e&&e.forEach(n=>n.setAttribute("aria-current","true"))}function f(){if(!c.length)return"";const t=120;for(let e=c.length-1;e>=0;e--){const n=c[e];if(n.getBoundingClientRect().top<=t)return n.id||""}return c[0].id||""}let d=!1;function i(){d||(d=!0,window.requestAnimationFrame(()=>{d=!1;const t=(location.hash||"").replace(/^#/,"");if(t&&r.has(t)){a(t);return}a(f())}))}window.addEventListener("scroll",i,{passive:!0}),window.addEventListener("resize",i),window.addEventListener("hashchange",i),l.forEach(t=>t.addEventListener("click",()=>{const e=t.getAttribute("data-toc-slug")||"";a(e)})),i();const u=document.getElementById("backToTop");if(u){const t=()=>{const e=window.scrollY||document.documentElement.scrollTop||0;u.hidden=e<320};window.addEventListener("scroll",t,{passive:!0}),t(),u.addEventListener("click",()=>{window.scrollTo({top:0,behavior:"smooth"})})}s.querySelectorAll("pre > code").forEach(t=>{const e=t.parentElement;if(!e||e.querySelector(".copy-btn"))return;e.style.position="relative";const n=document.createElement("button");n.type="button",n.className="copy-btn",n.textContent="复制",n.addEventListener("click",async()=>{const m=t.textContent||"";try{await navigator.clipboard.writeText(m),n.textContent="已复制",window.setTimeout(()=>n.textContent="复制",900)}catch{const o=document.createElement("textarea");o.value=m,o.style.position="fixed",o.style.opacity="0",document.body.appendChild(o),o.select(),document.execCommand("copy"),document.body.removeChild(o),n.textContent="已复制",window.setTimeout(()=>n.textContent="复制",900)}}),e.appendChild(n)})})();</script>   </main> <footer class="border-t py-6 text-[13px]" style="border-color: var(--border-default); color: var(--fg-muted)"> <div class="gh-container flex items-center justify-between"> <p>© 2026 · Built with Astro</p> <p style="color: var(--fg-muted)">Zhejiang University · CS</p> </div> </footer> </body></html>

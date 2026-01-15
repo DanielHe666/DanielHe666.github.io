@@ -1,0 +1,26 @@
+<!DOCTYPE html><html lang="zh-CN" class="h-full"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="generator" content="Astro v5.16.9"><title>云起（Yunqi） · 个人博客</title><meta name="description" content="面向 Apple Silicon 优化的 macOS 视频剪辑工具：专注顺滑预览与高效时间线编辑。"><meta property="og:title" content="云起（Yunqi） · 个人博客"><meta property="og:description" content="面向 Apple Silicon 优化的 macOS 视频剪辑工具：专注顺滑预览与高效时间线编辑。"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="stylesheet" href="/_astro/_slug_.1UaX29b_.css"></head> <body class="min-h-full antialiased"> <header class="sticky top-0 z-50 border-b" style="border-color: var(--border-default); background: var(--canvas-subtle)" data-astro-cid-dmqpwcec> <div class="gh-container flex h-12 items-center justify-between" data-astro-cid-dmqpwcec> <a href="/" class="flex items-center gap-2 text-[13px] font-semibold fg-default" data-astro-cid-dmqpwcec> <span class="inline-flex h-7 items-center rounded-md px-2" style="background: var(--fg-default); color: var(--canvas-default)" data-astro-cid-dmqpwcec>HCY</span> <span class="fg-muted" data-astro-cid-dmqpwcec>Blog</span> </a> <nav class="flex items-center gap-1 text-[13px]" data-astro-cid-dmqpwcec> <a href="/blog/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> 文章 </a><a href="/search/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> 搜索 </a><a href="/projects/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> 项目 </a><a href="/reading/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> Reading </a> <a href="https://github.com/ChenyuHeee" target="_blank" rel="noreferrer" class="ml-1 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec>
+GitHub
+</a> </nav> </div> </header>  <main class="gh-container py-6">  <div class="mx-auto max-w-[1012px]"> <div class="mb-4 flex items-baseline justify-between gap-4"> <div class="min-w-0"> <p class="text-[12px] fg-muted">项目</p> <h1 class="mt-1 truncate text-xl font-semibold tracking-tight fg-default">云起（Yunqi）</h1> <p class="mt-2 text-[13px] fg-muted">面向 Apple Silicon 优化的 macOS 视频剪辑工具：专注顺滑预览与高效时间线编辑。</p> </div> <div class="shrink-0 flex gap-2"> <a class="gh-btn" href="/projects/">返回列表</a> <a class="gh-btn-primary" href="https://github.com/ChenyuHeee/Yunqi" target="_blank" rel="noreferrer">Repo</a> </div> </div> <div class="gh-card px-4 py-3 border-default"> <div class="flex flex-wrap items-center gap-x-4 gap-y-2 text-[12px] fg-muted"> <span>Updated 2026-01-05</span> <a class="gh-link" href="https://github.com/ChenyuHeee/Yunqi/releases/latest" target="_blank" rel="noreferrer">Demo / Link</a> </div> <div class="mt-3 flex flex-wrap gap-1.5"> <span class="gh-pill">Swift</span><span class="gh-pill">macOS</span><span class="gh-pill">Apple Silicon</span><span class="gh-pill">Metal</span> </div> </div> <section class="mt-4 gh-card px-4 py-4 border-default"> <div class="prose prose-sm max-w-none"> <h2 id="概览">概览</h2>
+<p>云起（Yunqi）是一个原生 macOS 视频剪辑工具，把“预览链路”和“时间线编辑”作为第一优先级，并持续围绕 Apple Silicon 的图形/音频能力做优化。</p>
+<h2 id="我做了什么">我做了什么</h2>
+<ul>
+<li>主导核心架构与关键链路实现：时间线编辑模型、撤销/重做、预览渲染与缓存</li>
+<li>以“确定性可复现”为工程目标，完善关键数据结构与测试/回归基线，便于长期迭代与性能对比</li>
+</ul>
+<h2 id="技术要点">技术要点</h2>
+<ul>
+<li>渲染：预览链路优先走 Metal 路径，减少非必要回退</li>
+<li>时间线：支持移动/Trim/吸附对齐、Blade / Blade All 等剪辑动作；编辑动作可撤销/重做</li>
+<li>音频与缓存：围绕稳定时钟与稳定快照组织数据，缓存可失效/可重建（便于回归与排错）</li>
+</ul>
+<h2 id="亮点">亮点</h2>
+<ul>
+<li>时间线编辑：拖拽移动、边缘 Trim、吸附对齐；支持 Blade / Blade All 等剪辑动作</li>
+<li>预览链路：优先走 Metal 路径，目标是更顺滑的预览体验</li>
+<li>工程质量：关键链路可测试、可回归、可确定性复现（便于长期演进与性能对比）</li>
+</ul>
+<h2 id="链接">链接</h2>
+<ul>
+<li>Repo: <a href="https://github.com/ChenyuHeee/Yunqi">https://github.com/ChenyuHeee/Yunqi</a></li>
+<li>下载: <a href="https://github.com/ChenyuHeee/Yunqi/releases/latest">https://github.com/ChenyuHeee/Yunqi/releases/latest</a></li>
+</ul> </div> <div class="mt-6 flex flex-wrap gap-3 text-[13px]"> <a class="gh-link" href="https://github.com/ChenyuHeee/Yunqi" target="_blank" rel="noreferrer">GitHub Repo</a> <a class="gh-link" href="https://github.com/ChenyuHeee/Yunqi/releases/latest" target="_blank" rel="noreferrer">Demo / Link</a> </div> </section> </div>  </main> <footer class="border-t py-6 text-[13px]" style="border-color: var(--border-default); color: var(--fg-muted)"> <div class="gh-container flex items-center justify-between"> <p>© 2026 · Built with Astro</p> <p style="color: var(--fg-muted)">Zhejiang University · CS</p> </div> </footer> </body></html>

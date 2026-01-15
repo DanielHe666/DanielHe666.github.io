@@ -1,0 +1,758 @@
+<!DOCTYPE html><html lang="zh-CN" class="h-full"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="generator" content="Astro v5.16.9"><title>AutoGen 金融多智能体系统研究论文资源 · 个人博客</title><meta name="description" content="本文为AutoGen金融多智能体项目提供了系统的学术资源，重点推荐了TradingAgents、HedgeAgents等核心论文，并介绍了AutoGen框架、RAG金融应用、ReAct推理及幻觉抑制等关键技术。"><meta property="og:title" content="AutoGen 金融多智能体系统研究论文资源 · 个人博客"><meta property="og:description" content="本文为AutoGen金融多智能体项目提供了系统的学术资源，重点推荐了TradingAgents、HedgeAgents等核心论文，并介绍了AutoGen框架、RAG金融应用、ReAct推理及幻觉抑制等关键技术。"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="stylesheet" href="/_astro/_slug_.1UaX29b_.css">
+<style>.copy-btn[data-astro-cid-7jjqptxk]{position:absolute;top:8px;right:8px;padding:4px 8px;font-size:12px;border-radius:6px;border:1px solid var(--border-default);background:color-mix(in srgb,var(--canvas-default) 80%,var(--canvas-subtle));color:var(--fg-default);cursor:pointer}.copy-btn[data-astro-cid-7jjqptxk]:hover{background:color-mix(in srgb,var(--canvas-default) 65%,var(--canvas-subtle))}.copy-btn[data-astro-cid-7jjqptxk]:focus-visible{outline:2px solid color-mix(in srgb,var(--accent-emphasis) 55%,transparent);outline-offset:2px}a[data-astro-cid-7jjqptxk].toc-link[aria-current=true]{color:var(--fg-default);font-weight:600;text-decoration:none}.back-to-top[data-astro-cid-7jjqptxk]{position:fixed;right:18px;bottom:18px;width:36px;height:36px;border-radius:999px;border:1px solid var(--border-default);background:color-mix(in srgb,var(--canvas-default) 80%,var(--canvas-subtle));color:var(--fg-default);cursor:pointer;z-index:40}.back-to-top[data-astro-cid-7jjqptxk]:hover{background:color-mix(in srgb,var(--canvas-default) 65%,var(--canvas-subtle))}.back-to-top[data-astro-cid-7jjqptxk]:focus-visible{outline:2px solid color-mix(in srgb,var(--accent-emphasis) 55%,transparent);outline-offset:2px}
+</style></head> <body class="min-h-full antialiased"> <header class="sticky top-0 z-50 border-b" style="border-color: var(--border-default); background: var(--canvas-subtle)" data-astro-cid-dmqpwcec> <div class="gh-container flex h-12 items-center justify-between" data-astro-cid-dmqpwcec> <a href="/" class="flex items-center gap-2 text-[13px] font-semibold fg-default" data-astro-cid-dmqpwcec> <span class="inline-flex h-7 items-center rounded-md px-2" style="background: var(--fg-default); color: var(--canvas-default)" data-astro-cid-dmqpwcec>HCY</span> <span class="fg-muted" data-astro-cid-dmqpwcec>Blog</span> </a> <nav class="flex items-center gap-1 text-[13px]" data-astro-cid-dmqpwcec> <a href="/blog/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> 文章 </a><a href="/search/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> 搜索 </a><a href="/projects/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> 项目 </a><a href="/reading/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> Reading </a> <a href="https://github.com/ChenyuHeee" target="_blank" rel="noreferrer" class="ml-1 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec>
+GitHub
+</a> </nav> </div> </header>  <main class="gh-container py-6">  <div class="mx-auto max-w-[1040px] grid gap-6 lg:grid-cols-[1fr_280px]" data-astro-cid-7jjqptxk> <article class="min-w-0" data-astro-cid-7jjqptxk> <div class="gh-card overflow-hidden" style="border-color: var(--border-default)" data-astro-cid-7jjqptxk> <header class="border-b px-4 py-4" style="border-color: var(--border-default)" data-astro-cid-7jjqptxk> <h1 class="text-2xl font-semibold tracking-tight" style="color: var(--fg-default)" data-astro-cid-7jjqptxk>AutoGen 金融多智能体系统研究论文资源</h1> <div class="mt-2 flex flex-wrap items-center gap-x-4 gap-y-2 text-[12px]" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <time datetime="2026-01-15T09:21:40.554Z" data-astro-cid-7jjqptxk>2026-01-15</time> <div class="flex flex-wrap gap-2" data-astro-cid-7jjqptxk> <span class="gh-pill" data-astro-cid-7jjqptxk>Gold</span><span class="gh-pill" data-astro-cid-7jjqptxk>论文</span><span class="gh-pill" data-astro-cid-7jjqptxk>学习</span><span class="gh-pill" data-astro-cid-7jjqptxk>量化</span> </div> </div> <p class="mt-2 text-[13px]" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk>本文为AutoGen金融多智能体项目提供了系统的学术资源，重点推荐了TradingAgents、HedgeAgents等核心论文，并介绍了AutoGen框架、RAG金融应用、ReAct推理及幻觉抑制等关键技术。</p> </header> <div class="border-b px-4 py-3 lg:hidden" style="border-color: var(--border-default)" data-astro-cid-7jjqptxk> <details data-astro-cid-7jjqptxk> <summary class="cursor-pointer text-[13px] font-semibold fg-default" data-astro-cid-7jjqptxk>目录</summary> <div class="mt-2" data-astro-cid-7jjqptxk> <nav aria-label="目录" data-astro-cid-7jjqptxk> <ul class="space-y-1 text-[13px]" data-astro-cid-7jjqptxk> <li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#目录" data-toc-slug="目录" data-astro-cid-7jjqptxk>目录</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#一核心论文推荐" data-toc-slug="一核心论文推荐" data-astro-cid-7jjqptxk>一、核心论文推荐</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#11-与项目直接相关的论文" data-toc-slug="11-与项目直接相关的论文" data-astro-cid-7jjqptxk>1.1 与项目直接相关的论文</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#12-项目技术对应" data-toc-slug="12-项目技术对应" data-astro-cid-7jjqptxk>1.2 项目技术对应</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#二多智能体金融交易框架" data-toc-slug="二多智能体金融交易框架" data-astro-cid-7jjqptxk>二、多智能体金融交易框架</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#21-tradingagents-20242025" data-toc-slug="21-tradingagents-20242025" data-astro-cid-7jjqptxk>2.1 TradingAgents (2024/2025) ⭐⭐⭐⭐⭐</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#22-hedgeagents-www-2025" data-toc-slug="22-hedgeagents-www-2025" data-astro-cid-7jjqptxk>2.2 HedgeAgents (WWW 2025) ⭐⭐⭐⭐⭐</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#23-quantagents-emnlp-2025" data-toc-slug="23-quantagents-emnlp-2025" data-astro-cid-7jjqptxk>2.3 QuantAgents (EMNLP 2025) ⭐⭐⭐⭐</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#24-fincon-neurips-2024" data-toc-slug="24-fincon-neurips-2024" data-astro-cid-7jjqptxk>2.4 FINCON (NeurIPS 2024) ⭐⭐⭐⭐</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#25-其他金融多智能体论文" data-toc-slug="25-其他金融多智能体论文" data-astro-cid-7jjqptxk>2.5 其他金融多智能体论文</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#三autogen-框架与协作机制" data-toc-slug="三autogen-框架与协作机制" data-astro-cid-7jjqptxk>三、AutoGen 框架与协作机制</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#31-autogen-核心论文" data-toc-slug="31-autogen-核心论文" data-astro-cid-7jjqptxk>3.1 AutoGen 核心论文 ⭐⭐⭐⭐⭐</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#32-autogen-应用研究" data-toc-slug="32-autogen-应用研究" data-astro-cid-7jjqptxk>3.2 AutoGen 应用研究</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#33-协作模式对比" data-toc-slug="33-协作模式对比" data-astro-cid-7jjqptxk>3.3 协作模式对比</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#四rag-金融应用" data-toc-slug="四rag-金融应用" data-astro-cid-7jjqptxk>四、RAG 金融应用</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#41-rag-it-20242025" data-toc-slug="41-rag-it-20242025" data-astro-cid-7jjqptxk>4.1 RAG-IT (2024/2025) ⭐⭐⭐⭐⭐</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#42-financerag-acm-icaif-2024" data-toc-slug="42-financerag-acm-icaif-2024" data-astro-cid-7jjqptxk>4.2 FinanceRAG (ACM-ICAIF 2024) ⭐⭐⭐⭐</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#43-其他rag金融论文" data-toc-slug="43-其他rag金融论文" data-astro-cid-7jjqptxk>4.3 其他RAG金融论文</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#五react-推理与工具调用" data-toc-slug="五react-推理与工具调用" data-astro-cid-7jjqptxk>五、ReAct 推理与工具调用</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#51-react-核心论文" data-toc-slug="51-react-核心论文" data-astro-cid-7jjqptxk>5.1 ReAct 核心论文 ⭐⭐⭐⭐⭐</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#52-工具调用相关论文" data-toc-slug="52-工具调用相关论文" data-astro-cid-7jjqptxk>5.2 工具调用相关论文</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#六幻觉抑制与验证机制" data-toc-slug="六幻觉抑制与验证机制" data-astro-cid-7jjqptxk>六、幻觉抑制与验证机制</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#61-多智能体验证框架" data-toc-slug="61-多智能体验证框架" data-astro-cid-7jjqptxk>6.1 多智能体验证框架</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#62-多层次幻觉抑制框架" data-toc-slug="62-多层次幻觉抑制框架" data-astro-cid-7jjqptxk>6.2 多层次幻觉抑制框架</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#63-其他幻觉相关论文" data-toc-slug="63-其他幻觉相关论文" data-astro-cid-7jjqptxk>6.3 其他幻觉相关论文</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#七开源项目与资源合集" data-toc-slug="七开源项目与资源合集" data-astro-cid-7jjqptxk>七、开源项目与资源合集</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#71-多智能体框架" data-toc-slug="71-多智能体框架" data-astro-cid-7jjqptxk>7.1 多智能体框架</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#72-金融交易项目" data-toc-slug="72-金融交易项目" data-astro-cid-7jjqptxk>7.2 金融交易项目</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#73-论文集合" data-toc-slug="73-论文集合" data-astro-cid-7jjqptxk>7.3 论文集合</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#八学习建议与应用方向" data-toc-slug="八学习建议与应用方向" data-astro-cid-7jjqptxk>八、学习建议与应用方向</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#81-推荐学习路线" data-toc-slug="81-推荐学习路线" data-astro-cid-7jjqptxk>8.1 推荐学习路线</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#82-autogentest1-优化方向" data-toc-slug="82-autogentest1-优化方向" data-astro-cid-7jjqptxk>8.2 autogentest1 优化方向</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#83-代码参考" data-toc-slug="83-代码参考" data-astro-cid-7jjqptxk>8.3 代码参考</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#附录论文快速索引" data-toc-slug="附录论文快速索引" data-astro-cid-7jjqptxk>附录：论文快速索引</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#a-按主题分类" data-toc-slug="a-按主题分类" data-astro-cid-7jjqptxk>A. 按主题分类</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#b-按发表时间" data-toc-slug="b-按发表时间" data-astro-cid-7jjqptxk>B. 按发表时间</a> </li> </ul> </nav> </div> </details> </div> <div class="px-4 py-4" data-astro-cid-7jjqptxk> <div class="prose prose-sm max-w-none" id="postContent" data-astro-cid-7jjqptxk> <h1 id="autogen-金融多智能体系统研究论文资源">AutoGen 金融多智能体系统研究论文资源</h1>
+<blockquote>
+<p><strong>更新时间</strong>: 2025年12月</p>
+<p><strong>文档目的</strong>: 为 <a href="https://github.com/ChenyuHeee/autogentest1">autogentest1</a> 黄金交易分析多智能体项目提供相关学术论文和学习资源</p>
+<p><strong>项目特点</strong>: 基于 AutoGen 框架，使用 DeepSeek LLM 驱动，包含研究、交易、风控与结算等多个专业化智能体</p>
+</blockquote>
+<hr>
+<h2 id="目录">目录</h2>
+<ol>
+<li><a href="#%E4%B8%80%E6%A0%B8%E5%BF%83%E8%AE%BA%E6%96%87%E6%8E%A8%E8%8D%90">核心论文推荐</a></li>
+<li><a href="#%E4%BA%8C%E5%A4%9A%E6%99%BA%E8%83%BD%E4%BD%93%E9%87%91%E8%9E%8D%E4%BA%A4%E6%98%93%E6%A1%86%E6%9E%B6">多智能体金融交易框架</a></li>
+<li><a href="#%E4%B8%89autogen-%E6%A1%86%E6%9E%B6%E4%B8%8E%E5%8D%8F%E4%BD%9C%E6%9C%BA%E5%88%B6">AutoGen 框架与协作机制</a></li>
+<li><a href="#%E5%9B%9Brag-%E9%87%91%E8%9E%8D%E5%BA%94%E7%94%A8">RAG 金融应用</a></li>
+<li><a href="#%E4%BA%94react-%E6%8E%A8%E7%90%86%E4%B8%8E%E5%B7%A5%E5%85%B7%E8%B0%83%E7%94%A8">ReAct 推理与工具调用</a></li>
+<li><a href="#%E5%85%AD%E5%B9%BB%E8%A7%89%E6%8A%91%E5%88%B6%E4%B8%8E%E9%AA%8C%E8%AF%81%E6%9C%BA%E5%88%B6">幻觉抑制与验证机制</a></li>
+<li><a href="#%E4%B8%83%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE%E4%B8%8E%E8%B5%84%E6%BA%90%E5%90%88%E9%9B%86">开源项目与资源合集</a></li>
+<li><a href="#%E5%85%AB%E5%AD%A6%E4%B9%A0%E5%BB%BA%E8%AE%AE%E4%B8%8E%E5%BA%94%E7%94%A8%E6%96%B9%E5%90%91">学习建议与应用方向</a></li>
+</ol>
+<hr>
+<h2 id="一核心论文推荐">一、核心论文推荐</h2>
+<h3 id="11-与项目直接相关的论文">1.1 与项目直接相关的论文</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>论文</th><th>会议/期刊</th><th>核心贡献</th><th>链接</th></tr></thead><tbody><tr><td><strong>TradingAgents</strong></td><td>arXiv 2024/2025</td><td>多智能体LLM金融交易框架，包含基本面、技术、情绪分析师和风控角色</td><td><a href="https://arxiv.org/abs/2412.20138">arXiv</a></td></tr><tr><td><strong>HedgeAgents</strong></td><td>WWW 2025</td><td>平衡感知多智能体交易系统，引入对冲专业化角色</td><td><a href="https://arxiv.org/abs/2502.13165">arXiv</a></td></tr><tr><td><strong>QuantAgents</strong></td><td>EMNLP 2025</td><td>通过模拟交易实现多智能体金融系统协作</td><td><a href="https://aclanthology.org/2025.findings-emnlp.945.pdf">ACL Anthology</a></td></tr><tr><td><strong>AutoGen</strong></td><td>ICLR 2024</td><td>微软多智能体对话框架，支持灵活的智能体编排</td><td><a href="https://arxiv.org/abs/2308.08155">arXiv</a></td></tr><tr><td><strong>FINCON</strong></td><td>NeurIPS 2024</td><td>LLM多智能体系统用于交易和投资组合管理</td><td><a href="https://proceedings.neurips.cc/paper_files/paper/2024/file/f7ae4fe91d96f50abc2211f09b6a7e49-Paper-Conference.pdf">NeurIPS</a></td></tr></tbody></table>
+<h3 id="12-项目技术对应">1.2 项目技术对应</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>项目组件</th><th>相关论文/技术</th><th>学习重点</th></tr></thead><tbody><tr><td>HeadTrader/PaperTrader</td><td>TradingAgents</td><td>多智能体协作决策</td></tr><tr><td>RiskManager/Compliance</td><td>HedgeAgents</td><td>风控闭环与对冲机制</td></tr><tr><td>QuantResearch/TechAnalyst</td><td>QuantAgents</td><td>量化信号与技术分析</td></tr><tr><td>Agent协作架构</td><td>AutoGen</td><td>对话式协作模式</td></tr><tr><td>RAG工具 (Chroma)</td><td>RAG-IT/FinanceRAG</td><td>检索增强生成</td></tr><tr><td>工具调用机制</td><td>ReAct</td><td>推理与行动交织</td></tr></tbody></table>
+<hr>
+<h2 id="二多智能体金融交易框架">二、多智能体金融交易框架</h2>
+<h3 id="21-tradingagents-20242025">2.1 TradingAgents (2024/2025) ⭐⭐⭐⭐⭐</h3>
+<p><strong>论文全称</strong>: TradingAgents: Multi-Agents LLM Financial Trading Framework</p>
+<p><strong>核心贡献</strong>:</p>
+<ul>
+<li>模拟真实交易公司组织结构</li>
+<li>多个专业化智能体协作（基本面分析师、情绪分析师、技术分析师、风险管理师、交易员）</li>
+<li>智能体间辩论与共享决策机制</li>
+<li>在累计收益、夏普比率和回撤方面优于基线</li>
+</ul>
+<p><strong>与autogentest1对应</strong>:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>TradingAgents                    autogentest1</span></span>
+<span class="line"><span>├── Fundamental Analyst    ←→    FundamentalAnalystAgent</span></span>
+<span class="line"><span>├── Sentiment Analyst      ←→    MacroAnalystAgent  </span></span>
+<span class="line"><span>├── Technical Analyst      ←→    TechAnalystAgent</span></span>
+<span class="line"><span>├── Risk Manager           ←→    RiskManagerAgent</span></span>
+<span class="line"><span>├── Trader                 ←→    HeadTrader/PaperTrader</span></span>
+<span class="line"><span>└── Research Team          ←→    QuantResearchAgent/DataAgent</span></span></code></pre>
+<p><strong>资源链接</strong>:</p>
+<ul>
+<li>论文: <a href="https://arxiv.org/abs/2412.20138">https://arxiv.org/abs/2412.20138</a></li>
+<li>代码: <a href="https://github.com/TauricResearch/TradingAgents">https://github.com/TauricResearch/TradingAgents</a></li>
+<li>项目主页: <a href="https://tradingagents-ai.github.io/">https://tradingagents-ai.github.io/</a></li>
+</ul>
+<hr>
+<h3 id="22-hedgeagents-www-2025">2.2 HedgeAgents (WWW 2025) ⭐⭐⭐⭐⭐</h3>
+<p><strong>论文全称</strong>: HedgeAgents: A Balanced-aware Multi-agent Financial Trading System</p>
+<p><strong>核心贡献</strong>:</p>
+<ul>
+<li>引入专门的对冲智能体</li>
+<li>会议式通信协调机制（中央基金经理 + 多个LLM专家）</li>
+<li>3年期实验：70%年化收益率，400%总收益率</li>
+<li>强调系统稳健性</li>
+</ul>
+<p><strong>学习价值</strong>:</p>
+<ul>
+<li>对冲策略集成（与autogentest1的Risk/Compliance闭环相似）</li>
+<li>多资产类别的智能体分工</li>
+<li>风险控制的Agent设计</li>
+</ul>
+<p><strong>资源链接</strong>:</p>
+<ul>
+<li>论文: <a href="https://arxiv.org/abs/2502.13165">https://arxiv.org/abs/2502.13165</a></li>
+</ul>
+<hr>
+<h3 id="23-quantagents-emnlp-2025">2.3 QuantAgents (EMNLP 2025) ⭐⭐⭐⭐</h3>
+<p><strong>论文全称</strong>: QuantAgents: Towards Multi-agent Financial System via Simulated Trading</p>
+<p><strong>核心贡献</strong>:</p>
+<ul>
+<li>通过模拟交易评估智能体策略</li>
+<li>分析师、风险管理师、市场新闻分析师、经理的协作</li>
+<li>3年期近300%收益率</li>
+<li>真实与模拟决策的对比研究</li>
+</ul>
+<p><strong>学习价值</strong>:</p>
+<ul>
+<li>策略回测与模拟（与autogentest1的paper trading对应）</li>
+<li>多智能体基金管理方法</li>
+</ul>
+<p><strong>资源链接</strong>:</p>
+<ul>
+<li>论文: <a href="https://aclanthology.org/2025.findings-emnlp.945.pdf">https://aclanthology.org/2025.findings-emnlp.945.pdf</a></li>
+</ul>
+<hr>
+<h3 id="24-fincon-neurips-2024">2.4 FINCON (NeurIPS 2024) ⭐⭐⭐⭐</h3>
+<p><strong>论文全称</strong>: FINCON: A Synthesized LLM Multi-Agent System with Conceptual Verbal Reinforcement for Enhanced Financial Decision Making</p>
+<p><strong>核心贡献</strong>:</p>
+<ul>
+<li>通用LLM多智能体系统</li>
+<li>支持股票交易和投资组合管理</li>
+<li>智能体间交互协议设计</li>
+<li>决策综合机制</li>
+</ul>
+<p><strong>资源链接</strong>:</p>
+<ul>
+<li>论文: <a href="https://proceedings.neurips.cc/paper_files/paper/2024/file/f7ae4fe91d96f50abc2211f09b6a7e49-Paper-Conference.pdf">https://proceedings.neurips.cc/paper_files/paper/2024/file/f7ae4fe91d96f50abc2211f09b6a7e49-Paper-Conference.pdf</a></li>
+</ul>
+<hr>
+<h3 id="25-其他金融多智能体论文">2.5 其他金融多智能体论文</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>论文</th><th>年份</th><th>核心内容</th><th>链接</th></tr></thead><tbody><tr><td>LLM-Based Dynamic Multi-Agent Systems for Evaluation of Financial Markets</td><td>2024/2025</td><td>市场参与者行为模拟</td><td><a href="https://ieeexplore.ieee.org/document/11207858">IEEE</a></td></tr><tr><td>A Multi-agent System Based On LLM For Trading Financial Assets</td><td>2025</td><td>加密货币市场多智能体</td><td><a href="https://stec.univ-ovidius.ro/html/anale/RO/2024i2/Section%205/18.pdf">PDF</a></td></tr><tr><td>Large Language Model Agent in Financial Trading: A Survey</td><td>2024</td><td>LLM金融交易综述</td><td><a href="https://arxiv.org/html/2408.06361v1">arXiv</a></td></tr></tbody></table>
+<hr>
+<h2 id="三autogen-框架与协作机制">三、AutoGen 框架与协作机制</h2>
+<h3 id="31-autogen-核心论文">3.1 AutoGen 核心论文 ⭐⭐⭐⭐⭐</h3>
+<p><strong>论文全称</strong>: AutoGen: Enabling Next-Gen LLM Applications via Multi-Agent Conversation</p>
+<p><strong>作者</strong>: Qingyun Wu 等 (Penn State, Microsoft Research)</p>
+<p><strong>核心贡献</strong>:</p>
+<ul>
+<li>开源多智能体对话框架</li>
+<li>模块化、分层架构（Core API, AgentChat API, Extensions API）</li>
+<li>支持多种编排模式：顺序、层次、嵌套、群聊</li>
+<li>LLM、人类、工具的灵活集成</li>
+</ul>
+<p><strong>架构层次</strong>:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>┌─────────────────────────────────────┐</span></span>
+<span class="line"><span>│         Extensions API              │  ← 领域特定扩展</span></span>
+<span class="line"><span>├─────────────────────────────────────┤</span></span>
+<span class="line"><span>│         AgentChat API               │  ← 预构建智能体</span></span>
+<span class="line"><span>├─────────────────────────────────────┤</span></span>
+<span class="line"><span>│           Core API                  │  ← 底层构建块</span></span>
+<span class="line"><span>└─────────────────────────────────────┘</span></span></code></pre>
+<p><strong>资源链接</strong>:</p>
+<ul>
+<li>论文: <a href="https://arxiv.org/abs/2308.08155">https://arxiv.org/abs/2308.08155</a></li>
+<li>官方PDF: <a href="https://www.microsoft.com/en-us/research/wp-content/uploads/2023/08/LLM_agent.pdf">https://www.microsoft.com/en-us/research/wp-content/uploads/2023/08/LLM_agent.pdf</a></li>
+<li>GitHub: <a href="https://github.com/microsoft/autogen">https://github.com/microsoft/autogen</a></li>
+<li>OpenReview: <a href="https://openreview.net/forum?id=BAakY1hNKS">https://openreview.net/forum?id=BAakY1hNKS</a></li>
+</ul>
+<hr>
+<h3 id="32-autogen-应用研究">3.2 AutoGen 应用研究</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>论文</th><th>会议</th><th>核心内容</th><th>链接</th></tr></thead><tbody><tr><td>Collaborative Problem-Solving with LLM</td><td>PAAMS 2024</td><td>LLM多智能体协作与谈判</td><td><a href="https://link.springer.com/chapter/10.1007/978-3-031-73058-0_17">Springer</a></td></tr><tr><td>Harnessing AutoGen</td><td>技术报告</td><td>AutoGen实施见解与前景</td><td><a href="https://juekong-research.com/data/publications/Autogen.pdf">PDF</a></td></tr><tr><td>Multi-LLM-Agent Systems Survey</td><td>arXiv 2024</td><td>MLAS技术与商业视角</td><td><a href="https://arxiv.org/abs/2411.14033">arXiv</a></td></tr></tbody></table>
+<hr>
+<h3 id="33-协作模式对比">3.3 协作模式对比</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>模式</th><th>描述</th><th>autogentest1应用</th></tr></thead><tbody><tr><td><strong>顺序执行</strong></td><td>智能体按预定顺序传递</td><td>Phase 1→2→3→4→5 晨会流程</td></tr><tr><td><strong>层次协调</strong></td><td>管理者协调子智能体</td><td>HeadTrader整合各分析师观点</td></tr><tr><td><strong>群聊讨论</strong></td><td>多智能体自由讨论</td><td>研究简报阶段的信息交换</td></tr><tr><td><strong>嵌套对话</strong></td><td>子任务递归处理</td><td>风控否决后的重新规划</td></tr></tbody></table>
+<hr>
+<h2 id="四rag-金融应用">四、RAG 金融应用</h2>
+<h3 id="41-rag-it-20242025">4.1 RAG-IT (2024/2025) ⭐⭐⭐⭐⭐</h3>
+<p><strong>论文全称</strong>: RAG-IT: Retrieval-Augmented Instruction Tuning for Automated Financial Analysis</p>
+<p><strong>核心贡献</strong>:</p>
+<ul>
+<li>金融领域专用RAG框架</li>
+<li>结合检索增强与指令微调</li>
+<li>在财报分析任务上媲美GPT-3.5</li>
+</ul>
+<p><strong>与autogentest1对应</strong>:</p>
+<ul>
+<li>RagService基于Chroma的持久向量库</li>
+<li>宏观案例与交易剧本索引</li>
+</ul>
+<p><strong>资源链接</strong>:</p>
+<ul>
+<li>论文: <a href="https://arxiv.org/abs/2412.08179">https://arxiv.org/abs/2412.08179</a></li>
+</ul>
+<hr>
+<h3 id="42-financerag-acm-icaif-2024">4.2 FinanceRAG (ACM-ICAIF 2024) ⭐⭐⭐⭐</h3>
+<p><strong>项目简介</strong>: 金融专用RAG系统</p>
+<p><strong>技术亮点</strong>:</p>
+<ul>
+<li>查询扩展</li>
+<li>语料精炼</li>
+<li>多阶段重排序</li>
+<li>长上下文处理</li>
+</ul>
+<p><strong>支持数据集</strong>:</p>
+<ul>
+<li>FinQABench</li>
+<li>TATQA</li>
+<li>ConvFinQA</li>
+</ul>
+<p><strong>资源链接</strong>:</p>
+<ul>
+<li>GitHub: <a href="https://github.com/cv-lee/FinanceRAG">https://github.com/cv-lee/FinanceRAG</a></li>
+</ul>
+<hr>
+<h3 id="43-其他rag金融论文">4.3 其他RAG金融论文</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>论文</th><th>年份/会议</th><th>核心内容</th><th>链接</th></tr></thead><tbody><tr><td>Optimizing LLM Based RAG Pipelines in Finance</td><td>NAACL 2024</td><td>金融RAG管道优化</td><td><a href="https://aclanthology.org/2024.naacl-industry.23.pdf">ACL</a></td></tr><tr><td>Evaluating RAG Models for Financial Report Q&#x26;A</td><td>MDPI 2024</td><td>财报问答RAG评估</td><td><a href="https://www.mdpi.com/2076-3417/14/20/9318">MDPI</a></td></tr><tr><td>Multimodal RAG for Financial Documents</td><td>Visual Computer 2025</td><td>多模态金融文档RAG</td><td><a href="https://link.springer.com/article/10.1007/s00371-025-03829-5">Springer</a></td></tr><tr><td>RAG and Beyond Survey</td><td>arXiv 2024</td><td>RAG综述与分类</td><td><a href="https://arxiv.org/abs/2409.14924">arXiv</a></td></tr></tbody></table>
+<hr>
+<h2 id="五react-推理与工具调用">五、ReAct 推理与工具调用</h2>
+<h3 id="51-react-核心论文">5.1 ReAct 核心论文 ⭐⭐⭐⭐⭐</h3>
+<p><strong>论文全称</strong>: ReAct: Synergizing Reasoning and Acting in Language Models</p>
+<p><strong>作者</strong>: Shunyu Yao 等 (Princeton, Google)</p>
+<p><strong>核心机制</strong>:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>┌─────────────────────────────────────────────────┐</span></span>
+<span class="line"><span>│  Observation → Thought → Action → Observation   │</span></span>
+<span class="line"><span>│       ↑_________________________________↓       │</span></span>
+<span class="line"><span>└─────────────────────────────────────────────────┘</span></span></code></pre>
+<p><strong>与autogentest1对应</strong>:</p>
+<ul>
+<li>ToolsProxy调用Python工具函数</li>
+<li>Quant与Tech角色的代码执行沙盒</li>
+<li>市场数据适配器模式</li>
+</ul>
+<p><strong>金融应用价值</strong>:</p>
+<ul>
+<li>实时数据检索与推理交织</li>
+<li>可解释的决策轨迹</li>
+<li>减少幻觉（通过外部数据接地）</li>
+</ul>
+<p><strong>资源链接</strong>:</p>
+<ul>
+<li>论文: <a href="https://arxiv.org/abs/2210.03629">https://arxiv.org/abs/2210.03629</a></li>
+<li>PDF: <a href="https://arxiv.org/pdf/2210.03629">https://arxiv.org/pdf/2210.03629</a></li>
+</ul>
+<hr>
+<h3 id="52-工具调用相关论文">5.2 工具调用相关论文</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>论文</th><th>核心内容</th><th>链接</th></tr></thead><tbody><tr><td>Toolformer</td><td>LLM自学习工具使用</td><td><a href="https://arxiv.org/abs/2302.04761">arXiv</a></td></tr><tr><td>Tool Learning with Foundation Models</td><td>工具学习综述</td><td><a href="https://arxiv.org/abs/2304.08354">arXiv</a></td></tr><tr><td>API-Bank</td><td>API工具评测基准</td><td><a href="https://aclanthology.org/2023.acl-long.849/">ACL</a></td></tr></tbody></table>
+<hr>
+<h2 id="六幻觉抑制与验证机制">六、幻觉抑制与验证机制</h2>
+<h3 id="61-多智能体验证框架">6.1 多智能体验证框架</h3>
+<p><strong>论文</strong>: Mitigating LLM Hallucinations Using a Multi-Agent Framework (MDPI 2025)</p>
+<p><strong>核心机制</strong>:</p>
+<ul>
+<li>多智能体辩论验证</li>
+<li>规则逻辑挑战</li>
+<li>一致性检查</li>
+</ul>
+<p><strong>与autogentest1对应</strong>:</p>
+<ul>
+<li>Risk/Compliance回退闭环</li>
+<li>独立验证否决机制</li>
+</ul>
+<p><strong>资源链接</strong>:</p>
+<ul>
+<li>论文: <a href="https://www.mdpi.com/2078-2489/16/7/517">https://www.mdpi.com/2078-2489/16/7/517</a></li>
+</ul>
+<hr>
+<h3 id="62-多层次幻觉抑制框架">6.2 多层次幻觉抑制框架</h3>
+<p><strong>论文</strong>: Multi-Layered Framework for LLM Hallucination Mitigation (MDPI Computers 2025)</p>
+<p><strong>技术组合</strong>:</p>
+<ul>
+<li>结构化提示设计</li>
+<li>RAG可验证证据</li>
+<li>领域约束微调</li>
+<li>监督智能体升级</li>
+<li>显式验证步骤</li>
+</ul>
+<p><strong>资源链接</strong>:</p>
+<ul>
+<li>论文: <a href="https://www.mdpi.com/2073-431X/14/8/332">https://www.mdpi.com/2073-431X/14/8/332</a></li>
+</ul>
+<hr>
+<h3 id="63-其他幻觉相关论文">6.3 其他幻觉相关论文</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>论文</th><th>核心内容</th><th>链接</th></tr></thead><tbody><tr><td>HaluCheck</td><td>可解释自动幻觉检测</td><td><a href="https://www.sciencedirect.com/science/article/pii/S0957417425003343">Elsevier</a></td></tr><tr><td>MIND Framework</td><td>基于内部状态的实时检测</td><td><a href="https://aclanthology.org/2024.findings-acl.854/">ACL</a></td></tr><tr><td>Hierarchical Semantic Piece</td><td>层次语义片段验证</td><td><a href="https://link.springer.com/article/10.1007/s40747-025-01833-9">Springer</a></td></tr><tr><td>Hallucinations Survey</td><td>LLM幻觉类型、原因与方法</td><td><a href="https://www.researchgate.net/profile/Meade-Cleti/publication/385085962">ResearchGate</a></td></tr></tbody></table>
+<hr>
+<h2 id="七开源项目与资源合集">七、开源项目与资源合集</h2>
+<h3 id="71-多智能体框架">7.1 多智能体框架</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>框架</th><th>特点</th><th>链接</th></tr></thead><tbody><tr><td><strong>AutoGen</strong></td><td>微软多智能体对话框架</td><td><a href="https://github.com/microsoft/autogen">https://github.com/microsoft/autogen</a></td></tr><tr><td><strong>LangChain</strong></td><td>上下文感知推理</td><td><a href="https://python.langchain.com">https://python.langchain.com</a></td></tr><tr><td><strong>CrewAI</strong></td><td>结构化多智能体工作流</td><td><a href="https://github.com/joaomdmoura/crewAI">https://github.com/joaomdmoura/crewAI</a></td></tr><tr><td><strong>CAMEL</strong></td><td>首个多智能体LLM框架</td><td><a href="https://github.com/camel-ai/camel">https://github.com/camel-ai/camel</a></td></tr><tr><td><strong>MetaGPT</strong></td><td>多智能体软件开发</td><td><a href="https://github.com/geekan/MetaGPT">https://github.com/geekan/MetaGPT</a></td></tr></tbody></table>
+<h3 id="72-金融交易项目">7.2 金融交易项目</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>项目</th><th>特点</th><th>链接</th></tr></thead><tbody><tr><td><strong>TradingAgents</strong></td><td>多智能体金融交易</td><td><a href="https://github.com/TauricResearch/TradingAgents">https://github.com/TauricResearch/TradingAgents</a></td></tr><tr><td><strong>FinGPT</strong></td><td>金融领域开源LLM</td><td><a href="https://github.com/AI4Finance-Foundation/FinGPT">https://github.com/AI4Finance-Foundation/FinGPT</a></td></tr><tr><td><strong>FinRL</strong></td><td>金融强化学习</td><td><a href="https://github.com/AI4Finance-Foundation/FinRL">https://github.com/AI4Finance-Foundation/FinRL</a></td></tr><tr><td><strong>FinanceRAG</strong></td><td>金融RAG系统</td><td><a href="https://github.com/cv-lee/FinanceRAG">https://github.com/cv-lee/FinanceRAG</a></td></tr></tbody></table>
+<h3 id="73-论文集合">7.3 论文集合</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>资源</th><th>描述</th><th>链接</th></tr></thead><tbody><tr><td>LLM-Agent-Paper-List</td><td>86页LLM智能体论文综述</td><td><a href="https://github.com/WooooDyy/LLM-Agent-Paper-List">https://github.com/WooooDyy/LLM-Agent-Paper-List</a></td></tr><tr><td>LLM_MultiAgents_Survey_Papers</td><td>多智能体论文合集</td><td><a href="https://github.com/taichengguo/LLM_MultiAgents_Survey_Papers">https://github.com/taichengguo/LLM_MultiAgents_Survey_Papers</a></td></tr><tr><td>Paper Collection on MLAS</td><td>多LLM智能体系统论文</td><td><a href="https://github.com/zoe-yyx/Paper-Collection-on-MLAS">https://github.com/zoe-yyx/Paper-Collection-on-MLAS</a></td></tr><tr><td>Awesome-LLMs-ICLR-24</td><td>ICLR 2024 LLM论文</td><td><a href="https://github.com/azminewasi/Awesome-LLMs-ICLR-24">https://github.com/azminewasi/Awesome-LLMs-ICLR-24</a></td></tr></tbody></table>
+<hr>
+<h2 id="八学习建议与应用方向">八、学习建议与应用方向</h2>
+<h3 id="81-推荐学习路线">8.1 推荐学习路线</h3>
+<p><strong>阶段1: 基础理论（1-2周）</strong></p>
+<ol>
+<li>阅读 AutoGen 原论文，理解多智能体对话框架</li>
+<li>学习 ReAct 论文，掌握推理与行动交织模式</li>
+<li>了解 RAG 基础概念和金融应用</li>
+</ol>
+<p><strong>阶段2: 金融应用（2-3周）</strong></p>
+<ol>
+<li>深入 TradingAgents 论文，对比 autogentest1 架构</li>
+<li>学习 HedgeAgents 的风控机制设计</li>
+<li>研究 FinanceRAG 的检索增强实现</li>
+</ol>
+<p><strong>阶段3: 进阶优化（3-4周）</strong></p>
+<ol>
+<li>研究幻觉抑制方法，优化验证机制</li>
+<li>探索多模态数据融合（如 TAMO）</li>
+<li>学习量化策略与回测方法</li>
+</ol>
+<h3 id="82-autogentest1-优化方向">8.2 autogentest1 优化方向</h3>
+<p>基于论文研究，以下是潜在的项目优化方向：</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>方向</th><th>参考论文</th><th>具体应用</th></tr></thead><tbody><tr><td><strong>智能体协作优化</strong></td><td>TradingAgents, HedgeAgents</td><td>引入辩论机制、增强协调协议</td></tr><tr><td><strong>RAG增强</strong></td><td>RAG-IT, FinanceRAG</td><td>优化向量检索、添加多阶段重排序</td></tr><tr><td><strong>幻觉控制</strong></td><td>Multi-Agent Verification</td><td>增强验证Agent、添加一致性检查</td></tr><tr><td><strong>策略回测</strong></td><td>QuantAgents</td><td>添加模拟交易评估模块</td></tr><tr><td><strong>多模态融合</strong></td><td>Multimodal RAG</td><td>支持图表、表格等金融文档</td></tr><tr><td><strong>风控升级</strong></td><td>HedgeAgents</td><td>添加对冲策略智能体</td></tr></tbody></table>
+<h3 id="83-代码参考">8.3 代码参考</h3>
+<p>以下GitHub仓库提供了可参考的实现：</p>
+<ol>
+<li>
+<p><strong>TradingAgents</strong> - <a href="https://github.com/TauricResearch/TradingAgents">https://github.com/TauricResearch/TradingAgents</a></p>
+<ul>
+<li>多智能体架构设计</li>
+<li>角色分工实现</li>
+<li>协作通信机制</li>
+</ul>
+</li>
+<li>
+<p><strong>AutoGen Examples</strong> - <a href="https://github.com/microsoft/autogen/tree/main/samples">https://github.com/microsoft/autogen/tree/main/samples</a></p>
+<ul>
+<li>官方示例代码</li>
+<li>各种协作模式演示</li>
+</ul>
+</li>
+<li>
+<p><strong>FinanceRAG</strong> - <a href="https://github.com/cv-lee/FinanceRAG">https://github.com/cv-lee/FinanceRAG</a></p>
+<ul>
+<li>金融RAG实现</li>
+<li>查询优化技术</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="附录论文快速索引">附录：论文快速索引</h2>
+<h3 id="a-按主题分类">A. 按主题分类</h3>
+<p><strong>多智能体金融交易</strong></p>
+<ul>
+<li>TradingAgents: <a href="https://arxiv.org/abs/2412.20138">https://arxiv.org/abs/2412.20138</a></li>
+<li>HedgeAgents: <a href="https://arxiv.org/abs/2502.13165">https://arxiv.org/abs/2502.13165</a></li>
+<li>QuantAgents: <a href="https://aclanthology.org/2025.findings-emnlp.945.pdf">https://aclanthology.org/2025.findings-emnlp.945.pdf</a></li>
+<li>FINCON: NeurIPS 2024</li>
+</ul>
+<p><strong>AutoGen与多智能体框架</strong></p>
+<ul>
+<li>AutoGen: <a href="https://arxiv.org/abs/2308.08155">https://arxiv.org/abs/2308.08155</a></li>
+<li>Multi-LLM-Agent Systems Survey: <a href="https://arxiv.org/abs/2411.14033">https://arxiv.org/abs/2411.14033</a></li>
+</ul>
+<p><strong>RAG金融应用</strong></p>
+<ul>
+<li>RAG-IT: <a href="https://arxiv.org/abs/2412.08179">https://arxiv.org/abs/2412.08179</a></li>
+<li>RAG Survey: <a href="https://arxiv.org/abs/2409.14924">https://arxiv.org/abs/2409.14924</a></li>
+</ul>
+<p><strong>ReAct与工具调用</strong></p>
+<ul>
+<li>ReAct: <a href="https://arxiv.org/abs/2210.03629">https://arxiv.org/abs/2210.03629</a></li>
+</ul>
+<p><strong>幻觉抑制</strong></p>
+<ul>
+<li>Multi-Agent Verification: <a href="https://www.mdpi.com/2078-2489/16/7/517">https://www.mdpi.com/2078-2489/16/7/517</a></li>
+<li>Multi-Layered Framework: <a href="https://www.mdpi.com/2073-431X/14/8/332">https://www.mdpi.com/2073-431X/14/8/332</a></li>
+</ul>
+<h3 id="b-按发表时间">B. 按发表时间</h3>
+<p><strong>2025年</strong></p>
+<ul>
+<li>HedgeAgents (WWW 2025)</li>
+<li>QuantAgents (EMNLP 2025)</li>
+<li>RAG-IT</li>
+<li>Multi-Agent Verification</li>
+<li>Multimodal RAG for Finance</li>
+</ul>
+<p><strong>2024年</strong></p>
+<ul>
+<li>TradingAgents (arXiv, revised 2025)</li>
+<li>AutoGen (ICLR 2024)</li>
+<li>FINCON (NeurIPS 2024)</li>
+<li>RAG Optimization (NAACL 2024)</li>
+<li>LLM Financial Trading Survey</li>
+</ul>
+<p><strong>2023年及之前</strong></p>
+<ul>
+<li>ReAct (ICLR 2023)</li>
+</ul>
+<hr>
+<p><em>本文档由学习助手根据项目需求整理，供学术研究和项目开发参考</em></p>
+<p><em>最后更新: 2025年12月</em></p> </div> </div> </div> </article> <aside class="hidden lg:block" data-astro-cid-7jjqptxk> <div class="gh-card border-default sticky top-16 px-4 py-3" data-astro-cid-7jjqptxk> <div class="text-[12px] font-semibold fg-default" data-astro-cid-7jjqptxk>目录</div> <nav class="mt-2" aria-label="目录" data-astro-cid-7jjqptxk> <ul class="space-y-1 text-[13px]" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#目录" data-toc-slug="目录" data-astro-cid-7jjqptxk>目录</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#一核心论文推荐" data-toc-slug="一核心论文推荐" data-astro-cid-7jjqptxk>一、核心论文推荐</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#11-与项目直接相关的论文" data-toc-slug="11-与项目直接相关的论文" data-astro-cid-7jjqptxk>1.1 与项目直接相关的论文</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#12-项目技术对应" data-toc-slug="12-项目技术对应" data-astro-cid-7jjqptxk>1.2 项目技术对应</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#二多智能体金融交易框架" data-toc-slug="二多智能体金融交易框架" data-astro-cid-7jjqptxk>二、多智能体金融交易框架</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#21-tradingagents-20242025" data-toc-slug="21-tradingagents-20242025" data-astro-cid-7jjqptxk>2.1 TradingAgents (2024/2025) ⭐⭐⭐⭐⭐</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#22-hedgeagents-www-2025" data-toc-slug="22-hedgeagents-www-2025" data-astro-cid-7jjqptxk>2.2 HedgeAgents (WWW 2025) ⭐⭐⭐⭐⭐</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#23-quantagents-emnlp-2025" data-toc-slug="23-quantagents-emnlp-2025" data-astro-cid-7jjqptxk>2.3 QuantAgents (EMNLP 2025) ⭐⭐⭐⭐</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#24-fincon-neurips-2024" data-toc-slug="24-fincon-neurips-2024" data-astro-cid-7jjqptxk>2.4 FINCON (NeurIPS 2024) ⭐⭐⭐⭐</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#25-其他金融多智能体论文" data-toc-slug="25-其他金融多智能体论文" data-astro-cid-7jjqptxk>2.5 其他金融多智能体论文</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#三autogen-框架与协作机制" data-toc-slug="三autogen-框架与协作机制" data-astro-cid-7jjqptxk>三、AutoGen 框架与协作机制</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#31-autogen-核心论文" data-toc-slug="31-autogen-核心论文" data-astro-cid-7jjqptxk>3.1 AutoGen 核心论文 ⭐⭐⭐⭐⭐</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#32-autogen-应用研究" data-toc-slug="32-autogen-应用研究" data-astro-cid-7jjqptxk>3.2 AutoGen 应用研究</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#33-协作模式对比" data-toc-slug="33-协作模式对比" data-astro-cid-7jjqptxk>3.3 协作模式对比</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#四rag-金融应用" data-toc-slug="四rag-金融应用" data-astro-cid-7jjqptxk>四、RAG 金融应用</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#41-rag-it-20242025" data-toc-slug="41-rag-it-20242025" data-astro-cid-7jjqptxk>4.1 RAG-IT (2024/2025) ⭐⭐⭐⭐⭐</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#42-financerag-acm-icaif-2024" data-toc-slug="42-financerag-acm-icaif-2024" data-astro-cid-7jjqptxk>4.2 FinanceRAG (ACM-ICAIF 2024) ⭐⭐⭐⭐</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#43-其他rag金融论文" data-toc-slug="43-其他rag金融论文" data-astro-cid-7jjqptxk>4.3 其他RAG金融论文</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#五react-推理与工具调用" data-toc-slug="五react-推理与工具调用" data-astro-cid-7jjqptxk>五、ReAct 推理与工具调用</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#51-react-核心论文" data-toc-slug="51-react-核心论文" data-astro-cid-7jjqptxk>5.1 ReAct 核心论文 ⭐⭐⭐⭐⭐</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#52-工具调用相关论文" data-toc-slug="52-工具调用相关论文" data-astro-cid-7jjqptxk>5.2 工具调用相关论文</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#六幻觉抑制与验证机制" data-toc-slug="六幻觉抑制与验证机制" data-astro-cid-7jjqptxk>六、幻觉抑制与验证机制</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#61-多智能体验证框架" data-toc-slug="61-多智能体验证框架" data-astro-cid-7jjqptxk>6.1 多智能体验证框架</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#62-多层次幻觉抑制框架" data-toc-slug="62-多层次幻觉抑制框架" data-astro-cid-7jjqptxk>6.2 多层次幻觉抑制框架</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#63-其他幻觉相关论文" data-toc-slug="63-其他幻觉相关论文" data-astro-cid-7jjqptxk>6.3 其他幻觉相关论文</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#七开源项目与资源合集" data-toc-slug="七开源项目与资源合集" data-astro-cid-7jjqptxk>七、开源项目与资源合集</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#71-多智能体框架" data-toc-slug="71-多智能体框架" data-astro-cid-7jjqptxk>7.1 多智能体框架</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#72-金融交易项目" data-toc-slug="72-金融交易项目" data-astro-cid-7jjqptxk>7.2 金融交易项目</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#73-论文集合" data-toc-slug="73-论文集合" data-astro-cid-7jjqptxk>7.3 论文集合</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#八学习建议与应用方向" data-toc-slug="八学习建议与应用方向" data-astro-cid-7jjqptxk>八、学习建议与应用方向</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#81-推荐学习路线" data-toc-slug="81-推荐学习路线" data-astro-cid-7jjqptxk>8.1 推荐学习路线</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#82-autogentest1-优化方向" data-toc-slug="82-autogentest1-优化方向" data-astro-cid-7jjqptxk>8.2 autogentest1 优化方向</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#83-代码参考" data-toc-slug="83-代码参考" data-astro-cid-7jjqptxk>8.3 代码参考</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#附录论文快速索引" data-toc-slug="附录论文快速索引" data-astro-cid-7jjqptxk>附录：论文快速索引</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#a-按主题分类" data-toc-slug="a-按主题分类" data-astro-cid-7jjqptxk>A. 按主题分类</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#b-按发表时间" data-toc-slug="b-按发表时间" data-astro-cid-7jjqptxk>B. 按发表时间</a> </li> </ul> </nav> </div> </aside> </div> <button id="backToTop" class="back-to-top" type="button" aria-label="回到顶部" hidden data-astro-cid-7jjqptxk>
+↑
+</button> <script type="module">(function(){const s=document.getElementById("postContent");if(!s)return;const l=Array.from(document.querySelectorAll("a.toc-link")),r=new Map;l.forEach(t=>{const e=t.getAttribute("data-toc-slug");if(!e)return;const n=r.get(e)||[];n.push(t),r.set(e,n)});const c=Array.from(s.querySelectorAll("h2[id], h3[id]"));function a(t){if(l.forEach(n=>n.removeAttribute("aria-current")),!t)return;const e=r.get(t);e&&e.forEach(n=>n.setAttribute("aria-current","true"))}function f(){if(!c.length)return"";const t=120;for(let e=c.length-1;e>=0;e--){const n=c[e];if(n.getBoundingClientRect().top<=t)return n.id||""}return c[0].id||""}let d=!1;function i(){d||(d=!0,window.requestAnimationFrame(()=>{d=!1;const t=(location.hash||"").replace(/^#/,"");if(t&&r.has(t)){a(t);return}a(f())}))}window.addEventListener("scroll",i,{passive:!0}),window.addEventListener("resize",i),window.addEventListener("hashchange",i),l.forEach(t=>t.addEventListener("click",()=>{const e=t.getAttribute("data-toc-slug")||"";a(e)})),i();const u=document.getElementById("backToTop");if(u){const t=()=>{const e=window.scrollY||document.documentElement.scrollTop||0;u.hidden=e<320};window.addEventListener("scroll",t,{passive:!0}),t(),u.addEventListener("click",()=>{window.scrollTo({top:0,behavior:"smooth"})})}s.querySelectorAll("pre > code").forEach(t=>{const e=t.parentElement;if(!e||e.querySelector(".copy-btn"))return;e.style.position="relative";const n=document.createElement("button");n.type="button",n.className="copy-btn",n.textContent="复制",n.addEventListener("click",async()=>{const m=t.textContent||"";try{await navigator.clipboard.writeText(m),n.textContent="已复制",window.setTimeout(()=>n.textContent="复制",900)}catch{const o=document.createElement("textarea");o.value=m,o.style.position="fixed",o.style.opacity="0",document.body.appendChild(o),o.select(),document.execCommand("copy"),document.body.removeChild(o),n.textContent="已复制",window.setTimeout(()=>n.textContent="复制",900)}}),e.appendChild(n)})})();</script>   </main> <footer class="border-t py-6 text-[13px]" style="border-color: var(--border-default); color: var(--fg-muted)"> <div class="gh-container flex items-center justify-between"> <p>© 2026 · Built with Astro</p> <p style="color: var(--fg-muted)">Zhejiang University · CS</p> </div> </footer> </body></html>

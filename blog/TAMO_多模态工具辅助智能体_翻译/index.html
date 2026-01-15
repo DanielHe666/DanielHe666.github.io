@@ -1,0 +1,427 @@
+<!DOCTYPE html><html lang="zh-CN" class="h-full"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="generator" content="Astro v5.16.9"><title>TAMO: 集成多模态观测数据的工具辅助LLM智能体细粒度根因分析 · 个人博客</title><meta name="description" content="本文提出TAMO框架，通过双分支扩散模型融合日志、指标与追踪等多模态数据，并利用频域自注意力构建因果图进行根因定位。"><meta property="og:title" content="TAMO: 集成多模态观测数据的工具辅助LLM智能体细粒度根因分析 · 个人博客"><meta property="og:description" content="本文提出TAMO框架，通过双分支扩散模型融合日志、指标与追踪等多模态数据，并利用频域自注意力构建因果图进行根因定位。"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="stylesheet" href="/_astro/_slug_.1UaX29b_.css">
+<style>.copy-btn[data-astro-cid-7jjqptxk]{position:absolute;top:8px;right:8px;padding:4px 8px;font-size:12px;border-radius:6px;border:1px solid var(--border-default);background:color-mix(in srgb,var(--canvas-default) 80%,var(--canvas-subtle));color:var(--fg-default);cursor:pointer}.copy-btn[data-astro-cid-7jjqptxk]:hover{background:color-mix(in srgb,var(--canvas-default) 65%,var(--canvas-subtle))}.copy-btn[data-astro-cid-7jjqptxk]:focus-visible{outline:2px solid color-mix(in srgb,var(--accent-emphasis) 55%,transparent);outline-offset:2px}a[data-astro-cid-7jjqptxk].toc-link[aria-current=true]{color:var(--fg-default);font-weight:600;text-decoration:none}.back-to-top[data-astro-cid-7jjqptxk]{position:fixed;right:18px;bottom:18px;width:36px;height:36px;border-radius:999px;border:1px solid var(--border-default);background:color-mix(in srgb,var(--canvas-default) 80%,var(--canvas-subtle));color:var(--fg-default);cursor:pointer;z-index:40}.back-to-top[data-astro-cid-7jjqptxk]:hover{background:color-mix(in srgb,var(--canvas-default) 65%,var(--canvas-subtle))}.back-to-top[data-astro-cid-7jjqptxk]:focus-visible{outline:2px solid color-mix(in srgb,var(--accent-emphasis) 55%,transparent);outline-offset:2px}
+</style></head> <body class="min-h-full antialiased"> <header class="sticky top-0 z-50 border-b" style="border-color: var(--border-default); background: var(--canvas-subtle)" data-astro-cid-dmqpwcec> <div class="gh-container flex h-12 items-center justify-between" data-astro-cid-dmqpwcec> <a href="/" class="flex items-center gap-2 text-[13px] font-semibold fg-default" data-astro-cid-dmqpwcec> <span class="inline-flex h-7 items-center rounded-md px-2" style="background: var(--fg-default); color: var(--canvas-default)" data-astro-cid-dmqpwcec>HCY</span> <span class="fg-muted" data-astro-cid-dmqpwcec>Blog</span> </a> <nav class="flex items-center gap-1 text-[13px]" data-astro-cid-dmqpwcec> <a href="/blog/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> 文章 </a><a href="/search/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> 搜索 </a><a href="/projects/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> 项目 </a><a href="/reading/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> Reading </a> <a href="https://github.com/ChenyuHeee" target="_blank" rel="noreferrer" class="ml-1 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec>
+GitHub
+</a> </nav> </div> </header>  <main class="gh-container py-6">  <div class="mx-auto max-w-[1040px] grid gap-6 lg:grid-cols-[1fr_280px]" data-astro-cid-7jjqptxk> <article class="min-w-0" data-astro-cid-7jjqptxk> <div class="gh-card overflow-hidden" style="border-color: var(--border-default)" data-astro-cid-7jjqptxk> <header class="border-b px-4 py-4" style="border-color: var(--border-default)" data-astro-cid-7jjqptxk> <h1 class="text-2xl font-semibold tracking-tight" style="color: var(--fg-default)" data-astro-cid-7jjqptxk>TAMO: 集成多模态观测数据的工具辅助LLM智能体细粒度根因分析</h1> <div class="mt-2 flex flex-wrap items-center gap-x-4 gap-y-2 text-[12px]" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <time datetime="2026-01-15T09:21:40.553Z" data-astro-cid-7jjqptxk>2026-01-15</time> <div class="flex flex-wrap gap-2" data-astro-cid-7jjqptxk> <span class="gh-pill" data-astro-cid-7jjqptxk>AIOPS</span><span class="gh-pill" data-astro-cid-7jjqptxk>论文</span><span class="gh-pill" data-astro-cid-7jjqptxk>学习</span> </div> </div> <p class="mt-2 text-[13px]" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk>本文提出TAMO框架，通过双分支扩散模型融合日志、指标与追踪等多模态数据，并利用频域自注意力构建因果图进行根因定位。</p> </header> <div class="border-b px-4 py-3 lg:hidden" style="border-color: var(--border-default)" data-astro-cid-7jjqptxk> <details data-astro-cid-7jjqptxk> <summary class="cursor-pointer text-[13px] font-semibold fg-default" data-astro-cid-7jjqptxk>目录</summary> <div class="mt-2" data-astro-cid-7jjqptxk> <nav aria-label="目录" data-astro-cid-7jjqptxk> <ul class="space-y-1 text-[13px]" data-astro-cid-7jjqptxk> <li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#摘要" data-toc-slug="摘要" data-astro-cid-7jjqptxk>摘要</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#1-引言" data-toc-slug="1-引言" data-astro-cid-7jjqptxk>1. 引言</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#11-现有方法的类别" data-toc-slug="11-现有方法的类别" data-astro-cid-7jjqptxk>1.1 现有方法的类别</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#12-tamo的创新" data-toc-slug="12-tamo的创新" data-astro-cid-7jjqptxk>1.2 TAMO的创新</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#2-系统架构" data-toc-slug="2-系统架构" data-astro-cid-7jjqptxk>2. 系统架构</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#21-整体框架" data-toc-slug="21-整体框架" data-astro-cid-7jjqptxk>2.1 整体框架</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#22-工具职责" data-toc-slug="22-工具职责" data-astro-cid-7jjqptxk>2.2 工具职责</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#3-核心技术" data-toc-slug="3-核心技术" data-astro-cid-7jjqptxk>3. 核心技术</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#31-多模态对齐工具t1--双分支扩散模型" data-toc-slug="31-多模态对齐工具t1--双分支扩散模型" data-astro-cid-7jjqptxk>3.1 多模态对齐工具（T1）- 双分支扩散模型</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#32-根因定位工具t2--频域自注意力" data-toc-slug="32-根因定位工具t2--频域自注意力" data-astro-cid-7jjqptxk>3.2 根因定位工具（T2）- 频域自注意力</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#33-故障类型分类工具t3--图卷积网络" data-toc-slug="33-故障类型分类工具t3--图卷积网络" data-astro-cid-7jjqptxk>3.3 故障类型分类工具（T3）- 图卷积网络</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#34-rca专家agenta" data-toc-slug="34-rca专家agenta" data-astro-cid-7jjqptxk>3.4 RCA专家Agent（A）</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#4-实验" data-toc-slug="4-实验" data-astro-cid-7jjqptxk>4. 实验</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#41-数据集" data-toc-slug="41-数据集" data-astro-cid-7jjqptxk>4.1 数据集</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#42-评估指标" data-toc-slug="42-评估指标" data-astro-cid-7jjqptxk>4.2 评估指标</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#43-主要结果" data-toc-slug="43-主要结果" data-astro-cid-7jjqptxk>4.3 主要结果</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#44-消融研究" data-toc-slug="44-消融研究" data-astro-cid-7jjqptxk>4.4 消融研究</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#5-与相关工作对比" data-toc-slug="5-与相关工作对比" data-astro-cid-7jjqptxk>5. 与相关工作对比</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#51-与rcacopilot对比" data-toc-slug="51-与rcacopilot对比" data-astro-cid-7jjqptxk>5.1 与RCAcopilot对比</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#52-与agent-work对比" data-toc-slug="52-与agent-work对比" data-astro-cid-7jjqptxk>5.2 与Agent Work对比</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#6-结论" data-toc-slug="6-结论" data-astro-cid-7jjqptxk>6. 结论</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#附录关键公式" data-toc-slug="附录关键公式" data-astro-cid-7jjqptxk>附录：关键公式</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#扩散前向过程" data-toc-slug="扩散前向过程" data-astro-cid-7jjqptxk>扩散前向过程</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#扩散逆向过程" data-toc-slug="扩散逆向过程" data-astro-cid-7jjqptxk>扩散逆向过程</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#频域自注意力" data-toc-slug="频域自注意力" data-astro-cid-7jjqptxk>频域自注意力</a> </li> </ul> </nav> </div> </details> </div> <div class="px-4 py-4" data-astro-cid-7jjqptxk> <div class="prose prose-sm max-w-none" id="postContent" data-astro-cid-7jjqptxk> <h1 id="tamo-集成多模态观测数据的工具辅助llm智能体细粒度根因分析">TAMO: 集成多模态观测数据的工具辅助LLM智能体细粒度根因分析</h1>
+<blockquote>
+<p><strong>原文标题</strong>: TAMO: Fine-Grained Root Cause Analysis via Tool-Assisted LLM Agent for Cloud-Native Systems Integrating Multi-Modality Observation Data</p>
+<p><strong>来源</strong>: arXiv 2504.20462 (2025)</p>
+<p><strong>关键词</strong>: 多模态数据融合、扩散模型、因果图、LLM Agent</p>
+</blockquote>
+<hr>
+<h2 id="摘要">摘要</h2>
+<p>在云原生系统中，根因分析（RCA）面临三大挑战：</p>
+<ol>
+<li>LLM有限的上下文窗口限制了处理大规模观测数据的能力</li>
+<li>LLM的文本输入模态难以处理时间序列指标</li>
+<li>现有方法缺乏对追踪数据的有效集成</li>
+</ol>
+<p>本文提出<strong>TAMO</strong>（Tool-Assisted LLM Agent with Multi-modality Observation），通过：</p>
+<ul>
+<li><strong>双分支协作扩散模型</strong>有效提取和集成多模态数据</li>
+<li><strong>因果图</strong>显式建模实体间复杂依赖关系</li>
+<li><strong>RCA专家Agent</strong>整合工具输出提供综合故障分析</li>
+</ul>
+<p>TAMO同时支持<strong>故障类型分类</strong>和<strong>根因实体定位</strong>两个任务。</p>
+<hr>
+<h2 id="1-引言">1. 引言</h2>
+<h3 id="11-现有方法的类别">1.1 现有方法的类别</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>类别</th><th>方法示例</th><th>局限性</th></tr></thead><tbody><tr><td>传统RCA</td><td>统计相关、规则检测</td><td>难以适应动态环境</td></tr><tr><td>单模态深度学习</td><td>DeepLog, GDN, GTA</td><td>无法利用跨模态信息</td></tr><tr><td>多模态RCA</td><td>MULAN, Eadro</td><td>忽略模态间一致性</td></tr><tr><td>LLM-based RCA</td><td>RCAcopilot, Agent Work</td><td>上下文限制、缺乏追踪数据</td></tr></tbody></table>
+<h3 id="12-tamo的创新">1.2 TAMO的创新</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>方面</th><th>TAMO</th><th>其他方法</th></tr></thead><tbody><tr><td>日志</td><td>✓</td><td>✓</td></tr><tr><td>指标</td><td>✓</td><td>✓</td></tr><tr><td>追踪</td><td>✓</td><td>部分</td></tr><tr><td>故障分类</td><td>✓</td><td>部分</td></tr><tr><td>根因定位</td><td>✓</td><td>部分</td></tr></tbody></table>
+<hr>
+<h2 id="2-系统架构">2. 系统架构</h2>
+<h3 id="21-整体框架">2.1 整体框架</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>┌──────────────────────────────────────────────────────────────┐</span></span>
+<span class="line"><span>│                        TAMO Framework                         │</span></span>
+<span class="line"><span>├──────────────────────────────────────────────────────────────┤</span></span>
+<span class="line"><span>│                                                               │</span></span>
+<span class="line"><span>│  ┌─────────────────────────────────────────────────────────┐ │</span></span>
+<span class="line"><span>│  │  Tool T1: Multi-modality Alignment Tool                  │ │</span></span>
+<span class="line"><span>│  │  (多模态对齐工具 - 双分支协作扩散模型)                    │ │</span></span>
+<span class="line"><span>│  │                                                          │ │</span></span>
+<span class="line"><span>│  │  Logs + Traces → 时间序列特征融合                        │ │</span></span>
+<span class="line"><span>│  └─────────────────────────────────────────────────────────┘ │</span></span>
+<span class="line"><span>│                              ↓                                │</span></span>
+<span class="line"><span>│  ┌─────────────────────────────────────────────────────────┐ │</span></span>
+<span class="line"><span>│  │  Tool T2: Root Cause Localization Tool                   │ │</span></span>
+<span class="line"><span>│  │  (根因定位工具 - 频域自注意力因果图)                      │ │</span></span>
+<span class="line"><span>│  │                                                          │ │</span></span>
+<span class="line"><span>│  │  因果关系建模 → Top-K 根因实体                           │ │</span></span>
+<span class="line"><span>│  └─────────────────────────────────────────────────────────┘ │</span></span>
+<span class="line"><span>│                              ↓                                │</span></span>
+<span class="line"><span>│  ┌─────────────────────────────────────────────────────────┐ │</span></span>
+<span class="line"><span>│  │  Tool T3: Fault Types Classification Tool                │ │</span></span>
+<span class="line"><span>│  │  (故障类型分类工具 - 图卷积网络)                          │ │</span></span>
+<span class="line"><span>│  │                                                          │ │</span></span>
+<span class="line"><span>│  │  调用链拓扑 + 因果关系 → 故障类型                        │ │</span></span>
+<span class="line"><span>│  └─────────────────────────────────────────────────────────┘ │</span></span>
+<span class="line"><span>│                              ↓                                │</span></span>
+<span class="line"><span>│  ┌─────────────────────────────────────────────────────────┐ │</span></span>
+<span class="line"><span>│  │  Agent A: RCA Expert Agent                               │ │</span></span>
+<span class="line"><span>│  │  (RCA专家Agent - LLM)                                    │ │</span></span>
+<span class="line"><span>│  │                                                          │ │</span></span>
+<span class="line"><span>│  │  工具输出 + 系统上下文 → 综合分析和解决方案              │ │</span></span>
+<span class="line"><span>│  └─────────────────────────────────────────────────────────┘ │</span></span>
+<span class="line"><span>│                                                               │</span></span>
+<span class="line"><span>└──────────────────────────────────────────────────────────────┘</span></span></code></pre>
+<h3 id="22-工具职责">2.2 工具职责</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>工具</th><th>输入</th><th>输出</th><th>核心技术</th></tr></thead><tbody><tr><td>T1</td><td>日志、追踪、指标</td><td>融合时间序列</td><td>扩散模型</td></tr><tr><td>T2</td><td>融合时间序列</td><td>根因实体排名</td><td>频域自注意力</td></tr><tr><td>T3</td><td>因果图、调用链</td><td>故障类型</td><td>图卷积网络</td></tr><tr><td>A</td><td>T1-T3输出、系统上下文</td><td>分析报告</td><td>LLM</td></tr></tbody></table>
+<hr>
+<h2 id="3-核心技术">3. 核心技术</h2>
+<h3 id="31-多模态对齐工具t1--双分支扩散模型">3.1 多模态对齐工具（T1）- 双分支扩散模型</h3>
+<p><strong>核心思想</strong>: 使用扩散模型将日志和追踪数据融合到时间序列中</p>
+<p><strong>前向扩散过程</strong>:</p>
+<ul>
+<li>原始数据 x₀ ∈ R^(E×m×l)</li>
+<li>E: 实体数量</li>
+<li>m: 通道数</li>
+<li>l: 时间序列长度</li>
+</ul>
+<p><strong>扩散公式</strong>:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>q(xₜ | xₜ₋₁) = N(xₜ; √αₜxₜ₋₁, (1-αₜ)I)</span></span></code></pre>
+<p><strong>双分支设计</strong>:</p>
+<ul>
+<li><strong>日志分支</strong>: 使用日志模式作为条件</li>
+<li><strong>时间分支</strong>: 使用时间特征作为条件</li>
+<li>两个分支协作引导去噪过程</li>
+</ul>
+<p><strong>去噪过程</strong>:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>p_θ(xₜ₋₁ | xₜ, ε) = N(xₜ₋₁; μ_θ(xₜ, t), σₜ²I)</span></span></code></pre>
+<h3 id="32-根因定位工具t2--频域自注意力">3.2 根因定位工具（T2）- 频域自注意力</h3>
+<p><strong>关键洞察</strong>: 周期性模式和频率成分对故障传播至关重要</p>
+<p><strong>步骤</strong>:</p>
+<ol>
+<li><strong>FFT变换</strong>: 将时间序列转换到频域</li>
+<li><strong>频域自注意力</strong>: 捕获实体间因果关系</li>
+<li><strong>因果图构建</strong>: 基于注意力权重构建因果图</li>
+<li><strong>Top-K选择</strong>: 输出最可能的根因实体</li>
+</ol>
+<p><strong>注意力计算</strong>:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>Attention(Q, K, V) = softmax(QK^T / √d_k)V</span></span></code></pre>
+<p>其中Q、K、V来自频域特征</p>
+<h3 id="33-故障类型分类工具t3--图卷积网络">3.3 故障类型分类工具（T3）- 图卷积网络</h3>
+<p><strong>输入</strong>:</p>
+<ul>
+<li>T2输出的因果图</li>
+<li>服务调用链拓扑</li>
+</ul>
+<p><strong>网络结构</strong>:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>输入特征 → Multi-Head Attention → Graph Convolution → 故障类型</span></span></code></pre>
+<p><strong>损失函数</strong>: 加权二元交叉熵</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>L_wBCE = -1/E Σᵢ [λw · yᵢlog(ŷᵢ) + (1-yᵢ)log(1-ŷᵢ)]</span></span></code></pre>
+<h3 id="34-rca专家agenta">3.4 RCA专家Agent（A）</h3>
+<p><strong>输入</strong>:</p>
+<ul>
+<li>T2的根因定位结果（如”Currency服务，置信度97.96%”）</li>
+<li>T3的故障分类结果（如”网络丢包，置信度91%”）</li>
+<li>系统上下文信息</li>
+</ul>
+<p><strong>输出</strong>:</p>
+<ul>
+<li>故障分析</li>
+<li>影响评估</li>
+<li>优先级评估</li>
+<li>修复建议</li>
+</ul>
+<p><strong>提示词模板</strong>:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>你是一个专业的SRE，根据以下信息进行故障分析：</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>根因定位结果: {T2_output}</span></span>
+<span class="line"><span>故障类型: {T3_output}</span></span>
+<span class="line"><span>系统上下文: {context}</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>请提供:</span></span>
+<span class="line"><span>1. 故障分析</span></span>
+<span class="line"><span>2. 影响评估</span></span>
+<span class="line"><span>3. 优先级评估</span></span>
+<span class="line"><span>4. 修复建议</span></span></code></pre>
+<hr>
+<h2 id="4-实验">4. 实验</h2>
+<h3 id="41-数据集">4.1 数据集</h3>
+<p>使用三个标准微服务系统:</p>
+<ul>
+<li><strong>Online Boutique</strong>: Google的电商示例</li>
+<li><strong>Sock Shop</strong>: Weaveworks的演示系统</li>
+<li><strong>Train-Ticket</strong>: 复旦大学的火车票系统</li>
+</ul>
+<h3 id="42-评估指标">4.2 评估指标</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>任务</th><th>指标</th></tr></thead><tbody><tr><td>根因定位</td><td>Acc@1, Acc@3, Acc@5</td></tr><tr><td>故障分类</td><td>准确率、召回率、F1</td></tr></tbody></table>
+<h3 id="43-主要结果">4.3 主要结果</h3>
+<p><strong>根因定位（Acc@1）</strong>:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>方法</th><th>Online Boutique</th><th>Sock Shop</th><th>Train-Ticket</th></tr></thead><tbody><tr><td>GDN</td><td>42.3%</td><td>38.7%</td><td>35.2%</td></tr><tr><td>Eadro</td><td>51.2%</td><td>47.8%</td><td>43.5%</td></tr><tr><td><strong>TAMO</strong></td><td><strong>68.5%</strong></td><td><strong>63.2%</strong></td><td><strong>58.7%</strong></td></tr></tbody></table>
+<p><strong>故障分类（F1 Score）</strong>:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>方法</th><th>Online Boutique</th><th>Sock Shop</th><th>Train-Ticket</th></tr></thead><tbody><tr><td>RCAcopilot</td><td>0.72</td><td>0.68</td><td>0.65</td></tr><tr><td><strong>TAMO</strong></td><td><strong>0.85</strong></td><td><strong>0.81</strong></td><td><strong>0.78</strong></td></tr></tbody></table>
+<h3 id="44-消融研究">4.4 消融研究</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>配置</th><th>Acc@1下降</th></tr></thead><tbody><tr><td>无扩散模型</td><td>-12.3%</td></tr><tr><td>无频域注意力</td><td>-8.7%</td></tr><tr><td>无追踪数据</td><td>-6.5%</td></tr><tr><td>无日志数据</td><td>-5.2%</td></tr></tbody></table>
+<hr>
+<h2 id="5-与相关工作对比">5. 与相关工作对比</h2>
+<h3 id="51-与rcacopilot对比">5.1 与RCAcopilot对比</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>维度</th><th>TAMO</th><th>RCAcopilot</th></tr></thead><tbody><tr><td>追踪数据</td><td>✓</td><td>×</td></tr><tr><td>根因定位</td><td>实体级</td><td>无</td></tr><tr><td>多模态融合</td><td>扩散模型</td><td>规则映射</td></tr></tbody></table>
+<h3 id="52-与agent-work对比">5.2 与Agent Work对比</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>维度</th><th>TAMO</th><th>Agent Work</th></tr></thead><tbody><tr><td>故障分类</td><td>✓</td><td>×</td></tr><tr><td>追踪数据</td><td>✓</td><td>×</td></tr><tr><td>定位粒度</td><td>实体级</td><td>服务级</td></tr></tbody></table>
+<hr>
+<h2 id="6-结论">6. 结论</h2>
+<p>TAMO通过创新的多模态融合技术和专业化工具设计，成功解决了LLM在云原生RCA中的局限性：</p>
+<ol>
+<li>双分支扩散模型有效融合日志、指标、追踪数据</li>
+<li>频域自注意力准确捕获因果关系</li>
+<li>专家Agent提供可解释的综合分析</li>
+</ol>
+<p>实验证明TAMO在根因定位和故障分类两个任务上都显著优于现有方法。</p>
+<hr>
+<h2 id="附录关键公式">附录：关键公式</h2>
+<h3 id="扩散前向过程">扩散前向过程</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>q(x₁:T | x₀) = Πₜ q(xₜ | xₜ₋₁)</span></span>
+<span class="line"><span>q(xₜ | xₜ₋₁) = N(xₜ; √αₜxₜ₋₁, (1-αₜ)I)</span></span></code></pre>
+<h3 id="扩散逆向过程">扩散逆向过程</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>p_θ(xₜ₋₁ | xₜ) = N(xₜ₋₁; μ_θ(xₜ, t), σₜ²I)</span></span></code></pre>
+<h3 id="频域自注意力">频域自注意力</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>F = FFT(X)</span></span>
+<span class="line"><span>Attention = softmax(Q_F K_F^T / √d)V_F</span></span></code></pre> </div> </div> </div> </article> <aside class="hidden lg:block" data-astro-cid-7jjqptxk> <div class="gh-card border-default sticky top-16 px-4 py-3" data-astro-cid-7jjqptxk> <div class="text-[12px] font-semibold fg-default" data-astro-cid-7jjqptxk>目录</div> <nav class="mt-2" aria-label="目录" data-astro-cid-7jjqptxk> <ul class="space-y-1 text-[13px]" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#摘要" data-toc-slug="摘要" data-astro-cid-7jjqptxk>摘要</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#1-引言" data-toc-slug="1-引言" data-astro-cid-7jjqptxk>1. 引言</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#11-现有方法的类别" data-toc-slug="11-现有方法的类别" data-astro-cid-7jjqptxk>1.1 现有方法的类别</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#12-tamo的创新" data-toc-slug="12-tamo的创新" data-astro-cid-7jjqptxk>1.2 TAMO的创新</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#2-系统架构" data-toc-slug="2-系统架构" data-astro-cid-7jjqptxk>2. 系统架构</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#21-整体框架" data-toc-slug="21-整体框架" data-astro-cid-7jjqptxk>2.1 整体框架</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#22-工具职责" data-toc-slug="22-工具职责" data-astro-cid-7jjqptxk>2.2 工具职责</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#3-核心技术" data-toc-slug="3-核心技术" data-astro-cid-7jjqptxk>3. 核心技术</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#31-多模态对齐工具t1--双分支扩散模型" data-toc-slug="31-多模态对齐工具t1--双分支扩散模型" data-astro-cid-7jjqptxk>3.1 多模态对齐工具（T1）- 双分支扩散模型</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#32-根因定位工具t2--频域自注意力" data-toc-slug="32-根因定位工具t2--频域自注意力" data-astro-cid-7jjqptxk>3.2 根因定位工具（T2）- 频域自注意力</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#33-故障类型分类工具t3--图卷积网络" data-toc-slug="33-故障类型分类工具t3--图卷积网络" data-astro-cid-7jjqptxk>3.3 故障类型分类工具（T3）- 图卷积网络</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#34-rca专家agenta" data-toc-slug="34-rca专家agenta" data-astro-cid-7jjqptxk>3.4 RCA专家Agent（A）</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#4-实验" data-toc-slug="4-实验" data-astro-cid-7jjqptxk>4. 实验</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#41-数据集" data-toc-slug="41-数据集" data-astro-cid-7jjqptxk>4.1 数据集</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#42-评估指标" data-toc-slug="42-评估指标" data-astro-cid-7jjqptxk>4.2 评估指标</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#43-主要结果" data-toc-slug="43-主要结果" data-astro-cid-7jjqptxk>4.3 主要结果</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#44-消融研究" data-toc-slug="44-消融研究" data-astro-cid-7jjqptxk>4.4 消融研究</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#5-与相关工作对比" data-toc-slug="5-与相关工作对比" data-astro-cid-7jjqptxk>5. 与相关工作对比</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#51-与rcacopilot对比" data-toc-slug="51-与rcacopilot对比" data-astro-cid-7jjqptxk>5.1 与RCAcopilot对比</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#52-与agent-work对比" data-toc-slug="52-与agent-work对比" data-astro-cid-7jjqptxk>5.2 与Agent Work对比</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#6-结论" data-toc-slug="6-结论" data-astro-cid-7jjqptxk>6. 结论</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#附录关键公式" data-toc-slug="附录关键公式" data-astro-cid-7jjqptxk>附录：关键公式</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#扩散前向过程" data-toc-slug="扩散前向过程" data-astro-cid-7jjqptxk>扩散前向过程</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#扩散逆向过程" data-toc-slug="扩散逆向过程" data-astro-cid-7jjqptxk>扩散逆向过程</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#频域自注意力" data-toc-slug="频域自注意力" data-astro-cid-7jjqptxk>频域自注意力</a> </li> </ul> </nav> </div> </aside> </div> <button id="backToTop" class="back-to-top" type="button" aria-label="回到顶部" hidden data-astro-cid-7jjqptxk>
+↑
+</button> <script type="module">(function(){const s=document.getElementById("postContent");if(!s)return;const l=Array.from(document.querySelectorAll("a.toc-link")),r=new Map;l.forEach(t=>{const e=t.getAttribute("data-toc-slug");if(!e)return;const n=r.get(e)||[];n.push(t),r.set(e,n)});const c=Array.from(s.querySelectorAll("h2[id], h3[id]"));function a(t){if(l.forEach(n=>n.removeAttribute("aria-current")),!t)return;const e=r.get(t);e&&e.forEach(n=>n.setAttribute("aria-current","true"))}function f(){if(!c.length)return"";const t=120;for(let e=c.length-1;e>=0;e--){const n=c[e];if(n.getBoundingClientRect().top<=t)return n.id||""}return c[0].id||""}let d=!1;function i(){d||(d=!0,window.requestAnimationFrame(()=>{d=!1;const t=(location.hash||"").replace(/^#/,"");if(t&&r.has(t)){a(t);return}a(f())}))}window.addEventListener("scroll",i,{passive:!0}),window.addEventListener("resize",i),window.addEventListener("hashchange",i),l.forEach(t=>t.addEventListener("click",()=>{const e=t.getAttribute("data-toc-slug")||"";a(e)})),i();const u=document.getElementById("backToTop");if(u){const t=()=>{const e=window.scrollY||document.documentElement.scrollTop||0;u.hidden=e<320};window.addEventListener("scroll",t,{passive:!0}),t(),u.addEventListener("click",()=>{window.scrollTo({top:0,behavior:"smooth"})})}s.querySelectorAll("pre > code").forEach(t=>{const e=t.parentElement;if(!e||e.querySelector(".copy-btn"))return;e.style.position="relative";const n=document.createElement("button");n.type="button",n.className="copy-btn",n.textContent="复制",n.addEventListener("click",async()=>{const m=t.textContent||"";try{await navigator.clipboard.writeText(m),n.textContent="已复制",window.setTimeout(()=>n.textContent="复制",900)}catch{const o=document.createElement("textarea");o.value=m,o.style.position="fixed",o.style.opacity="0",document.body.appendChild(o),o.select(),document.execCommand("copy"),document.body.removeChild(o),n.textContent="已复制",window.setTimeout(()=>n.textContent="复制",900)}}),e.appendChild(n)})})();</script>   </main> <footer class="border-t py-6 text-[13px]" style="border-color: var(--border-default); color: var(--fg-muted)"> <div class="gh-container flex items-center justify-between"> <p>© 2026 · Built with Astro</p> <p style="color: var(--fg-muted)">Zhejiang University · CS</p> </div> </footer> </body></html>

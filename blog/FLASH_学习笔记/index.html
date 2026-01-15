@@ -1,0 +1,232 @@
+<!DOCTYPE html><html lang="zh-CN" class="h-full"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="generator" content="Astro v5.16.9"><title>FLASH论文学习笔记 · 个人博客</title><meta name="description" content="FLASH论文提出一种用于诊断重复性事件的自动化工作流代理，通过状态监督机制分阶段简化指令、事后学习从历史失败中积累经验，以及工具存根支持离线测试，显著提升了诊断准确率。"><meta property="og:title" content="FLASH论文学习笔记 · 个人博客"><meta property="og:description" content="FLASH论文提出一种用于诊断重复性事件的自动化工作流代理，通过状态监督机制分阶段简化指令、事后学习从历史失败中积累经验，以及工具存根支持离线测试，显著提升了诊断准确率。"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="stylesheet" href="/_astro/_slug_.1UaX29b_.css">
+<style>.copy-btn[data-astro-cid-7jjqptxk]{position:absolute;top:8px;right:8px;padding:4px 8px;font-size:12px;border-radius:6px;border:1px solid var(--border-default);background:color-mix(in srgb,var(--canvas-default) 80%,var(--canvas-subtle));color:var(--fg-default);cursor:pointer}.copy-btn[data-astro-cid-7jjqptxk]:hover{background:color-mix(in srgb,var(--canvas-default) 65%,var(--canvas-subtle))}.copy-btn[data-astro-cid-7jjqptxk]:focus-visible{outline:2px solid color-mix(in srgb,var(--accent-emphasis) 55%,transparent);outline-offset:2px}a[data-astro-cid-7jjqptxk].toc-link[aria-current=true]{color:var(--fg-default);font-weight:600;text-decoration:none}.back-to-top[data-astro-cid-7jjqptxk]{position:fixed;right:18px;bottom:18px;width:36px;height:36px;border-radius:999px;border:1px solid var(--border-default);background:color-mix(in srgb,var(--canvas-default) 80%,var(--canvas-subtle));color:var(--fg-default);cursor:pointer;z-index:40}.back-to-top[data-astro-cid-7jjqptxk]:hover{background:color-mix(in srgb,var(--canvas-default) 65%,var(--canvas-subtle))}.back-to-top[data-astro-cid-7jjqptxk]:focus-visible{outline:2px solid color-mix(in srgb,var(--accent-emphasis) 55%,transparent);outline-offset:2px}
+</style></head> <body class="min-h-full antialiased"> <header class="sticky top-0 z-50 border-b" style="border-color: var(--border-default); background: var(--canvas-subtle)" data-astro-cid-dmqpwcec> <div class="gh-container flex h-12 items-center justify-between" data-astro-cid-dmqpwcec> <a href="/" class="flex items-center gap-2 text-[13px] font-semibold fg-default" data-astro-cid-dmqpwcec> <span class="inline-flex h-7 items-center rounded-md px-2" style="background: var(--fg-default); color: var(--canvas-default)" data-astro-cid-dmqpwcec>HCY</span> <span class="fg-muted" data-astro-cid-dmqpwcec>Blog</span> </a> <nav class="flex items-center gap-1 text-[13px]" data-astro-cid-dmqpwcec> <a href="/blog/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> 文章 </a><a href="/search/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> 搜索 </a><a href="/projects/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> 项目 </a><a href="/reading/" class="rounded-md px-2 py-1.5 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec> Reading </a> <a href="https://github.com/ChenyuHeee" target="_blank" rel="noreferrer" class="ml-1 rounded-md px-2 py-1.5 fg-default" data-astro-cid-dmqpwcec>
+GitHub
+</a> </nav> </div> </header>  <main class="gh-container py-6">  <div class="mx-auto max-w-[1040px] grid gap-6 lg:grid-cols-[1fr_280px]" data-astro-cid-7jjqptxk> <article class="min-w-0" data-astro-cid-7jjqptxk> <div class="gh-card overflow-hidden" style="border-color: var(--border-default)" data-astro-cid-7jjqptxk> <header class="border-b px-4 py-4" style="border-color: var(--border-default)" data-astro-cid-7jjqptxk> <h1 class="text-2xl font-semibold tracking-tight" style="color: var(--fg-default)" data-astro-cid-7jjqptxk>FLASH论文学习笔记</h1> <div class="mt-2 flex flex-wrap items-center gap-x-4 gap-y-2 text-[12px]" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <time datetime="2026-01-15T09:21:40.552Z" data-astro-cid-7jjqptxk>2026-01-15</time> <div class="flex flex-wrap gap-2" data-astro-cid-7jjqptxk> <span class="gh-pill" data-astro-cid-7jjqptxk>AIOPS</span><span class="gh-pill" data-astro-cid-7jjqptxk>论文</span><span class="gh-pill" data-astro-cid-7jjqptxk>学习</span> </div> </div> <p class="mt-2 text-[13px]" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk>FLASH论文提出一种用于诊断重复性事件的自动化工作流代理，通过状态监督机制分阶段简化指令、事后学习从历史失败中积累经验，以及工具存根支持离线测试，显著提升了诊断准确率。</p> </header> <div class="border-b px-4 py-3 lg:hidden" style="border-color: var(--border-default)" data-astro-cid-7jjqptxk> <details data-astro-cid-7jjqptxk> <summary class="cursor-pointer text-[13px] font-semibold fg-default" data-astro-cid-7jjqptxk>目录</summary> <div class="mt-2" data-astro-cid-7jjqptxk> <nav aria-label="目录" data-astro-cid-7jjqptxk> <ul class="space-y-1 text-[13px]" data-astro-cid-7jjqptxk> <li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#-核心要点" data-toc-slug="-核心要点" data-astro-cid-7jjqptxk>📌 核心要点</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#1-论文解决的问题" data-toc-slug="1-论文解决的问题" data-astro-cid-7jjqptxk>1. 论文解决的问题</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#2-核心创新" data-toc-slug="2-核心创新" data-astro-cid-7jjqptxk>2. 核心创新</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#️-系统架构" data-toc-slug="️-系统架构" data-astro-cid-7jjqptxk>🏗️ 系统架构</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#诊断循环" data-toc-slug="诊断循环" data-astro-cid-7jjqptxk>诊断循环</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#状态机设计" data-toc-slug="状态机设计" data-astro-cid-7jjqptxk>状态机设计</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#-关键技术细节" data-toc-slug="-关键技术细节" data-astro-cid-7jjqptxk>💡 关键技术细节</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#1-状态监督" data-toc-slug="1-状态监督" data-astro-cid-7jjqptxk>1. 状态监督</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#2-事后学习" data-toc-slug="2-事后学习" data-astro-cid-7jjqptxk>2. 事后学习</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#3-工具存根" data-toc-slug="3-工具存根" data-astro-cid-7jjqptxk>3. 工具存根</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#-实验亮点" data-toc-slug="-实验亮点" data-astro-cid-7jjqptxk>📊 实验亮点</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#核心数据" data-toc-slug="核心数据" data-astro-cid-7jjqptxk>核心数据</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#消融实验" data-toc-slug="消融实验" data-astro-cid-7jjqptxk>消融实验</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#-个人思考" data-toc-slug="-个人思考" data-astro-cid-7jjqptxk>🔍 个人思考</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#优势" data-toc-slug="优势" data-astro-cid-7jjqptxk>优势</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#局限性" data-toc-slug="局限性" data-astro-cid-7jjqptxk>局限性</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#与其他论文对比" data-toc-slug="与其他论文对比" data-astro-cid-7jjqptxk>与其他论文对比</a> </li><li class="pl-4" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#可借鉴点" data-toc-slug="可借鉴点" data-astro-cid-7jjqptxk>可借鉴点</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#-相关论文" data-toc-slug="-相关论文" data-astro-cid-7jjqptxk>📚 相关论文</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#-后续学习" data-toc-slug="-后续学习" data-astro-cid-7jjqptxk>💭 后续学习</a> </li><li style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#️-关键词" data-toc-slug="️-关键词" data-astro-cid-7jjqptxk>🏷️ 关键词</a> </li> </ul> </nav> </div> </details> </div> <div class="px-4 py-4" data-astro-cid-7jjqptxk> <div class="prose prose-sm max-w-none" id="postContent" data-astro-cid-7jjqptxk> <h1 id="flash论文学习笔记">FLASH论文学习笔记</h1>
+<blockquote>
+<p><strong>论文</strong>: FLASH: A Workflow Automation Agent for Diagnosing Recurring Incidents</p>
+<p><strong>学习日期</strong>: 2025年12月</p>
+</blockquote>
+<hr>
+<h2 id="-核心要点">📌 核心要点</h2>
+<h3 id="1-论文解决的问题">1. 论文解决的问题</h3>
+<p><strong>Agent事件诊断的痛点：</strong></p>
+<ol>
+<li><strong>指令复杂度高</strong>: 完整TSG文档太复杂，LLM难以一次性处理</li>
+<li><strong>错误传播</strong>: 早期错误会导致后续诊断偏离</li>
+<li><strong>缺乏学习</strong>: 无法从历史失败中积累经验</li>
+</ol>
+<h3 id="2-核心创新">2. 核心创新</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>创新</th><th>机制</th><th>效果</th></tr></thead><tbody><tr><td><strong>状态监督</strong></td><td>按阶段简化指令</td><td>降低决策复杂度</td></tr><tr><td><strong>事后学习</strong></td><td>注入历史失败经验</td><td>防止重复错误</td></tr><tr><td><strong>工具存根</strong></td><td>模拟工具输出</td><td>支持离线测试</td></tr></tbody></table>
+<hr>
+<h2 id="️-系统架构">🏗️ 系统架构</h2>
+<h3 id="诊断循环">诊断循环</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>┌─────────────────────────────────────────────┐</span></span>
+<span class="line"><span>│              诊断迭代循环                    │</span></span>
+<span class="line"><span>│                                             │</span></span>
+<span class="line"><span>│  状态推理 ──→ 上下文生成 ──→ 决策推理      │</span></span>
+<span class="line"><span>│      ↑                          ↓          │</span></span>
+<span class="line"><span>│      └──── 反思 ←─── 行动执行 ←─┘          │</span></span>
+<span class="line"><span>│                                             │</span></span>
+<span class="line"><span>└─────────────────────────────────────────────┘</span></span></code></pre>
+<h3 id="状态机设计">状态机设计</h3>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>Diagnosis Planning (生成计划)</span></span>
+<span class="line"><span>        ↓</span></span>
+<span class="line"><span>Step Initialization (准备执行)</span></span>
+<span class="line"><span>        ↓</span></span>
+<span class="line"><span>Step Execution (执行中)</span></span>
+<span class="line"><span>        ↓</span></span>
+<span class="line"><span>Step Completion (完成判断)</span></span>
+<span class="line"><span>        ↓</span></span>
+<span class="line"><span>   完成? ──否──→ 返回 Step Initialization</span></span>
+<span class="line"><span>        │</span></span>
+<span class="line"><span>        是</span></span>
+<span class="line"><span>        ↓</span></span>
+<span class="line"><span>   生成最终答案</span></span></code></pre>
+<hr>
+<h2 id="-关键技术细节">💡 关键技术细节</h2>
+<h3 id="1-状态监督">1. 状态监督</h3>
+<p><strong>核心思想</strong>: 不同阶段用不同指令集</p>
+<p><strong>状态检测</strong>:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>s_i = f_s(c_i)  // LLM判断当前阶段</span></span></code></pre>
+<p><strong>状态条件化</strong>:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>Planning阶段:</span></span>
+<span class="line"><span>  - 仅提供计划生成指令</span></span>
+<span class="line"><span>  - 仅暴露diagnosis_planning工具</span></span>
+<span class="line"><span>  </span></span>
+<span class="line"><span>Execution阶段:</span></span>
+<span class="line"><span>  - 仅提供当前步骤指令</span></span>
+<span class="line"><span>  - 暴露诊断执行工具</span></span></code></pre>
+<p><strong>设计原则</strong>: 每个状态只暴露相关信息，减少干扰</p>
+<h3 id="2-事后学习">2. 事后学习</h3>
+<p><strong>问题</strong>: Agent容易重复犯同样的错误</p>
+<p><strong>解决</strong>: 从失败案例中提取经验教训</p>
+<p><strong>Hindsight结构</strong>:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="markdown"><code><span class="line"><span style="color:#79B8FF;font-weight:bold">## 常见错误</span></span>
+<span class="line"><span style="color:#E1E4E8">该场景下Agent常犯以下错误：</span></span>
+<span class="line"><span style="color:#FFAB70">-</span><span style="color:#E1E4E8"> 错误1: 先查日志再查指标（应该反过来）</span></span>
+<span class="line"><span style="color:#FFAB70">-</span><span style="color:#E1E4E8"> 错误2: 忽略连接池状态检查</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#79B8FF;font-weight:bold">## 正确做法</span></span>
+<span class="line"><span style="color:#E1E4E8">请确保：</span></span>
+<span class="line"><span style="color:#FFAB70">1.</span><span style="color:#E1E4E8"> 优先检查指标数据</span></span>
+<span class="line"><span style="color:#FFAB70">2.</span><span style="color:#E1E4E8"> 必须检查连接池状态</span></span></code></pre>
+<p><strong>注入时机</strong>: 检测到类似场景时自动注入</p>
+<h3 id="3-工具存根">3. 工具存根</h3>
+<p><strong>用途</strong>: 模拟真实工具输出进行测试</p>
+<p><strong>流程</strong>:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>1. 生产环境记录真实调用</span></span>
+<span class="line"><span>2. 提取工具输入输出对</span></span>
+<span class="line"><span>3. 构建存根数据库</span></span>
+<span class="line"><span>4. 测试时替代真实工具</span></span></code></pre>
+<p><strong>价值</strong>:</p>
+<ul>
+<li>快速迭代Agent策略</li>
+<li>确保测试可重现</li>
+<li>降低测试成本</li>
+</ul>
+<hr>
+<h2 id="-实验亮点">📊 实验亮点</h2>
+<h3 id="核心数据">核心数据</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>方法</th><th>准确率</th><th>相对提升</th></tr></thead><tbody><tr><td>ReAct</td><td>52.3%</td><td>-</td></tr><tr><td>AutoGPT</td><td>55.1%</td><td>+5.4%</td></tr><tr><td>Plan-and-Execute</td><td>58.7%</td><td>+12.2%</td></tr><tr><td><strong>FLASH</strong></td><td><strong>71.9%</strong></td><td><strong>+37.5%</strong></td></tr></tbody></table>
+<h3 id="消融实验">消融实验</h3>
+<p>组件贡献度:</p>
+<ol>
+<li><strong>状态监督</strong> - 最关键 (-9.5%)</li>
+<li><strong>事后学习</strong> - 重要 (-6.1%)</li>
+<li><strong>工具存根</strong> - 有价值 (-3.7%)</li>
+</ol>
+<hr>
+<h2 id="-个人思考">🔍 个人思考</h2>
+<h3 id="优势">优势</h3>
+<ol>
+<li><strong>实用性强</strong>: 针对重复性事件，有明确的应用场景</li>
+<li><strong>设计精巧</strong>: 状态监督思路简单有效</li>
+<li><strong>可扩展</strong>: 用户可自定义状态和工具</li>
+<li><strong>工程化好</strong>: 有完整的测试支持（工具存根）</li>
+</ol>
+<h3 id="局限性">局限性</h3>
+<ol>
+<li><strong>状态定义</strong>: 需要预先设计状态机，新场景需调整</li>
+<li><strong>事后学习</strong>: 需要足够的失败案例积累</li>
+<li><strong>TSG依赖</strong>: 需要有完善的故障排除文档</li>
+</ol>
+<h3 id="与其他论文对比">与其他论文对比</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>维度</th><th>FLASH</th><th>Flow-of-Action</th><th>mABC</th></tr></thead><tbody><tr><td>约束方式</td><td>状态监督</td><td>SOP流程</td><td>投票验证</td></tr><tr><td>学习机制</td><td>事后学习</td><td>无</td><td>无</td></tr><tr><td>应用场景</td><td>重复事件</td><td>通用RCA</td><td>通用RCA</td></tr><tr><td>工业化</td><td>高</td><td>中</td><td>中</td></tr></tbody></table>
+<h3 id="可借鉴点">可借鉴点</h3>
+<ol>
+<li><strong>状态机设计</strong>: 将诊断过程显式分阶段</li>
+<li><strong>条件化指令</strong>: 按状态过滤无关信息</li>
+<li><strong>事后学习</strong>: 从失败中积累经验的机制</li>
+<li><strong>工具存根</strong>: 支持离线测试的工程化设计</li>
+</ol>
+<hr>
+<h2 id="-相关论文">📚 相关论文</h2>
+<ul>
+<li><strong>ReAct</strong>: 基础推理-行动框架</li>
+<li><strong>Plan-and-Execute</strong>: 先规划后执行方法</li>
+<li><strong>Reflexion</strong>: 反思机制的早期工作</li>
+</ul>
+<hr>
+<h2 id="-后续学习">💭 后续学习</h2>
+<ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" disabled> 研究状态机设计的最佳实践</li>
+<li class="task-list-item"><input type="checkbox" disabled> 了解事后学习的知识库构建方法</li>
+<li class="task-list-item"><input type="checkbox" disabled> 思考如何自动化提取失败经验</li>
+<li class="task-list-item"><input type="checkbox" disabled> 探索工具存根的自动生成</li>
+</ul>
+<hr>
+<h2 id="️-关键词">🏷️ 关键词</h2>
+<p><code>状态监督</code> <code>事后学习</code> <code>工作流自动化</code> <code>重复事件</code> <code>微软</code> <code>诊断Agent</code></p> </div> </div> </div> </article> <aside class="hidden lg:block" data-astro-cid-7jjqptxk> <div class="gh-card border-default sticky top-16 px-4 py-3" data-astro-cid-7jjqptxk> <div class="text-[12px] font-semibold fg-default" data-astro-cid-7jjqptxk>目录</div> <nav class="mt-2" aria-label="目录" data-astro-cid-7jjqptxk> <ul class="space-y-1 text-[13px]" style="color: var(--fg-muted)" data-astro-cid-7jjqptxk> <li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#-核心要点" data-toc-slug="-核心要点" data-astro-cid-7jjqptxk>📌 核心要点</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#1-论文解决的问题" data-toc-slug="1-论文解决的问题" data-astro-cid-7jjqptxk>1. 论文解决的问题</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#2-核心创新" data-toc-slug="2-核心创新" data-astro-cid-7jjqptxk>2. 核心创新</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#️-系统架构" data-toc-slug="️-系统架构" data-astro-cid-7jjqptxk>🏗️ 系统架构</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#诊断循环" data-toc-slug="诊断循环" data-astro-cid-7jjqptxk>诊断循环</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#状态机设计" data-toc-slug="状态机设计" data-astro-cid-7jjqptxk>状态机设计</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#-关键技术细节" data-toc-slug="-关键技术细节" data-astro-cid-7jjqptxk>💡 关键技术细节</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#1-状态监督" data-toc-slug="1-状态监督" data-astro-cid-7jjqptxk>1. 状态监督</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#2-事后学习" data-toc-slug="2-事后学习" data-astro-cid-7jjqptxk>2. 事后学习</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#3-工具存根" data-toc-slug="3-工具存根" data-astro-cid-7jjqptxk>3. 工具存根</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#-实验亮点" data-toc-slug="-实验亮点" data-astro-cid-7jjqptxk>📊 实验亮点</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#核心数据" data-toc-slug="核心数据" data-astro-cid-7jjqptxk>核心数据</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#消融实验" data-toc-slug="消融实验" data-astro-cid-7jjqptxk>消融实验</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#-个人思考" data-toc-slug="-个人思考" data-astro-cid-7jjqptxk>🔍 个人思考</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#优势" data-toc-slug="优势" data-astro-cid-7jjqptxk>优势</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#局限性" data-toc-slug="局限性" data-astro-cid-7jjqptxk>局限性</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#与其他论文对比" data-toc-slug="与其他论文对比" data-astro-cid-7jjqptxk>与其他论文对比</a> </li><li class="pl-4" data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#可借鉴点" data-toc-slug="可借鉴点" data-astro-cid-7jjqptxk>可借鉴点</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#-相关论文" data-toc-slug="-相关论文" data-astro-cid-7jjqptxk>📚 相关论文</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#-后续学习" data-toc-slug="-后续学习" data-astro-cid-7jjqptxk>💭 后续学习</a> </li><li data-astro-cid-7jjqptxk> <a class="toc-link hover:underline" href="#️-关键词" data-toc-slug="️-关键词" data-astro-cid-7jjqptxk>🏷️ 关键词</a> </li> </ul> </nav> </div> </aside> </div> <button id="backToTop" class="back-to-top" type="button" aria-label="回到顶部" hidden data-astro-cid-7jjqptxk>
+↑
+</button> <script type="module">(function(){const s=document.getElementById("postContent");if(!s)return;const l=Array.from(document.querySelectorAll("a.toc-link")),r=new Map;l.forEach(t=>{const e=t.getAttribute("data-toc-slug");if(!e)return;const n=r.get(e)||[];n.push(t),r.set(e,n)});const c=Array.from(s.querySelectorAll("h2[id], h3[id]"));function a(t){if(l.forEach(n=>n.removeAttribute("aria-current")),!t)return;const e=r.get(t);e&&e.forEach(n=>n.setAttribute("aria-current","true"))}function f(){if(!c.length)return"";const t=120;for(let e=c.length-1;e>=0;e--){const n=c[e];if(n.getBoundingClientRect().top<=t)return n.id||""}return c[0].id||""}let d=!1;function i(){d||(d=!0,window.requestAnimationFrame(()=>{d=!1;const t=(location.hash||"").replace(/^#/,"");if(t&&r.has(t)){a(t);return}a(f())}))}window.addEventListener("scroll",i,{passive:!0}),window.addEventListener("resize",i),window.addEventListener("hashchange",i),l.forEach(t=>t.addEventListener("click",()=>{const e=t.getAttribute("data-toc-slug")||"";a(e)})),i();const u=document.getElementById("backToTop");if(u){const t=()=>{const e=window.scrollY||document.documentElement.scrollTop||0;u.hidden=e<320};window.addEventListener("scroll",t,{passive:!0}),t(),u.addEventListener("click",()=>{window.scrollTo({top:0,behavior:"smooth"})})}s.querySelectorAll("pre > code").forEach(t=>{const e=t.parentElement;if(!e||e.querySelector(".copy-btn"))return;e.style.position="relative";const n=document.createElement("button");n.type="button",n.className="copy-btn",n.textContent="复制",n.addEventListener("click",async()=>{const m=t.textContent||"";try{await navigator.clipboard.writeText(m),n.textContent="已复制",window.setTimeout(()=>n.textContent="复制",900)}catch{const o=document.createElement("textarea");o.value=m,o.style.position="fixed",o.style.opacity="0",document.body.appendChild(o),o.select(),document.execCommand("copy"),document.body.removeChild(o),n.textContent="已复制",window.setTimeout(()=>n.textContent="复制",900)}}),e.appendChild(n)})})();</script>   </main> <footer class="border-t py-6 text-[13px]" style="border-color: var(--border-default); color: var(--fg-muted)"> <div class="gh-container flex items-center justify-between"> <p>© 2026 · Built with Astro</p> <p style="color: var(--fg-muted)">Zhejiang University · CS</p> </div> </footer> </body></html>
