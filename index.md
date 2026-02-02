@@ -41,6 +41,11 @@ features:
     <div class="contact-detail">github.com/chenyuheee</div>
   </a>
 
+  <a class="contact-card" href="https://chenyuheee.github.io/portfolio/assets/CV.pdf" target="_blank" rel="noreferrer">
+    <div class="contact-title">CV</div>
+    <div class="contact-detail">下载简历（PDF）</div>
+  </a>
+
   <a class="contact-card" href="mailto:daniel-he@qq.com">
     <div class="contact-title">Email</div>
     <div class="contact-detail">daniel-he@qq.com</div>
