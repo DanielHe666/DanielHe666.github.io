@@ -11,7 +11,7 @@ export default defineConfig({
       { text: 'Portfolio', link: 'https://chenyuheee.github.io/portfolio/' },
       { text: 'Life', link: 'https://chenyuheee.github.io/life/' },
       { text: 'Links', link: 'https://chenyuheee.github.io/links/' },
-      { text: 'Email', link: 'mailto:chenyuheee@example.com' }
+      { text: 'GitHub', link: 'https://github.com/chenyuheee' }
     ],
     socialLinks: [{ icon: 'github', link: 'https://github.com/chenyuheee' }]
   }

@@ -31,5 +31,4 @@ features:
 ## 联系方式
 
 - GitHub: https://github.com/chenyuheee
-- Email: mailto:chenyuheee@example.com
 
