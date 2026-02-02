@@ -4,7 +4,7 @@ layout: home
 hero:
   name: "He Chenyu"
   text: "ZJU CS Student"
-  tagline: "万幸得以相识"
+  tagline: "宸垂象于云汉无痕 禹随形于川谷不争"
   actions:
     - theme: brand
       text: 进入 Blog
@@ -39,6 +39,11 @@ features:
   <a class="contact-card" href="https://github.com/chenyuheee" target="_blank" rel="noreferrer">
     <div class="contact-title">GitHub</div>
     <div class="contact-detail">github.com/chenyuheee</div>
+  </a>
+
+  <a class="contact-card" href="mailto:daniel-he@qq.com">
+    <div class="contact-title">Email</div>
+    <div class="contact-detail">daniel-he@qq.com</div>
   </a>
 </div>
 
