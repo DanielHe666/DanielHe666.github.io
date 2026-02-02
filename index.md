@@ -30,5 +30,15 @@ features:
 
 ## 联系方式
 
-- GitHub: https://github.com/chenyuheee
+<div class="contact-grid">
+  <a class="contact-card" href="mailto:hechenyu@zju.edu.cn">
+    <div class="contact-title">Email</div>
+    <div class="contact-detail">hechenyu@zju.edu.cn</div>
+  </a>
+
+  <a class="contact-card" href="https://github.com/chenyuheee" target="_blank" rel="noreferrer">
+    <div class="contact-title">GitHub</div>
+    <div class="contact-detail">github.com/chenyuheee</div>
+  </a>
+</div>
 
