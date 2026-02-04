@@ -5,6 +5,10 @@ export default defineConfig({
   title: 'ChenyuHeee',
   description: '个人网站门户（Gateway）',
   base: '/',
+  head: [
+    ['link', { rel: 'icon', type: 'image/svg+xml', href: '/icon.svg' }],
+    ['meta', { name: 'theme-color', content: '#6366F1' }]
+  ],
   themeConfig: {
     nav: [
       { text: 'Blog', link: 'https://chenyuheee.github.io/blog/' },
