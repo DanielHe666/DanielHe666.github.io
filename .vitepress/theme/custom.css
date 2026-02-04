@@ -17,8 +17,20 @@
   border: 1px solid var(--vp-c-divider);
   border-radius: 12px;
   background: var(--vp-c-bg-soft);
-  text-decoration: none;
+  text-decoration: none !important;
   transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.contact-card:hover,
+.contact-card:focus,
+.contact-card:active,
+.contact-card:visited {
+  text-decoration: none !important;
+}
+
+.contact-card .contact-title,
+.contact-card .contact-detail {
+  text-decoration: none !important;
 }
 
 .contact-card:hover {
