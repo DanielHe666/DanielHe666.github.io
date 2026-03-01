@@ -49,3 +49,38 @@
   color: var(--vp-c-text-2);
   word-break: break-all;
 }
+
+/* Home background (video or canvas) */
+.vp-home-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.vp-home-bg__video,
+.vp-home-bg__canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.vp-home-bg__overlay {
+  position: absolute;
+  inset: 0;
+  /* Use theme tokens; avoid hard-coded colors */
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--vp-c-bg) 35%, transparent),
+    color-mix(in srgb, var(--vp-c-bg) 75%, transparent)
+  );
+}
+
+/* Raise the actual app content above the background on home */
+.vp-home-has-bg body,
+.vp-home-has-bg #app {
+  position: relative;
+  z-index: 1;
+}
